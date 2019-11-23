@@ -2,6 +2,7 @@ package com.mashup.telltostar.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 import com.mashup.telltostar.R
 import com.readystatesoftware.systembartint.SystemBarTintManager
 
@@ -20,5 +21,10 @@ class MainActivity : AppCompatActivity() {
             setTintColor(android.R.color.holo_green_dark)
 //            setNavigationBarTintResource()
         }
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
     }
 }
