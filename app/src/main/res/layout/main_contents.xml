@@ -25,4 +25,16 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/cdlMainContentsBottomSheetParent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/fragment_bottomsheet"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
