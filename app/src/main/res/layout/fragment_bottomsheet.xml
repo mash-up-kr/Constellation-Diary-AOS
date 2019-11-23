@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:background="@drawable/fragment_rounded">
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8.5dp"
+        android:background="#c4c4c4"
+        android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#111111"
+        android:textSize="18sp"
+        android:text="@string/별자리_운세"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/detailText"
+        android:textSize="12sp"
+        android:text="@string/행운의_키워드"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="62.5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:paddingTop="12.8dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@mipmap/ic_launcher_round"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom|center_horizontal"
+                android:textColor="@color/detailText"
+                android:textSize="11sp"
+                tools:text="운동"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:paddingTop="12.8dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@mipmap/ic_launcher_round"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom|center_horizontal"
+                android:textColor="@color/detailText"
+                android:textSize="11sp"
+                tools:text="40"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:paddingTop="12.8dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@mipmap/ic_launcher_round"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom|center_horizontal"
+                android:textColor="@color/detailText"
+                android:textSize="11sp"
+                tools:text="운동"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:paddingTop="12.8dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@mipmap/ic_launcher_round"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom|center_horizontal"
+                android:textColor="@color/detailText"
+                android:textSize="11sp"
+                tools:text="재질"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="18.5dp"
+        android:layout_marginBottom="36dp"
+        android:background="#1a000000"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"
+        android:lineHeight="22sp"
+        android:textSize="14sp"
+        android:textColor="#676767"
+        tools:text="12일 전 두 분의 작정한 전화 강요 폭격 후 나는 스트레스와 불안감 우울증 등이 폭발해 밤에 잠을 못 자서 밤낮이 엉망진창으로 바뀌어 있었다.
+\n\n
+보통의 사람들이라면 그냥 그려려니 하고 말 수도 있지만 나는 타고난 예민한 인간인 탓인지 그 후 몇 번이나 배란다 난간을 쳐다봤다.
+"/>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="23.5dp"
+        android:layout_weight="1">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/btn_rounded"
+        android:textSize="18sp"
+        android:textColor="#f8f8f8"
+        android:text="@string/일기작성"/>
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
