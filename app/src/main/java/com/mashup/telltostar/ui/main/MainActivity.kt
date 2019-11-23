@@ -6,27 +6,18 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.WindowManager
 import com.mashup.telltostar.R
-import com.readystatesoftware.systembartint.SystemBarTintManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_contents.*
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
-    private val mTintManager: SystemBarTintManager by lazy {
-        SystemBarTintManager(this@MainActivity)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        initLayout()
+    }
 
-        with(mTintManager) {
-            isStatusBarTintEnabled = true
-            setNavigationBarTintEnabled(true)
-            setTintColor(android.R.color.holo_green_dark)
-        }
-
+    private fun initLayout() {
         window.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
@@ -43,8 +34,6 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-                Timber.d("item select")
-
                 drawer_container.openDrawer(Gravity.LEFT)
             }
         }
