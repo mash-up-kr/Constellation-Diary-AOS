@@ -11,12 +11,23 @@ import kotlinx.android.synthetic.main.main_contents.*
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
+
+    private val statusHeight by lazy {
+        resources.getDimensionPixelSize(
+            resources.getIdentifier(
+                "status_bar_height",
+                "dimen",
+                "android"
+            )
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
         initLayout()
-
+        initBottomSheet()
 
     }
 
@@ -24,13 +35,7 @@ class MainActivity : AppCompatActivity() {
         with(appBarLayout) {
             setPadding(
                 paddingLeft,
-                resources.getDimensionPixelSize(
-                    resources.getIdentifier(
-                        "status_bar_height",
-                        "dimen",
-                        "android"
-                    )
-                ),
+                statusHeight,
                 paddingRight,
                 paddingBottom
             )
@@ -50,6 +55,17 @@ class MainActivity : AppCompatActivity() {
             it.setDisplayShowTitleEnabled(false)
             it.setDisplayHomeAsUpEnabled(true)
             it.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
+        }
+    }
+
+    private fun initBottomSheet() {
+        with(cdlMainContentsBottomSheetParent) {
+            setPadding(
+                paddingLeft,
+                statusHeight,
+                paddingRight,
+                paddingBottom
+            )
         }
     }
 
