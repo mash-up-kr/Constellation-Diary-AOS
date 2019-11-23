@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initLayout() {
-        with(appbar_layout) {
+        with(appBarLayout) {
             setPadding(
                 paddingLeft,
                 resources.getDimensionPixelSize(
