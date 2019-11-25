@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_bottomsheet.*
 import kotlinx.android.synthetic.main.main_contents.*
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,6 +37,10 @@ class MainActivity : AppCompatActivity() {
             it.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
         }
 
+        dateTextView.text = SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREA).apply {
+            timeZone = TimeZone.getTimeZone("Asia/Seoul")
+        }.format(Date())
+
         BottomSheetBehavior.from(llBottomSheetView)
             .addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
                 override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -52,6 +58,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             })
+    }
+
+    fun onClick(view: View) {
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

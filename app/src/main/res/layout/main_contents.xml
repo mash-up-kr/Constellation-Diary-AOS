@@ -7,6 +7,7 @@
     tools:context=".ui.main.MainActivity">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
@@ -26,6 +27,48 @@
             android:layout_height="?attr/actionBarSize" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="15.5dp"
+            android:layout_marginTop="222dp"
+            android:textColor="#EAEAEA"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2019년 11월 25일" />
+
+        <TextView
+            android:id="@+id/questionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="24.5dp"
+            android:layout_marginTop="8.5dp"
+            android:text="@string/daily_question"
+            android:textColor="#FFFFFF"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateTextView"
+            tools:text="@string/daily_question" />
+
+        <ImageView
+            android:id="@+id/editDiaryImageView"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="306.5dp"
+            android:onClick="onClick"
+            android:src="@drawable/ic_add_circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cdlMainContentsBottomSheetParent"
         android:layout_width="match_parent"
@@ -34,6 +77,4 @@
         <include layout="@layout/fragment_bottomsheet" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
