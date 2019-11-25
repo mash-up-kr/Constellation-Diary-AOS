@@ -43,14 +43,11 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
                     when (newState) {
-                        BottomSheetBehavior.STATE_EXPANDED -> {
-                            drawer_container.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-                        }
                         BottomSheetBehavior.STATE_COLLAPSED -> {
                             drawer_container.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                         }
                         else -> {
-
+                            drawer_container.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                         }
                     }
                 }
