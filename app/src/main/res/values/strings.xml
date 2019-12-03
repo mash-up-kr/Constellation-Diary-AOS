@@ -11,4 +11,6 @@
 
     <!-- LoginActivity -->
     <string name="title_login_activity">로그인</string>
+    <string name="title_app">별별일기</string>
+    <string name="subtitle_star_star_diary">당신을 위한 별자리 운세를 매일 전해드릴게요</string>
 </resources>
