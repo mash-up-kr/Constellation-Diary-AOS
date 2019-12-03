@@ -55,4 +55,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appTitleTextView" />
+
+
+    <Button
+        android:layout_width="328dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/custom_corner_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/start_start_star_diary"
+        android:textColor="@color/black_two"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
