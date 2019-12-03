@@ -1,5 +1,6 @@
 package com.mashup.telltostar.ui.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -8,6 +9,7 @@ import android.view.View
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mashup.telltostar.R
+import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_bottomsheet.*
 import kotlinx.android.synthetic.main.main_contents.*
@@ -16,6 +18,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        private const val REQUEST_DIARY_EDIT = 0x001
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +66,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClick(view: View) {
+        when (view) {
+            editDiaryImageView -> {
+                startActivityForResult(
+                    Intent(this@MainActivity, DiaryEditActivity::class.java),
+                    REQUEST_DIARY_EDIT
+                )
+            }
+        }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            REQUEST_DIARY_EDIT -> {
+
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
