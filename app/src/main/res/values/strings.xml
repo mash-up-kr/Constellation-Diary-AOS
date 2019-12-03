@@ -8,4 +8,7 @@
     <!-- DiaryEditActivity -->
     <string name="diary_title_hint">제목</string>
     <string name="done">Done</string>
+
+    <!-- LoginActivity -->
+    <string name="title_login_activity">로그인</string>
 </resources>
