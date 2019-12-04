@@ -8,30 +8,23 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.login.LoginActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        app:elevation="0dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_menu_white_24dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_menu_white_24dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/title_login_activity"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+            android:layout_gravity="center"
+            android:text="@string/title_login_activity"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/appTitleTextView"
