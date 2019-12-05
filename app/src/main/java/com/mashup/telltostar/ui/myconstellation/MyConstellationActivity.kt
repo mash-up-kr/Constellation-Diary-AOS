@@ -35,13 +35,9 @@ class MyConstellationActivity : AppCompatActivity() {
             it.setPageTransformer { page, position ->
                 val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.pageMargin)
                 val offsetPx = resources.getDimensionPixelOffset(R.dimen.offset)
-                val offset = position * (2 * offsetPx + pageMarginPx) * -1
+                val offset = position * (2 * offsetPx + pageMarginPx)
 
-                if (it.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
-                    page.translationX = offset
-                } else {
-                    page.translationY = offset
-                }
+                page.translationX = offset
             }
         }
     }
