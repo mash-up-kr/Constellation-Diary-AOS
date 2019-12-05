@@ -21,6 +21,13 @@ class MyConstellationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_constellation)
 
+        setSupportActionBar(toolbarMyConstellation)
+
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setDisplayShowTitleEnabled(false)
+        }
+
         vp_constellation?.let {
             it.adapter = ConstellationPagerAdapter(getSampleConstellationList())
             it.offscreenPageLimit = 3
