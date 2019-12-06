@@ -48,7 +48,6 @@
         android:text="@string/start_start_star_diary"
         android:textColor="@color/black_two"
         android:textSize="16sp"
-        android:onClick="onClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
