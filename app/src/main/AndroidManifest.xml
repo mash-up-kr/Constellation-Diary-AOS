@@ -13,9 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.myconstellation.MyConstellationActivity"
-            android:theme="@style/NoActionBarTheme" />
-        <activity
             android:name=".ui.login.LoginActivity"
             android:theme="@style/NoActionBarTheme" />
         <activity
