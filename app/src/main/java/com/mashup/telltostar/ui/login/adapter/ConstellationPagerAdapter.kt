@@ -1,4 +1,4 @@
-package com.mashup.telltostar.ui.myconstellation.adapter
+package com.mashup.telltostar.ui.login.adapter
 
 import android.view.LayoutInflater
 import android.view.View

@@ -9,7 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Constellation
-import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationPagerAdapter
+import com.mashup.telltostar.ui.login.adapter.ConstellationPagerAdapter
 import kotlinx.android.synthetic.main.fragment_my_constellation.*
 import kotlinx.android.synthetic.main.fragment_my_constellation.view.*
 import timber.log.Timber

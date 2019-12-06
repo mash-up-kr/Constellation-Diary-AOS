@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Constellation
-import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationPagerAdapter
+import com.mashup.telltostar.ui.login.adapter.ConstellationPagerAdapter
 import kotlinx.android.synthetic.main.activity_my_constellation.*
 
 class MyConstellationActivity : AppCompatActivity() {
