@@ -13,10 +13,9 @@
         android:scaleType="centerCrop"
         android:src="@drawable/bg_main" />
 
-    <androidx.appcompat.widget.Toolbar
+    <include
         android:id="@+id/toolbarMain"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize" />
+        layout="@layout/toolbar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
