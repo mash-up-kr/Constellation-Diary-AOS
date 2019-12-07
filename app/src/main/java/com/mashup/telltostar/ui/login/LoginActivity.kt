@@ -2,9 +2,11 @@ package com.mashup.telltostar.ui.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 
 class LoginActivity : AppCompatActivity() {
     private val mIntroFragment by lazy {
@@ -23,7 +25,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initToolbar() {
-        setSupportActionBar(toolbar)
+        setSupportActionBar((toolbarLogin as Toolbar).apply {
+            toolbarTextView.text = getString(R.string.title_login_activity)
+        })
 
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
