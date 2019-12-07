@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.mashup.telltostar.R
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.login_contents.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 
 class IntroFragment : Fragment() {
@@ -22,6 +22,6 @@ class IntroFragment : Fragment() {
     }
 
     private fun initToolbarTitle() {
-        (activity as LoginActivity).toolbarLogin.toolbarTextView.text = getString(R.string.title_intro)
+        activity?.toolbarLogin?.toolbarTextView?.text = getString(R.string.title_intro)
     }
 }

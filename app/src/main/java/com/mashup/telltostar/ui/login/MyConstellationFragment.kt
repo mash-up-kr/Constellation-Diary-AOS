@@ -13,6 +13,7 @@ import com.mashup.telltostar.ui.login.adapter.ConstellationPagerAdapter
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_my_constellation.*
 import kotlinx.android.synthetic.main.fragment_my_constellation.view.*
+import kotlinx.android.synthetic.main.login_contents.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import timber.log.Timber
 
