@@ -15,8 +15,6 @@ import com.mashup.telltostar.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_bottomsheet.*
 import kotlinx.android.synthetic.main.main_contents.*
-import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.android.synthetic.main.toolbar.view.*
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initLayout() {
-        setSupportActionBar(toolbarMain)
+        setSupportActionBar(toolbarMain as Toolbar)
 
         supportActionBar?.let {
             Timber.d("action bar")
@@ -43,7 +41,6 @@ class MainActivity : AppCompatActivity() {
             it.setDisplayShowCustomEnabled(true)
             it.setDisplayShowTitleEnabled(false)
             it.setDisplayHomeAsUpEnabled(true)
-            it.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
         }
 
         dateTextView.text = SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREA).apply {
