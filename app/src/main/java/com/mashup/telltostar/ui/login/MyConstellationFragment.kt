@@ -10,8 +10,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Constellation
 import com.mashup.telltostar.ui.login.adapter.ConstellationPagerAdapter
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_my_constellation.*
 import kotlinx.android.synthetic.main.fragment_my_constellation.view.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 import timber.log.Timber
 
 class MyConstellationFragment : Fragment() {
@@ -31,6 +33,8 @@ class MyConstellationFragment : Fragment() {
 
         val rootView = inflater.inflate(R.layout.fragment_my_constellation, container, false)
 
+        initToolbarTitle()
+
         rootView.vp_constellation.apply {
             adapter = ConstellationPagerAdapter(getSampleConstellationList())
             offscreenPageLimit = 3
@@ -45,6 +49,10 @@ class MyConstellationFragment : Fragment() {
         }
 
         return rootView
+    }
+
+    private fun initToolbarTitle() {
+        activity?.toolbarLogin?.toolbarTextView?.text = getString(R.string.title_my_constellation)
     }
 
     private fun getSampleConstellationList() =
