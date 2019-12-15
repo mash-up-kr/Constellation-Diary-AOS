@@ -14,5 +14,5 @@
     <string name="title_my_constellation">나의 별자리</string>
     <string name="title_app">별별일기</string>
     <string name="subtitle_star_star_diary">별처럼 빛나는 당신의 하루,\n별자리 운세 일기를 기록해보세요</string>
-    <string name="start_start_star_diary">별별일기 시작하기</string>
+    <string name="login_sign_up">로그인/회원가입</string>
 </resources>
