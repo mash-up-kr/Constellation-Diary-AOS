@@ -71,4 +71,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/login_sign_up_bottom_sheet"
+        layout="@layout/bottom_sheet_login"
+        android:visibility="gone" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

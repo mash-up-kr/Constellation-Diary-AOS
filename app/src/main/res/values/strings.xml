@@ -15,4 +15,12 @@
     <string name="title_app">별별일기</string>
     <string name="subtitle_star_star_diary">별처럼 빛나는 당신의 하루,\n별자리 운세 일기를 기록해보세요</string>
     <string name="login_sign_up">로그인/회원가입</string>
+    <string name="start_star_star">별별일기 시작하기</string>
+    <string name="id">아이디</string>
+    <string name="input_id">아이디를 입력해주세요.</string>
+    <string name="password">비밀번호</string>
+    <string name="input_password">비밀번호를 입력해주세요.</string>
+    <string name="confirm_password">비밀번호 확인</string>
+    <string name="input_confirm_password">비밀번호를 다시 입력해주세요.</string>
+    <string name="sign_up">회원가입</string>
 </resources>
