@@ -53,7 +53,7 @@ class MyConstellationFragment : Fragment() {
     }
 
     private fun initToolbarTitle() {
-        activity?.toolbarLogin?.toolbarTextView?.text = getString(R.string.title_my_constellation)
+//        activity?.toolbarLogin?.toolbarTextView?.text = getString(R.string.title_my_constellation)
     }
 
     private fun getSampleConstellationList() =
