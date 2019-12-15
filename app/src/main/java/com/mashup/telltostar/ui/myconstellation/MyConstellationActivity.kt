@@ -1,23 +1,15 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.myconstellation
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
-
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Constellation
-import com.mashup.telltostar.ui.login.adapter.ConstellationPagerAdapter
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.fragment_my_constellation.*
-import kotlinx.android.synthetic.main.fragment_my_constellation.view.*
-import kotlinx.android.synthetic.main.login_contents.*
+import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationPagerAdapter
+import kotlinx.android.synthetic.main.activity_my_constellation.*
 import kotlinx.android.synthetic.main.toolbar.view.*
-import timber.log.Timber
 
-class MyConstellationFragment : Fragment() {
+class MyConstellationActivity : AppCompatActivity() {
     private val mPageChangeCallback: ViewPager2.OnPageChangeCallback by lazy {
         object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -26,17 +18,13 @@ class MyConstellationFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Timber.d("onCreateView()")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_my_constellation)
 
-        val rootView = inflater.inflate(R.layout.fragment_my_constellation, container, false)
+        myConstellationToolbar.toolbarTextView.text = getString(R.string.title_my_constellation)
 
-        initToolbarTitle()
-
-        rootView.vp_constellation.apply {
+        vp_constellation.apply {
             adapter = ConstellationPagerAdapter(getSampleConstellationList())
             offscreenPageLimit = 3
             registerOnPageChangeCallback(mPageChangeCallback)
@@ -48,12 +36,6 @@ class MyConstellationFragment : Fragment() {
                 page.translationX = offset
             }
         }
-
-        return rootView
-    }
-
-    private fun initToolbarTitle() {
-//        activity?.toolbarLogin?.toolbarTextView?.text = getString(R.string.title_my_constellation)
     }
 
     private fun getSampleConstellationList() =
@@ -64,9 +46,9 @@ class MyConstellationFragment : Fragment() {
             Constellation("무엇자리")
         )
 
-    override fun onDestroyView() {
+    override fun onDestroy() {
         vp_constellation.unregisterOnPageChangeCallback(mPageChangeCallback)
 
-        super.onDestroyView()
+        super.onDestroy()
     }
 }
