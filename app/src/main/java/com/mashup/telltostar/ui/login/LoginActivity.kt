@@ -28,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 if (slideOffset <= -1f) {
                     mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    setDimLayoutVisibility(View.GONE)
                 }
             }
 
@@ -38,10 +39,10 @@ class LoginActivity : AppCompatActivity() {
     fun onClick(view: View) {
         when (view) {
             loginSingUpButton -> {
-                with(login_sign_up_bottom_sheet) {
-                    visibility = View.VISIBLE
-                    mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                }
+                setDimLayoutVisibility(View.VISIBLE)
+
+                login_sign_up_bottom_sheet.visibility = View.VISIBLE
+                mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
             startStarStarDiaryButton -> {
                 startActivity(Intent(
@@ -52,5 +53,9 @@ class LoginActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    private fun setDimLayoutVisibility(visibility: Int) {
+        dimLinearLayout.visibility = visibility
     }
 }

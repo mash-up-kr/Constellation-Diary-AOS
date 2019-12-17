@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawerLayoutLogin"
@@ -72,8 +72,21 @@
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include
-        android:id="@+id/login_sign_up_bottom_sheet"
-        layout="@layout/bottom_sheet_login"
+    <LinearLayout
+        android:id="@+id/dimLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#BD000000"
+        android:orientation="vertical"
         android:visibility="gone" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/login_sign_up_bottom_sheet"
+            layout="@layout/bottom_sheet_login"
+            android:visibility="gone" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>
