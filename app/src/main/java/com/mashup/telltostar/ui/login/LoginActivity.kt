@@ -16,6 +16,17 @@ class LoginActivity : AppCompatActivity() {
         fun replaceFragment(fragment: Fragment, enterAnim: Int, exitAnim: Int)
     }
 
+    private val mFragmentListener by lazy {
+        object: FragmentListener {
+            override fun closeBottomSheet() {
+                this@LoginActivity.closeBottomSheet()
+            }
+
+            override fun replaceFragment(fragment: Fragment, enterAnim: Int, exitAnim: Int) {
+                replaceBottomSheetFragment(fragment, enterAnim, exitAnim)
+            }
+        }
+    }
     private val mBottomSheetBehavior by lazy {
         BottomSheetBehavior.from(login_sign_up_bottom_sheet)
     }
@@ -45,15 +56,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initBottomSheetView() {
-        mLoginFragment.setFragmentListener(object : FragmentListener {
-            override fun closeBottomSheet() {
-                this@LoginActivity.closeBottomSheet()
-            }
-
-            override fun replaceFragment(fragment: Fragment, enterAnim: Int, exitAnim: Int) {
-                replaceBottomSheetFragment(fragment, enterAnim, exitAnim)
-            }
-        })
+        mLoginFragment.setFragmentListener(mFragmentListener)
+        mSignUpFragment.setFragmentListener(mFragmentListener)
         mBottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {

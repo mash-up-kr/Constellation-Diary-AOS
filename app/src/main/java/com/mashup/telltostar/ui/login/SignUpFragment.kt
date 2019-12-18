@@ -8,14 +8,35 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.mashup.telltostar.R
+import kotlinx.android.synthetic.main.fragment_signup.view.*
 
 class SignUpFragment : Fragment() {
+    private lateinit var mFragmentListener: LoginActivity.FragmentListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_signup, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_signup, container, false)
+
+        setListeners(rootView)
+
+        return rootView
+    }
+
+    fun setFragmentListener(listener: LoginActivity.FragmentListener) {
+        mFragmentListener = listener
+    }
+
+    private fun setListeners(rootView: View) {
+        with(activity as LoginActivity) {
+            rootView.arrowBackImageView.setOnClickListener {
+                mFragmentListener.replaceFragment(
+                    mLoginFragment,
+                    R.anim.enter_from_left,
+                    R.anim.exit_to_right
+                )
+            }
+        }
     }
 }
