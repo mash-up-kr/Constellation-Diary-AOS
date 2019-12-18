@@ -23,4 +23,5 @@
     <string name="confirm_password">비밀번호 확인</string>
     <string name="input_confirm_password">비밀번호를 다시 입력해주세요.</string>
     <string name="sign_up">회원가입</string>
+    <string name="forgot_id">아이디 찾기</string>
 </resources>

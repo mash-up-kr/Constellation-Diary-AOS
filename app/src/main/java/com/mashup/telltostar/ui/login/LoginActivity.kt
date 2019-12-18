@@ -44,6 +44,12 @@ class LoginActivity : AppCompatActivity() {
                 login_sign_up_bottom_sheet.visibility = View.VISIBLE
                 mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
+            signupTextView -> {
+
+            }
+            forgotIdTextView -> {
+                
+            }
             startStarStarDiaryButton -> {
                 startActivity(Intent(
                     this@LoginActivity, MyConstellationActivity::class.java
