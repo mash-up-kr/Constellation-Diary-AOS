@@ -8,17 +8,27 @@
     app:behavior_peekHeight="314dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
+    <ImageView
+        android:id="@+id/arrowBackImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:onClick="onClick"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintStart_toStartOf="@+id/signUpTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
-        android:id="@+id/loginTextView"
+        android:id="@+id/signUpTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="7dp"
         android:text="@string/sign_up"
         android:textColor="@color/black_two"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/arrowBackImageView" />
 
     <TextView
         android:id="@+id/idTextView"
@@ -28,8 +38,8 @@
         android:text="@string/id"
         android:textColor="@color/greyish_brown"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@id/loginTextView"
-        app:layout_constraintTop_toTopOf="@id/loginTextView" />
+        app:layout_constraintStart_toStartOf="@id/signUpTextView"
+        app:layout_constraintTop_toTopOf="@id/signUpTextView" />
 
     <EditText
         android:id="@+id/idEditText"

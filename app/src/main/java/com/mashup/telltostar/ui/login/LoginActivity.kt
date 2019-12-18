@@ -7,7 +7,10 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.loginSingUpButton
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_signup.*
+import timber.log.Timber
 
 class LoginActivity : AppCompatActivity() {
     private val mBottomSheetBehavior by lazy {
@@ -60,6 +63,9 @@ class LoginActivity : AppCompatActivity() {
             closeImageView -> {
                 mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 setDimLayoutVisibility(View.GONE)
+            }
+            arrowBackImageView -> {
+                replaceBottomSheetFragment(mLoginFragment, R.anim.enter_from_left, R.anim.exit_to_right)
             }
             signupTextView -> {
                 replaceBottomSheetFragment(
