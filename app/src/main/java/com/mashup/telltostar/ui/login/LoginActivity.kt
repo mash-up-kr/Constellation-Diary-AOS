@@ -8,18 +8,21 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.loginSingUpButton
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_signup.*
-import timber.log.Timber
 
 class LoginActivity : AppCompatActivity() {
+    interface FragmentListener {
+        fun closeBottomSheet()
+        fun replaceFragment(fragment: Fragment, enterAnim: Int, exitAnim: Int)
+    }
+
     private val mBottomSheetBehavior by lazy {
         BottomSheetBehavior.from(login_sign_up_bottom_sheet)
     }
-    private val mLoginFragment by lazy {
+    val mLoginFragment by lazy {
         LoginFragment()
     }
-    private val mSignUpFragment by lazy {
+    val mSignUpFragment by lazy {
         SignUpFragment()
     }
 
@@ -30,13 +33,32 @@ class LoginActivity : AppCompatActivity() {
         initBottomSheetView()
     }
 
+    private fun openBottomSheet() {
+        login_sign_up_bottom_sheet.visibility = View.VISIBLE
+        mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        setDimLayoutVisibility(View.VISIBLE)
+    }
+
+    private fun closeBottomSheet() {
+        mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        setDimLayoutVisibility(View.GONE)
+    }
+
     private fun initBottomSheetView() {
+        mLoginFragment.setFragmentListener(object : FragmentListener {
+            override fun closeBottomSheet() {
+                this@LoginActivity.closeBottomSheet()
+            }
+
+            override fun replaceFragment(fragment: Fragment, enterAnim: Int, exitAnim: Int) {
+                replaceBottomSheetFragment(fragment, enterAnim, exitAnim)
+            }
+        })
         mBottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 if (slideOffset <= -1f) {
-                    mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    setDimLayoutVisibility(View.GONE)
+                    closeBottomSheet()
                 }
             }
 
@@ -60,28 +82,15 @@ class LoginActivity : AppCompatActivity() {
 
     fun onClick(view: View) {
         when (view) {
-            closeImageView -> {
-                mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                setDimLayoutVisibility(View.GONE)
+            loginSingUpButton -> {
+                openBottomSheet()
             }
             arrowBackImageView -> {
-                replaceBottomSheetFragment(mLoginFragment, R.anim.enter_from_left, R.anim.exit_to_right)
-            }
-            signupTextView -> {
                 replaceBottomSheetFragment(
-                    mSignUpFragment,
-                    R.anim.enter_from_right,
-                    R.anim.exit_to_left
+                    mLoginFragment,
+                    R.anim.enter_from_left,
+                    R.anim.exit_to_right
                 )
-            }
-            forgotIdTextView -> {
-
-            }
-            loginSingUpButton -> {
-                setDimLayoutVisibility(View.VISIBLE)
-
-                login_sign_up_bottom_sheet.visibility = View.VISIBLE
-                mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }
     }
