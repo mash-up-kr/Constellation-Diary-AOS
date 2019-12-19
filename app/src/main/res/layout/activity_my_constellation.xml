@@ -27,14 +27,12 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_constellation"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="341.5dp"
             android:layout_marginTop="26dp"
-            android:layout_marginBottom="170dp"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:paddingStart="80dp"
             android:paddingEnd="80dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/myConstellationTitleTextView" />
