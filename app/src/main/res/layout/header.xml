@@ -6,10 +6,10 @@
 
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="62.5dp"
-        android:layout_height="62.5dp"
+        android:layout_width="32.1dp"
+        android:layout_height="27.3dp"
         android:layout_marginTop="62dp"
-        android:src="@drawable/ic_add_circle"
+        android:src="@drawable/star_chu_big"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
