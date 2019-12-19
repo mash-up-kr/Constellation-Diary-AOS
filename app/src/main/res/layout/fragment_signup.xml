@@ -146,7 +146,7 @@
         android:layout_width="328dp"
         android:layout_height="52dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/custom_corner_black_button"
+        android:background="@drawable/custom_corner_navy_button"
         android:letterSpacing="-0.05"
         android:lineSpacingExtra="8sp"
         android:onClick="onClick"
