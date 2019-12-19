@@ -49,14 +49,41 @@
         app:layout_constraintTop_toBottomOf="@+id/tvConstellationDuration" />
 
     <TextView
-        android:id="@+id/tvMenuSettings"
+        android:id="@+id/constellationMenuTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:onClick="onClick"
-        android:text="환경설정"
+        android:text="@string/constellation"
+        android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewDivider" />
+
+    <TextView
+        android:id="@+id/diaryMenuTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:onClick="onClick"
+        android:text="@string/diary"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constellationMenuTextView" />
+
+    <TextView
+        android:id="@+id/settingMenuTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:onClick="onClick"
+        android:text="@string/setting"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diaryMenuTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
