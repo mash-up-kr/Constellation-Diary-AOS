@@ -36,6 +36,9 @@ class LoginActivity : AppCompatActivity() {
     val mSignUpFragment by lazy {
         SignUpFragment()
     }
+    val mForgotIdFragment by lazy {
+        ForgotIdFragment()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
     private fun initBottomSheetView() {
         mLoginFragment.setFragmentListener(mFragmentListener)
         mSignUpFragment.setFragmentListener(mFragmentListener)
+        mForgotIdFragment.setFragmentListener(mFragmentListener)
         mBottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -88,13 +92,6 @@ class LoginActivity : AppCompatActivity() {
         when (view) {
             loginSingUpButton -> {
                 openBottomSheet()
-            }
-            arrowBackImageView -> {
-                replaceBottomSheetFragment(
-                    mLoginFragment,
-                    R.anim.enter_from_left,
-                    R.anim.exit_to_right
-                )
             }
         }
     }

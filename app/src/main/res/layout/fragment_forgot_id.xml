@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/rounded_corner_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/closeImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="31.5dp"
+        android:src="@drawable/ic_expand_close"
+        app:layout_constraintStart_toStartOf="@+id/loginTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/loginTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/forgot_id"
+        android:textColor="@color/black_two"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/closeImageView" />
+
+    <TextView
+        android:id="@+id/phoneNumberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/phone_number"
+        android:textColor="@color/greyish_brown"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/loginTextView"
+        app:layout_constraintTop_toBottomOf="@id/loginTextView" />
+
+    <EditText
+        android:id="@+id/phoneNumberEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/input_phone_number"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:theme="@style/EditTextTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/loginTextView"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberTextView" />
+
+    <TextView
+        android:id="@+id/passwordTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/verification_number"
+        android:textColor="@color/greyish_brown"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/loginTextView"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberEditText" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/input_verification_number"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:theme="@style/EditTextTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/loginTextView"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTextView" />
+
+    <Button
+        android:id="@+id/startStarStarDiaryButton"
+        android:layout_width="328dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/custom_corner_black_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/start_star_star"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
