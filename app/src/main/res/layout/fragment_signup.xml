@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fragment_rounded"
@@ -55,6 +56,18 @@
         app:layout_constraintTop_toBottomOf="@+id/idTextView" />
 
     <TextView
+        android:id="@+id/inputIdWarningTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/input_id"
+        android:textColor="@color/coral"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/idEditText"
+        app:layout_constraintTop_toBottomOf="@+id/idEditText"
+        tools:visibility="visible" />
+
+    <TextView
         android:id="@+id/passwordTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,6 +91,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/signUpTextView"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextView" />
+
+    <TextView
+        android:id="@+id/inputPasswordWarningTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/input_password"
+        android:textColor="@color/coral"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/passwordEditText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/passwordConfirmTextView"
@@ -104,8 +129,20 @@
         app:layout_constraintStart_toStartOf="@id/signUpTextView"
         app:layout_constraintTop_toBottomOf="@+id/passwordConfirmTextView" />
 
+    <TextView
+        android:id="@+id/inputPasswordConfirmWarningTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/input_password"
+        android:textColor="@color/coral"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/passwordConfirmEditText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmEditText"
+        tools:visibility="visible" />
+
     <Button
-        android:id="@+id/loginSingUpButton"
+        android:id="@+id/loginSignUpButton"
         android:layout_width="328dp"
         android:layout_height="52dp"
         android:layout_marginBottom="16dp"
