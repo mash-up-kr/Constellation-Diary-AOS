@@ -22,8 +22,6 @@ class MyConstellationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_constellation)
 
-        myConstellationToolbar.toolbarTextView.text = getString(R.string.title_my_constellation)
-
         vp_constellation.apply {
             adapter = ConstellationPagerAdapter(getSampleConstellationList())
             offscreenPageLimit = 3
