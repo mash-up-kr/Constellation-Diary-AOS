@@ -36,4 +36,7 @@
     <string name="verification_number">인증번호</string>
     <string name="input_phone_number">가입 시 입력했던 핸드폰 번호를 입력해주세요.</string>
     <string name="input_verification_number">인증번호를 입력해주세요.</string>
+    
+    <!--    StarListActivity-->
+    <string name="Constellation">별자리</string>
 </resources>
