@@ -1,13 +1,15 @@
 package com.mashup.telltostar.ui.myconstellation
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Constellation
+import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationPagerAdapter
 import kotlinx.android.synthetic.main.activity_my_constellation.*
-import kotlinx.android.synthetic.main.toolbar.view.*
 
 class MyConstellationActivity : AppCompatActivity() {
     private val mPageChangeCallback: ViewPager2.OnPageChangeCallback by lazy {
@@ -43,6 +45,11 @@ class MyConstellationActivity : AppCompatActivity() {
             Constellation("물병자리"),
             Constellation("무엇자리")
         )
+
+    fun onClick(view: View) {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
 
     override fun onDestroy() {
         vp_constellation.unregisterOnPageChangeCallback(mPageChangeCallback)

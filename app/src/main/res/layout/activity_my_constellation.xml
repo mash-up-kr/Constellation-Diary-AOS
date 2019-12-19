@@ -45,6 +45,7 @@
             android:background="@drawable/custom_corner_navy_button"
             android:letterSpacing="-0.05"
             android:lineSpacingExtra="8sp"
+            android:onClick="onClick"
             android:text="@string/start_star_star"
             android:textColor="@android:color/white"
             android:textSize="16sp"
