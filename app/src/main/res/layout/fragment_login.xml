@@ -10,15 +10,6 @@
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     tools:context=".ui.login.LoginFragment">
 
-    <View
-        android:layout_width="40dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/rounded_corner_bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/closeImageView"
         android:layout_width="wrap_content"
