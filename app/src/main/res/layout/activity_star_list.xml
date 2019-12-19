@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginTop="25dp"
     tools:context=".ui.starlist.StarListActivity">
     <FrameLayout
         android:layout_width="match_parent"
@@ -12,6 +13,7 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/list_close_btn"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="16dp"
@@ -27,13 +29,14 @@
 
     </FrameLayout>
 
-    <view
+    <View
         android:layout_width="match_parent"
         android:layout_height="12dp"
         android:background="@color/white_two"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
