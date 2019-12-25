@@ -10,17 +10,19 @@ object ApiProvider {
 
     private const val baseUrl = "https://api.github.com/"
 
-    private val retrofitRx = Retrofit.Builder()
+    fun provideDiaryApi(): DiaryApi = Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(provideOkHttpClient(provideLoggingInterceptor()))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
         .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(DiaryApi::class.java)
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(provideOkHttpClient(provideLoggingInterceptor()))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
         .addConverterFactory(GsonConverterFactory.create())
-        .build()
 
     // 네트뭐크 통신에 사용할 클라이언트 객체를 생성합니다.
     private fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
