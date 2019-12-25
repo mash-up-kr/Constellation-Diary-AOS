@@ -34,21 +34,25 @@ class LoginActivity : AppCompatActivity() {
     private val mBottomSheetBehavior by lazy {
         BottomSheetBehavior.from(login_sign_up_bottom_sheet)
     }
-    val mLoginFragment by lazy {
-        LoginFragment()
-    }
-    val mSignUpFragment by lazy {
-        SignUpFragment()
-    }
-    val mForgotIdFragment by lazy {
-        ForgotIdFragment()
-    }
+    lateinit var mLoginFragment: LoginFragment
+    lateinit var mSignUpFragment: SignUpFragment
+    lateinit var mForgotIdFragment: ForgotIdFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+    }
 
-        initBottomSheetView()
+    private fun initLoginFragment() = LoginFragment().apply {
+        setFragmentListener(mFragmentListener)
+    }
+
+    private fun initSignUpFragment() = SignUpFragment().apply {
+        setFragmentListener(mFragmentListener)
+    }
+
+    private fun initForgotIdFragment() = ForgotIdFragment().apply {
+        setFragmentListener(mFragmentListener)
     }
 
     private fun openBottomSheet() {
@@ -60,8 +64,6 @@ class LoginActivity : AppCompatActivity() {
     private fun closeBottomSheet() {
         mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         setDimLayoutVisibility(View.GONE)
-        loginContainer.requestFocus()
-        replaceBottomSheetFragment(mLoginFragment)
     }
 
     private fun expandBottomSheet() {
@@ -71,9 +73,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initBottomSheetView() {
-        mLoginFragment.setFragmentListener(mFragmentListener)
-        mSignUpFragment.setFragmentListener(mFragmentListener)
-        mForgotIdFragment.setFragmentListener(mFragmentListener)
+        mLoginFragment = initLoginFragment()
+        mSignUpFragment = initSignUpFragment()
+        mForgotIdFragment = initForgotIdFragment()
         mBottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -103,6 +105,7 @@ class LoginActivity : AppCompatActivity() {
     fun onClick(view: View) {
         when (view) {
             loginSingUpButton -> {
+                initBottomSheetView()
                 openBottomSheet()
             }
             dimLinearLayout -> {
