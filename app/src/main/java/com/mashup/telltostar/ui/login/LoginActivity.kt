@@ -117,4 +117,20 @@ class LoginActivity : AppCompatActivity() {
     private fun setDimLayoutVisibility(visibility: Int) {
         dimLinearLayout.visibility = visibility
     }
+
+    override fun onBackPressed() {
+        if (mBottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN) {
+            if (mLoginFragment.isVisible) {
+                closeBottomSheet()
+            } else {
+                replaceBottomSheetFragment(
+                    mLoginFragment,
+                    R.anim.enter_from_left,
+                    R.anim.exit_to_right
+                )
+            }
+        } else {
+            super.onBackPressed()
+        }
+    }
 }
