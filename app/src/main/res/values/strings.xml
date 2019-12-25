@@ -7,6 +7,11 @@
     <string name="constellation">별자리</string>
     <string name="diary">일기장</string>
     <string name="setting">설정</string>
+    <string name="write_diary">일기작성</string>
+    <string name="edit_diary">일기수정</string>
+
+    <!-- MainActivity -->
+    <string name="main_question_title">오늘 하루\n어떠셨나요?</string>
 
     <!-- DiaryEditActivity -->
     <string name="diary_title_hint">제목</string>

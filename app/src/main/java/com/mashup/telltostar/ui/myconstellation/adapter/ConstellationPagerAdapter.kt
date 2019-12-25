@@ -32,7 +32,7 @@ class ConstellationPagerAdapter(private val mConstellations: List<Constellation>
         private val mConstellationNameTextView: TextView = view.constellationName
 
         fun bind(constellation: Constellation) {
-            mConstellationNameTextView.text = constellation.mName
+            mConstellationNameTextView.text = constellation.name
         }
     }
 }

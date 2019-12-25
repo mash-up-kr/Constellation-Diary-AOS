@@ -1,20 +1,30 @@
 package com.mashup.telltostar.ui.main
 
+import com.mashup.telltostar.data.Diary
 import com.mashup.telltostar.ui.base.BaseView
 
 interface MainContract {
 
     interface View : BaseView<Presenter> {
 
-        fun showTitle(title: String)
+        fun showDiaryTitle(title: String)
 
-        fun showDescription()
+        fun showQuestionTitle()
+
+        fun showEditDiary(diary: Diary)
+
+        fun showWriteDiary()
+
+        fun showToast(message: String?)
 
     }
 
     interface Presenter {
 
-        fun startDiaryEdit()
+        fun loadTodayDiary()
 
+        fun startDiary()
+
+        fun changeDiary(diary: Diary)
     }
 }
