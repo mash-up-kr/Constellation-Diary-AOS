@@ -8,7 +8,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.loginSingUpButton
-import kotlinx.android.synthetic.main.fragment_signup.*
 
 class LoginActivity : AppCompatActivity() {
     interface FragmentListener {
@@ -56,6 +55,7 @@ class LoginActivity : AppCompatActivity() {
     private fun closeBottomSheet() {
         mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         setDimLayoutVisibility(View.GONE)
+        replaceBottomSheetFragment(mLoginFragment)
     }
 
     private fun initBottomSheetView() {
