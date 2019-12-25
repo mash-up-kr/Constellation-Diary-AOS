@@ -6,11 +6,11 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/closeImageView"
+        android:id="@+id/arrowBackImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="31.5dp"
-        android:src="@drawable/ic_expand_close"
+        android:src="@drawable/ic_arrow_back"
         app:layout_constraintStart_toStartOf="@+id/loginTextView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,7 +24,7 @@
         android:textColor="@color/black_two"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/closeImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/arrowBackImageView" />
 
     <TextView
         android:id="@+id/phoneNumberTextView"
