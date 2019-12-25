@@ -17,7 +17,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private val mFragmentListener by lazy {
-        object: FragmentListener {
+        object : FragmentListener {
             override fun closeBottomSheet() {
                 this@LoginActivity.closeBottomSheet()
             }
@@ -92,6 +92,9 @@ class LoginActivity : AppCompatActivity() {
         when (view) {
             loginSingUpButton -> {
                 openBottomSheet()
+            }
+            dimLinearLayout -> {
+                closeBottomSheet()
             }
         }
     }
