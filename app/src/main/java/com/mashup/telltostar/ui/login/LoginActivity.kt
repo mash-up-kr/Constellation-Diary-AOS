@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_login.loginSingUpButton
 class LoginActivity : AppCompatActivity() {
     interface FragmentListener {
         fun closeBottomSheet()
+        fun expandBottomSheet()
         fun replaceFragment(fragment: Fragment, enterAnim: Int, exitAnim: Int)
     }
 
@@ -23,6 +24,10 @@ class LoginActivity : AppCompatActivity() {
 
             override fun replaceFragment(fragment: Fragment, enterAnim: Int, exitAnim: Int) {
                 replaceBottomSheetFragment(fragment, enterAnim, exitAnim)
+            }
+
+            override fun expandBottomSheet() {
+                this@LoginActivity.expandBottomSheet()
             }
         }
     }
@@ -56,6 +61,12 @@ class LoginActivity : AppCompatActivity() {
         mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         setDimLayoutVisibility(View.GONE)
         replaceBottomSheetFragment(mLoginFragment)
+    }
+
+    private fun expandBottomSheet() {
+        login_sign_up_bottom_sheet.visibility = View.VISIBLE
+        mBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        setDimLayoutVisibility(View.VISIBLE)
     }
 
     private fun initBottomSheetView() {
