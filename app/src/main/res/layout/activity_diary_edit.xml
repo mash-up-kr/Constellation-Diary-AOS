@@ -1,97 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/clDiaryEdit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
+    android:orientation="vertical"
     tools:context=".ui.diary.DiaryEditActivity">
 
     <ImageView
-        android:id="@+id/closeImageView"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15.5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:padding="10dp"
         android:src="@drawable/ic_close"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/diaryTitleEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="25.5dp"
-        android:layout_marginTop="57dp"
-        android:background="@null"
-        android:hint="@string/diary_title_hint"
-        android:textColor="@color/greyish"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/closeImageView"
-        app:layout_constraintTop_toBottomOf="@id/closeImageView" />
-
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white_three"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/diaryTitleEditText"
-        app:layout_constraintTop_toBottomOf="@id/diaryTitleEditText" />
-
-    <EditText
-        android:id="@+id/diaryContentsTextView"
-        android:layout_width="0dp"
-        android:layout_height="323dp"
-        android:layout_marginTop="40.5dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/diaryTitleEditText"
-        app:layout_constraintTop_toBottomOf="@+id/diaryTitleEditText" />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/fortuneOneImageView"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="28dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/diaryContentsTextView" />
+        <EditText
+            android:id="@+id/etDiaryEditTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:hint="@string/diary_title_hint"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColor="@color/greyish"
+            android:textSize="18sp" />
 
-    <ImageView
-        android:id="@+id/fortuneTwoImageView"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="24dp"
-        app:layout_constraintStart_toEndOf="@+id/fortuneOneImageView"
-        app:layout_constraintTop_toTopOf="@id/fortuneOneImageView" />
+        <EditText
+            android:id="@+id/etDiaryEditContents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40.5dp"
+            android:background="@null"
+            android:gravity="start"
+            android:hint="내용을 입력해 주세요"
+            android:textSize="16sp" />
 
-    <ImageView
-        android:id="@+id/fortuneThreeImageView"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="24dp"
-        app:layout_constraintStart_toEndOf="@+id/fortuneTwoImageView"
-        app:layout_constraintTop_toTopOf="@id/fortuneTwoImageView" />
-
-    <ImageView
-        android:id="@+id/fortuneFourImageView"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="24dp"
-        app:layout_constraintStart_toEndOf="@+id/fortuneThreeImageView"
-        app:layout_constraintTop_toTopOf="@id/fortuneThreeImageView" />
+    </LinearLayout>
 
     <TextView
+        android:id="@+id/tvDiaryEditDone"
+        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_height="20.5dp"
-        android:onClick="onClick"
+        android:layout_gravity="end"
+        android:layout_marginBottom="20dp"
+        android:padding="10dp"
         android:text="@string/done"
         android:textColor="@color/greyish_brown"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/fortuneFourImageView"
-        app:layout_constraintEnd_toEndOf="@id/diaryContentsTextView"
-        app:layout_constraintTop_toTopOf="@id/fortuneFourImageView" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textSize="14sp" />
+
+</LinearLayout>
