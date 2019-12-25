@@ -86,12 +86,27 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         })
     }
 
+<<<<<<< HEAD
     private fun initButton() {
         tvMainContentsDescription.setOnClickListener {
             presenter.startDiary()
         }
         btnBottomsheetEditDiary.setOnClickListener {
             showWriteDiary()
+=======
+    fun onClick(view: View) {
+        when (view) {
+            editDiaryImageView -> {
+//                startActivityForResult(
+//                    Intent(this@MainActivity, DiaryEditActivity::class.java),
+//                    REQUEST_DIARY_EDIT
+//                )
+                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+            }
+            constellationMenuTextView ->{
+                startActivity(Intent(this@MainActivity,StarListActivity::class.java))
+            }
+>>>>>>> detailActivity UI completed
         }
     }
 

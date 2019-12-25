@@ -12,9 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.starlist.StarListDetailActivity"></activity>
         <activity
             android:name=".ui.starlist.StarListActivity"
-            android:theme="@style/NoActionBarTheme"/>
+            android:theme="@style/NoActionBarTheme" />
         <activity
             android:name=".ui.myconstellation.MyConstellationActivity"
             android:theme="@style/NoActionBarTheme" />
