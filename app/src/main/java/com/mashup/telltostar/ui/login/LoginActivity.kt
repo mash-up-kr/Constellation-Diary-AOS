@@ -60,6 +60,7 @@ class LoginActivity : AppCompatActivity() {
     private fun closeBottomSheet() {
         mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         setDimLayoutVisibility(View.GONE)
+        drawerLayoutLogin.requestFocus()
         replaceBottomSheetFragment(mLoginFragment)
     }
 
