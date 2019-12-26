@@ -79,6 +79,10 @@ dependencies {
     //timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+    //discrete scrollview
+    //https://github.com/yarolegovich/DiscreteScrollView
+    implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
+
     //junit
     testImplementation 'junit:junit:4.12'
 
