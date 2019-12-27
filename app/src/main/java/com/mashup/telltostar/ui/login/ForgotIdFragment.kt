@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.mashup.telltostar.R
+import kotlinx.android.synthetic.main.fragment_forgot_id.*
 import kotlinx.android.synthetic.main.fragment_forgot_id.view.*
 
 class ForgotIdFragment : Fragment() {
@@ -36,6 +37,14 @@ class ForgotIdFragment : Fragment() {
                     R.anim.enter_from_left,
                     R.anim.exit_to_right
                 )
+            }
+            rootView.verificationRequestButton.setOnClickListener {
+                if (!emailEditText.text.isNullOrEmpty()) {
+                    verificationNumberTextView.visibility = View.VISIBLE
+                    verificationNumberEditText.visibility = View.VISIBLE
+                    verificationRequestButton.text =
+                        getString(R.string.request_again_verification_mail)
+                }
             }
         }
     }
