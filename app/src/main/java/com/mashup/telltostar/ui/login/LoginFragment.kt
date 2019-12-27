@@ -33,21 +33,21 @@ class LoginFragment : Fragment() {
 
     private fun setListeners(rootView: View) {
         with(activity as LoginActivity) {
-            rootView.signupTextView.setOnClickListener {
+            rootView.signUpTextViewContainer.setOnClickListener {
                 mFragmentListener.replaceFragment(
                     mSignUpFragment,
                     R.anim.enter_from_right,
                     R.anim.exit_to_left
                 )
             }
-            rootView.forgotIdTextView.setOnClickListener {
+            rootView.forgotIdTextViewContainer.setOnClickListener {
                 mFragmentListener.replaceFragment(
                     mForgotIdFragment,
                     R.anim.enter_from_right,
                     R.anim.exit_to_left
                 )
             }
-            rootView.closeImageView.setOnClickListener {
+            rootView.closeImageViewContainer.setOnClickListener {
                 mFragmentListener.closeBottomSheet()
             }
             rootView.startStarStarDiaryButton.setOnClickListener {
