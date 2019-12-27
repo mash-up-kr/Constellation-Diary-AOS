@@ -32,6 +32,8 @@
     <string name="input_confirm_password">비밀번호를 다시 입력해주세요.</string>
     <string name="sign_up">회원가입</string>
     <string name="forgot_id">아이디 찾기</string>
+    <string name="email">이메일</string>
+    <string name="input_email">이메일 주소를 입력해주세요.</string>
     <string name="phone_number">핸드폰 번호</string>
     <string name="verification_number">인증번호</string>
     <string name="input_phone_number">가입 시 입력했던 핸드폰 번호를 입력해주세요.</string>

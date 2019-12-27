@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="7dp"
         android:text="@string/forgot_id"
         android:textColor="@color/black_two"
         android:textSize="20sp"
@@ -27,54 +27,29 @@
         app:layout_constraintTop_toBottomOf="@+id/arrowBackImageView" />
 
     <TextView
-        android:id="@+id/phoneNumberTextView"
+        android:id="@+id/emailTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="@string/phone_number"
+        android:text="@string/email"
         android:textColor="@color/greyish_brown"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@id/loginTextView"
         app:layout_constraintTop_toBottomOf="@id/loginTextView" />
 
     <EditText
-        android:id="@+id/phoneNumberEditText"
+        android:id="@+id/emailEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="16dp"
-        android:hint="@string/input_phone_number"
+        android:hint="@string/input_email"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
         android:theme="@style/EditTextTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/loginTextView"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumberTextView" />
-
-    <TextView
-        android:id="@+id/passwordTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/verification_number"
-        android:textColor="@color/greyish_brown"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@id/loginTextView"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumberEditText" />
-
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="16dp"
-        android:hint="@string/input_verification_number"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
-        android:theme="@style/EditTextTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/loginTextView"
-        app:layout_constraintTop_toBottomOf="@+id/passwordTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
 
     <Button
         android:id="@+id/forgotIdButton"
