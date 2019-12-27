@@ -46,6 +46,11 @@ class ForgotIdFragment : Fragment() {
                         getString(R.string.request_again_verification_mail)
                 }
             }
+            rootView.emailEditText.setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) {
+                    mFragmentListener.expandBottomSheet()
+                }
+            }
         }
     }
 }
