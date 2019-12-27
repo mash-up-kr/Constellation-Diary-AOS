@@ -31,7 +31,7 @@ class ForgotIdFragment : Fragment() {
 
     private fun setListeners(rootView: View) {
         with(activity as LoginActivity) {
-            rootView.arrowBackImageView.setOnClickListener {
+            rootView.arrowBackImageViewContainer.setOnClickListener {
                 mFragmentListener.replaceFragment(
                     mLoginFragment,
                     R.anim.enter_from_left,
