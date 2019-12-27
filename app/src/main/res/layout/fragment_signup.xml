@@ -51,6 +51,19 @@
         app:layout_constraintTop_toBottomOf="@id/arrowBackImageViewContainer" />
 
     <TextView
+        android:id="@+id/signUpStepTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:letterSpacing="-0.05"
+        android:text="@string/sign_up_step_1"
+        android:textColor="@color/brownish_grey_two"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/signUpTextView"
+        app:layout_constraintStart_toEndOf="@id/signUpTextView"
+        app:layout_constraintTop_toTopOf="@id/signUpTextView" />
+
+    <TextView
         android:id="@+id/idTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
