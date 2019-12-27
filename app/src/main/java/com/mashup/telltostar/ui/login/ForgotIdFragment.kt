@@ -1,11 +1,11 @@
 package com.mashup.telltostar.ui.login
 
-
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.fragment_forgot_id.*
@@ -50,6 +50,16 @@ class ForgotIdFragment : Fragment() {
                 if (hasFocus) {
                     mFragmentListener.expandBottomSheet()
                 }
+            }
+            rootView.verificationNumberEditText.addTextChangedListener {
+                rootView.disabledNextButton.visibility =
+                    if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
+                rootView.forgotIdButton.visibility =
+                    if (it.isNullOrEmpty()) View.GONE
+                    else View.VISIBLE
+            }
+            rootView.forgotIdButton.setOnClickListener {
+                // TODO: 서버 통해 인증 요청, 인증 성공 시 "아이디 찾기 완료하기"로 텍스트 변경
             }
         }
     }
