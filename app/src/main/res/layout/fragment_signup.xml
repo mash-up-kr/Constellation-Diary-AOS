@@ -63,116 +63,17 @@
         app:layout_constraintStart_toEndOf="@id/signUpTextView"
         app:layout_constraintTop_toTopOf="@id/signUpTextView" />
 
-    <TextView
-        android:id="@+id/idTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50.5dp"
-        android:text="@string/id"
-        android:textColor="@color/greyish_brown"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@id/signUpTextView"
-        app:layout_constraintTop_toTopOf="@id/signUpTextView" />
-
-    <EditText
-        android:id="@+id/idEditText"
+    <FrameLayout
+        android:id="@+id/signUpFragmentContainer"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:hint="@string/input_id"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
-        android:theme="@style/EditTextTheme"
+        android:layout_height="0dp"
+        android:layout_marginTop="41.5dp"
+        app:layout_constraintBottom_toTopOf="@+id/loginSignUpButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/signUpTextView"
-        app:layout_constraintTop_toBottomOf="@+id/idTextView" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpTextView">
 
-    <TextView
-        android:id="@+id/inputIdWarningTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/input_id"
-        android:textColor="@color/coral"
-        android:textSize="12sp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/idEditText"
-        app:layout_constraintTop_toBottomOf="@+id/idEditText"
-        tools:visibility="visible" />
-
-    <TextView
-        android:id="@+id/passwordTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/password"
-        android:textColor="@color/greyish_brown"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@id/signUpTextView"
-        app:layout_constraintTop_toBottomOf="@+id/idEditText" />
-
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:hint="@string/input_password"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
-        android:theme="@style/EditTextTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/signUpTextView"
-        app:layout_constraintTop_toBottomOf="@+id/passwordTextView" />
-
-    <TextView
-        android:id="@+id/inputPasswordWarningTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/input_password"
-        android:textColor="@color/coral"
-        android:textSize="12sp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/passwordEditText"
-        app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
-        tools:visibility="visible" />
-
-    <TextView
-        android:id="@+id/passwordConfirmTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/confirm_password"
-        android:textColor="@color/greyish_brown"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@id/signUpTextView"
-        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
-
-    <EditText
-        android:id="@+id/passwordConfirmEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:hint="@string/input_confirm_password"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
-        android:theme="@style/EditTextTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/signUpTextView"
-        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmTextView" />
-
-    <TextView
-        android:id="@+id/inputPasswordConfirmWarningTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/input_password"
-        android:textColor="@color/coral"
-        android:textSize="12sp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/passwordConfirmEditText"
-        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmEditText"
-        tools:visibility="visible" />
+    </FrameLayout>
 
     <Button
         android:id="@+id/loginSignUpButton"
@@ -189,5 +90,6 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
