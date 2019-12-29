@@ -13,8 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/star_yang"/>
+            android:layout_gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/list_star_name"
@@ -28,11 +27,12 @@
             android:layout_weight="1"
             />
 
-        <ImageButton
+        <Button
             android:id="@+id/list_next_btn"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginEnd="16dp"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_gravity="center_vertical"
             android:background="@drawable/back"/>
     </LinearLayout>

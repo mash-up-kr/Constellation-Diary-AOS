@@ -17,6 +17,8 @@ interface MainContract {
 
         fun showToast(message: String?)
 
+        fun showStarList()
+
     }
 
     interface Presenter {

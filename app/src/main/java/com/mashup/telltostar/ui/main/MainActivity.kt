@@ -17,12 +17,15 @@ import com.mashup.telltostar.data.Diary
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.repository.DiaryRepository
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_bottomsheet.*
+import com.mashup.telltostar.ui.starlist.StarListActivity
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.header.view.*
 import kotlinx.android.synthetic.main.main_contents.*
 import org.jetbrains.anko.toast
 import timber.log.Timber
+
 
 class MainActivity : AppCompatActivity(), MainContract.View {
 
@@ -86,35 +89,24 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         })
     }
 
-<<<<<<< HEAD
     private fun initButton() {
         tvMainContentsDescription.setOnClickListener {
             presenter.startDiary()
         }
         btnBottomsheetEditDiary.setOnClickListener {
             showWriteDiary()
-=======
-    fun onClick(view: View) {
-        when (view) {
-            editDiaryImageView -> {
-//                startActivityForResult(
-//                    Intent(this@MainActivity, DiaryEditActivity::class.java),
-//                    REQUEST_DIARY_EDIT
-//                )
-                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-            }
-            constellationMenuTextView ->{
-                startActivity(Intent(this@MainActivity,StarListActivity::class.java))
-            }
->>>>>>> detailActivity UI completed
+        }
+        navigationView.getHeaderView(0).constellationMenuTextView.setOnClickListener{
+            showStarList()
         }
     }
 
     override fun showDiaryTitle(title: String) {
         tvMainContentsTitle.text = title
         tvMainContentsDescription.text = resources.getString(R.string.edit_diary)
-
     }
+
+
 
     override fun showQuestionTitle() {
         tvMainContentsTitle.text = resources.getString(R.string.main_question_title)
@@ -140,6 +132,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         if (message != null) {
             toast(message)
         }
+    }
+    override fun showStarList() {
+        startActivity(Intent(this, StarListActivity::class.java))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -179,4 +174,5 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     companion object {
         private const val REQUEST_DIARY_EDIT = 0x001
     }
+
 }
