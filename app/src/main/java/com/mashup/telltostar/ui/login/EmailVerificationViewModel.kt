@@ -27,6 +27,8 @@ object EmailVerificationViewModel {
     }
 
     fun requestEmailVerification() {
+        clearDisposable()
+
         mCompositeDisposable.add(
             mIntervalObservable
                 .map {
