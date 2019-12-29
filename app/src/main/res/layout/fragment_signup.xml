@@ -81,6 +81,7 @@
         android:layout_height="52dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/custom_corner_silver_button"
+        android:enabled="false"
         android:letterSpacing="-0.05"
         android:lineSpacingExtra="8sp"
         android:stateListAnimator="@null"

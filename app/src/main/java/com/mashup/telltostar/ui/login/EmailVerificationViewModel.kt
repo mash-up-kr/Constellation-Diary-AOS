@@ -19,7 +19,8 @@ import java.util.concurrent.TimeUnit
 object EmailVerificationViewModel {
     private const val TIMEOUT = 180L
     var isEmailSend = false
-
+    val isVerified = MutableLiveData<Boolean>(false)
+    val mInputVerificationNumber = MutableLiveData<String>()
     val mRemainTime = MutableLiveData<String>()
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
     private val mIntervalObservable by lazy {
@@ -29,6 +30,7 @@ object EmailVerificationViewModel {
     fun requestEmailVerification() {
         clearDisposable()
 
+        isVerified.postValue(false)
         mCompositeDisposable.add(
             mIntervalObservable
                 .map {

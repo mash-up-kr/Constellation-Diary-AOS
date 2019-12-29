@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.fragment_email_verification.view.*
 import kotlinx.android.synthetic.main.fragment_signup.*
 
 class EmailVerificationFragment(
-    private val mParentFragment: SignUpFragment,
     private val mFragmentListener: LoginActivity.FragmentListener
 ) : Fragment() {
 
@@ -27,7 +26,7 @@ class EmailVerificationFragment(
         val rootView = inflater.inflate(R.layout.fragment_email_verification, container, false)
 
         setListeners(rootView)
-        setRemainTimeObserver(rootView)
+        setViewModelObserver(rootView)
         showEmailVerificationInfoInput(rootView)
 
         return rootView
@@ -46,38 +45,16 @@ class EmailVerificationFragment(
             }
         }
         rootView.verificationNumberEditText.addTextChangedListener {
+            EmailVerificationViewModel.mInputVerificationNumber.postValue(it.toString())
+
             it?.let { editable ->
                 activity?.let {
-                    mParentFragment.nextSignUpButton.run {
-                        if (editable.length >= 6) {
-                            background = ContextCompat.getDrawable(
-                                it.applicationContext,
-                                R.drawable.custom_corner_navy_button
+                    if (editable.length >= 6) {
+                        (it.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                            .hideSoftInputFromWindow(
+                                rootView.verificationNumberEditText.windowToken,
+                                0
                             )
-                            setTextColor(
-                                ContextCompat.getColor(
-                                    it.applicationContext,
-                                    android.R.color.white
-                                )
-                            )
-
-                            (it.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                                .hideSoftInputFromWindow(
-                                    rootView.verificationNumberEditText.windowToken,
-                                    0
-                                )
-                        } else {
-                            background = ContextCompat.getDrawable(
-                                it.applicationContext,
-                                R.drawable.custom_corner_silver_button
-                            )
-                            setTextColor(
-                                ContextCompat.getColor(
-                                    it.applicationContext,
-                                    R.color.brownish_grey_two
-                                )
-                            )
-                        }
                     }
                 }
             }
@@ -94,11 +71,11 @@ class EmailVerificationFragment(
         }
     }
 
-    private fun setRemainTimeObserver(rootView: View) {
-        EmailVerificationViewModel.mRemainTime.observe(this@EmailVerificationFragment, Observer {
-            timber.log.Timber.d("onChanged()")
-
-            rootView.verificationTimeoutTextView.text = it
-        })
+    private fun setViewModelObserver(rootView: View) {
+        with(EmailVerificationViewModel) {
+            mRemainTime.observe(this@EmailVerificationFragment, Observer {
+                rootView.verificationTimeoutTextView.text = it
+            })
+        }
     }
 }

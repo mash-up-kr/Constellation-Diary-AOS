@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.fragment_id_register.*
@@ -26,10 +28,10 @@ class SignUpFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_signup, container, false)
 
-        mEmailVerificationFragment =
-            EmailVerificationFragment(this@SignUpFragment, mFragmentListener)
+        mEmailVerificationFragment = EmailVerificationFragment(mFragmentListener)
 
         setListeners(rootView)
+        setViewModelObserver(rootView)
         replaceFragment(mEmailVerificationFragment)
 
         return rootView
@@ -49,7 +51,7 @@ class SignUpFragment : Fragment() {
                 )
             }
             rootView.nextSignUpButton.setOnClickListener {
-
+                timber.log.Timber.d("nextSignUpButton")
             }
             rootView.loginSignUpButton.setOnClickListener {
                 performSignUpButtonClick()
@@ -57,7 +59,45 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun replaceFragment(fragment: Fragment, enterAnim: Int = 0, exitAnim: Int = 0) {
+    private fun setViewModelObserver(rootView: View) {
+        EmailVerificationViewModel.mInputVerificationNumber.observe(this@SignUpFragment, Observer {
+            if (it.length >= 6) {
+                with(rootView.nextSignUpButton) {
+                    isEnabled = true
+                    background = ContextCompat.getDrawable(
+                        context,
+                        R.drawable.custom_corner_navy_button
+                    )
+                    setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            android.R.color.white
+                        )
+                    )
+                }
+            } else {
+                with(rootView.nextSignUpButton) {
+                    isEnabled = false
+                    background = ContextCompat.getDrawable(
+                        context,
+                        R.drawable.custom_corner_silver_button
+                    )
+                    setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.brownish_grey_two
+                        )
+                    )
+                }
+            }
+        })
+    }
+
+    private fun replaceFragment(
+        fragment: Fragment,
+        enterAnim: Int = 0,
+        exitAnim: Int = 0
+    ) {
         activity?.supportFragmentManager
             ?.beginTransaction()
             ?.setCustomAnimations(enterAnim, exitAnim)
