@@ -15,9 +15,7 @@ import kotlinx.android.synthetic.main.fragment_signup.view.*
 
 class SignUpFragment : Fragment() {
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
-    private val mEmailVerificationFragment by lazy {
-        EmailVerificationFragment(mFragmentListener)
-    }
+    private lateinit var mEmailVerificationFragment: EmailVerificationFragment
     private val mIdRegisterFragment by lazy {
         IdRegisterFragment()
     }
@@ -27,6 +25,8 @@ class SignUpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_signup, container, false)
+
+        mEmailVerificationFragment = EmailVerificationFragment(mFragmentListener)
 
         setListeners(rootView)
         replaceFragment(mEmailVerificationFragment)
