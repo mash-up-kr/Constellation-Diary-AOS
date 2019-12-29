@@ -10,7 +10,6 @@ import android.view.ViewGroup
 
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.fragment_id_register.*
-import kotlinx.android.synthetic.main.fragment_signup.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 
 class SignUpFragment : Fragment() {
@@ -64,6 +63,8 @@ class SignUpFragment : Fragment() {
     private fun performSignUpButtonClick() {
         if (mEmailVerificationFragment.isVisible) {
             replaceFragment(mIdRegisterFragment, R.anim.enter_from_right, R.anim.exit_to_left)
+            EmailVerificationViewModel.isEmailSend = false
+            EmailVerificationViewModel.clearDisposable()
         } else {
             with(mIdRegisterFragment) {
                 if (this.idEditText.text.isNullOrEmpty()) {
