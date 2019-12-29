@@ -43,4 +43,11 @@
     <string name="request_again_verification_mail">인증 다시 받기</string>
     <string name="input_phone_number">가입 시 입력했던 핸드폰 번호를 입력해주세요.</string>
     <string name="input_verification_number">메일로 전송된 인증번호를 입력해주세요.</string>
+    <string name="input_verification_number">인증번호를 입력해주세요.</string>
+
+    <!--    StarListActivity-->
+    <string name="Constellation">별자리</string>
+
+    <!--    StarListDetailActivity-->
+    <string name="ChangeStar">내별자리 변경</string>
 </resources>

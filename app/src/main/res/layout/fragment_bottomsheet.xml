@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textColor="@color/detailText"
+        android:textColor="@color/brown_grey"
         android:textSize="12sp"
         android:text="@string/행운의_키워드"/>
 
@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center_horizontal"
-                android:textColor="@color/detailText"
+                android:textColor="@color/brown_grey"
                 android:textSize="11sp"
                 tools:text="운동"/>
         </LinearLayout>
@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center_horizontal"
-                android:textColor="@color/detailText"
+                android:textColor="@color/brownish_grey_two"
                 android:textSize="11sp"
                 tools:text="40"/>
         </LinearLayout>
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center_horizontal"
-                android:textColor="@color/detailText"
+                android:textColor="@color/brownish_grey_two"
                 android:textSize="11sp"
                 tools:text="운동"/>
         </LinearLayout>
@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center_horizontal"
-                android:textColor="@color/detailText"
+                android:textColor="@color/brownish_grey_two"
                 android:textSize="11sp"
                 tools:text="재질"/>
         </LinearLayout>

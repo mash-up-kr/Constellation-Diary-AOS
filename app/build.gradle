@@ -41,7 +41,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
 
     //kotlin
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     //koin
     implementation "org.koin:koin-android:$koinVersion"
@@ -49,6 +49,8 @@ dependencies {
 
     //room
     implementation "androidx.room:room-runtime:$roomVersion"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     kapt "androidx.room:room-compiler:$roomVersion"
 
     //optional - RxJava support for Room
