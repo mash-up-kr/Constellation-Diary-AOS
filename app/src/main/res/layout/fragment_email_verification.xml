@@ -31,6 +31,22 @@
         app:layout_constraintStart_toStartOf="@id/emailTextView"
         app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
 
+    <Button
+        android:id="@+id/verificationRequestButton"
+        android:layout_width="76dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corner_navy_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="5sp"
+        android:stateListAnimator="@null"
+        android:text="@string/request_verification_mail"
+        android:textColor="@android:color/white"
+        android:textSize="10.5sp"
+        app:layout_constraintBottom_toBottomOf="@id/emailEditText"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <TextView
         android:id="@+id/inputEmailWarningTextView"
         android:layout_width="wrap_content"
@@ -41,5 +57,34 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/emailTextView"
         app:layout_constraintTop_toBottomOf="@+id/emailEditText"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/verificationNumberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="31dp"
+        android:text="@string/verification_number"
+        android:textColor="@color/greyish_brown"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/emailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/verificationNumberEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/input_verification_number"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:theme="@style/EditTextTheme"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/emailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/verificationNumberTextView"
         tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
