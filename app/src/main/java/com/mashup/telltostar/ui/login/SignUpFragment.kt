@@ -10,6 +10,7 @@ import android.view.ViewGroup
 
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.fragment_id_register.*
+import kotlinx.android.synthetic.main.fragment_signup.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 
 class SignUpFragment : Fragment() {
@@ -25,7 +26,8 @@ class SignUpFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_signup, container, false)
 
-        mEmailVerificationFragment = EmailVerificationFragment(mFragmentListener)
+        mEmailVerificationFragment =
+            EmailVerificationFragment(this@SignUpFragment, mFragmentListener)
 
         setListeners(rootView)
         replaceFragment(mEmailVerificationFragment)
@@ -46,6 +48,9 @@ class SignUpFragment : Fragment() {
                     R.anim.exit_to_right
                 )
             }
+            rootView.nextSignUpButton.setOnClickListener {
+
+            }
             rootView.loginSignUpButton.setOnClickListener {
                 performSignUpButtonClick()
             }
@@ -65,6 +70,7 @@ class SignUpFragment : Fragment() {
             replaceFragment(mIdRegisterFragment, R.anim.enter_from_right, R.anim.exit_to_left)
             EmailVerificationViewModel.isEmailSend = false
             EmailVerificationViewModel.clearDisposable()
+            signUpStepTextView.text = getString(R.string.sign_up_step_2)
         } else {
             with(mIdRegisterFragment) {
                 if (this.idEditText.text.isNullOrEmpty()) {

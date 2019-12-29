@@ -76,6 +76,22 @@
     </FrameLayout>
 
     <Button
+        android:id="@+id/nextSignUpButton"
+        android:layout_width="328dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/custom_corner_silver_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="8sp"
+        android:stateListAnimator="@null"
+        android:text="@string/request_verification"
+        android:textColor="@color/brownish_grey_two"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/loginSignUpButton"
         android:layout_width="328dp"
         android:layout_height="52dp"
@@ -83,13 +99,12 @@
         android:background="@drawable/custom_corner_navy_button"
         android:letterSpacing="-0.05"
         android:lineSpacingExtra="8sp"
-        android:onClick="onClick"
         android:stateListAnimator="@null"
         android:text="@string/start_star_star"
         android:textColor="@android:color/white"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
