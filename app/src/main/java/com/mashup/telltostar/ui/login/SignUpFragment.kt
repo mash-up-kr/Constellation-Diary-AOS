@@ -51,7 +51,13 @@ class SignUpFragment : Fragment() {
                 )
             }
             rootView.nextSignUpButton.setOnClickListener {
-                EmailVerificationViewModel.requestEmailVerification()
+                EmailVerificationViewModel.isEmailVerified.value?.let {
+                    if (it) {
+                        performSignUpButtonClick()
+                    } else {
+                        EmailVerificationViewModel.requestEmailVerification()
+                    }
+                }
             }
             rootView.loginSignUpButton.setOnClickListener {
                 performSignUpButtonClick()
