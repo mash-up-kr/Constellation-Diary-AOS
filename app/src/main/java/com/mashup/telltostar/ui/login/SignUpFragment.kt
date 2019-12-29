@@ -51,7 +51,7 @@ class SignUpFragment : Fragment() {
                 )
             }
             rootView.nextSignUpButton.setOnClickListener {
-                timber.log.Timber.d("nextSignUpButton")
+                EmailVerificationViewModel.requestEmailVerification()
             }
             rootView.loginSignUpButton.setOnClickListener {
                 performSignUpButtonClick()
@@ -91,6 +91,23 @@ class SignUpFragment : Fragment() {
                 }
             }
         })
+        EmailVerificationViewModel.isEmailVerified.observe(this@SignUpFragment, Observer {
+            if (it) {
+                with(rootView.nextSignUpButton) {
+                    background = ContextCompat.getDrawable(
+                        context,
+                        R.drawable.custom_corner_navy_button
+                    )
+                    setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            android.R.color.white
+                        )
+                    )
+                    text = getString(R.string.next)
+                }
+            }
+        })
     }
 
     private fun replaceFragment(
@@ -108,7 +125,6 @@ class SignUpFragment : Fragment() {
     private fun performSignUpButtonClick() {
         if (mEmailVerificationFragment.isVisible) {
             replaceFragment(mIdRegisterFragment, R.anim.enter_from_right, R.anim.exit_to_left)
-            EmailVerificationViewModel.isEmailSend = false
             EmailVerificationViewModel.clearDisposable()
             signUpStepTextView.text = getString(R.string.sign_up_step_2)
         } else {

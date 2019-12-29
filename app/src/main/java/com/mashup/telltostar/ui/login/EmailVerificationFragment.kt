@@ -12,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
+import kotlinx.android.synthetic.main.fragment_email_verification.*
 import kotlinx.android.synthetic.main.fragment_email_verification.view.*
 import kotlinx.android.synthetic.main.fragment_signup.*
 
@@ -27,17 +28,17 @@ class EmailVerificationFragment(
 
         setListeners(rootView)
         setViewModelObserver(rootView)
-        showEmailVerificationInfoInput(rootView)
 
         return rootView
     }
 
     private fun setListeners(rootView: View) {
         rootView.verificationRequestButton.setOnClickListener {
-            EmailVerificationViewModel.isEmailSend = true
-
-            showEmailVerificationInfoInput(rootView)
-            EmailVerificationViewModel.requestEmailVerification()
+            rootView.verificationRequestButton.visibility = View.GONE
+            EmailVerificationViewModel.requestVerificationNumber()
+        }
+        rootView.verificationRequestAgainButton.setOnClickListener {
+            EmailVerificationViewModel.requestVerificationNumber()
         }
         rootView.emailEditText.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
@@ -61,20 +62,37 @@ class EmailVerificationFragment(
         }
     }
 
-    private fun showEmailVerificationInfoInput(rootView: View) {
-        if (EmailVerificationViewModel.isEmailSend) {
-            rootView.verificationNumberTextView.visibility = View.VISIBLE
-            rootView.verificationNumberEditText.visibility = View.VISIBLE
-            rootView.verificationRequestButton.text =
-                getString(R.string.request_again_verification_mail)
-            rootView.verificationTimeoutTextView.visibility = View.VISIBLE
-        }
-    }
-
     private fun setViewModelObserver(rootView: View) {
         with(EmailVerificationViewModel) {
             mRemainTime.observe(this@EmailVerificationFragment, Observer {
                 rootView.verificationTimeoutTextView.text = it
+            })
+            isEmailVerified.observe(this@EmailVerificationFragment, Observer {
+                if (it) {
+                    rootView.emailVerifiedImageView.visibility = View.VISIBLE
+                    rootView.verificationRequestAgainButton.visibility = View.GONE
+                    rootView.verificationNumberTextView.visibility = View.GONE
+                    rootView.verificationTimeoutTextView.visibility = View.GONE
+                    rootView.verificationNumberEditText.visibility = View.GONE
+                    clearDisposable()
+                } else {
+                    rootView.emailVerifiedImageView.visibility = View.GONE
+                }
+            })
+            isEmailSend.observe(this@EmailVerificationFragment, Observer {
+                if (it) {
+                    rootView.verificationRequestButton.visibility = View.GONE
+                    rootView.verificationNumberTextView.visibility = View.VISIBLE
+                    rootView.verificationNumberEditText.visibility = View.VISIBLE
+                    rootView.verificationRequestAgainButton.visibility = View.VISIBLE
+                    rootView.verificationTimeoutTextView.visibility = View.VISIBLE
+                } else {
+                    rootView.verificationRequestButton.visibility = View.VISIBLE
+                    rootView.verificationNumberTextView.visibility = View.GONE
+                    rootView.verificationNumberEditText.visibility = View.GONE
+                    rootView.verificationRequestAgainButton.visibility = View.GONE
+                    rootView.verificationTimeoutTextView.visibility = View.GONE
+                }
             })
         }
     }

@@ -47,6 +47,17 @@
         app:layout_constraintBottom_toBottomOf="@id/emailEditText"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageView
+        android:id="@+id/emailVerifiedImageView"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_check_circle"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/emailEditText"
+        app:layout_constraintEnd_toEndOf="@+id/emailEditText"
+        app:layout_constraintTop_toTopOf="@+id/emailEditText"
+        tools:visibility="visible" />
+
     <TextView
         android:id="@+id/inputEmailWarningTextView"
         android:layout_width="wrap_content"
@@ -100,5 +111,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/emailTextView"
         app:layout_constraintTop_toBottomOf="@+id/verificationNumberTextView"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/verificationRequestAgainButton"
+        android:layout_width="76dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corner_navy_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="5sp"
+        android:stateListAnimator="@null"
+        android:text="@string/request_again_verification_mail"
+        android:textColor="@android:color/white"
+        android:textSize="10.5sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/verificationNumberEditText"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,8 +2,11 @@ package com.mashup.telltostar.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -18,8 +21,8 @@ import java.util.concurrent.TimeUnit
  */
 object EmailVerificationViewModel {
     private const val TIMEOUT = 180L
-    var isEmailSend = false
-    val isVerified = MutableLiveData<Boolean>(false)
+    val isEmailSend = MutableLiveData<Boolean>(false)
+    val isEmailVerified = MutableLiveData<Boolean>(false)
     val mInputVerificationNumber = MutableLiveData<String>()
     val mRemainTime = MutableLiveData<String>()
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -27,10 +30,10 @@ object EmailVerificationViewModel {
         getIntervalObservable()
     }
 
-    fun requestEmailVerification() {
+    fun requestVerificationNumber() {
         clearDisposable()
 
-        isVerified.postValue(false)
+        isEmailVerified.postValue(false)
         mCompositeDisposable.add(
             mIntervalObservable
                 .map {
@@ -48,7 +51,31 @@ object EmailVerificationViewModel {
 
                 })
         )
+
+        isEmailSend.postValue(true)
     }
+
+    fun requestEmailVerification() {
+        mCompositeDisposable.add(
+            getRequestVerificationSingle()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    timber.log.Timber.d("$it")
+
+                    if (it == 0) {
+                        isEmailVerified.postValue(false)
+                    } else {
+                        isEmailVerified.postValue(true)
+                    }
+                }, {
+
+                })
+        )
+    }
+
+    private fun getRequestVerificationSingle() =
+        Single.just(Random().nextInt(2))
 
     private fun getIntervalObservable() =
         Observable.interval(0, 1000, TimeUnit.MILLISECONDS)
