@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.fragment_email_verification.view.*
 
-class EmailVerificationFragment(private val mParentFragment: SignUpFragment) : Fragment() {
+class EmailVerificationFragment(
+    private val mFragmentListener: LoginActivity.FragmentListener
+) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +33,7 @@ class EmailVerificationFragment(private val mParentFragment: SignUpFragment) : F
         }
         rootView.emailEditText.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
-                mParentFragment.expandBottomSheet()
+                mFragmentListener.expandBottomSheet()
             }
         }
     }
