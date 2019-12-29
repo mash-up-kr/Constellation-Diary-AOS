@@ -6,64 +6,119 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/closeImageView"
+        android:layout_width="32dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/rounded_corner_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/arrowBackImageViewContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31.5dp"
-        android:src="@drawable/ic_expand_close"
-        app:layout_constraintStart_toStartOf="@+id/loginTextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="18dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="7dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/arrowBackImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:src="@drawable/ic_arrow_back" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/loginTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:text="@string/forgot_id"
         android:textColor="@color/black_two"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/closeImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/arrowBackImageViewContainer" />
 
     <TextView
-        android:id="@+id/phoneNumberTextView"
+        android:id="@+id/emailTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="@string/phone_number"
+        android:text="@string/email"
         android:textColor="@color/greyish_brown"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@id/loginTextView"
         app:layout_constraintTop_toBottomOf="@id/loginTextView" />
 
     <EditText
-        android:id="@+id/phoneNumberEditText"
+        android:id="@+id/emailEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="16dp"
-        android:hint="@string/input_phone_number"
+        android:hint="@string/input_email"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
         android:theme="@style/EditTextTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/loginTextView"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumberTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
+
+    <Button
+        android:id="@+id/verificationRequestButton"
+        android:layout_width="76dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corner_navy_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="5sp"
+        android:stateListAnimator="@null"
+        android:text="@string/request_verification_mail"
+        android:textColor="@android:color/white"
+        android:textSize="10.5sp"
+        app:layout_constraintBottom_toBottomOf="@id/emailEditText"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/verificationCompleteButton"
+        android:layout_width="76dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corner_white_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="5sp"
+        android:stateListAnimator="@null"
+        android:text="@string/mail_verification_complete"
+        android:textColor="@color/navy"
+        android:textSize="10.5sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/emailEditText"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/passwordTextView"
+        android:id="@+id/verificationNumberTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:text="@string/verification_number"
         android:textColor="@color/greyish_brown"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/loginTextView"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumberEditText" />
+        app:layout_constraintTop_toBottomOf="@id/emailEditText"
+        tools:visibility="visible" />
 
     <EditText
-        android:id="@+id/passwordEditText"
+        android:id="@+id/verificationNumberEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -72,9 +127,27 @@
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
         android:theme="@style/EditTextTheme"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/loginTextView"
-        app:layout_constraintTop_toBottomOf="@+id/passwordTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/verificationNumberTextView"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/disabledNextButton"
+        android:layout_width="328dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/custom_corner_silver_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="8sp"
+        android:stateListAnimator="@null"
+        android:text="@string/next"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/forgotIdButton"
@@ -84,9 +157,11 @@
         android:background="@drawable/custom_corner_navy_button"
         android:letterSpacing="-0.05"
         android:lineSpacingExtra="8sp"
-        android:text="@string/forgot_id"
+        android:stateListAnimator="@null"
+        android:text="@string/next"
         android:textColor="@android:color/white"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

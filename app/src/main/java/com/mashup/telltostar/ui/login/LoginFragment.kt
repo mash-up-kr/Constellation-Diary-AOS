@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -32,25 +33,35 @@ class LoginFragment : Fragment() {
 
     private fun setListeners(rootView: View) {
         with(activity as LoginActivity) {
-            rootView.signupTextView.setOnClickListener {
+            rootView.signUpTextViewContainer.setOnClickListener {
                 mFragmentListener.replaceFragment(
                     mSignUpFragment,
                     R.anim.enter_from_right,
                     R.anim.exit_to_left
                 )
             }
-            rootView.forgotIdTextView.setOnClickListener {
+            rootView.forgotIdTextViewContainer.setOnClickListener {
                 mFragmentListener.replaceFragment(
                     mForgotIdFragment,
                     R.anim.enter_from_right,
                     R.anim.exit_to_left
                 )
             }
-            rootView.closeImageView.setOnClickListener {
+            rootView.closeImageViewContainer.setOnClickListener {
                 mFragmentListener.closeBottomSheet()
             }
             rootView.startStarStarDiaryButton.setOnClickListener {
                 performStartButtonClick()
+            }
+            rootView.idEditText.setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) {
+                    mFragmentListener.expandBottomSheet()
+                }
+            }
+            rootView.passwordEditText.setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) {
+                    mFragmentListener.expandBottomSheet()
+                }
             }
         }
     }

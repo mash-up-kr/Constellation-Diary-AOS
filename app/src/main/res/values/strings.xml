@@ -31,10 +31,18 @@
     <string name="confirm_password">비밀번호 확인</string>
     <string name="input_confirm_password">비밀번호를 다시 입력해주세요.</string>
     <string name="sign_up">회원가입</string>
+    <string name="sign_up_step_1">1/2</string>
+    <string name="next">다음</string>
     <string name="forgot_id">아이디 찾기</string>
+    <string name="email">이메일</string>
+    <string name="input_email">이메일 주소를 입력해주세요.</string>
     <string name="phone_number">핸드폰 번호</string>
     <string name="verification_number">인증번호</string>
+    <string name="request_verification_mail">인증 메일 받기</string>
+    <string name="mail_verification_complete">메일 인증 완료</string>
+    <string name="request_again_verification_mail">인증 다시 받기</string>
     <string name="input_phone_number">가입 시 입력했던 핸드폰 번호를 입력해주세요.</string>
+    <string name="input_verification_number">메일로 전송된 인증번호를 입력해주세요.</string>
     <string name="input_verification_number">인증번호를 입력해주세요.</string>
 
     <!--    StarListActivity-->
@@ -42,6 +50,4 @@
 
     <!--    StarListDetailActivity-->
     <string name="ChangeStar">내별자리 변경</string>
-
-
 </resources>
