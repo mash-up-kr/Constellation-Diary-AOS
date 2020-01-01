@@ -5,18 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/listStarBox"
         android:layout_width="match_parent"
         android:layout_height="68dp"
         android:orientation="horizontal">
         <ImageView
-            android:id="@+id/list_star_image"
+            android:id="@+id/listStarImageIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_gravity="center_vertical"/>
 
         <TextView
-            android:id="@+id/list_star_name"
+            android:id="@+id/listStarNameTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="양자리"
@@ -28,7 +29,7 @@
             />
 
         <Button
-            android:id="@+id/list_next_btn"
+            android:id="@+id/listNextBtn"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginEnd="16dp"
