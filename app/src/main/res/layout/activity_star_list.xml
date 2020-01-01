@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/list_close_btn"
+            android:id="@+id/listCloseBtn"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="16dp"
@@ -35,7 +35,7 @@
         android:background="@color/white_two"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_rv"
+        android:id="@+id/listRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

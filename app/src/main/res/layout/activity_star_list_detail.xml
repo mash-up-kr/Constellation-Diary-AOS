@@ -10,14 +10,14 @@
     android:background="@drawable/fragment_rounded">
 
     <Button
-        android:id="@+id/btnBack"
+        android:id="@+id/detailStarBackBtn"
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_marginTop="10dp"
         android:layout_marginStart="16dp"
         android:background="@drawable/back"/>
     <TextView
-        android:id="@+id/tvStarName"
+        android:id="@+id/detailStarNameTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -51,6 +51,7 @@
                 android:layout_height="23.5dp"
                 android:background="@mipmap/ic_launcher_round"/>
             <TextView
+                android:id="@+id/detailStarLuckTV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center_horizontal"
@@ -71,6 +72,7 @@
                 android:layout_height="23.5dp"
                 android:background="@mipmap/ic_launcher_round"/>
             <TextView
+                android:id="@+id/detailStarLoveTV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center_horizontal"
@@ -91,6 +93,7 @@
                 android:layout_height="23.5dp"
                 android:background="@mipmap/ic_launcher_round"/>
             <TextView
+                android:id="@+id/detailStarHealthTV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center_horizontal"
@@ -111,6 +114,7 @@
                 android:layout_height="23.5dp"
                 android:background="@mipmap/ic_launcher_round"/>
             <TextView
+                android:id="@+id/detailStarTimeTV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="bottom|center_horizontal"
@@ -130,6 +134,7 @@
         android:layout_marginBottom="28dp"
         android:background="@color/white_three"/>
     <TextView
+        android:id="@+id/detailStarDateTV"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_width="match_parent"
@@ -146,6 +151,7 @@
         android:layout_weight="1"
         android:layout_marginTop="12dp">
         <TextView
+            android:id="@+id/detailStarDiaryTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineHeight="24sp"
@@ -169,7 +175,7 @@
         android:paddingRight="16dp"
         android:layout_weight="0">
         <Button
-            android:id="@+id/btnChangeStar"
+            android:id="@+id/detailStarChangeStarBtn"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_gravity="center"

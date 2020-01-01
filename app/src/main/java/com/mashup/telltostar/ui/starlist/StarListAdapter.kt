@@ -52,8 +52,8 @@ class StarListAdapter : RecyclerView.Adapter<StarListAdapter.StarListViewHolder>
     }
 
     class StarListViewHolder(view: View):RecyclerView.ViewHolder(view){
-        val starImage : ImageView = view.find(R.id.listStarImage) as ImageView
-        val starName : TextView = view.find(R.id.listStarName) as TextView
+        val starImage : ImageView = view.find(R.id.listStarImageIV) as ImageView
+        val starName : TextView = view.find(R.id.listStarNameTV) as TextView
         val starBox : LinearLayout = view.find(R.id.listStarBox) as LinearLayout
 
 
