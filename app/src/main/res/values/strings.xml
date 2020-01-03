@@ -46,6 +46,7 @@
     <string name="request_verification">인증하기</string>
     <string name="input_verification_number_forgot_id">메일로 전송된 인증번호를 입력해주세요.</string>
     <string name="input_verification_number_sign_up">인증번호를 입력해주세요.</string>
+    <string name="input_verification_number_again_sign_up">인증번호를 다시 입력해주세요.</string>
     <string name="complete_forgot_id">아이디 찾기 완료하기</string>
 
     <!--    StarListActivity-->

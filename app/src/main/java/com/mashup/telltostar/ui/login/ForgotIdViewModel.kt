@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit
 class ForgotIdViewModel {
     private val mCompositeDisposable = CompositeDisposable()
     val isEmailVerified = MutableLiveData<Boolean>(false)
+    val isEmailVerificationTried = MutableLiveData<Boolean>(false)
 
     fun requestEmailVerification(verificationNumber: String) {
         // TODO: 메일 인증 서버에 요청
@@ -32,6 +33,8 @@ class ForgotIdViewModel {
                     it.printStackTrace()
                 })
         )
+
+        isEmailVerificationTried.postValue(true)
     }
 
     fun clearCompositeDisposable() {

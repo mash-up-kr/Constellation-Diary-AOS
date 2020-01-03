@@ -124,11 +124,38 @@ class ForgotIdFragment : Fragment() {
     }
 
     private fun setViewModelObserver() {
-        mForgotIdViewModel.isEmailVerified.observe(this, Observer {
-            if (it) {
-                mRootView.forgotIdButton.text = getString(R.string.complete_forgot_id)
-                mRootView.verificationRequestButton.visibility = View.GONE
-                mRootView.verificationCompleteButton.visibility = View.VISIBLE
+        mForgotIdViewModel.isEmailVerified.observe(this, Observer { isVerified ->
+            mRootView.forgotIdButton.text =
+                if (isVerified) getString(R.string.complete_forgot_id)
+                else getString(R.string.next)
+
+            mRootView.verificationRequestButton.visibility =
+                if (isVerified) View.GONE
+                else View.VISIBLE
+            mRootView.verificationCompleteButton.visibility =
+                if (isVerified) View.VISIBLE
+                else View.GONE
+
+            mForgotIdViewModel.isEmailVerificationTried.value?.let { isVerificationTried ->
+                if (isVerificationTried) {
+                    activity?.let {
+                        if (isVerified) {
+                            mRootView.verificationNumberEditText.backgroundTintList = null
+                            mRootView.verificationNumberEditText.setTextColor(
+                                ContextCompat.getColor(it, android.R.color.black)
+                            )
+                        } else {
+                            mRootView.verificationNumberEditText.backgroundTintList =
+                                ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
+                            mRootView.verificationNumberEditText.setTextColor(
+                                ContextCompat.getColor(it, R.color.coral)
+                            )
+                        }
+                    }
+                    mRootView.inputVerificationNumberAgainWarningTextView.visibility =
+                        if (isVerified) View.GONE
+                        else View.VISIBLE
+                }
             }
         })
     }
