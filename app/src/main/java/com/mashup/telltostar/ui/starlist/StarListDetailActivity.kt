@@ -22,10 +22,10 @@ class StarListDetailActivity : AppCompatActivity() {
     }
 
     fun bindActivity(){
-        tvStarName.text = StarList().starName[pos]
+        detailStarNameTV.text = StarList().starName[pos]
     }
 
     fun btnBackClick(){
-        btnBack.setOnClickListener { finish() }
+        detailStarBackBtn.setOnClickListener { finish() }
     }
 }

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.telltostar.R
@@ -26,7 +27,7 @@ class StarListAdapter : RecyclerView.Adapter<StarListAdapter.StarListViewHolder>
         holder.starName.text = nameList[position]
         holder.starImage.setImageResource(imageList[position])
 
-        holder.nextBtn.setOnClickListener{
+        holder.starBox.setOnClickListener{
             if(position != RecyclerView.NO_POSITION){
                 if (mListener != null) {
                     mListener.onItemClick(it, position) ;
@@ -51,9 +52,9 @@ class StarListAdapter : RecyclerView.Adapter<StarListAdapter.StarListViewHolder>
     }
 
     class StarListViewHolder(view: View):RecyclerView.ViewHolder(view){
-        val starImage : ImageView = view.find(R.id.list_star_image) as ImageView
-        val starName : TextView = view.find(R.id.list_star_name) as TextView
-        val nextBtn : Button = view.find(R.id.list_next_btn) as Button
+        val starImage : ImageView = view.find(R.id.listStarImageIV) as ImageView
+        val starName : TextView = view.find(R.id.listStarNameTV) as TextView
+        val starBox : LinearLayout = view.find(R.id.listStarBox) as LinearLayout
 
 
     }
