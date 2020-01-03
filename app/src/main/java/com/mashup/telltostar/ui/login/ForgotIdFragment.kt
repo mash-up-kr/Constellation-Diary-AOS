@@ -94,7 +94,33 @@ class ForgotIdFragment : Fragment() {
     }
 
     private fun performNextButtonClick() {
-        mForgotIdViewModel.requestEmailVerification(mRootView.verificationNumberEditText.text.toString())
+        mForgotIdViewModel.isEmailVerified.value?.let { isVerified ->
+            if (isVerified) {
+
+            } else {
+                with((mRootView.verificationNumberEditText.text.isNullOrEmpty())) {
+                    activity?.let { activity ->
+                        mRootView.verificationNumberEditText.backgroundTintList =
+                            if (this)
+                                ColorStateList.valueOf(
+                                    ContextCompat.getColor(
+                                        activity,
+                                        R.color.coral
+                                    )
+                                )
+                            else
+                                null
+                    }
+                    mRootView.inputVerificationNumberWarningTextView.visibility =
+                        if (this) View.VISIBLE
+                        else View.GONE
+
+                    if (!this) {
+                        mForgotIdViewModel.requestEmailVerification(mRootView.verificationNumberEditText.text.toString())
+                    }
+                }
+            }
+        }
     }
 
     private fun setViewModelObserver() {
