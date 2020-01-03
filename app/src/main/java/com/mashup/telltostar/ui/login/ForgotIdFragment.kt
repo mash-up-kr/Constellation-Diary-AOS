@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.fragment_forgot_id.*
 import kotlinx.android.synthetic.main.fragment_forgot_id.view.*
 
 class ForgotIdFragment : Fragment() {
+    private lateinit var mRootView: View
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
 
     override fun onCreateView(
@@ -19,8 +20,9 @@ class ForgotIdFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_forgot_id, container, false)
+        mRootView = rootView
 
-        setListeners(rootView)
+        setListeners()
 
         return rootView
     }
@@ -29,16 +31,16 @@ class ForgotIdFragment : Fragment() {
         mFragmentListener = listener
     }
 
-    private fun setListeners(rootView: View) {
+    private fun setListeners() {
         with(activity as LoginActivity) {
-            rootView.arrowBackImageViewContainer.setOnClickListener {
+            mRootView.arrowBackImageViewContainer.setOnClickListener {
                 mFragmentListener.replaceFragment(
                     mLoginFragment,
                     R.anim.enter_from_left,
                     R.anim.exit_to_right
                 )
             }
-            rootView.verificationRequestButton.setOnClickListener {
+            mRootView.verificationRequestButton.setOnClickListener {
                 if (!emailEditText.text.isNullOrEmpty()) {
                     verificationNumberTextView.visibility = View.VISIBLE
                     verificationNumberEditText.visibility = View.VISIBLE
@@ -46,19 +48,19 @@ class ForgotIdFragment : Fragment() {
                         getString(R.string.request_again_verification_mail)
                 }
             }
-            rootView.emailEditText.setOnFocusChangeListener { v, hasFocus ->
+            mRootView.emailEditText.setOnFocusChangeListener { v, hasFocus ->
                 if (hasFocus) {
                     mFragmentListener.expandBottomSheet()
                 }
             }
-            rootView.verificationNumberEditText.addTextChangedListener {
-                rootView.disabledNextButton.visibility =
+            mRootView.verificationNumberEditText.addTextChangedListener {
+                mRootView.disabledNextButton.visibility =
                     if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
-                rootView.forgotIdButton.visibility =
+                mRootView.forgotIdButton.visibility =
                     if (it.isNullOrEmpty()) View.GONE
                     else View.VISIBLE
             }
-            rootView.forgotIdButton.setOnClickListener {
+            mRootView.forgotIdButton.setOnClickListener {
                 // TODO: 서버 통해 인증 요청, 인증 성공 시 "아이디 찾기 완료하기"로 텍스트 변경
             }
         }
