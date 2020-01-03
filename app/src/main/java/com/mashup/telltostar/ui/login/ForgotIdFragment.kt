@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.fragment_forgot_id.*
@@ -16,6 +17,9 @@ import kotlinx.android.synthetic.main.fragment_forgot_id.view.*
 class ForgotIdFragment : Fragment() {
     private lateinit var mRootView: View
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
+    private val mForgotIdViewModel by lazy {
+        ForgotIdViewModel()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +28,7 @@ class ForgotIdFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_forgot_id, container, false)
         mRootView = rootView
 
+        setViewModelObserver()
         setListeners()
 
         return rootView
@@ -89,7 +94,20 @@ class ForgotIdFragment : Fragment() {
     }
 
     private fun performNextButtonClick() {
-        // TODO: 서버 통해 인증 요청, 인증 성공 시 "아이디 찾기 완료하기"로 텍스트 변경
-        timber.log.Timber.d("performNextButtonClick()")
+        mForgotIdViewModel.requestEmailVerification(mRootView.verificationNumberEditText.text.toString())
+    }
+
+    private fun setViewModelObserver() {
+        mForgotIdViewModel.isEmailVerified.observe(this, Observer {
+            if (it) {
+                mRootView.forgotIdButton.text = getString(R.string.complete_forgot_id)
+            }
+        })
+    }
+
+    override fun onDestroy() {
+        mForgotIdViewModel.clearCompositeDisposable()
+
+        super.onDestroy()
     }
 }
