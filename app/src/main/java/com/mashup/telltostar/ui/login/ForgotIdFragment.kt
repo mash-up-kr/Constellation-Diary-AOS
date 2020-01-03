@@ -41,12 +41,7 @@ class ForgotIdFragment : Fragment() {
                 )
             }
             mRootView.verificationRequestButton.setOnClickListener {
-                if (!emailEditText.text.isNullOrEmpty()) {
-                    verificationNumberTextView.visibility = View.VISIBLE
-                    verificationNumberEditText.visibility = View.VISIBLE
-                    verificationRequestButton.text =
-                        getString(R.string.request_again_verification_mail)
-                }
+                performVerificationRequestButtonClick()
             }
             mRootView.emailEditText.setOnFocusChangeListener { v, hasFocus ->
                 if (hasFocus) {
@@ -68,12 +63,22 @@ class ForgotIdFragment : Fragment() {
                 }
             }
             mRootView.forgotIdButton.setOnClickListener {
-                // TODO: 서버 통해 인증 요청, 인증 성공 시 "아이디 찾기 완료하기"로 텍스트 변경
+                performNextButtonClick()
             }
         }
     }
 
+    private fun performVerificationRequestButtonClick() {
+        if (!emailEditText.text.isNullOrEmpty()) {
+            verificationNumberTextView.visibility = View.VISIBLE
+            verificationNumberEditText.visibility = View.VISIBLE
+            verificationRequestButton.text =
+                getString(R.string.request_again_verification_mail)
+        }
+    }
+
     private fun performNextButtonClick() {
+        // TODO: 서버 통해 인증 요청, 인증 성공 시 "아이디 찾기 완료하기"로 텍스트 변경
         timber.log.Timber.d("performNextButtonClick()")
     }
 }
