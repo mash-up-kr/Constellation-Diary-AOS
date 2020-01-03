@@ -60,9 +60,16 @@ class LoginFragment : Fragment() {
                     mFragmentListener.expandBottomSheet()
                 }
             }
-            mRootView.passwordEditText.setOnFocusChangeListener { v, hasFocus ->
-                if (hasFocus) {
-                    mFragmentListener.expandBottomSheet()
+            with(mRootView.passwordEditText) {
+                setOnFocusChangeListener { v, hasFocus ->
+                    if (hasFocus) {
+                        mFragmentListener.expandBottomSheet()
+                    }
+                }
+                setOnEditorActionListener { v, actionId, event ->
+                    performStartButtonClick()
+
+                    true
                 }
             }
         }
