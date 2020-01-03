@@ -101,6 +101,8 @@ class ForgotIdFragment : Fragment() {
         mForgotIdViewModel.isEmailVerified.observe(this, Observer {
             if (it) {
                 mRootView.forgotIdButton.text = getString(R.string.complete_forgot_id)
+                mRootView.verificationRequestButton.visibility = View.GONE
+                mRootView.verificationCompleteButton.visibility = View.VISIBLE
             }
         })
     }
