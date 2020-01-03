@@ -1,10 +1,12 @@
 package com.mashup.telltostar.ui.login
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 
 import com.mashup.telltostar.R
@@ -69,11 +71,20 @@ class ForgotIdFragment : Fragment() {
     }
 
     private fun performVerificationRequestButtonClick() {
-        if (!emailEditText.text.isNullOrEmpty()) {
-            verificationNumberTextView.visibility = View.VISIBLE
-            verificationNumberEditText.visibility = View.VISIBLE
-            verificationRequestButton.text =
-                getString(R.string.request_again_verification_mail)
+        with(emailEditText.text.isNullOrEmpty()) {
+            activity?.let {
+                mRootView.emailEditText.backgroundTintList =
+                    if (this)
+                        ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
+                    else
+                        null
+            }
+            mRootView.inputEmailWarningTextView.visibility = if (this) View.VISIBLE else View.GONE
+            mRootView.verificationNumberTextView.visibility = if (!this) View.VISIBLE else View.GONE
+            mRootView.verificationNumberEditText.visibility = if (!this) View.VISIBLE else View.GONE
+            mRootView.verificationRequestButton.text =
+                if (this) getString(R.string.request_verification_mail)
+                else getString(R.string.request_again_verification_mail)
         }
     }
 
