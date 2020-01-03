@@ -53,16 +53,27 @@ class ForgotIdFragment : Fragment() {
                     mFragmentListener.expandBottomSheet()
                 }
             }
-            mRootView.verificationNumberEditText.addTextChangedListener {
-                mRootView.disabledNextButton.visibility =
-                    if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
-                mRootView.forgotIdButton.visibility =
-                    if (it.isNullOrEmpty()) View.GONE
-                    else View.VISIBLE
+            with(mRootView.verificationNumberEditText) {
+                addTextChangedListener {
+                    mRootView.disabledNextButton.visibility =
+                        if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
+                    mRootView.forgotIdButton.visibility =
+                        if (it.isNullOrEmpty()) View.GONE
+                        else View.VISIBLE
+                }
+                setOnEditorActionListener { v, actionId, event ->
+                    performNextButtonClick()
+
+                    false
+                }
             }
             mRootView.forgotIdButton.setOnClickListener {
                 // TODO: 서버 통해 인증 요청, 인증 성공 시 "아이디 찾기 완료하기"로 텍스트 변경
             }
         }
+    }
+
+    private fun performNextButtonClick() {
+        timber.log.Timber.d("performNextButtonClick()")
     }
 }
