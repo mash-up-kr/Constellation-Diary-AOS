@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 
 class LoginFragment : Fragment() {
+    private lateinit var mRootView: View
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
 
     override fun onCreateView(
@@ -21,8 +22,9 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_login, container, false)
+        mRootView = rootView
 
-        setListeners(rootView)
+        setListeners()
 
         return rootView
     }
@@ -31,34 +33,34 @@ class LoginFragment : Fragment() {
         mFragmentListener = listener
     }
 
-    private fun setListeners(rootView: View) {
+    private fun setListeners() {
         with(activity as LoginActivity) {
-            rootView.signUpTextViewContainer.setOnClickListener {
+            mRootView.signUpTextViewContainer.setOnClickListener {
                 mFragmentListener.replaceFragment(
                     mSignUpFragment,
                     R.anim.enter_from_right,
                     R.anim.exit_to_left
                 )
             }
-            rootView.forgotIdTextViewContainer.setOnClickListener {
+            mRootView.forgotIdTextViewContainer.setOnClickListener {
                 mFragmentListener.replaceFragment(
                     mForgotIdFragment,
                     R.anim.enter_from_right,
                     R.anim.exit_to_left
                 )
             }
-            rootView.closeImageViewContainer.setOnClickListener {
+            mRootView.closeImageViewContainer.setOnClickListener {
                 mFragmentListener.closeBottomSheet()
             }
-            rootView.startStarStarDiaryButton.setOnClickListener {
+            mRootView.startStarStarDiaryButton.setOnClickListener {
                 performStartButtonClick()
             }
-            rootView.idEditText.setOnFocusChangeListener { v, hasFocus ->
+            mRootView.idEditText.setOnFocusChangeListener { v, hasFocus ->
                 if (hasFocus) {
                     mFragmentListener.expandBottomSheet()
                 }
             }
-            rootView.passwordEditText.setOnFocusChangeListener { v, hasFocus ->
+            mRootView.passwordEditText.setOnFocusChangeListener { v, hasFocus ->
                 if (hasFocus) {
                     mFragmentListener.expandBottomSheet()
                 }
