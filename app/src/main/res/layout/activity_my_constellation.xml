@@ -1,56 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_main"
+    android:backgroundTint="#4D000000"
+    android:backgroundTintMode="src_atop"
     tools:context=".ui.myconstellation.MyConstellationActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.yarolegovich.discretescrollview.DiscreteScrollView
+        android:id="@+id/customScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#66000000">
+        android:layout_height="340dp"
+        app:dsv_orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/btnMyConstellationStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.37" />
 
-        <TextView
-            android:id="@+id/myConstellationTitleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="104dp"
-            android:text="@string/title_my_constellation"
-            android:textColor="@android:color/white"
-            android:textSize="26sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/btnMyConstellationStart"
+        style="@style/ButtonWhite"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/start_star_star"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_constellation"
-            android:layout_width="match_parent"
-            android:layout_height="341.5dp"
-            android:layout_marginTop="26dp"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:paddingStart="80dp"
-            android:paddingEnd="80dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/myConstellationTitleTextView" />
-
-        <Button
-            android:id="@+id/loginSingUpButton"
-            android:layout_width="328dp"
-            android:layout_height="52dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/custom_corner_navy_button"
-            android:letterSpacing="-0.05"
-            android:lineSpacingExtra="8sp"
-            android:onClick="onClick"
-            android:text="@string/start_star_star"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

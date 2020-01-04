@@ -1,43 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardBackgroundColor="#99393939"
-        app:cardCornerRadius="10dp" />
+    android:id="@+id/cvItemConstellationParent"
+    android:layout_width="226dp"
+    android:layout_height="340dp"
+    app:cardBackgroundColor="#27292d"
+    app:cardCornerRadius="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/constellationName"
+        <LinearLayout
+            android:id="@+id/llItemConstellationTextParent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="무슨자리" />
+            tools:visibility="visible">
 
-        <TextView
-            android:id="@+id/constellationDuration"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/ivItemConstellationIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@color/white_four" />
+
+            <TextView
+                android:id="@+id/tvItemConstellationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/greyish_two"
+                android:textSize="12sp"
+                tools:text="별자리" />
+
+            <TextView
+                android:id="@+id/tvItemConstellationDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#707070"
+                android:textSize="10sp"
+                tools:text="August 23~September 22" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivItemConstellation"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="8.23 - 9. 22"
-            android:textColor="@android:color/white"
-            android:textSize="13sp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_margin="10dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/temp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constellationName"
-            tools:text="8.23 - 9. 22" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/viewItemConstellationOverlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+
+
+</androidx.cardview.widget.CardView>
