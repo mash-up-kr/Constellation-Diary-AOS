@@ -9,6 +9,9 @@
     <string name="setting">설정</string>
     <string name="write_diary">일기작성</string>
     <string name="edit_diary">일기수정</string>
+    <string name="write_feedback">피드백 주기</string>
+    <string name="logout">로그아웃</string>
+    <string name="setting_push">푸시 알림 설정</string>
 
     <!-- MainActivity -->
     <string name="main_question_title">오늘 하루\n어떠셨나요?</string>
@@ -42,7 +45,7 @@
     <string name="mail_verification_complete">메일 인증 완료</string>
     <string name="request_again_verification_mail">인증 다시 받기</string>
     <string name="input_phone_number">가입 시 입력했던 핸드폰 번호를 입력해주세요.</string>
-<!--    <string name="input_verification_number">메일로 전송된 인증번호를 입력해주세요.</string>-->
+    <!--    <string name="input_verification_number">메일로 전송된 인증번호를 입력해주세요.</string>-->
     <string name="input_verification_number">인증번호를 입력해주세요.</string>
 
     <!--    StarListActivity-->
@@ -50,4 +53,9 @@
 
     <!--    StarListDetailActivity-->
     <string name="ChangeStar">내별자리 변경</string>
+
+    <!-- Setting -->
+    <string name="setting_am_push_title">오전 운세 알림 -</string>
+    <string name="setting_pm_push_title">오후 질문 알림</string>
+
 </resources>

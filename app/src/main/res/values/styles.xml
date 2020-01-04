@@ -27,4 +27,9 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="SwitchBlackWhiteTheme">
+        <item name="android:track">@drawable/switch_black_track_selector</item>
+        <item name="android:thumb">@drawable/switch_white_thumb</item>
+    </style>
+
 </resources>

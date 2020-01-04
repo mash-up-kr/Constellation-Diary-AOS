@@ -2,4 +2,7 @@
 <resources>
     <dimen name="pageMargin">12dp</dimen>
     <dimen name="offset">5dp</dimen>
+
+    <dimen name="setting_item_start_margin">15dp</dimen>
+    <dimen name="setting_item_end_margin">16dp</dimen>
 </resources>
