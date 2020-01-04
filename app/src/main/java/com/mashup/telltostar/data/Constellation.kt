@@ -5,6 +5,8 @@ import com.mashup.telltostar.data.source.local.entity.DiaryEntity
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Constellation(val name: String) : Parcelable
+data class Constellation(
+    val name: String
+) : Parcelable
 
 fun Constellation.mapToEntity() = DiaryEntity.ConstellationEntity(name = name)

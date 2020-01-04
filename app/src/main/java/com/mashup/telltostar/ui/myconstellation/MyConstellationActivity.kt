@@ -1,9 +1,7 @@
 package com.mashup.telltostar.ui.myconstellation
 
-import android.animation.ArgbEvaluator
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Constellation
 import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationAdapter
@@ -45,20 +43,6 @@ class MyConstellationActivity : AppCompatActivity(),
         }
     }
 
-    private val evaluator = ArgbEvaluator()
-    private val currentOverlayColor by lazy {
-        ContextCompat.getColor(
-            this,
-            R.color.constellationCurrentItemOverlay
-        )
-    }
-    private val overlayColor by lazy {
-        ContextCompat.getColor(
-            this,
-            R.color.constellationItemOverlay
-        )
-    }
-
     private fun initCustomView() {
 
         with(customScrollView) {
@@ -84,12 +68,11 @@ class MyConstellationActivity : AppCompatActivity(),
         }
     }
 
-
     override fun onScrollStart(
         holder: ConstellationAdapter.ConstellationViewHolder,
         adapterPosition: Int
     ) {
-        holder.hideText()
+        //holder.hideText()
     }
 
     override fun onScroll(
@@ -101,8 +84,6 @@ class MyConstellationActivity : AppCompatActivity(),
     ) {
         if (currentHolder != null && newCurrent != null) {
             val position = Math.abs(currentPosition)
-            //currentHolder.setOverlayColor(interpolate(position, currentOverlayColor, overlayColor))
-            //newCurrent.setOverlayColor(interpolate(position, overlayColor, currentOverlayColor))
         }
     }
 
@@ -118,11 +99,7 @@ class MyConstellationActivity : AppCompatActivity(),
         holder: ConstellationAdapter.ConstellationViewHolder?,
         adapterPosition: Int
     ) {
-        //viewHolder?.setOverlayColor(currentOverlayColor)
-        holder?.showText()
+        //holder?.showText()
     }
 
-    private fun interpolate(fraction: Float, c1: Int, c2: Int): Int {
-        return evaluator.evaluate(fraction, c1, c2) as Int
-    }
 }

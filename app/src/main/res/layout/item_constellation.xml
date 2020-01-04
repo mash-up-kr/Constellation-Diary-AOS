@@ -16,11 +16,9 @@
             android:id="@+id/llItemConstellationTextParent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="18dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +28,8 @@
                 android:id="@+id/ivItemConstellationIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:background="@color/white_four" />
+                android:tint="@color/white"
+                tools:src="@drawable/star_hwangso" />
 
             <TextView
                 android:id="@+id/tvItemConstellationTitle"
@@ -55,23 +54,11 @@
             android:id="@+id/ivItemConstellation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_margin="10dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/temp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <FrameLayout
-            android:id="@+id/viewItemConstellationOverlay"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/llItemConstellationTextParent"
+            tools:src="@drawable/star_img_hwangso" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -3,11 +3,9 @@ package com.mashup.telltostar.ui.myconstellation.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.telltostar.R
@@ -51,15 +49,11 @@ class ConstellationAdapter :
 
         private val constellation: ImageView = itemView.findViewById(R.id.ivItemConstellation)
 
-        private val overly: FrameLayout = itemView.findViewById(R.id.viewItemConstellationOverlay)
-
-        fun bind(constellation: Constellation) {
-            topTitle.text = constellation.name
-            topDate.text = "August 23~September 22"
-        }
-
-        fun setOverlayColor(@ColorInt color: Int) {
-            overly.setBackgroundColor(color)
+        fun bind(item: Constellation) {
+            topIcon.setImageResource(R.drawable.star_girl)
+            topTitle.text = itemView.resources.getString(R.string.girl)
+            topDate.text = itemView.resources.getString(R.string.date_girl)
+            constellation.setImageResource(R.drawable.star_img_girl)
         }
 
         fun showText() {
