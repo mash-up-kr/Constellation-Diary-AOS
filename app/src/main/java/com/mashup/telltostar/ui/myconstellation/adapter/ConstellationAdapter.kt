@@ -50,7 +50,7 @@ class ConstellationAdapter :
         private val constellation: ImageView = itemView.findViewById(R.id.ivItemConstellation)
 
         fun bind(item: Constellation) {
-            topIcon.setImageResource(R.drawable.star_girl)
+            topIcon.setImageResource(R.drawable.star_ic_girl)
             topTitle.text = itemView.resources.getString(R.string.girl)
             topDate.text = itemView.resources.getString(R.string.date_girl)
             constellation.setImageResource(R.drawable.star_img_girl)
