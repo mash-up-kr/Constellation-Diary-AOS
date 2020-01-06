@@ -93,6 +93,7 @@ class EmailVerificationFragment(
                     mRootView.emailVerifiedImageView.visibility = View.GONE
                 }
 
+                mRootView.emailEditText.isEnabled = !isEmailVerified
                 mRootView.inputVerificationNumberWarningTextView.visibility =
                     if (isEmailVerified) View.GONE
                     else View.VISIBLE
