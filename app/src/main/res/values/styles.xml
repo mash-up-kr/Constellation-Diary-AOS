@@ -1,10 +1,10 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -18,4 +18,18 @@
         <item name="colorAccent">@android:color/black</item>
         <item name="colorControlNormal">@color/silver</item>
     </style>
+
+    <style name="ButtonWhite" parent="@android:style/Widget.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:background">@drawable/custom_corner_button</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="SwitchBlackWhiteTheme">
+        <item name="android:track">@drawable/switch_black_track_selector</item>
+        <item name="android:thumb">@drawable/switch_white_thumb</item>
+    </style>
+
 </resources>
