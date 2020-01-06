@@ -1,5 +1,6 @@
 package com.mashup.telltostar.ui.login
 
+import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit
  */
 object EmailVerificationViewModel {
     private const val TIMEOUT = 180L
+    val isEmailPattern = MutableLiveData<Boolean>()
     val isEmailSend = MutableLiveData<Boolean>(false)
     val isEmailVerified = MutableLiveData<Boolean>(false)
     val mInputVerificationNumber = MutableLiveData<String>()
@@ -30,30 +32,38 @@ object EmailVerificationViewModel {
         getIntervalObservable()
     }
 
-    fun requestVerificationNumber() {
-        clearDisposable()
+    fun requestVerificationNumber(inputEmail: String) {
+        if (isEmailPattern(inputEmail)) {
+            isEmailPattern.postValue(true)
+            clearDisposable()
 
-        isEmailVerified.postValue(false)
-        mCompositeDisposable.add(
-            mIntervalObservable
-                .map {
-                    getConvertedTime(it)
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    timber.log.Timber.d("onNext()")
-                    timber.log.Timber.d(it)
+            isEmailVerified.postValue(false)
+            mCompositeDisposable.add(
+                mIntervalObservable
+                    .map {
+                        getConvertedTime(it)
+                    }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        timber.log.Timber.d("onNext()")
+                        timber.log.Timber.d(it)
 
-                    mRemainTime.postValue(it)
-                }, {
+                        mRemainTime.postValue(it)
+                    }, {
 
-                }, {
+                    }, {
 
-                })
-        )
+                    })
+            )
 
-        isEmailSend.postValue(true)
+            isEmailSend.postValue(true)
+        } else {
+            isEmailPattern.postValue(false)
+        }
     }
+
+    private fun isEmailPattern(inputEmail: String) =
+        Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
 
     fun requestEmailVerification() {
         mCompositeDisposable.add(

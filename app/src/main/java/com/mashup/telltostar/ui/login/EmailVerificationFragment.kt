@@ -1,6 +1,7 @@
 package com.mashup.telltostar.ui.login
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,9 +13,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
-import kotlinx.android.synthetic.main.fragment_email_verification.*
 import kotlinx.android.synthetic.main.fragment_email_verification.view.*
-import kotlinx.android.synthetic.main.fragment_signup.*
 
 class EmailVerificationFragment(
     private val mFragmentListener: LoginActivity.FragmentListener
@@ -36,11 +35,10 @@ class EmailVerificationFragment(
 
     private fun setListeners() {
         mRootView.verificationRequestButton.setOnClickListener {
-            mRootView.verificationRequestButton.visibility = View.GONE
-            EmailVerificationViewModel.requestVerificationNumber()
+            EmailVerificationViewModel.requestVerificationNumber(mRootView.emailEditText.text.toString())
         }
         mRootView.verificationRequestAgainButton.setOnClickListener {
-            EmailVerificationViewModel.requestVerificationNumber()
+            EmailVerificationViewModel.requestVerificationNumber(mRootView.emailEditText.text.toString())
         }
         mRootView.emailEditText.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
@@ -66,6 +64,20 @@ class EmailVerificationFragment(
 
     private fun setViewModelObserver() {
         with(EmailVerificationViewModel) {
+            isEmailPattern.observe(this@EmailVerificationFragment, Observer { isEmailPattern ->
+                mRootView.verificationRequestButton.visibility =
+                    if (isEmailPattern) View.GONE
+                    else View.VISIBLE
+                mRootView.inputEmailWarningTextView.visibility =
+                    if (isEmailPattern) View.GONE
+                    else View.VISIBLE
+
+                activity?.let {
+                    mRootView.emailEditText.backgroundTintList =
+                        if (isEmailPattern) null
+                        else ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
+                }
+            })
             mRemainTime.observe(this@EmailVerificationFragment, Observer {
                 mRootView.verificationTimeoutTextView.text = it
             })
