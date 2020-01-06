@@ -81,8 +81,8 @@ class EmailVerificationFragment(
             mRemainTime.observe(this@EmailVerificationFragment, Observer {
                 mRootView.verificationTimeoutTextView.text = it
             })
-            isEmailVerified.observe(this@EmailVerificationFragment, Observer {
-                if (it) {
+            isEmailVerified.observe(this@EmailVerificationFragment, Observer { isEmailVerified ->
+                if (isEmailVerified) {
                     mRootView.emailVerifiedImageView.visibility = View.VISIBLE
                     mRootView.verificationRequestAgainButton.visibility = View.GONE
                     mRootView.verificationNumberTextView.visibility = View.GONE
@@ -91,6 +91,16 @@ class EmailVerificationFragment(
                     clearDisposable()
                 } else {
                     mRootView.emailVerifiedImageView.visibility = View.GONE
+                }
+
+                mRootView.inputVerificationNumberWarningTextView.visibility =
+                    if (isEmailVerified) View.GONE
+                    else View.VISIBLE
+
+                activity?.let {
+                    mRootView.verificationNumberEditText.backgroundTintList =
+                        if (isEmailVerified) null
+                        else ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
                 }
             })
             isEmailSend.observe(this@EmailVerificationFragment, Observer {

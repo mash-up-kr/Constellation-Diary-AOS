@@ -24,7 +24,7 @@ object EmailVerificationViewModel {
     private const val TIMEOUT = 180L
     val isEmailPattern = MutableLiveData<Boolean>()
     val isEmailSend = MutableLiveData<Boolean>(false)
-    val isEmailVerified = MutableLiveData<Boolean>(false)
+    val isEmailVerified = MutableLiveData<Boolean>()
     val mInputVerificationNumber = MutableLiveData<String>()
     val mRemainTime = MutableLiveData<String>()
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -37,7 +37,6 @@ object EmailVerificationViewModel {
             isEmailPattern.postValue(true)
             clearDisposable()
 
-            isEmailVerified.postValue(false)
             mCompositeDisposable.add(
                 mIntervalObservable
                     .map {
@@ -65,7 +64,7 @@ object EmailVerificationViewModel {
     private fun isEmailPattern(inputEmail: String) =
         Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
 
-    fun requestEmailVerification() {
+    fun requestEmailVerification(verificationNumber: String) {
         mCompositeDisposable.add(
             getRequestVerificationSingle()
                 .subscribeOn(Schedulers.io())

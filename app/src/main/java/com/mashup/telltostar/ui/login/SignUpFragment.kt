@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
+import kotlinx.android.synthetic.main.fragment_email_verification.*
 import kotlinx.android.synthetic.main.fragment_id_register.*
 import kotlinx.android.synthetic.main.fragment_signup.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
@@ -51,11 +52,19 @@ class SignUpFragment : Fragment() {
                 )
             }
             rootView.nextSignUpButton.setOnClickListener {
-                EmailVerificationViewModel.isEmailVerified.value?.let {
-                    if (it) {
-                        performSignUpButtonClick()
-                    } else {
-                        EmailVerificationViewModel.requestEmailVerification()
+                EmailVerificationViewModel.isEmailSend.value?.let { isEmailSend ->
+                    if (isEmailSend) {
+                        EmailVerificationViewModel.isEmailVerified.value?.let { isEmailVerified ->
+                            if (isEmailVerified) {
+                                performSignUpButtonClick()
+                            } else {
+                                EmailVerificationViewModel.requestEmailVerification(
+                                    mEmailVerificationFragment.verificationNumberEditText.text.toString()
+                                )
+                            }
+                        } ?: EmailVerificationViewModel.requestEmailVerification(
+                            mEmailVerificationFragment.verificationNumberEditText.text.toString()
+                        )
                     }
                 }
             }

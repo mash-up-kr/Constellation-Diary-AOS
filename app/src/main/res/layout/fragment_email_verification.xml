@@ -117,6 +117,18 @@
         app:layout_constraintTop_toBottomOf="@+id/verificationNumberTextView"
         tools:visibility="visible" />
 
+    <TextView
+        android:id="@+id/inputVerificationNumberWarningTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/input_verification_number_again_sign_up"
+        android:textColor="@color/coral"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/verificationNumberEditText"
+        app:layout_constraintTop_toBottomOf="@+id/verificationNumberEditText"
+        tools:visibility="visible" />
+
     <Button
         android:id="@+id/verificationRequestAgainButton"
         android:layout_width="76dp"
