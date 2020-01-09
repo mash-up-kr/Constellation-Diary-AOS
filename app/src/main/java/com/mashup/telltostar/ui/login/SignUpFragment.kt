@@ -59,11 +59,13 @@ class SignUpFragment : Fragment() {
                                 performSignUpButtonClick()
                             } else {
                                 EmailVerificationViewModel.requestEmailVerification(
-                                    mEmailVerificationFragment.verificationNumberEditText.text.toString()
+                                    mEmailVerificationFragment.emailEditText.text.toString(),
+                                    mEmailVerificationFragment.verificationNumberEditText.text.toString().toInt()
                                 )
                             }
                         } ?: EmailVerificationViewModel.requestEmailVerification(
-                            mEmailVerificationFragment.verificationNumberEditText.text.toString()
+                            mEmailVerificationFragment.emailEditText.text.toString(),
+                            mEmailVerificationFragment.verificationNumberEditText.text.toString().toInt()
                         )
                     }
                 }

@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiProvider {
 
-    private const val baseUrl = "https://api.github.com/"
+    private const val baseUrl = "https://byeol-byeol.kro.kr/"
 
     fun provideDiaryApi(): DiaryApi = Retrofit.Builder()
         .baseUrl(baseUrl)
@@ -17,6 +17,14 @@ object ApiProvider {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(DiaryApi::class.java)
+
+    fun provideAuthenticationNumberApi() = Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .client(provideOkHttpClient(provideLoggingInterceptor()))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(AuthenticationNumberApi::class.java)
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)

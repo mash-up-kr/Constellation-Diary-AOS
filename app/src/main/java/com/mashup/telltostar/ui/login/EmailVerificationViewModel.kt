@@ -2,6 +2,9 @@ package com.mashup.telltostar.ui.login
 
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
+import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.data.source.remote.ReqAuthenticationNumbers
+import com.mashup.telltostar.data.source.remote.ReqValidationNumber
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -54,8 +57,24 @@ object EmailVerificationViewModel {
 
                     })
             )
-
-            isEmailSend.postValue(true)
+            mCompositeDisposable.add(
+                ApiProvider
+                    .provideAuthenticationNumberApi()
+                    .authenticationNumbers(
+                        ReqAuthenticationNumbers(inputEmail)
+                    )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        timber.log.Timber.d("onComplete()")
+                        // TODO: 인증 메일 발송 여부 표출
+                        isEmailSend.postValue(true)
+                    }, {
+                        timber.log.Timber.d("onError()")
+                        isEmailPattern.postValue(false)
+                        it.printStackTrace()
+                    })
+            )
         } else {
             isEmailPattern.postValue(false)
         }
@@ -64,21 +83,20 @@ object EmailVerificationViewModel {
     private fun isEmailPattern(inputEmail: String) =
         Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
 
-    fun requestEmailVerification(verificationNumber: String) {
+    fun requestEmailVerification(inputEmail: String, verificationNumber: Int) {
         mCompositeDisposable.add(
-            getRequestVerificationSingle()
+            ApiProvider
+                .provideAuthenticationNumberApi()
+                .authentication(ReqValidationNumber(inputEmail, verificationNumber))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    timber.log.Timber.d("$it")
-
-                    if (it == 0) {
-                        isEmailVerified.postValue(false)
-                    } else {
-                        isEmailVerified.postValue(true)
-                    }
+                    timber.log.Timber.d("onSuccess()")
+                    timber.log.Timber.d(it.toString())
+                    isEmailVerified.postValue(true)
                 }, {
-
+                    timber.log.Timber.d("onComplete()")
+                    it.printStackTrace()
                 })
         )
     }
