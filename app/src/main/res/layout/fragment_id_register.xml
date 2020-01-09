@@ -24,6 +24,8 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/input_id"
+        android:imeOptions="actionNext"
+        android:inputType="text"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
         android:theme="@style/EditTextTheme"
@@ -61,12 +63,43 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/input_password"
+        android:imeOptions="actionNext"
+        android:inputType="textPassword"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
         android:theme="@style/EditTextTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/idTextView"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextView" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/passwordEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/passwordEditText">
+
+        <ImageView
+            android:id="@+id/passwordVisibilityImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:src="@drawable/ic_visibility_black"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/passwordInvisibilityImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:src="@drawable/ic_visibility_white"
+            android:visibility="visible" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/inputPasswordWarningTextView"
@@ -98,12 +131,45 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/input_confirm_password"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
         android:theme="@style/EditTextTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/idTextView"
         app:layout_constraintTop_toBottomOf="@+id/passwordConfirmTextView" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/passwordConfirmEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/passwordConfirmEditText">
+
+        <ImageView
+            android:id="@+id/passwordConfirmVisibilityImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:clickable="false"
+            android:src="@drawable/ic_visibility_black"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/passwordConfirmInvisibilityImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:clickable="false"
+            android:src="@drawable/ic_visibility_white"
+            android:visibility="visible" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/inputPasswordConfirmWarningTextView"
