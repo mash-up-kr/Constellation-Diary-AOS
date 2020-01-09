@@ -53,25 +53,9 @@ class SignUpFragment : Fragment() {
                 )
             }
             mRootView.nextSignUpButton.setOnClickListener {
-                EmailVerificationViewModel.isEmailSend.value?.let { isEmailSend ->
-                    if (isEmailSend) {
-                        EmailVerificationViewModel.isEmailVerified.value?.let { isEmailVerified ->
-                            if (isEmailVerified) {
-                                performSignUpButtonClick()
-                            } else {
-                                EmailVerificationViewModel.requestEmailVerification(
-                                    mEmailVerificationFragment.emailEditText.text.toString(),
-                                    mEmailVerificationFragment.verificationNumberEditText.text.toString().toInt()
-                                )
-                            }
-                        } ?: EmailVerificationViewModel.requestEmailVerification(
-                            mEmailVerificationFragment.emailEditText.text.toString(),
-                            mEmailVerificationFragment.verificationNumberEditText.text.toString().toInt()
-                        )
-                    }
-                }
+                performNextSignUpButtonClick()
             }
-            mRootView.loginSignUpButton.setOnClickListener {
+            mRootView.startStarStarDiaryButton.setOnClickListener {
                 performSignUpButtonClick()
             }
         }
@@ -140,11 +124,33 @@ class SignUpFragment : Fragment() {
             ?.commit()
     }
 
+    private fun performNextSignUpButtonClick() {
+        EmailVerificationViewModel.isEmailSend.value?.let { isEmailSend ->
+            if (isEmailSend) {
+                EmailVerificationViewModel.isEmailVerified.value?.let { isEmailVerified ->
+                    if (isEmailVerified) {
+                        performSignUpButtonClick()
+                    } else {
+                        EmailVerificationViewModel.requestEmailVerification(
+                            mEmailVerificationFragment.emailEditText.text.toString(),
+                            mEmailVerificationFragment.verificationNumberEditText.text.toString().toInt()
+                        )
+                    }
+                } ?: EmailVerificationViewModel.requestEmailVerification(
+                    mEmailVerificationFragment.emailEditText.text.toString(),
+                    mEmailVerificationFragment.verificationNumberEditText.text.toString().toInt()
+                )
+            }
+        }
+    }
+
     private fun performSignUpButtonClick() {
         if (mEmailVerificationFragment.isVisible) {
             replaceFragment(mIdRegisterFragment, R.anim.enter_from_right, R.anim.exit_to_left)
             EmailVerificationViewModel.clearDisposable()
             mRootView.signUpStepTextView.text = getString(R.string.sign_up_step_2)
+            mRootView.startStarStarDiaryButton.visibility = View.VISIBLE
+            mRootView.nextSignUpButton.visibility = View.GONE
         } else {
             with(mIdRegisterFragment) {
                 if (this.idEditText.text.isNullOrEmpty()) {
