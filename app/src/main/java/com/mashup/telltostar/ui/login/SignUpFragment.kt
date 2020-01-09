@@ -13,10 +13,10 @@ import androidx.lifecycle.Observer
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.fragment_email_verification.*
 import kotlinx.android.synthetic.main.fragment_id_register.*
-import kotlinx.android.synthetic.main.fragment_signup.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 
 class SignUpFragment : Fragment() {
+    private lateinit var mRootView: View
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
     private lateinit var mEmailVerificationFragment: EmailVerificationFragment
     private val mIdRegisterFragment by lazy {
@@ -29,10 +29,11 @@ class SignUpFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_signup, container, false)
 
+        mRootView = rootView
         mEmailVerificationFragment = EmailVerificationFragment(mFragmentListener)
 
-        setListeners(rootView)
-        setViewModelObserver(rootView)
+        setListeners()
+        setViewModelObserver(mRootView)
         replaceFragment(mEmailVerificationFragment)
 
         return rootView
@@ -42,16 +43,16 @@ class SignUpFragment : Fragment() {
         mFragmentListener = listener
     }
 
-    private fun setListeners(rootView: View) {
+    private fun setListeners() {
         with(activity as LoginActivity) {
-            rootView.arrowBackImageViewContainer.setOnClickListener {
+            mRootView.arrowBackImageViewContainer.setOnClickListener {
                 mFragmentListener.replaceFragment(
                     mLoginFragment,
                     R.anim.enter_from_left,
                     R.anim.exit_to_right
                 )
             }
-            rootView.nextSignUpButton.setOnClickListener {
+            mRootView.nextSignUpButton.setOnClickListener {
                 EmailVerificationViewModel.isEmailSend.value?.let { isEmailSend ->
                     if (isEmailSend) {
                         EmailVerificationViewModel.isEmailVerified.value?.let { isEmailVerified ->
@@ -70,16 +71,16 @@ class SignUpFragment : Fragment() {
                     }
                 }
             }
-            rootView.loginSignUpButton.setOnClickListener {
+            mRootView.loginSignUpButton.setOnClickListener {
                 performSignUpButtonClick()
             }
         }
     }
 
-    private fun setViewModelObserver(rootView: View) {
+    private fun setViewModelObserver(mRootView: View) {
         EmailVerificationViewModel.mInputVerificationNumber.observe(this@SignUpFragment, Observer {
             if (it.length >= 6) {
-                with(rootView.nextSignUpButton) {
+                with(mRootView.nextSignUpButton) {
                     isEnabled = true
                     background = ContextCompat.getDrawable(
                         context,
@@ -93,7 +94,7 @@ class SignUpFragment : Fragment() {
                     )
                 }
             } else {
-                with(rootView.nextSignUpButton) {
+                with(mRootView.nextSignUpButton) {
                     isEnabled = false
                     background = ContextCompat.getDrawable(
                         context,
@@ -110,7 +111,7 @@ class SignUpFragment : Fragment() {
         })
         EmailVerificationViewModel.isEmailVerified.observe(this@SignUpFragment, Observer {
             if (it) {
-                with(rootView.nextSignUpButton) {
+                with(mRootView.nextSignUpButton) {
                     background = ContextCompat.getDrawable(
                         context,
                         R.drawable.custom_corner_navy_button
@@ -143,7 +144,7 @@ class SignUpFragment : Fragment() {
         if (mEmailVerificationFragment.isVisible) {
             replaceFragment(mIdRegisterFragment, R.anim.enter_from_right, R.anim.exit_to_left)
             EmailVerificationViewModel.clearDisposable()
-            signUpStepTextView.text = getString(R.string.sign_up_step_2)
+            mRootView.signUpStepTextView.text = getString(R.string.sign_up_step_2)
         } else {
             with(mIdRegisterFragment) {
                 if (this.idEditText.text.isNullOrEmpty()) {
