@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.IdRegisterFragment">
+    tools:context=".ui.login.IdRegistrationFragment">
 
     <TextView
         android:id="@+id/idTextView"
@@ -64,7 +64,7 @@
         android:layout_marginEnd="16dp"
         android:hint="@string/input_password"
         android:imeOptions="actionNext"
-        android:inputType="textPassword"
+        android:inputType="text"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
         android:theme="@style/EditTextTheme"
@@ -132,7 +132,6 @@
         android:layout_marginEnd="16dp"
         android:hint="@string/input_confirm_password"
         android:imeOptions="actionDone"
-        android:inputType="textPassword"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
         android:theme="@style/EditTextTheme"

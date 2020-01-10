@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.fragment_email_verification.*
-import kotlinx.android.synthetic.main.fragment_id_register.*
+import kotlinx.android.synthetic.main.fragment_id_registration.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 
 class SignUpFragment : Fragment() {
@@ -20,7 +20,7 @@ class SignUpFragment : Fragment() {
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
     private lateinit var mEmailVerificationFragment: EmailVerificationFragment
     private val mIdRegisterFragment by lazy {
-        IdRegisterFragment()
+        IdRegistrationFragment()
     }
 
     override fun onCreateView(
