@@ -24,6 +24,9 @@ class IdRegistrationFragment : Fragment() {
     private val mCompositeDisposable by lazy {
         CompositeDisposable()
     }
+    private val mPasswordTransformationMethod by lazy {
+        CustomPasswordTransformationMethod()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,12 +103,12 @@ class IdRegistrationFragment : Fragment() {
         IdRegistrationViewModel.isPasswordVisible.observe(this, Observer {
             mRootView.passwordEditText.transformationMethod =
                 if (it) HideReturnsTransformationMethod.getInstance()
-                else PasswordTransformationMethod.getInstance()
+                else mPasswordTransformationMethod
         })
         IdRegistrationViewModel.isConfirmPasswordVisible.observe(this, Observer {
             mRootView.passwordConfirmEditText.transformationMethod =
                 if (it) HideReturnsTransformationMethod.getInstance()
-                else PasswordTransformationMethod.getInstance()
+                else mPasswordTransformationMethod
         })
     }
 
