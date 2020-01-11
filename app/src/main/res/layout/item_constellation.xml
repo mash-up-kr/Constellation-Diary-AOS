@@ -28,8 +28,7 @@
                 android:id="@+id/ivItemConstellationIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:tint="@color/white"
-                tools:src="@drawable/star_hwangso" />
+                tools:src="@drawable/star_ic_hwangso" />
 
             <TextView
                 android:id="@+id/tvItemConstellationTitle"
