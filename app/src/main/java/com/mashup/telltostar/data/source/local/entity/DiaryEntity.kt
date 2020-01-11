@@ -1,5 +1,6 @@
 package com.mashup.telltostar.data.source.local.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -20,7 +21,7 @@ data class DiaryEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val title: String,
-    val contents: String,
+    @ColumnInfo(name = "diary_contents") val contents: String,
     val date: Long, // unixTime
     val constellation: String, // "황소자리"
 
