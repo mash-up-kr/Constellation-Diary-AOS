@@ -3,7 +3,6 @@ package com.mashup.telltostar.ui.myconstellation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mashup.telltostar.R
-import com.mashup.telltostar.data.Constellation
 import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationAdapter
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.InfiniteScrollAdapter
@@ -24,17 +23,6 @@ class MyConstellationActivity : AppCompatActivity(),
 
         initButton()
         initCustomView()
-
-        constellationAdapter.replaceAll(
-            listOf(
-                Constellation("별자리1"),
-                Constellation("별자리2"),
-                Constellation("별자리3"),
-                Constellation("별자리4"),
-                Constellation("별자리5"),
-                Constellation("별자리6")
-            )
-        )
     }
 
     private fun initButton() {

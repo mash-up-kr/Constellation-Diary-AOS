@@ -9,12 +9,11 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.telltostar.R
-import com.mashup.telltostar.data.Constellation
 
 class ConstellationAdapter :
     RecyclerView.Adapter<ConstellationAdapter.ConstellationViewHolder>() {
 
-    private val items = mutableListOf<Constellation>()
+    private val items = mutableListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConstellationViewHolder =
         ConstellationViewHolder(
@@ -31,7 +30,7 @@ class ConstellationAdapter :
         holder.bind(items[position])
     }
 
-    fun replaceAll(items: List<Constellation>) {
+    fun replaceAll(items: List<String>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
@@ -49,8 +48,8 @@ class ConstellationAdapter :
 
         private val constellation: ImageView = itemView.findViewById(R.id.ivItemConstellation)
 
-        fun bind(item: Constellation) {
-            topIcon.setImageResource(R.drawable.star_girl)
+        fun bind(item: String) {
+            topIcon.setImageResource(R.drawable.star_ic_girl)
             topTitle.text = itemView.resources.getString(R.string.girl)
             topDate.text = itemView.resources.getString(R.string.date_girl)
             constellation.setImageResource(R.drawable.star_img_girl)

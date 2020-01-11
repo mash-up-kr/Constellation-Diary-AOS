@@ -10,7 +10,8 @@ data class Diary(
     val title: String,
     val contents: String,
     val date: Long,
-    val constellation: Constellation
+    val constellation: String,
+    val horoscope: Horoscope
 ) : Parcelable
 
 fun Diary.mapToEntity() = DiaryEntity(
@@ -18,5 +19,6 @@ fun Diary.mapToEntity() = DiaryEntity(
     title = title,
     contents = contents,
     date = date,
-    constellation = constellation.mapToEntity()
+    constellation = constellation,
+    horoscope = horoscope.mapToEntity()
 )
