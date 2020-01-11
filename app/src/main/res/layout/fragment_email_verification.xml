@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.login.EmailVerificationFragment">
+
+    <TextView
+        android:id="@+id/emailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/email"
+        android:textColor="@color/greyish_brown"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/input_email"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:theme="@style/EditTextTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/emailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
+
+    <Button
+        android:id="@+id/verificationRequestButton"
+        android:layout_width="76dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corner_navy_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="5sp"
+        android:stateListAnimator="@null"
+        android:text="@string/request_verification_mail"
+        android:textColor="@android:color/white"
+        android:textSize="10.5sp"
+        app:layout_constraintBottom_toBottomOf="@id/emailEditText"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/emailVerifiedImageView"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_check_circle"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/emailEditText"
+        app:layout_constraintEnd_toEndOf="@+id/emailEditText"
+        app:layout_constraintTop_toTopOf="@+id/emailEditText"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/inputEmailWarningTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/input_email"
+        android:textColor="@color/coral"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/emailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/verificationNumberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="31dp"
+        android:text="@string/verification_number"
+        android:textColor="@color/greyish_brown"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/emailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/verificationTimeoutTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/orange_red"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/verificationNumberTextView"
+        app:layout_constraintStart_toEndOf="@+id/verificationNumberTextView"
+        app:layout_constraintTop_toTopOf="@+id/verificationNumberTextView"
+        tools:text="02:59"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/verificationNumberEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/input_verification_number_sign_up"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:theme="@style/EditTextTheme"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/emailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/verificationNumberTextView"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/inputVerificationNumberWarningTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/input_verification_number_again_sign_up"
+        android:textColor="@color/coral"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/verificationNumberEditText"
+        app:layout_constraintTop_toBottomOf="@+id/verificationNumberEditText"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/verificationRequestAgainButton"
+        android:layout_width="76dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corner_navy_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="5sp"
+        android:stateListAnimator="@null"
+        android:text="@string/request_again_verification_mail"
+        android:textColor="@android:color/white"
+        android:textSize="10.5sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/verificationNumberEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible" />
+</androidx.constraintlayout.widget.ConstraintLayout>

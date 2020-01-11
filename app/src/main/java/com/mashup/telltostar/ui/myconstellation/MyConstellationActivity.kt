@@ -1,59 +1,93 @@
 package com.mashup.telltostar.ui.myconstellation
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import androidx.viewpager2.widget.ViewPager2
+import androidx.appcompat.app.AppCompatActivity
 import com.mashup.telltostar.R
-import com.mashup.telltostar.data.Constellation
-import com.mashup.telltostar.ui.main.MainActivity
-import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationPagerAdapter
+import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationAdapter
+import com.yarolegovich.discretescrollview.DiscreteScrollView
+import com.yarolegovich.discretescrollview.InfiniteScrollAdapter
+import com.yarolegovich.discretescrollview.transform.Pivot
+import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.activity_my_constellation.*
+import org.jetbrains.anko.toast
 
-class MyConstellationActivity : AppCompatActivity() {
-    private val mPageChangeCallback: ViewPager2.OnPageChangeCallback by lazy {
-        object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
+class MyConstellationActivity : AppCompatActivity(),
+    DiscreteScrollView.ScrollStateChangeListener<ConstellationAdapter.ConstellationViewHolder>,
+    DiscreteScrollView.OnItemChangedListener<ConstellationAdapter.ConstellationViewHolder> {
 
-            }
-        }
-    }
+    private val constellationAdapter by lazy { ConstellationAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_constellation)
 
-        vp_constellation.apply {
-            adapter = ConstellationPagerAdapter(getSampleConstellationList())
-            offscreenPageLimit = 3
-            registerOnPageChangeCallback(mPageChangeCallback)
-            setPageTransformer { page, position ->
-                val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.pageMargin)
-                val offsetPx = resources.getDimensionPixelOffset(R.dimen.offset)
-                val offset = position * (2 * offsetPx + pageMarginPx)
+        initButton()
+        initCustomView()
+    }
 
-                page.translationX = offset
-            }
+    private fun initButton() {
+        btnMyConstellationStart.setOnClickListener {
+            toast("next")
         }
     }
 
-    private fun getSampleConstellationList() =
-        mutableListOf(
-            Constellation("양자리"),
-            Constellation("황소자리"),
-            Constellation("물병자리"),
-            Constellation("무엇자리")
-        )
+    private fun initCustomView() {
 
-    fun onClick(view: View) {
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
+        with(customScrollView) {
+            //adapter = constellationAdapter
+
+            //infinite scroll
+            adapter = InfiniteScrollAdapter.wrap(constellationAdapter)
+
+            setOffscreenItems(3)
+            setOverScrollEnabled(false)
+
+            setItemTransformer(
+                ScaleTransformer.Builder()
+                    .setMaxScale(1.0f)
+                    .setMinScale(0.8f)
+                    .setPivotX(Pivot.X.CENTER)
+                    .setPivotY(Pivot.Y.CENTER)
+                    .build()
+            )
+
+            addScrollStateChangeListener(this@MyConstellationActivity)
+            addOnItemChangedListener(this@MyConstellationActivity)
+        }
     }
 
-    override fun onDestroy() {
-        vp_constellation.unregisterOnPageChangeCallback(mPageChangeCallback)
-
-        super.onDestroy()
+    override fun onScrollStart(
+        holder: ConstellationAdapter.ConstellationViewHolder,
+        adapterPosition: Int
+    ) {
+        //holder.hideText()
     }
+
+    override fun onScroll(
+        currentPosition: Float,
+        currentIndex: Int,
+        newIndex: Int,
+        currentHolder: ConstellationAdapter.ConstellationViewHolder?,
+        newCurrent: ConstellationAdapter.ConstellationViewHolder?
+    ) {
+        if (currentHolder != null && newCurrent != null) {
+            val position = Math.abs(currentPosition)
+        }
+    }
+
+    override fun onScrollEnd(
+        holder: ConstellationAdapter.ConstellationViewHolder,
+        adapterPosition: Int
+    ) {
+
+    }
+
+
+    override fun onCurrentItemChanged(
+        holder: ConstellationAdapter.ConstellationViewHolder?,
+        adapterPosition: Int
+    ) {
+        //holder?.showText()
+    }
+
 }

@@ -9,16 +9,21 @@
     <color name="greyish_brown">#505050</color>
     <color name="white_three">#EDEDED</color>
     <color name="greyish_two">#A8A8A8</color>
+    <color name="black">#000000</color>
     <color name="black_two">#111111</color>
     <color name="white_four">#E6E6E6</color>
     <color name="silver">#d4d4d8</color>
     <color name="dark_sky_ble">#3e87e4</color>
     <color name="coral">#ff4444</color>
-    <color name="navy">#031b4c</color>]
+    <color name="navy">#031b4c</color>
     <color name="white_two">#f8f8f8</color>
     <color name="white">#ffffff</color>
     <color name="very_light_pink">#d1d1d1</color>
     <color name="brown_grey">#a3a3a3</color>
     <color name="very_light_pink_two">#cecece</color>
     <color name="pinkish_grey">#bcbcbc</color>
+    <color name="orange_red">#ff2929</color>
+    <color name="constellationCurrentItemOverlay">@android:color/transparent</color>
+    <color name="constellationItemOverlay">#cc000000</color>
+    <color name="grayIconTint">#727272</color>
 </resources>

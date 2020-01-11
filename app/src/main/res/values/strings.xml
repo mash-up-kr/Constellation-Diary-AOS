@@ -9,6 +9,35 @@
     <string name="setting">설정</string>
     <string name="write_diary">일기작성</string>
     <string name="edit_diary">일기수정</string>
+    <string name="write_feedback">피드백 주기</string>
+    <string name="logout">로그아웃</string>
+    <string name="setting_push">푸시 알림 설정</string>
+
+    <string name="yang">양자리</string>
+    <string name="chunching">천칭자리</string>
+    <string name="hwangso">황소자리</string>
+    <string name="jungal">전갈자리</string>
+    <string name="twin">쌍둥이자리</string>
+    <string name="gungso">궁수자리</string>
+    <string name="crab">게자리</string>
+    <string name="goat">염소자리</string>
+    <string name="lion">사자자리</string>
+    <string name="waterbottle">물병자리</string>
+    <string name="girl">처녀자리</string>
+    <string name="fish">물고기자리</string>
+
+    <string name="date_yang">March 21~April 21</string>
+    <string name="date_chunching">September 23~October 22</string>
+    <string name="date_hwangso">April 21~May 20</string>
+    <string name="date_jungal">October 23~November 21</string>
+    <string name="date_twin">May 21~June 21</string>
+    <string name="date_gungso">November 22~December 20</string>
+    <string name="date_crab">June 22~July 22</string>
+    <string name="date_goat">December 21~January 19</string>
+    <string name="date_lion">July 23~August 22</string>
+    <string name="date_waterbottle">January 20~February 18</string>
+    <string name="date_girl">August 23~September 22</string>
+    <string name="date_fish">February 19~March 20</string>
 
     <!-- MainActivity -->
     <string name="main_question_title">오늘 하루\n어떠셨나요?</string>
@@ -32,6 +61,7 @@
     <string name="input_confirm_password">비밀번호를 다시 입력해주세요.</string>
     <string name="sign_up">회원가입</string>
     <string name="sign_up_step_1">1/2</string>
+    <string name="sign_up_step_2">2/2</string>
     <string name="next">다음</string>
     <string name="forgot_id">아이디 찾기</string>
     <string name="email">이메일</string>
@@ -42,7 +72,11 @@
     <string name="mail_verification_complete">메일 인증 완료</string>
     <string name="request_again_verification_mail">인증 다시 받기</string>
     <string name="input_phone_number">가입 시 입력했던 핸드폰 번호를 입력해주세요.</string>
-    <!--    <string name="input_verification_number">메일로 전송된 인증번호를 입력해주세요.</string>-->
+    <string name="request_verification">인증하기</string>
+    <string name="input_verification_number_forgot_id">메일로 전송된 인증번호를 입력해주세요.</string>
+    <string name="input_verification_number_sign_up">인증번호를 입력해주세요.</string>
+    <string name="input_verification_number_again_sign_up">인증번호를 다시 입력해주세요.</string>
+    <string name="complete_forgot_id">아이디 찾기 완료하기</string>
     <string name="input_verification_number">인증번호를 입력해주세요.</string>
 
     <!--    StarListActivity-->
@@ -54,5 +88,9 @@
     <!--    DiaryListActivity-->
     <string name="diary_list">일기장</string>
     <string name="select">선택</string>
+
+    <!-- Setting -->
+    <string name="setting_am_push_title">오전 운세 알림 -</string>
+    <string name="setting_pm_push_title">오후 질문 알림</string>
 
 </resources>
