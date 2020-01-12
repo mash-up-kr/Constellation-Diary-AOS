@@ -1,6 +1,10 @@
 package com.mashup.telltostar.ui.login
 
 import androidx.lifecycle.MutableLiveData
+import com.mashup.telltostar.data.source.remote.ApiProvider
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by hclee on 2020-01-10.
@@ -13,7 +17,10 @@ object IdRegistrationViewModel {
     val isInputIdWarningTextViewVisible = MutableLiveData<Boolean>()
     val isInputPasswordWarningTextViewVisible = MutableLiveData<Boolean>()
     val isInputConfirmPasswordWarningTextViewVisible = MutableLiveData<Boolean>()
-    val isValidId = MutableLiveData<Boolean>()
+    val isValidId = MutableLiveData<Boolean>(false)
+    private val mCompositeDisposable by lazy {
+        CompositeDisposable()
+    }
 
     fun requestPasswordVisible() {
         isPasswordVisible.postValue(true)
@@ -40,7 +47,18 @@ object IdRegistrationViewModel {
             isTwoPasswordIdentical.postValue(password == confirmPassword)
 
             if (password == confirmPassword) {
-
+                mCompositeDisposable.add(
+                    ApiProvider
+                        .provideUserApi()
+                        .check(id)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            isValidId.postValue(true)
+                        }, {
+                            isValidId.postValue(false)
+                        })
+                )
             }
         }
     }

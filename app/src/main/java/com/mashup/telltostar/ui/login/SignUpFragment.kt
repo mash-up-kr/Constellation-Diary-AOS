@@ -107,6 +107,24 @@ class SignUpFragment : Fragment() {
                 }
             }
         })
+        IdRegistrationViewModel.isValidId.observe(this, Observer { isValidId ->
+            context?.let { context ->
+                with(mRootView.startStarStarDiaryButton) {
+                    if (isValidId) {
+                        background =
+                            ContextCompat.getDrawable(context, R.drawable.custom_corner_navy_button)
+                        setTextColor(ContextCompat.getColor(context, R.color.white))
+                    } else {
+                        background =
+                            ContextCompat.getDrawable(
+                                context,
+                                R.drawable.custom_corner_silver_button
+                            )
+                        setTextColor(ContextCompat.getColor(context, R.color.brownish_grey_two))
+                    }
+                }
+            }
+        })
     }
 
     private fun replaceFragment(
