@@ -183,4 +183,16 @@
         app:layout_constraintStart_toStartOf="@+id/passwordConfirmEditText"
         app:layout_constraintTop_toBottomOf="@+id/passwordConfirmEditText"
         tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/inputPasswordNotIdenticalWarningTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/not_identical_password"
+        android:textColor="@color/coral"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/passwordConfirmEditText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmEditText"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

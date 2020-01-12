@@ -59,6 +59,7 @@
     <string name="input_password">비밀번호를 입력해주세요.</string>
     <string name="confirm_password">비밀번호 확인</string>
     <string name="input_confirm_password">비밀번호를 다시 입력해주세요.</string>
+    <string name="not_identical_password">비밀번호가 일치하지 않습니다. 다시 입력해 주세요.</string>
     <string name="sign_up">회원가입</string>
     <string name="sign_up_step_1">1/2</string>
     <string name="sign_up_step_2">2/2</string>

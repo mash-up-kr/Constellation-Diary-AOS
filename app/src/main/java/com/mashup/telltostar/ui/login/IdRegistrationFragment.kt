@@ -1,13 +1,14 @@
 package com.mashup.telltostar.ui.login
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
@@ -110,6 +111,65 @@ class IdRegistrationFragment : Fragment() {
                 if (it) HideReturnsTransformationMethod.getInstance()
                 else mPasswordTransformationMethod
         })
+
+        activity?.let { activity ->
+            IdRegistrationViewModel.isInputIdWarningTextViewVisible.observe(this, Observer {
+                if (it) mRootView.inputIdWarningTextView.visibility = View.VISIBLE
+                else mRootView.inputIdWarningTextView.visibility = View.GONE
+
+                mRootView.idEditText.backgroundTintList =
+                    if (it)
+                        ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
+                    else
+                        null
+            })
+            IdRegistrationViewModel.isInputPasswordWarningTextViewVisible.observe(this, Observer {
+                if (it) mRootView.inputPasswordWarningTextView.visibility = View.VISIBLE
+                else mRootView.inputPasswordWarningTextView.visibility = View.GONE
+
+                mRootView.passwordEditText.backgroundTintList =
+                    if (it)
+                        ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
+                    else
+                        null
+            })
+            IdRegistrationViewModel.isInputConfirmPasswordWarningTextViewVisible.observe(
+                this,
+                Observer {
+                    if (it) {
+                        mRootView.inputPasswordConfirmWarningTextView.visibility = View.VISIBLE
+                        mRootView.inputPasswordNotIdenticalWarningTextView.visibility = View.GONE
+                    } else {
+                        mRootView.inputPasswordConfirmWarningTextView.visibility = View.GONE
+                        mRootView.inputPasswordNotIdenticalWarningTextView.visibility = View.VISIBLE
+                    }
+
+                    mRootView.passwordConfirmEditText.backgroundTintList =
+                        if (it)
+                            ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
+                        else
+                            null
+                })
+            IdRegistrationViewModel.isTwoPasswordIdentical.observe(this, Observer { isIdentical ->
+                mRootView.inputPasswordNotIdenticalWarningTextView.visibility =
+                    if (isIdentical) View.GONE
+                    else View.VISIBLE
+
+                mRootView.passwordConfirmEditText.backgroundTintList =
+                    if (isIdentical)
+                        null
+                    else
+                        ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
+            })
+        }
+    }
+
+    fun performStartStarStarDiaryButtonClick() {
+        IdRegistrationViewModel.requestCheckIdValid(
+            mRootView.idEditText.text.toString(),
+            mRootView.passwordEditText.text.toString(),
+            mRootView.passwordConfirmEditText.text.toString()
+        )
     }
 
     override fun onDestroyView() {
