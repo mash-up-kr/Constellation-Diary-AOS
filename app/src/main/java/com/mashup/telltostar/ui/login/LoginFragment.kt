@@ -1,21 +1,23 @@
 package com.mashup.telltostar.ui.login
 
 import android.content.res.ColorStateList
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 
 class LoginFragment : Fragment() {
     private lateinit var mRootView: View
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
+    private val mLoginViewModel by lazy {
+        LoginViewModel()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +27,7 @@ class LoginFragment : Fragment() {
         mRootView = rootView
 
         setListeners()
+        setViewModelObserver()
 
         return rootView
     }
@@ -75,29 +78,42 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun performStartButtonClick() {
-        if (idEditText.text.isNullOrEmpty()) {
-            idEditText.backgroundTintList =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                    ColorStateList.valueOf(resources.getColor(R.color.coral, null))
-                else
-                    ColorStateList.valueOf(resources.getColor(R.color.coral))
-            inputIdWarningTextView.visibility = View.VISIBLE
-        } else {
-            idEditText.backgroundTintList = null
-            inputIdWarningTextView.visibility = View.GONE
+    private fun setViewModelObserver() {
+        with(mLoginViewModel) {
+            context?.let { context ->
+                isInputIdWarningTextViewVisible.observe(this@LoginFragment, Observer {
+                    if (it) {
+                        mRootView.idEditText.backgroundTintList =
+                            ColorStateList.valueOf(ContextCompat.getColor(context, R.color.coral))
+                        mRootView.inputIdWarningTextView.visibility = View.VISIBLE
+                    } else {
+                        mRootView.idEditText.backgroundTintList = null
+                        mRootView.inputIdWarningTextView.visibility = View.GONE
+                    }
+                })
+                isInputPasswordWarningTextViewVisible.observe(this@LoginFragment, Observer {
+                    if (it) {
+                        mRootView.passwordEditText.backgroundTintList =
+                            ColorStateList.valueOf(ContextCompat.getColor(context, R.color.coral))
+                        mRootView.inputPasswordWarningTextView.visibility = View.VISIBLE
+                    } else {
+                        mRootView.passwordEditText.backgroundTintList = null
+                        mRootView.inputPasswordWarningTextView.visibility = View.GONE
+                    }
+                })
+                isLoggedIn.observe(this@LoginFragment, Observer {
+                    if (it) {
+                        timber.log.Timber.d("login success")
+                    }
+                })
+            }
         }
+    }
 
-        if (passwordEditText.text.isNullOrEmpty()) {
-            passwordEditText.backgroundTintList =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                    ColorStateList.valueOf(resources.getColor(R.color.coral, null))
-                else
-                    ColorStateList.valueOf(resources.getColor(R.color.coral))
-            inputPasswordWarningTextView.visibility = View.VISIBLE
-        } else {
-            passwordEditText.backgroundTintList = null
-            inputPasswordWarningTextView.visibility = View.GONE
-        }
+    private fun performStartButtonClick() {
+        mLoginViewModel.requestLogin(
+            mRootView.idEditText.text.toString(),
+            mRootView.passwordEditText.text.toString()
+        )
     }
 }
