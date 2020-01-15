@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
+import com.mashup.telltostar.util.VibratorUtil
 import kotlinx.android.synthetic.main.fragment_login.view.*
 
 class LoginFragment : Fragment() {
@@ -83,6 +84,7 @@ class LoginFragment : Fragment() {
             context?.let { context ->
                 isInputIdWarningTextViewVisible.observe(this@LoginFragment, Observer {
                     if (it) {
+                        VibratorUtil.vibrate(mRootView.context)
                         mRootView.idEditText.backgroundTintList =
                             ColorStateList.valueOf(ContextCompat.getColor(context, R.color.coral))
                         mRootView.inputIdWarningTextView.visibility = View.VISIBLE
@@ -93,6 +95,7 @@ class LoginFragment : Fragment() {
                 })
                 isInputPasswordWarningTextViewVisible.observe(this@LoginFragment, Observer {
                     if (it) {
+                        VibratorUtil.vibrate(mRootView.context)
                         mRootView.passwordEditText.backgroundTintList =
                             ColorStateList.valueOf(ContextCompat.getColor(context, R.color.coral))
                         mRootView.inputPasswordWarningTextView.visibility = View.VISIBLE
