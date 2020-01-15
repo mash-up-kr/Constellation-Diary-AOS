@@ -64,6 +64,7 @@
     <string name="sign_up_step_1">1/2</string>
     <string name="sign_up_step_2">2/2</string>
     <string name="next">다음</string>
+    <string name="forgot_id_password">아이디 / 비밀번호 찾기</string>
     <string name="forgot_id">아이디 찾기</string>
     <string name="email">이메일</string>
     <string name="input_email">이메일 주소를 입력해주세요.</string>
