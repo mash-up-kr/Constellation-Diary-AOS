@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.util.VibratorUtil
+import kotlinx.android.synthetic.main.dialog_forgot_id_password.view.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 
 class LoginFragment : Fragment() {
@@ -47,11 +49,7 @@ class LoginFragment : Fragment() {
                 )
             }
             mRootView.forgotIdTextViewContainer.setOnClickListener {
-                mFragmentListener.replaceFragment(
-                    mForgotIdFragment,
-                    R.anim.enter_from_right,
-                    R.anim.exit_to_left
-                )
+                performForgotIdPasswordTextViewClick()
             }
             mRootView.closeImageViewContainer.setOnClickListener {
                 mFragmentListener.closeBottomSheet()
@@ -118,5 +116,32 @@ class LoginFragment : Fragment() {
             mRootView.idEditText.text.toString(),
             mRootView.passwordEditText.text.toString()
         )
+    }
+
+    private fun performForgotIdPasswordTextViewClick() {
+        val dialog = AlertDialog
+            .Builder(mRootView.context)
+            .create()
+        val dialogView =
+            LayoutInflater
+                .from(mRootView.context)
+                .inflate(R.layout.dialog_forgot_id_password, null).apply {
+                    this.forgotIdPasswordDialogIdTextView.setOnClickListener {
+                        mFragmentListener.replaceFragment(
+                            (activity as LoginActivity).mForgotIdFragment,
+                            R.anim.enter_from_right,
+                            R.anim.exit_to_left
+                        )
+                        dialog.dismiss()
+                    }
+                    this.forgotIdPasswordDialogPasswordTextView.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                }
+
+        dialog.also {
+            it.setView(dialogView)
+            it.show()
+        }
     }
 }

@@ -80,6 +80,9 @@
     <string name="input_verification_number_again_sign_up">인증번호를 다시 입력해주세요.</string>
     <string name="complete_forgot_id">아이디 찾기 완료하기</string>
     <string name="input_verification_number">인증번호를 입력해주세요.</string>
+    <string name="forgot_id_password_dialog_title">Info</string>
+    <string name="forgot_id_password_dialog_id">아이디를 찾고싶어요.</string>
+    <string name="forgot_id_password_dialog_password">비밀번호를 찾고싶어요.</string>
 
     <!--    StarListActivity-->
     <string name="Constellation">별자리</string>
