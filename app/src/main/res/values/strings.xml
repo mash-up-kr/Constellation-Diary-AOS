@@ -88,7 +88,8 @@
     <string name="forgot_id_password_dialog_id">아이디를 찾고싶어요.</string>
     <string name="forgot_id_password_dialog_password">비밀번호를 찾고싶어요.</string>
     <string name="request_verification_number">인증번호 받기</string>
-    <string name="reset_password">비밀번호 재설정</string>
+    <string name="reset_password">비밀번호 재설정</string>기
+    <string name="request_verification_number_again">다시받기</string>
 
     <!--    StarListActivity-->
     <string name="Constellation">별자리</string>
