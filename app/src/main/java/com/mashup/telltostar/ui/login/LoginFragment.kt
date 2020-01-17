@@ -135,6 +135,12 @@ class LoginFragment : Fragment() {
                         dialog.dismiss()
                     }
                     this.forgotIdPasswordDialogPasswordTextView.setOnClickListener {
+                        mFragmentListener.replaceFragment(
+                            (activity as LoginActivity).mForgotPasswordFragment,
+                            R.anim.enter_from_right,
+                            R.anim.exit_to_left
+                        )
+
                         dialog.dismiss()
                     }
                 }

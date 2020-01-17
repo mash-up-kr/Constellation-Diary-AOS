@@ -73,6 +73,10 @@
     <string name="request_verification_mail">인증 메일 받기</string>
     <string name="mail_verification_complete">메일 인증 완료</string>
     <string name="request_again_verification_mail">인증 다시 받기</string>
+    <string name="forgot_pasword">비밀번호 찾기</string>
+    <string name="check_id">아이디를 확인해주세요.</string>
+    <string name="example_email">example@email.com</string>
+    <string name="check_email">이메일을 확인해주세요.</string>
     <string name="input_phone_number">가입 시 입력했던 핸드폰 번호를 입력해주세요.</string>
     <string name="request_verification">인증하기</string>
     <string name="input_verification_number_forgot_id">메일로 전송된 인증번호를 입력해주세요.</string>
@@ -83,6 +87,8 @@
     <string name="forgot_id_password_dialog_title">Info</string>
     <string name="forgot_id_password_dialog_id">아이디를 찾고싶어요.</string>
     <string name="forgot_id_password_dialog_password">비밀번호를 찾고싶어요.</string>
+    <string name="request_verification_number">인증번호 받기</string>
+    <string name="reset_password">비밀번호 재설정</string>
 
     <!--    StarListActivity-->
     <string name="Constellation">별자리</string>

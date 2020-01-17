@@ -37,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var mLoginFragment: LoginFragment
     lateinit var mSignUpFragment: SignUpFragment
     lateinit var mForgotIdFragment: ForgotIdFragment
+    lateinit var mForgotPasswordFragment: ForgotPasswordFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +53,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initForgotIdFragment() = ForgotIdFragment().apply {
+        setFragmentListener(mFragmentListener)
+    }
+
+    private fun initForgotPasswordFragment() = ForgotPasswordFragment().apply {
         setFragmentListener(mFragmentListener)
     }
 
@@ -76,6 +81,7 @@ class LoginActivity : AppCompatActivity() {
         mLoginFragment = initLoginFragment()
         mSignUpFragment = initSignUpFragment()
         mForgotIdFragment = initForgotIdFragment()
+        mForgotPasswordFragment = initForgotPasswordFragment()
         mBottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
