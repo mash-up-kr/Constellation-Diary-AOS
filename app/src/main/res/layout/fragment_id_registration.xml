@@ -33,6 +33,22 @@
         app:layout_constraintStart_toStartOf="@id/idTextView"
         app:layout_constraintTop_toBottomOf="@+id/idTextView" />
 
+    <Button
+        android:id="@+id/idDuplicationCheckButton"
+        android:layout_width="61.5dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/rounded_corner_sky_blue_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="6.5sp"
+        android:stateListAnimator="@null"
+        android:text="@string/id_duplication_check"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/idEditText"
+        app:layout_constraintEnd_toEndOf="@id/idEditText"
+        app:layout_constraintTop_toTopOf="@+id/idEditText" />
+
     <TextView
         android:id="@+id/inputIdWarningTextView"
         android:layout_width="wrap_content"

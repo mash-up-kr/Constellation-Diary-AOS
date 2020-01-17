@@ -44,6 +44,9 @@ class IdRegistrationFragment : Fragment() {
     }
 
     private fun setListeners() {
+        mRootView.idDuplicationCheckButton.setOnClickListener {
+            IdRegistrationViewModel.requestCheckIdDuplication(mRootView.idEditText.text.toString())
+        }
         mRootView.passwordVisibilityImageView.setOnClickListener {
             performVisibilityImageViewClick()
         }

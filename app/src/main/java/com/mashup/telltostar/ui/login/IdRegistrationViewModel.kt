@@ -2,6 +2,7 @@ package com.mashup.telltostar.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import com.mashup.telltostar.data.source.remote.ApiProvider
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -36,6 +37,26 @@ object IdRegistrationViewModel {
 
     fun requestConfirmPasswordInvisible() {
         isConfirmPasswordVisible.postValue(false)
+    }
+
+    fun requestCheckIdDuplication(id: String) {
+        if (id.isNotEmpty()) {
+            mCompositeDisposable.add(
+                ApiProvider
+                    .provideUserApi()
+                    .check(id)
+                    .subscribeOn(Schedulers.io())
+                    .flatMap {
+                        Single.just(it.available)
+                    }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+
+                    }, {
+                        it.printStackTrace()
+                    })
+            )
+        }
     }
 
     fun requestCheckIdValid(id: String, password: String, confirmPassword: String) {
