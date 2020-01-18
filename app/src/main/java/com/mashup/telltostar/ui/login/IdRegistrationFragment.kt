@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
+import com.mashup.telltostar.util.VibratorUtil
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -125,6 +126,10 @@ class IdRegistrationFragment : Fragment() {
                         ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
                     else
                         null
+
+                if (it) {
+                    vibrate()
+                }
             })
             IdRegistrationViewModel.isInputPasswordWarningTextViewVisible.observe(this, Observer {
                 if (it) mRootView.inputPasswordWarningTextView.visibility = View.VISIBLE
@@ -135,6 +140,10 @@ class IdRegistrationFragment : Fragment() {
                         ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
                     else
                         null
+
+                if (it) {
+                    vibrate()
+                }
             })
             IdRegistrationViewModel.isInputConfirmPasswordWarningTextViewVisible.observe(
                 this,
@@ -152,6 +161,10 @@ class IdRegistrationFragment : Fragment() {
                             ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
                         else
                             null
+
+                    if (it) {
+                        vibrate()
+                    }
                 })
             IdRegistrationViewModel.isTwoPasswordIdentical.observe(this, Observer { isIdentical ->
                 mRootView.inputPasswordNotIdenticalWarningTextView.visibility =
@@ -163,6 +176,10 @@ class IdRegistrationFragment : Fragment() {
                         null
                     else
                         ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
+
+                if (!isIdentical) {
+                    vibrate()
+                }
             })
         }
     }
@@ -173,6 +190,12 @@ class IdRegistrationFragment : Fragment() {
             mRootView.passwordEditText.text.toString(),
             mRootView.passwordConfirmEditText.text.toString()
         )
+    }
+
+    private fun vibrate() {
+        context?.let {
+            VibratorUtil.vibrate(it)
+        }
     }
 
     override fun onDestroyView() {
