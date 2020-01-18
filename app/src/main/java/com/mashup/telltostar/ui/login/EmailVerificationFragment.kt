@@ -13,6 +13,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
+import com.mashup.telltostar.util.VibratorUtil
 import kotlinx.android.synthetic.main.fragment_email_verification.view.*
 
 class EmailVerificationFragment(
@@ -65,12 +66,17 @@ class EmailVerificationFragment(
     private fun setViewModelObserver() {
         with(EmailVerificationViewModel) {
             isEmailPattern.observe(this@EmailVerificationFragment, Observer { isEmailPattern ->
-                mRootView.verificationRequestButton.visibility =
-                    if (isEmailPattern) View.GONE
-                    else View.VISIBLE
-                mRootView.inputEmailWarningTextView.visibility =
-                    if (isEmailPattern) View.GONE
-                    else View.VISIBLE
+                if (isEmailPattern) {
+                    mRootView.verificationRequestButton.visibility = View.GONE
+                    mRootView.inputEmailWarningTextView.visibility = View.GONE
+                } else {
+                    mRootView.verificationRequestButton.visibility = View.VISIBLE
+                    mRootView.inputEmailWarningTextView.visibility = View.VISIBLE
+
+                    context?.let {
+                        VibratorUtil.vibrate(it)
+                    }
+                }
 
                 activity?.let {
                     mRootView.emailEditText.backgroundTintList =
