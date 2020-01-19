@@ -21,7 +21,6 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.DiaryListViewHolde
     override fun onBindViewHolder(holder: DiaryListViewHolder, position: Int) {
         diaryList[position].let{item ->
             holder.let{
-                it.diaryContent.text = item.contents
                 it.diaryDate.text = item.date.toString()
                 it.diaryDay.text = item.date.toString()
                 it.diaryTitle.text = item.title
@@ -37,7 +36,6 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.DiaryListViewHolde
         val diaryDate :TextView = view.findViewById(R.id.diaryListDateTV) as TextView
         val diaryDay : TextView = view.findViewById(R.id.diaryListDayTV) as TextView
         val diaryTitle : TextView = view.findViewById(R.id.diaryListTitleTV) as TextView
-        val diaryContent : TextView = view.findViewById(R.id.diaryListContentTV) as TextView
 
     }
 
