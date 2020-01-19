@@ -235,7 +235,7 @@ class IdRegistrationFragment : Fragment() {
     }
 
     fun performStartStarStarDiaryButtonClick() {
-        IdRegistrationViewModel.requestCheckIdValid(
+        IdRegistrationViewModel.requestCheckTwoPasswordIdentical(
             mRootView.idEditText.text.toString(),
             mRootView.passwordEditText.text.toString(),
             mRootView.passwordConfirmEditText.text.toString()

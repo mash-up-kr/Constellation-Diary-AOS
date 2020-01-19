@@ -61,28 +61,13 @@ object IdRegistrationViewModel {
         }
     }
 
-    fun requestCheckIdValid(id: String, password: String, confirmPassword: String) {
+    fun requestCheckTwoPasswordIdentical(id: String, password: String, confirmPassword: String) {
         isInputIdWarningTextViewVisible.postValue(id.isEmpty())
         isInputPasswordWarningTextViewVisible.postValue(password.isEmpty())
         isInputConfirmPasswordWarningTextViewVisible.postValue(confirmPassword.isEmpty())
 
         if (id.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
-            isTwoPasswordIdentical.postValue(password == confirmPassword)
-
-            if (password == confirmPassword) {
-                mCompositeDisposable.add(
-                    ApiProvider
-                        .provideUserApi()
-                        .check(id)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            isValidId.postValue(true)
-                        }, {
-                            isValidId.postValue(false)
-                        })
-                )
-            }
+            isTwoPasswordIdentical.value = (password == confirmPassword)
         }
     }
 }
