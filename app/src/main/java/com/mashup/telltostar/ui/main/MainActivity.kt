@@ -17,6 +17,7 @@ import com.mashup.telltostar.data.Diary
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.repository.DiaryRepository
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
+import com.mashup.telltostar.ui.diarylist.DiaryListActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_bottomsheet.*
 import com.mashup.telltostar.ui.starlist.StarListActivity
@@ -99,6 +100,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         navigationView.getHeaderView(0).constellationMenuTextView.setOnClickListener{
             showStarList()
         }
+        navigationView.getHeaderView(0).diaryMenuTextView.setOnClickListener{
+            showDiaryList()
+        }
     }
 
     override fun showDiaryTitle(title: String) {
@@ -135,6 +139,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
     override fun showStarList() {
         startActivity(Intent(this, StarListActivity::class.java))
+    }
+    override fun showDiaryList() {
+        startActivity(Intent(this, DiaryListActivity::class.java))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

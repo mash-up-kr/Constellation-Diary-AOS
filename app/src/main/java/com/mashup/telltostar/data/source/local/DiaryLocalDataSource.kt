@@ -27,7 +27,7 @@ class DiaryLocalDataSource(
             val currentTime = TimeUtil.getDateInteger(TimeUtil.getCurrentUnixTime())
             val diaries = it.filter { diary ->
 
-                val diaryTime = TimeUtil.getDateInteger(diary.date)
+                val diaryTime = TimeUtil.getDateInteger(diary.date.toLong())
                 val temp = currentTime - diaryTime
 
                 Timber.e("currentTime : $currentTime , diaryTime : $diaryTime -> temp : $temp")

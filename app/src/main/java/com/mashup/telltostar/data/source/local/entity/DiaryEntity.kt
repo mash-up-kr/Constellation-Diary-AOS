@@ -22,7 +22,7 @@ data class DiaryEntity(
     val id: Int = 0,
     val title: String,
     @ColumnInfo(name = "diary_contents") val contents: String,
-    val date: Long, // unixTime
+    val date: String, // unixTime
     val constellation: String, // "황소자리"
 
     @Embedded

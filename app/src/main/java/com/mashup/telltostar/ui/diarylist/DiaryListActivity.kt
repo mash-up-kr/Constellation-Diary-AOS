@@ -7,11 +7,20 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Diary
+import com.mashup.telltostar.data.Horoscope
+import com.mashup.telltostar.data.ModelDate
 import kotlinx.android.synthetic.main.activity_diary_list.*
 
 class DiaryListActivity : AppCompatActivity() {
     private val diaryListAdapter = DiaryListAdapter()
-    private var diaryList : ArrayList<Diary> = arrayListOf()
+    private val Horo = Horoscope("dd")
+    private val data_1 = Diary(0,"title","contents","2020-01-19T18:02:21.786Z","constellation",Horo)
+    private val data_2 = Diary(0,"title","contents","2020-01-18T18:02:21.786Z","constellation",Horo)
+    private val data_3 = Diary(0,"title","contents","2020-01-17T18:02:21.786Z","constellation",Horo)//"2020-01-19T18:02:21.786Z"
+    private var date_content : ModelDate = ModelDate(2020,1)
+
+
+    private var diaryList : ArrayList<Any> = arrayListOf(date_content,data_1,data_2,data_3,data_1)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +41,6 @@ class DiaryListActivity : AppCompatActivity() {
     }
 
     fun setData(){
-        diaryListAdapter.setItem(diaryList)
+        diaryListAdapter.setData(diaryList)
     }
 }

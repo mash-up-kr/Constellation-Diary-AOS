@@ -19,6 +19,8 @@ interface MainContract {
 
         fun showStarList()
 
+        fun showDiaryList()
+
     }
 
     interface Presenter {

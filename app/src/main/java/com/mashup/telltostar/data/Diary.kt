@@ -9,7 +9,7 @@ data class Diary(
     val id: Int = 0,
     val title: String,
     val contents: String,
-    val date: Long,
+    val date: String,
     val constellation: String,
     val horoscope: Horoscope
 ) : Parcelable

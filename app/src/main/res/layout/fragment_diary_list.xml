@@ -11,16 +11,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:textColor="@color/black_two"
-            android:textSize="22sp"
-            android:text="23" />
+            android:textSize="22sp" />
         <TextView
             android:id="@+id/diaryListDayTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:textColor="@color/greyish_brown"
-            android:textSize="12sp"
-            android:text="수"/>
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/diaryListTitleTV"
@@ -28,6 +26,5 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:textSize="16sp"
-            android:textColor="@color/black_two"
-            android:text="aldaldaldald"/>
+            android:textColor="@color/black_two"/>
 </LinearLayout>
