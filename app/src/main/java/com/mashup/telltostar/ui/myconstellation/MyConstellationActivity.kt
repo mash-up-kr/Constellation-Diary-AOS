@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mashup.telltostar.R
 import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationAdapter
+import com.mashup.telltostar.util.ConstellationUtil
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.InfiniteScrollAdapter
 import com.yarolegovich.discretescrollview.transform.Pivot
@@ -15,7 +16,14 @@ class MyConstellationActivity : AppCompatActivity(),
     DiscreteScrollView.ScrollStateChangeListener<ConstellationAdapter.ConstellationViewHolder>,
     DiscreteScrollView.OnItemChangedListener<ConstellationAdapter.ConstellationViewHolder> {
 
-    private val constellationAdapter by lazy { ConstellationAdapter() }
+    private val adapter by lazy {
+        ConstellationAdapter(
+            ConstellationUtil.getConstellations(this.resources)
+        )
+    }
+
+    private val constellationAdapter
+            by lazy { InfiniteScrollAdapter.wrap(adapter) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,17 +35,16 @@ class MyConstellationActivity : AppCompatActivity(),
 
     private fun initButton() {
         btnMyConstellationStart.setOnClickListener {
-            toast("next")
+            val realPosition = constellationAdapter.getRealPosition(customScrollView.currentItem)
+            toast(adapter.getConstellation(realPosition))
         }
     }
 
     private fun initCustomView() {
 
         with(customScrollView) {
-            //adapter = constellationAdapter
-
             //infinite scroll
-            adapter = InfiniteScrollAdapter.wrap(constellationAdapter)
+            adapter = constellationAdapter
 
             setOffscreenItems(3)
             setOverScrollEnabled(false)

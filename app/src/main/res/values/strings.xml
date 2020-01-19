@@ -13,18 +13,18 @@
     <string name="logout">로그아웃</string>
     <string name="setting_push">푸시 알림 설정</string>
 
-    <string name="yang">양자리</string>
-    <string name="chunching">천칭자리</string>
-    <string name="hwangso">황소자리</string>
-    <string name="jungal">전갈자리</string>
-    <string name="twin">쌍둥이자리</string>
-    <string name="gungso">궁수자리</string>
-    <string name="crab">게자리</string>
     <string name="goat">염소자리</string>
-    <string name="lion">사자자리</string>
     <string name="waterbottle">물병자리</string>
-    <string name="girl">처녀자리</string>
     <string name="fish">물고기자리</string>
+    <string name="yang">양자리</string>
+    <string name="hwangso">황소자리</string>
+    <string name="twin">쌍둥이자리</string>
+    <string name="crab">게자리</string>
+    <string name="lion">사자자리</string>
+    <string name="girl">처녀자리</string>
+    <string name="chunching">천칭자리</string>
+    <string name="jungal">전갈자리</string>
+    <string name="gungso">궁수자리</string>
 
     <string name="date_yang">March 21~April 21</string>
     <string name="date_chunching">September 23~October 22</string>
