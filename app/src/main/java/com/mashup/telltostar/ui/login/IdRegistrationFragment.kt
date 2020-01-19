@@ -122,22 +122,38 @@ class IdRegistrationFragment : Fragment() {
         })
 
         activity?.let { activity ->
-            IdRegistrationViewModel.isInputIdWarningTextViewVisible.observe(this, Observer {
-                clearIdInputWarning()
+            IdRegistrationViewModel.isInputIdWarningTextViewVisible.observe(
+                this,
+                Observer { isVisible ->
+                    clearIdInputWarning()
 
-                if (it) mRootView.inputIdWarningTextView.visibility = View.VISIBLE
-                else mRootView.inputIdWarningTextView.visibility = View.GONE
+                    if (isVisible) mRootView.inputIdWarningTextView.visibility = View.VISIBLE
+                    else mRootView.inputIdWarningTextView.visibility = View.GONE
 
-                mRootView.idEditText.backgroundTintList =
-                    if (it)
-                        ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
-                    else
-                        null
+                    IdRegistrationViewModel.isAvailableId.value?.let { isAvailableId ->
+                        mRootView.idEditText.backgroundTintList =
+                            if (isVisible || !isAvailableId)
+                                ColorStateList.valueOf(
+                                    ContextCompat.getColor(
+                                        activity,
+                                        R.color.coral
+                                    )
+                                )
+                            else if (isAvailableId)
+                                ColorStateList.valueOf(
+                                    ContextCompat.getColor(
+                                        activity,
+                                        R.color.kelly_green
+                                    )
+                                )
+                            else
+                                null
+                    }
 
-                if (it) {
-                    vibrate()
-                }
-            })
+                    if (isVisible) {
+                        vibrate()
+                    }
+                })
             IdRegistrationViewModel.isInputPasswordWarningTextViewVisible.observe(this, Observer {
                 if (it) mRootView.inputPasswordWarningTextView.visibility = View.VISIBLE
                 else mRootView.inputPasswordWarningTextView.visibility = View.GONE
