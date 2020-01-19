@@ -34,11 +34,11 @@ object IdRegistrationViewModel {
     }
 
     fun requestConfirmPasswordVisible() {
-        isConfirmPasswordVisible.postValue(true)
+        isConfirmPasswordVisible.value = true
     }
 
     fun requestConfirmPasswordInvisible() {
-        isConfirmPasswordVisible.postValue(false)
+        isConfirmPasswordVisible.value = false
     }
 
     fun requestCheckIdDuplication(id: String) {
@@ -64,7 +64,7 @@ object IdRegistrationViewModel {
     fun requestCheckTwoPasswordIdentical(id: String, password: String, confirmPassword: String) {
         isInputIdWarningTextViewVisible.postValue(id.isEmpty())
         isInputPasswordWarningTextViewVisible.postValue(password.isEmpty())
-        isInputConfirmPasswordWarningTextViewVisible.postValue(confirmPassword.isEmpty())
+        isInputConfirmPasswordWarningTextViewVisible.value = confirmPassword.isEmpty()
 
         if (id.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
             isTwoPasswordIdentical.value = (password == confirmPassword)

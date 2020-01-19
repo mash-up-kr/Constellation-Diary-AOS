@@ -171,12 +171,12 @@ class IdRegistrationFragment : Fragment() {
             IdRegistrationViewModel.isInputConfirmPasswordWarningTextViewVisible.observe(
                 this,
                 Observer {
+                    clearPasswordConfirmInputWarning()
+
                     if (it) {
                         mRootView.inputPasswordConfirmWarningTextView.visibility = View.VISIBLE
-                        mRootView.inputPasswordNotIdenticalWarningTextView.visibility = View.GONE
                     } else {
                         mRootView.inputPasswordConfirmWarningTextView.visibility = View.GONE
-                        mRootView.inputPasswordNotIdenticalWarningTextView.visibility = View.VISIBLE
                     }
 
                     mRootView.passwordConfirmEditText.backgroundTintList =
@@ -190,6 +190,8 @@ class IdRegistrationFragment : Fragment() {
                     }
                 })
             IdRegistrationViewModel.isTwoPasswordIdentical.observe(this, Observer { isIdentical ->
+                clearPasswordConfirmInputWarning()
+
                 mRootView.inputPasswordNotIdenticalWarningTextView.visibility =
                     if (isIdentical) View.GONE
                     else View.VISIBLE
@@ -247,6 +249,12 @@ class IdRegistrationFragment : Fragment() {
         mRootView.inputIdWarningTextView.visibility = View.GONE
         mRootView.availableIdTextView.visibility = View.GONE
         mRootView.duplicateIdWarningTextView.visibility = View.GONE
+    }
+
+    private fun clearPasswordConfirmInputWarning() {
+        mRootView.passwordConfirmEditText.backgroundTintList = null
+        mRootView.inputPasswordConfirmWarningTextView.visibility = View.GONE
+        mRootView.inputPasswordNotIdenticalWarningTextView.visibility = View.GONE
     }
 
     private fun vibrate() {
