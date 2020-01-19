@@ -19,6 +19,8 @@ object IdRegistrationViewModel {
     val isInputPasswordWarningTextViewVisible = MutableLiveData<Boolean>()
     val isInputConfirmPasswordWarningTextViewVisible = MutableLiveData<Boolean>()
     val isValidId = MutableLiveData<Boolean>(false)
+    val isAvailableId = MutableLiveData<Boolean>()
+
     private val mCompositeDisposable by lazy {
         CompositeDisposable()
     }
@@ -51,7 +53,7 @@ object IdRegistrationViewModel {
                     }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-
+                        isAvailableId.value = it
                     }, {
                         it.printStackTrace()
                     })

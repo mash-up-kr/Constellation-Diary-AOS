@@ -46,7 +46,7 @@ class IdRegistrationFragment : Fragment() {
 
     private fun setListeners() {
         mRootView.idDuplicationCheckButton.setOnClickListener {
-            IdRegistrationViewModel.requestCheckIdDuplication(mRootView.idEditText.text.toString())
+            performCheckIdDuplicationButtonClick()
         }
         mRootView.passwordVisibilityImageView.setOnClickListener {
             performVisibilityImageViewClick()
@@ -60,6 +60,11 @@ class IdRegistrationFragment : Fragment() {
         mRootView.passwordConfirmInvisibilityImageView.setOnClickListener {
             performConfirmInvisibilityImageViewClick()
         }
+    }
+
+    private fun performCheckIdDuplicationButtonClick() {
+        clearIdInputWarning()
+        IdRegistrationViewModel.requestCheckIdDuplication(mRootView.idEditText.text.toString())
     }
 
     private fun performVisibilityImageViewClick() {
@@ -118,6 +123,8 @@ class IdRegistrationFragment : Fragment() {
 
         activity?.let { activity ->
             IdRegistrationViewModel.isInputIdWarningTextViewVisible.observe(this, Observer {
+                clearIdInputWarning()
+
                 if (it) mRootView.inputIdWarningTextView.visibility = View.VISIBLE
                 else mRootView.inputIdWarningTextView.visibility = View.GONE
 
@@ -181,6 +188,33 @@ class IdRegistrationFragment : Fragment() {
                     vibrate()
                 }
             })
+            IdRegistrationViewModel.isAvailableId.observe(this, Observer {
+                clearIdInputWarning()
+
+                if (it) {
+                    mRootView.idEditText.backgroundTintList =
+                        ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                activity,
+                                R.color.kelly_green
+                            )
+                        )
+                    mRootView.availableIdTextView.visibility = View.VISIBLE
+                } else {
+                    mRootView.idEditText.backgroundTintList =
+                        ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                activity,
+                                R.color.coral
+                            )
+                        )
+                    mRootView.duplicateIdWarningTextView.visibility = View.VISIBLE
+
+                    context?.let {
+                        VibratorUtil.vibrate(it)
+                    }
+                }
+            })
         }
     }
 
@@ -190,6 +224,13 @@ class IdRegistrationFragment : Fragment() {
             mRootView.passwordEditText.text.toString(),
             mRootView.passwordConfirmEditText.text.toString()
         )
+    }
+
+    private fun clearIdInputWarning() {
+        mRootView.idEditText.backgroundTintList = null
+        mRootView.inputIdWarningTextView.visibility = View.GONE
+        mRootView.availableIdTextView.visibility = View.GONE
+        mRootView.duplicateIdWarningTextView.visibility = View.GONE
     }
 
     private fun vibrate() {
