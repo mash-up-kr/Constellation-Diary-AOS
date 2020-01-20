@@ -18,7 +18,6 @@ object IdRegistrationViewModel {
     val isInputIdWarningTextViewVisible = MutableLiveData<Boolean>()
     val isInputPasswordWarningTextViewVisible = MutableLiveData<Boolean>()
     val isInputConfirmPasswordWarningTextViewVisible = MutableLiveData<Boolean>()
-    val isValidId = MutableLiveData<Boolean>(false)
     val isAvailableId = MutableLiveData<Boolean>()
 
     private val mCompositeDisposable by lazy {
