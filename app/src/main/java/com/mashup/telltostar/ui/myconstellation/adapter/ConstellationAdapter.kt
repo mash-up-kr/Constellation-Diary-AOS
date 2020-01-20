@@ -6,14 +6,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.telltostar.R
+import com.mashup.telltostar.util.ConstellationUtil
 
-class ConstellationAdapter :
+class ConstellationAdapter(private val constellations: List<String>) :
     RecyclerView.Adapter<ConstellationAdapter.ConstellationViewHolder>() {
-
-    private val items = mutableListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConstellationViewHolder =
         ConstellationViewHolder(
@@ -24,21 +22,21 @@ class ConstellationAdapter :
             )
         )
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = constellations.size
 
     override fun onBindViewHolder(holder: ConstellationViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(constellations[position])
     }
 
-    fun replaceAll(items: List<String>) {
-        this.items.clear()
-        this.items.addAll(items)
-        notifyDataSetChanged()
+    fun getConstellation(position: Int): String {
+        return if (position >= 0 && constellations.size > position) {
+            constellations[position]
+        } else {
+            "nothing"
+        }
     }
 
     class ConstellationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        private val container: CardView = itemView.findViewById(R.id.cvItemConstellationParent)
 
         private val topParent: LinearLayout =
             itemView.findViewById(R.id.llItemConstellationTextParent)
@@ -46,27 +44,32 @@ class ConstellationAdapter :
         private val topTitle: TextView = itemView.findViewById(R.id.tvItemConstellationTitle)
         private val topDate: TextView = itemView.findViewById(R.id.tvItemConstellationDate)
 
-        private val constellation: ImageView = itemView.findViewById(R.id.ivItemConstellation)
+        private val constellationImage: ImageView = itemView.findViewById(R.id.ivItemConstellation)
 
-        fun bind(item: String) {
-            topIcon.setImageResource(R.drawable.star_ic_girl)
-            topTitle.text = itemView.resources.getString(R.string.girl)
-            topDate.text = itemView.resources.getString(R.string.date_girl)
-            constellation.setImageResource(R.drawable.star_img_girl)
+        fun bind(constellation: String) {
+            topIcon.setImageResource(ConstellationUtil.getIcon(itemView.resources, constellation))
+            topTitle.text = constellation
+            topDate.text = ConstellationUtil.getDate(itemView.resources, constellation)
+            constellationImage.setImageResource(
+                ConstellationUtil.getImg(
+                    itemView.resources,
+                    constellation
+                )
+            )
         }
 
         fun showText() {
-            val parentHeight = constellation.height
-            val scale = (parentHeight - topParent.height) / constellation.height.toFloat()
+            val parentHeight = constellationImage.height
+            val scale = (parentHeight - topParent.height) / constellationImage.height.toFloat()
 
-            constellation.pivotX = constellation.width * 0.5f
-            constellation.pivotY = constellation.height * 1f
-            constellation.animate()
+            constellationImage.pivotX = constellationImage.width * 0.5f
+            constellationImage.pivotY = constellationImage.height * 1f
+            constellationImage.animate()
                 .scaleX(scale)
                 .scaleY(scale)
                 .withEndAction {
                     topParent.visibility = View.VISIBLE
-                    constellation.alpha = 1f
+                    constellationImage.alpha = 1f
                 }
                 .setDuration(200)
                 .start()
@@ -74,9 +77,9 @@ class ConstellationAdapter :
         }
 
         fun hideText() {
-            constellation.alpha = 0.5f
+            constellationImage.alpha = 0.5f
             topParent.visibility = View.INVISIBLE
-            constellation.animate().scaleX(1.0f).scaleY(1.0f)
+            constellationImage.animate().scaleX(1.0f).scaleY(1.0f)
                 .setDuration(200)
                 .start()
         }
