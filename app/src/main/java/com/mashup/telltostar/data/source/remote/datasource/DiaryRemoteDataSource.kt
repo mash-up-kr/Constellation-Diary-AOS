@@ -1,6 +1,6 @@
 package com.mashup.telltostar.data.source.remote.datasource
 
-import com.mashup.telltostar.data.source.DiaryDataSource
+import com.mashup.telltostar.data.source.DiaryDataRepository
 import com.mashup.telltostar.data.source.remote.api.DiaryApi
 import com.mashup.telltostar.data.source.remote.request.DiaryDto
 import com.mashup.telltostar.data.source.remote.response.Diaries
@@ -9,7 +9,7 @@ import io.reactivex.Single
 
 class DiaryRemoteDataSource(
     private val diaryApi: DiaryApi
-) : DiaryDataSource {
+) : DiaryDataRepository {
 
     override fun get(id: Int): Single<Diary> {
         return diaryApi.getDiary(id)

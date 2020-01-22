@@ -1,13 +1,13 @@
 package com.mashup.telltostar.data.source.local
 
-import com.mashup.telltostar.data.source.DiaryDataSource
+import com.mashup.telltostar.data.source.DiaryDataRepository
 import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
 import io.reactivex.Single
 
 class DiaryLocalDataSource(
     private val diaryDao: DiaryDao
-) : DiaryDataSource {
+) : DiaryDataRepository {
     override fun get(id: Int): Single<Diary> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

@@ -4,7 +4,7 @@ import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
 import io.reactivex.Single
 
-interface DiaryDataSource {
+interface DiaryDataRepository {
 
     fun get(id: Int): Single<Diary>
 
