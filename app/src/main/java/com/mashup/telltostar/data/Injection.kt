@@ -1,16 +1,34 @@
 package com.mashup.telltostar.data
 
 import android.content.Context
-import com.mashup.telltostar.data.repository.DiaryRepository
+import com.mashup.telltostar.data.repository.DailyQuestionRepoImpl
+import com.mashup.telltostar.data.repository.DiaryRepoImpl
+import com.mashup.telltostar.data.repository.HoroscopeRepoImpl
+import com.mashup.telltostar.data.source.DailyQuestionRepository
+import com.mashup.telltostar.data.source.DiaryDataSource
+import com.mashup.telltostar.data.source.HoroscopeRepository
 import com.mashup.telltostar.data.source.local.DiaryDataBase
-import com.mashup.telltostar.data.source.local.DiaryLocalDataSource
+import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.data.source.remote.datasource.DiaryRemoteDataSource
 
 object Injection {
 
-    fun provideDiaryRepository(context: Context): DiaryRepository {
+    fun provideDiaryRepo(context: Context): DiaryDataSource {
         val database = DiaryDataBase.getInstance(context)
-        return DiaryRepository(
-            DiaryLocalDataSource(database.getDiaryDao())
+        val remote = ApiProvider.provideDiaryApi()
+        return DiaryRepoImpl(
+            //DiaryLocalDataSource(database.getDiaryDao())
+            DiaryRemoteDataSource(remote)
         )
+    }
+
+    fun provideHoroscopeRepo(): HoroscopeRepository {
+        val remote = ApiProvider.provideHoroscopeApi()
+        return HoroscopeRepoImpl(remote)
+    }
+
+    fun provideDailyQuestionRepo(): DailyQuestionRepository {
+        val remote = ApiProvider.provideDailyApi()
+        return DailyQuestionRepoImpl(remote)
     }
 }

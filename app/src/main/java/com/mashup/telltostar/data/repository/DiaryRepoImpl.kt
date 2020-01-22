@@ -1,19 +1,23 @@
-package com.mashup.telltostar.data.source.local
+package com.mashup.telltostar.data.repository
 
 import com.mashup.telltostar.data.source.DiaryDataSource
 import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 
-class DiaryLocalDataSource(
-    private val diaryDao: DiaryDao
+class DiaryRepoImpl(
+    private val dataSource: DiaryDataSource
 ) : DiaryDataSource {
+
     override fun get(id: Int): Single<Diary> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dataSource.get(id)
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun gets(month: Int, year: Int): Single<Diaries> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dataSource.gets(month, year)
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun insert(
@@ -22,7 +26,7 @@ class DiaryLocalDataSource(
         content: String,
         date: String
     ): Single<Any> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dataSource.insert(horoscopeId, title, content, date)
     }
 
     override fun update(
@@ -32,10 +36,10 @@ class DiaryLocalDataSource(
         content: String,
         date: String
     ): Single<Any> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dataSource.update(id, horoscopeId, title, content, date)
     }
 
     override fun delete(id: Int): Single<Any> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dataSource.delete(id)
     }
 }

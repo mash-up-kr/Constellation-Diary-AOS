@@ -1,5 +1,8 @@
 package com.mashup.telltostar.data.source.remote
 
+import com.mashup.telltostar.data.source.remote.api.DailyApi
+import com.mashup.telltostar.data.source.remote.api.DiaryApi
+import com.mashup.telltostar.data.source.remote.api.HoroscopeApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,13 +13,14 @@ object ApiProvider {
 
     private const val baseUrl = "https://byeol-byeol.kro.kr/"
 
-    fun provideDiaryApi(): DiaryApi = Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .client(provideOkHttpClient(provideLoggingInterceptor()))
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    fun provideDiaryApi(): DiaryApi = retrofit.build()
         .create(DiaryApi::class.java)
+
+    fun provideHoroscopeApi(): HoroscopeApi = retrofit.build()
+        .create(HoroscopeApi::class.java)
+
+    fun provideDailyApi(): DailyApi = retrofit.build()
+        .create(DailyApi::class.java)
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)

@@ -1,24 +1,19 @@
 package com.mashup.telltostar.data.source
 
-import com.mashup.telltostar.data.Diary
-import io.reactivex.Completable
+import com.mashup.telltostar.data.source.remote.response.Diaries
+import com.mashup.telltostar.data.source.remote.response.Diary
 import io.reactivex.Single
 
 interface DiaryDataSource {
 
-    fun getDiaries(): Single<List<Diary>>
+    fun get(id: Int): Single<Diary>
 
-    fun getTodayDiaries(): Single<List<Diary>>
+    fun gets(month: Int, year: Int): Single<Diaries>
 
-    fun getDiaryById(id: Int): Single<Diary>
+    fun insert(horoscopeId: Int, title: String, content: String, date: String): Single<Any>
 
-    fun delete(id: Int): Completable
+    fun update(id: Int, horoscopeId: Int, title: String, content: String, date: String): Single<Any>
 
-    fun delete(diary: Diary): Completable
+    fun delete(id: Int): Single<Any>
 
-    fun insert(diary: Diary): Completable
-
-    fun update(diary: Diary): Completable
-
-    fun clearAll(): Completable
 }
