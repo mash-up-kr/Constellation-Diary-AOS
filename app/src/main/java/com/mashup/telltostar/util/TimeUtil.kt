@@ -16,10 +16,20 @@ object TimeUtil {
         return millis / 1000
     }
 
+
+
+    fun getDate(): String {
+        val utc = TimeZone.getTimeZone("UTC")
+        //val time = TimeZone.getDefault()
+        val date = Date()
+
+        //TODO 2020-1-22T15:45:58.222Z
+        return SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.0Z'").apply {
+            timeZone = utc
+        }.format(date)
+    }
+
     fun get(unixTime: Long) =
         SimpleDateFormat("yyyy년 MM월 dd일 a hh시 mm분 ss초").format(Date(unixTime * 1000))
-
-    fun getDateInteger(unixTime: Long) =
-        SimpleDateFormat("yyyyMMdd").format(Date(unixTime * 1000)).toInt()
 
 }

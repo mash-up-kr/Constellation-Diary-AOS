@@ -1,28 +1,29 @@
 package com.mashup.telltostar.ui.main
 
-import com.mashup.telltostar.data.Diary
-import com.mashup.telltostar.data.repository.DiaryRepository
+import com.mashup.telltostar.data.source.DailyQuestionRepository
+import com.mashup.telltostar.data.source.HoroscopeRepository
+import com.mashup.telltostar.util.PrefUtil
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
 class MainPresenter(
     private val view: MainContract.View,
-    private val diaryRepository: DiaryRepository,
+    private val dailyRepository: DailyQuestionRepository,
+    private val horoscopeRepository: HoroscopeRepository,
     private val compositeDisposable: CompositeDisposable
 ) : MainContract.Presenter {
 
-    private var diary: Diary? = null
+    private var diaryId = -1
+    private var horoscopeId = -1
 
-    override fun loadTodayDiary() {
+    override fun loadDailyQuestion() {
 
-        diaryRepository.getTodayDiaries().subscribe({
-            Timber.d("current diaries : $it")
-            if (it.isNotEmpty()) {
-                val todayDiary = it[0]
-                this.diary = todayDiary
-                view.showDiaryTitle(todayDiary.title)
+        dailyRepository.get().subscribe({
+            if (it.existDiary) {
+                view.showDiaryTitle(it.question)
+                diaryId = it.diaryId
             } else {
-                view.showQuestionTitle()
+                view.showQuestionTitle(it.question)
             }
         }) {
             Timber.e(it)
@@ -32,17 +33,29 @@ class MainPresenter(
         }
     }
 
-    override fun startDiary() {
-        if (diary != null) {
-            view.showEditDiary(diary!!)
-        } else {
-            view.showWriteDiary()
+    override fun loadHoroscope() {
 
-        }
+        val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
+        Timber.d(constellation)
+
+        horoscopeRepository.get(constellation)
+            .subscribe({
+                Timber.d("$it")
+                view.showHoroscope(it)
+                horoscopeId = it.id
+            }) {
+                Timber.e(it)
+                view.showToast(it.message)
+            }.also {
+                compositeDisposable.add(it)
+            }
     }
 
-    override fun changeDiary(diary: Diary) {
-        this.diary = diary
-        view.showDiaryTitle(diary.title)
+    override fun editDiary() {
+        if (diaryId > 0) {
+            view.showEditDiary(diaryId)
+        } else {
+            view.showWriteDiary(horoscopeId)
+        }
     }
 }
