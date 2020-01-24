@@ -5,6 +5,7 @@ import com.mashup.telltostar.data.source.remote.api.DiaryApi
 import com.mashup.telltostar.data.source.remote.request.DiaryDto
 import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
+import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.Single
 
 class DiaryRemoteDataSource(
@@ -22,9 +23,10 @@ class DiaryRemoteDataSource(
     override fun insert(
         horoscopeId: Int,
         title: String,
-        content: String,
-        date: String
+        content: String
     ): Single<Any> {
+
+        val date = TimeUtil.getDate()
 
         val dairyDto = DiaryDto(
             horoscopeId = horoscopeId,
@@ -40,9 +42,10 @@ class DiaryRemoteDataSource(
         id: Int,
         horoscopeId: Int,
         title: String,
-        content: String,
-        date: String
+        content: String
     ): Single<Any> {
+
+        val date = TimeUtil.getDate()
 
         val dairyDto = DiaryDto(
             horoscopeId = horoscopeId,

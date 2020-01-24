@@ -5,5 +5,5 @@ import io.reactivex.Single
 
 interface DailyQuestionRepository {
 
-    fun get(date: String): Single<DailyQuestion>
+    fun get(): Single<DailyQuestion>
 }

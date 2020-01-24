@@ -16,22 +16,11 @@ class DiaryLocalDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun insert(
-        horoscopeId: Int,
-        title: String,
-        content: String,
-        date: String
-    ): Single<Any> {
+    override fun insert(horoscopeId: Int, title: String, content: String): Single<Any> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun update(
-        id: Int,
-        horoscopeId: Int,
-        title: String,
-        content: String,
-        date: String
-    ): Single<Any> {
+    override fun update(id: Int, horoscopeId: Int, title: String, content: String): Single<Any> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

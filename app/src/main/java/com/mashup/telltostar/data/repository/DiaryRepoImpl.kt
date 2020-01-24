@@ -7,26 +7,25 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 class DiaryRepoImpl(
-    private val dataRepository: DiaryDataRepository
+    private val dataSource: DiaryDataRepository
 ) : DiaryDataRepository {
 
     override fun get(id: Int): Single<Diary> {
-        return dataRepository.get(id)
+        return dataSource.get(id)
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun gets(month: Int, year: Int): Single<Diaries> {
-        return dataRepository.gets(month, year)
+        return dataSource.gets(month, year)
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun insert(
         horoscopeId: Int,
         title: String,
-        content: String,
-        date: String
+        content: String
     ): Single<Any> {
-        return dataRepository.insert(horoscopeId, title, content, date)
+        return dataSource.insert(horoscopeId, title, content)
             .observeOn(AndroidSchedulers.mainThread())
     }
 
@@ -34,14 +33,14 @@ class DiaryRepoImpl(
         id: Int,
         horoscopeId: Int,
         title: String,
-        content: String,
-        date: String
+        content: String
     ): Single<Any> {
-        return dataRepository.update(id, horoscopeId, title, content, date)
+        return dataSource.update(id, horoscopeId, title, content)
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun delete(id: Int): Single<Any> {
-        return dataRepository.delete(id)
+        return dataSource.delete(id)
             .observeOn(AndroidSchedulers.mainThread())
     }
 }
