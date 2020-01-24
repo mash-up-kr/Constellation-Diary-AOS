@@ -27,6 +27,7 @@ class DiaryRepoImpl(
         date: String
     ): Single<Any> {
         return dataRepository.insert(horoscopeId, title, content, date)
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun update(
@@ -41,5 +42,6 @@ class DiaryRepoImpl(
 
     override fun delete(id: Int): Single<Any> {
         return dataRepository.delete(id)
+            .observeOn(AndroidSchedulers.mainThread())
     }
 }
