@@ -8,19 +8,30 @@
     tools:context=".ui.diary.DiaryEditActivity">
 
     <ImageView
+        android:id="@+id/ivDiaryEditClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_margin="5dp"
         android:padding="10dp"
         android:src="@drawable/icon_close"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivDiaryEditHoroscope"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_margin="16dp"
+        android:background="@color/black_two"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideLineStartMargin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideLineEndMargin"
@@ -32,15 +43,15 @@
     <EditText
         android:id="@+id/etDiaryEditTitle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="16dp"
         android:background="@null"
         android:hint="@string/diary_title_hint"
-        android:inputType="text"
-        android:singleLine="true"
         android:textColor="@color/black_two"
         android:textSize="18sp"
+        android:gravity="start|bottom"
+        android:maxLines="2"
+        app:layout_constraintTop_toBottomOf="@+id/ivDiaryEditClose"
         app:layout_constraintBottom_toTopOf="@+id/flDiaryEditBoundary"
         app:layout_constraintEnd_toStartOf="@+id/guideLineEndMargin"
         app:layout_constraintStart_toEndOf="@+id/guideLineStartMargin" />
