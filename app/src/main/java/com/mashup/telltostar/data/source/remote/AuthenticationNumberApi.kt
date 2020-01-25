@@ -18,4 +18,7 @@ interface AuthenticationNumberApi {
 
     @POST("/authentication-numbers/find-password")
     fun verificationNumberFindPassword(@Body body: ReqVerificationNumberFindPassword): Completable
+
+    @POST("/authentication/find-password")
+    fun verificationFindPassword(@Body body: ReqVerificationFindPassword): Single<ResVerificationFindPassword>
 }

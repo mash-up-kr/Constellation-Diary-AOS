@@ -31,6 +31,13 @@ class ForgotPasswordFragment : Fragment() {
             }
         }
     }
+    private val mVerifiedCallback by lazy {
+        object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                mFragmentListener.replaceFragment((activity as LoginActivity).mResetPasswordFragment)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,6 +93,43 @@ class ForgotPasswordFragment : Fragment() {
         mBinding.viewModel?.isEmailEmptyWarningVisibleObservable?.addOnPropertyChangedCallback(
             mEditTextEmptyWarningCallback
         )
+        mBinding.viewModel?.isVerifiedObservable?.addOnPropertyChangedCallback(mVerifiedCallback)
+        mBinding.verificationNumberEditText.setOnEditorActionListener { v, actionId, event ->
+            performResetPasswordButtonClick(mBinding.resetPasswordButton)
+
+            false
+        }
+        mBinding.verificationNumberEditText.addTextChangedListener {
+            context?.let { context ->
+                with(mBinding.resetPasswordButton) {
+                    if (it.isNullOrEmpty()) {
+                        isEnabled = false
+                        background = ContextCompat.getDrawable(
+                            context,
+                            R.drawable.custom_corner_silver_button
+                        )
+                        setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.brownish_grey_two
+                            )
+                        )
+                    } else {
+                        isEnabled = true
+                        background = ContextCompat.getDrawable(
+                            context,
+                            R.drawable.custom_corner_navy_button
+                        )
+                        setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                android.R.color.white
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 
     private fun replaceVerificationButtonBackground() {
@@ -123,9 +167,18 @@ class ForgotPasswordFragment : Fragment() {
     }
 
     fun performRequestVerificationNumberButtonClick(view: View) {
+        mBinding.verificationNumberEditText.text.clear()
         mBinding.viewModel?.requestVerificationNumber(
             mBinding.idEditText.text.toString(),
             mBinding.emailEditText.text.toString()
+        )
+    }
+
+    fun performResetPasswordButtonClick(view: View) {
+        mBinding.viewModel?.requestResetPassword(
+            mBinding.emailEditText.text.toString(),
+            mBinding.verificationNumberEditText.text.toString().toInt(),
+            mBinding.idEditText.text.toString()
         )
     }
 
@@ -136,6 +189,7 @@ class ForgotPasswordFragment : Fragment() {
         mBinding.viewModel?.isEmailEmptyWarningVisibleObservable?.removeOnPropertyChangedCallback(
             mEditTextEmptyWarningCallback
         )
+        mBinding.viewModel?.isVerifiedObservable?.removeOnPropertyChangedCallback(mVerifiedCallback)
 
         super.onDestroy()
     }

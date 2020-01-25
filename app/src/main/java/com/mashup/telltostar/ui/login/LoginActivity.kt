@@ -13,7 +13,7 @@ class LoginActivity : AppCompatActivity() {
     interface FragmentListener {
         fun closeBottomSheet()
         fun expandBottomSheet()
-        fun replaceFragment(fragment: Fragment, enterAnim: Int, exitAnim: Int)
+        fun replaceFragment(fragment: Fragment, enterAnim: Int = 0, exitAnim: Int = 0)
     }
 
     private val mFragmentListener by lazy {
@@ -38,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var mSignUpFragment: SignUpFragment
     lateinit var mForgotIdFragment: ForgotIdFragment
     lateinit var mForgotPasswordFragment: ForgotPasswordFragment
+    lateinit var mResetPasswordFragment: ResetPasswordFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +58,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initForgotPasswordFragment() = ForgotPasswordFragment().apply {
+        setFragmentListener(mFragmentListener)
+    }
+
+    private fun initResetPasswordFragment() = ResetPasswordFragment().apply {
         setFragmentListener(mFragmentListener)
     }
 
@@ -82,6 +87,7 @@ class LoginActivity : AppCompatActivity() {
         mSignUpFragment = initSignUpFragment()
         mForgotIdFragment = initForgotIdFragment()
         mForgotPasswordFragment = initForgotPasswordFragment()
+        mResetPasswordFragment = initResetPasswordFragment()
         mBottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {

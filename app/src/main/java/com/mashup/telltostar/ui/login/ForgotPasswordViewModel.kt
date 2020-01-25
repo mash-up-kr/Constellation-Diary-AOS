@@ -4,6 +4,7 @@ import android.util.Patterns
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.data.source.remote.ReqVerificationFindPassword
 import com.mashup.telltostar.data.source.remote.ReqVerificationNumberFindPassword
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +24,9 @@ object ForgotPasswordViewModel {
     val isIdEmptyWarningVisibleObservable = ObservableBoolean(false)
     val isEmailEmptyWarningVisibleObservable = ObservableBoolean(false)
     val isVerificationNumberRequestedObservable = ObservableBoolean(false)
+    val isTimeRemainsObservable = ObservableBoolean()
     val mRemainTimeObservable = ObservableField<String>()
+    val isVerifiedObservable = ObservableBoolean(false)
 
     fun requestVerificationNumber(id: String, email: String) {
         isIdEmptyWarningVisibleObservable.set(id.isEmpty())
@@ -56,6 +59,7 @@ object ForgotPasswordViewModel {
 
     private fun requestTimeCount() {
         mRemainTimeObservable.set(getConvertedTime(TIMEOUT))
+        isTimeRemainsObservable.set(true)
         mCompositeDisposable.add(
             getIntervalObservable()
                 .map {
@@ -67,7 +71,28 @@ object ForgotPasswordViewModel {
                 }, {
 
                 }, {
+                    isTimeRemainsObservable.set(false)
+                })
+        )
+    }
 
+    fun requestResetPassword(email: String, verificationNumber: Int, id: String) {
+        mCompositeDisposable.add(
+            ApiProvider
+                .provideAuthenticationNumberApi()
+                .verificationFindPassword(
+                    ReqVerificationFindPassword(
+                        email,
+                        verificationNumber,
+                        id
+                    )
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    isVerifiedObservable.set(true)
+                }, {
+                    isVerifiedObservable.set(false)
                 })
         )
     }
