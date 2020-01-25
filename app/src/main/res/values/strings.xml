@@ -88,5 +88,6 @@
     <!-- Setting -->
     <string name="setting_am_push_title">오전 운세 알림 -</string>
     <string name="setting_pm_push_title">오후 질문 알림</string>
+    <string name="please_write_contents">내용을 입력해 주세요</string>
 
 </resources>
