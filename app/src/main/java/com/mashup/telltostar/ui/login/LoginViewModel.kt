@@ -19,7 +19,7 @@ class LoginViewModel {
         CompositeDisposable()
     }
 
-    fun requestLogin(id: String, password: String) {
+    fun requestLogin(timeZone: String, id: String, password: String) {
         isInputIdWarningTextViewVisible.postValue(id.isEmpty())
         isInputPasswordWarningTextViewVisible.postValue(password.isEmpty())
 
@@ -27,7 +27,7 @@ class LoginViewModel {
             mCompositeData.add(
                 ApiProvider
                     .provideUserApi()
-                    .signIn(ReqSignIn(id, password))
+                    .signIn(timeZone, ReqSignIn(id, password))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({

@@ -113,6 +113,7 @@ class LoginFragment : Fragment() {
 
     private fun performStartButtonClick() {
         mLoginViewModel.requestLogin(
+            "KST", // 현재 기기 위치에 따른 시간대 넘기도록 변경해야함
             mRootView.idEditText.text.toString(),
             mRootView.passwordEditText.text.toString()
         )
