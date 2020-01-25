@@ -7,28 +7,51 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Observer
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
+import androidx.databinding.ObservableBoolean
 
 import com.mashup.telltostar.R
-import kotlinx.android.synthetic.main.fragment_forgot_password.view.*
+import com.mashup.telltostar.databinding.FragmentForgotPasswordBinding
+import com.mashup.telltostar.util.VibratorUtil
 
 class ForgotPasswordFragment : Fragment() {
-    private lateinit var mRootView: View
+    private lateinit var mBinding: FragmentForgotPasswordBinding
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
+    private val mEditTextEmptyWarningCallback by lazy {
+        object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                sender?.let {
+                    if ((sender as ObservableBoolean).get()) {
+                        context?.let {
+                            VibratorUtil.vibrate(it)
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mRootView = inflater.inflate(R.layout.fragment_forgot_password, container, false)
+        mBinding = DataBindingUtil.inflate<FragmentForgotPasswordBinding>(
+            inflater,
+            R.layout.fragment_forgot_password,
+            container,
+            false
+        ).apply {
+            viewModel = ForgotPasswordViewModel
+            fragment = this@ForgotPasswordFragment
+        }
 
         setListeners()
-        setViewModelObserver()
 
-        mRootView.requestVerificationNumberButton.isEnabled = false
+        mBinding.requestVerificationNumberButton.isEnabled = false
 
-        return mRootView
+        return mBinding.root
     }
 
     fun setFragmentListener(listener: LoginActivity.FragmentListener) {
@@ -37,7 +60,7 @@ class ForgotPasswordFragment : Fragment() {
 
     private fun setListeners() {
         with(activity as LoginActivity) {
-            mRootView.arrowBackImageViewContainer.setOnClickListener {
+            mBinding.arrowBackImageViewContainer.setOnClickListener {
                 mFragmentListener.replaceFragment(
                     mLoginFragment,
                     R.anim.enter_from_left,
@@ -46,65 +69,74 @@ class ForgotPasswordFragment : Fragment() {
             }
         }
 
-        mRootView.idEditText.addTextChangedListener {
+        mBinding.idEditText.addTextChangedListener {
             replaceVerificationButtonBackground()
         }
-        mRootView.emailEditText.addTextChangedListener {
+        mBinding.emailEditText.addTextChangedListener {
             replaceVerificationButtonBackground()
         }
-        mRootView.requestVerificationNumberButton.setOnClickListener {
-            performRequestVerificationNumberButtonClick()
+        mBinding.emailEditText.setOnEditorActionListener { v, actionId, event ->
+            performRequestVerificationNumberButtonClick(mBinding.emailEditText)
+
+            false
         }
+        mBinding.viewModel?.isIdEmptyWarningVisibleObservable?.addOnPropertyChangedCallback(
+            mEditTextEmptyWarningCallback
+        )
+        mBinding.viewModel?.isEmailEmptyWarningVisibleObservable?.addOnPropertyChangedCallback(
+            mEditTextEmptyWarningCallback
+        )
     }
 
     private fun replaceVerificationButtonBackground() {
         context?.let {
-            if (mRootView.idEditText.text.isNotEmpty() &&
-                mRootView.emailEditText.text.isNotEmpty()
+            if (mBinding.idEditText.text.isNotEmpty() &&
+                mBinding.emailEditText.text.isNotEmpty()
             ) {
-                mRootView.requestVerificationNumberButton.background =
+                mBinding.requestVerificationNumberButton.background =
                     ContextCompat.getDrawable(
                         it,
                         R.drawable.custom_corner_navy_button
                     )
-                mRootView.requestVerificationNumberButton.isEnabled = true
+                mBinding.requestVerificationNumberButton.setTextColor(
+                    ContextCompat.getColor(
+                        it,
+                        android.R.color.white
+                    )
+                )
+                mBinding.requestVerificationNumberButton.isEnabled = true
             } else {
-                mRootView.requestVerificationNumberButton.background =
+                mBinding.requestVerificationNumberButton.background =
                     ContextCompat.getDrawable(
                         it,
                         R.drawable.custom_corner_silver_button
                     )
-                mRootView.requestVerificationNumberButton.isEnabled = false
+                mBinding.requestVerificationNumberButton.setTextColor(
+                    ContextCompat.getColor(
+                        it,
+                        R.color.brownish_grey_two
+                    )
+                )
+                mBinding.requestVerificationNumberButton.isEnabled = false
             }
         }
     }
 
-    private fun performRequestVerificationNumberButtonClick() {
-        ForgotPasswordViewModel.requestVerificationNumber(
-            mRootView.idEditText.text.toString(),
-            mRootView.emailEditText.text.toString()
+    fun performRequestVerificationNumberButtonClick(view: View) {
+        mBinding.viewModel?.requestVerificationNumber(
+            mBinding.idEditText.text.toString(),
+            mBinding.emailEditText.text.toString()
         )
     }
 
-    private fun setViewModelObserver() {
-        ForgotPasswordViewModel.isIdCheckWarningTextViewVisible.observe(this, Observer {
-            mRootView.checkIdWarningTextView.visibility =
-                if (it) View.VISIBLE
-                else View.GONE
-        })
-        ForgotPasswordViewModel.isEmailCheckWarningTextViewVisible.observe(this, Observer {
-            mRootView.checkEmailWarningTextView.visibility =
-                if (it) View.VISIBLE
-                else View.GONE
-        })
-        ForgotPasswordViewModel.isVerificationNumberInputVisible.observe(this, Observer {
-            if (it) {
-                mRootView.verificationNumberInputConstraintLayout.visibility = View.VISIBLE
-                mRootView.requestVerificationNumberButton.visibility = View.GONE
-                mRootView.resetPasswordButton.visibility = View.VISIBLE
-            } else {
-                mRootView.verificationNumberInputConstraintLayout.visibility = View.GONE
-            }
-        })
+    override fun onDestroy() {
+        mBinding.viewModel?.isIdEmptyWarningVisibleObservable?.removeOnPropertyChangedCallback(
+            mEditTextEmptyWarningCallback
+        )
+        mBinding.viewModel?.isEmailEmptyWarningVisibleObservable?.removeOnPropertyChangedCallback(
+            mEditTextEmptyWarningCallback
+        )
+
+        super.onDestroy()
     }
 }

@@ -1,22 +1,88 @@
 package com.mashup.telltostar.ui.login
 
-import androidx.lifecycle.MutableLiveData
+import android.util.Patterns
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.data.source.remote.ReqVerificationNumberFindPassword
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by hclee on 2020-01-17.
  */
 
 object ForgotPasswordViewModel {
-    val isIdCheckWarningTextViewVisible: MutableLiveData<Boolean> =
-        MutableLiveData<Boolean>(false)
-    val isEmailCheckWarningTextViewVisible: MutableLiveData<Boolean> =
-        MutableLiveData<Boolean>(false)
-    val isVerificationNumberInputVisible: MutableLiveData<Boolean> =
-        MutableLiveData<Boolean>(false)
+    private const val TIMEOUT = 180L
+    private val mCompositeDisposable by lazy {
+        CompositeDisposable()
+    }
+    val isIdEmptyWarningVisibleObservable = ObservableBoolean(false)
+    val isEmailEmptyWarningVisibleObservable = ObservableBoolean(false)
+    val isVerificationNumberRequestedObservable = ObservableBoolean(false)
+    val mRemainTimeObservable = ObservableField<String>()
 
     fun requestVerificationNumber(id: String, email: String) {
+        isIdEmptyWarningVisibleObservable.set(id.isEmpty())
+        isEmailEmptyWarningVisibleObservable.set(email.isEmpty() || isEmailPattern(email).not())
+
         if (id.isNotEmpty() && email.isNotEmpty()) {
-            // TODO: 비밀번호 찾기용 인증번호 요청 API
+            if (isEmailPattern(email)) {
+                mCompositeDisposable.clear()
+                mCompositeDisposable.add(
+                    ApiProvider
+                        .provideAuthenticationNumberApi()
+                        .verificationNumberFindPassword(
+                            ReqVerificationNumberFindPassword(
+                                email,
+                                id
+                            )
+                        )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            isVerificationNumberRequestedObservable.set(true)
+                            requestTimeCount()
+                        }, {
+                            isVerificationNumberRequestedObservable.set(false)
+                        })
+                )
+            }
         }
     }
+
+    private fun requestTimeCount() {
+        mRemainTimeObservable.set(getConvertedTime(TIMEOUT))
+        mCompositeDisposable.add(
+            getIntervalObservable()
+                .map {
+                    getConvertedTime(it)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    mRemainTimeObservable.set(it)
+                }, {
+
+                }, {
+
+                })
+        )
+    }
+
+    private fun getIntervalObservable() =
+        Observable.interval(0, 1000, TimeUnit.MILLISECONDS)
+            .take(TIMEOUT + 1)
+
+    private fun getConvertedTime(time: Long): String {
+        val minute = (TIMEOUT - time) / 60
+        val seconds = (TIMEOUT - time) % 60
+
+        return if (seconds < 10) "$minute:0${seconds}" else "$minute:$seconds"
+    }
+
+    private fun isEmailPattern(inputEmail: String) =
+        Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
 }

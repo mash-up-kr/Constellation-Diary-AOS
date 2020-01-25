@@ -15,4 +15,7 @@ interface AuthenticationNumberApi {
 
     @POST("/authentication")
     fun authentication(@Body body: ReqValidationNumber): Single<ResValidationNumber>
+
+    @POST("/authentication-numbers/find-password")
+    fun verificationNumberFindPassword(@Body body: ReqVerificationNumberFindPassword): Completable
 }
