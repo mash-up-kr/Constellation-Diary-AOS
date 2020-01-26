@@ -44,6 +44,19 @@ class ResetPasswordFragment : Fragment() {
                         it.isNotEmpty() && newPasswordEditText.text.isNotEmpty()
                 }
             }
+            loginButton.setOnClickListener {
+                performLoginButtonClick()
+            }
+        }
+    }
+
+    private fun performLoginButtonClick() {
+        activity?.let {
+            mFragmentListener.replaceFragment(
+                (activity as LoginActivity).mLoginFragment,
+                R.anim.enter_from_left,
+                R.anim.exit_to_right
+            )
         }
     }
 }
