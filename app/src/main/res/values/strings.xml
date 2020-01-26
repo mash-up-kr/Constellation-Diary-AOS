@@ -62,7 +62,7 @@
     <string name="input_password">비밀번호를 입력해주세요.</string>
     <string name="confirm_password">비밀번호 확인</string>
     <string name="input_confirm_password">비밀번호를 다시 입력해주세요.</string>
-    <string name="not_identical_password">비밀번호가 일치하지 않습니다. 다시 입력해 주세요.</string>
+    <string name="not_identical_password_reinput">비밀번호가 일치하지 않습니다. 다시 입력해 주세요.</string>
     <string name="sign_up">회원가입</string>
     <string name="sign_up_step_1">1/2</string>
     <string name="sign_up_step_2">2/2</string>
@@ -91,10 +91,13 @@
     <string name="forgot_id_password_dialog_id">아이디를 찾고싶어요.</string>
     <string name="forgot_id_password_dialog_password">비밀번호를 찾고싶어요.</string>
     <string name="request_verification_number">인증번호 받기</string>
-    <string name="reset_password">비밀번호 재설정</string>기
     <string name="request_verification_number_again">다시받기</string>
     <string name="id_duplication_check">중복확인</string>
     <string name="find_id_result">아이디 찾기 결과</string>
+    <string name="reset_password">비밀번호 재설정</string>
+    <string name="new_password">새로운 비밀번호</string>
+    <string name="reinput_password">비밀번호 재입력</string>
+    <string name="not_identical_password">비밀번호가 일치하지 않습니다.</string>
 
     <!--    StarListActivity-->
     <string name="Constellation">별자리</string>

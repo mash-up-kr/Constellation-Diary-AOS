@@ -228,7 +228,7 @@
         android:id="@+id/inputPasswordNotIdenticalWarningTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/not_identical_password"
+        android:text="@string/not_identical_password_reinput"
         android:textColor="@color/coral"
         android:textSize="12sp"
         android:visibility="gone"
