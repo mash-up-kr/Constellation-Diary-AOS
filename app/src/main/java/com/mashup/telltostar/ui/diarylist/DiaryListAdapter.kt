@@ -26,12 +26,13 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>
             }
             TYPE_DATE ->{
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_diary_date, parent, false)
-                dateViewHolder(view)
+                DateViewHolder(view)
             }
             else -> throw IllegalArgumentException("Invalid view type")
         }
 
     }
+
 
     override fun getItemCount(): Int = dataList.size
 
@@ -41,8 +42,22 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>
                 is DiaryListContentsViewHolder -> {
                     holder.bind(it as Temp_diary,position)
                 }
-                is dateViewHolder -> holder.bind(it as ModelDate,position)
+                is DateViewHolder -> holder.bind(it as ModelDate,position)
                 else -> throw IllegalArgumentException()
+            }
+        }
+    }
+
+    override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int, payloads: MutableList<Any>) {
+        if(payloads.isEmpty()){
+            super.onBindViewHolder(holder, position, payloads)
+        }else{
+            for(payload in payloads){
+                if(payload is Boolean) {
+                    if (holder is DiaryListContentsViewHolder) {
+                        holder.changeVisibleData(payload)
+                    }
+                }
             }
         }
     }
@@ -65,7 +80,7 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>
     }
 
 
-    class dateViewHolder(view: View) : BaseViewHolder<ModelDate>(view){
+    class DateViewHolder(view: View) : BaseViewHolder<ModelDate>(view){
         val diaryMonth : TextView = itemView.findViewById(R.id.diaryListHeaderDateTV)
         override fun bind(item: ModelDate,pos:Int) {
             diaryMonth.text = item.month.toString()+"년 "+item.day.toString()+"월"

@@ -28,4 +28,5 @@
     <color name="grayIconTint">#727272</color>
     <color name="grapefruit">#ff6262</color>
     <color name="lightish_blue">#4a5eff</color>
+    <color name="red">#ff0000</color>
 </resources>

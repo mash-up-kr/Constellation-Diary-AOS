@@ -1,5 +1,6 @@
 package com.mashup.telltostar.ui.diarylist
 
+import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
@@ -17,6 +18,7 @@ class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<T
     private val diarySelect : CheckBox = view.findViewById(R.id.diaryListSelectCB) as CheckBox
 
     override fun bind(item: Temp_diary, pos:Int) {
+
         diary = item
 
         bindDate()
@@ -25,22 +27,29 @@ class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<T
 
     }
 
-    fun visibleCheckBox(){
+    fun changeVisibleData(visibleCheck : Boolean){
+        diary.isVisible = visibleCheck
+
         if(diary.isVisible == true){
             diarySelect.visibility = View.VISIBLE
         }else{
             diarySelect.visibility = View.INVISIBLE
         }
+
+        Log.d("data",diary.isVisible.toString())
     }
 
-//    fun checkClick(){
-//        if(diary.isChecked == true){
-//            diarySelect.setBackgroundResource(R.drawable.icon_checked)
+//    fun visibleCheckBox(){
+//        if(diary.isVisible == true){
+//            diarySelect.visibility = View.VISIBLE
 //        }else{
-//            diarySelect.setBackgroundResource(R.drawable.icon_unchecked)
+//            diarySelect.visibility = View.INVISIBLE
 //        }
-//        diary.isChecked = diarySelect.isChecked
 //    }
+
+    fun checkClick(){
+        diary.isChecked = diarySelect.isChecked
+    }
 
     fun bindDate(){
         var contentDate = ""
@@ -60,9 +69,9 @@ class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<T
             localDateFormatter.timeZone = TimeZone.getDefault()
             localDayFormatter.timeZone = TimeZone.getDefault()
             assert(gpsUTCDate != null)
-            contentDate = localDateFormatter.format(gpsUTCDate!!.time)
+            contentDate = localDateFormatter.format(gpsUTCDate?.time)
 
-            contentDay = localDayFormatter.format(gpsUTCDate!!.time)
+            contentDay = localDayFormatter.format(gpsUTCDate?.time)
         }
         when(contentDay){//요일별 색 지정
             "토" -> {
