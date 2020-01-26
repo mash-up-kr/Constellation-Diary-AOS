@@ -17,7 +17,7 @@ interface DiaryApi {
     @POST("diaries")
     fun postDiaries(@Body diaryDto: DiaryDto): Single<Any>
 
-    @PUT("diaries/{id}")
+    @PATCH("diaries/{id}")
     fun putDiary(@Path("id") diaryId: Int, @Body diaryDto: DiaryDto): Single<Any>
 
     @DELETE("diaries/{id}")
