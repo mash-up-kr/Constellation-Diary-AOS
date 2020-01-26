@@ -13,15 +13,15 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mashup.telltostar.R
-import com.mashup.telltostar.data.Diary
 import com.mashup.telltostar.data.Injection
-import com.mashup.telltostar.data.repository.DiaryRepository
+import com.mashup.telltostar.data.source.remote.response.Horoscope
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import com.mashup.telltostar.ui.diarylist.DiaryListActivity
+import com.mashup.telltostar.ui.starlist.StarListActivity
+import com.mashup.telltostar.util.PrefUtil
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_bottomsheet.*
-import com.mashup.telltostar.ui.starlist.StarListActivity
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.header.view.*
 import kotlinx.android.synthetic.main.main_contents.*
 import org.jetbrains.anko.toast
@@ -42,11 +42,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //TODO test data
+        PrefUtil.put(PrefUtil.CONSTELLATION, "황소자리")
+
         presenter = MainPresenter(
             this,
-            DiaryRepository(
-                Injection.provideDiaryRepository(this)
-            ),
+            Injection.provideDailyQuestionRepo(),
+            Injection.provideHoroscopeRepo(),
             compositeDisposable
         )
 
@@ -54,7 +56,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         initBottomSheet()
         initButton()
 
-        presenter.loadTodayDiary()
+        //TODO 초기화 되는 시점 필요
+        presenter.loadDailyQuestion()
+        presenter.loadHoroscope()
     }
 
     override fun onDestroy() {
@@ -92,16 +96,20 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     private fun initButton() {
         tvMainContentsDescription.setOnClickListener {
-            presenter.startDiary()
+            presenter.editDiary()
         }
         btnBottomsheetEditDiary.setOnClickListener {
-            showWriteDiary()
+            //TODO 1일 1일기 이므로 버튼 텍스트가 변경되어야 합니다.
+            presenter.editDiary()
         }
-        navigationView.getHeaderView(0).constellationMenuTextView.setOnClickListener{
-            showStarList()
-        }
-        navigationView.getHeaderView(0).diaryMenuTextView.setOnClickListener{
-            showDiaryList()
+
+        with(navigationView) {
+            getHeaderView(0).constellationMenuTextView.setOnClickListener {
+                showStarList()
+            }
+            getHeaderView(0).diaryMenuTextView.setOnClickListener {
+                startActivity(Intent(this@MainActivity, DiaryListActivity::class.java))
+            }
         }
     }
 
@@ -110,25 +118,28 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         tvMainContentsDescription.text = resources.getString(R.string.edit_diary)
     }
 
-
-
-    override fun showQuestionTitle() {
-        tvMainContentsTitle.text = resources.getString(R.string.main_question_title)
+    override fun showQuestionTitle(title: String) {
+        tvMainContentsTitle.text = title
         tvMainContentsDescription.text = resources.getString(R.string.write_diary)
     }
 
-    override fun showEditDiary(diary: Diary) {
+    override fun showHoroscope(horoscope: Horoscope) {
+        Timber.d("horoscope : $horoscope")
+    }
+
+    override fun showEditDiary(diaryId: Int) {
         DiaryEditActivity.startDiaryEditActivity(
             this,
             REQUEST_DIARY_EDIT,
-            diary
+            diaryId
         )
     }
 
-    override fun showWriteDiary() {
+    override fun showWriteDiary(horoscopeId: Int) {
         DiaryEditActivity.startDiaryWriteActivity(
             this,
-            REQUEST_DIARY_EDIT
+            REQUEST_DIARY_EDIT,
+            horoscopeId
         )
     }
 
@@ -137,11 +148,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             toast(message)
         }
     }
+
     override fun showStarList() {
         startActivity(Intent(this, StarListActivity::class.java))
-    }
-    override fun showDiaryList() {
-        startActivity(Intent(this, DiaryListActivity::class.java))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -149,10 +158,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         Timber.d("requestCode ; $requestCode , resultCode : $resultCode , data : $data")
         if (requestCode == REQUEST_DIARY_EDIT) {
             if (resultCode == Activity.RESULT_OK) {
-                val diary = data?.getParcelableExtra<Diary>(DiaryEditActivity.EXTRA_DIARY)
-                if (diary != null) {
-                    presenter.changeDiary(diary)
-                }
+                presenter.loadDailyQuestion()
             }
         }
     }

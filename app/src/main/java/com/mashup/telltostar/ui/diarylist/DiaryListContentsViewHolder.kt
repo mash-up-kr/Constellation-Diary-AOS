@@ -1,32 +1,57 @@
 package com.mashup.telltostar.ui.diarylist
 
-import android.graphics.Color
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.content.ContextCompat
 import com.mashup.telltostar.R
-import com.mashup.telltostar.data.Diary
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<Diary>(view) {
-    val diaryDate : TextView = view.findViewById(R.id.diaryListDateTV) as TextView
-    val diaryDay : TextView = view.findViewById(R.id.diaryListDayTV) as TextView
-    val diaryTitle : TextView = view.findViewById(R.id.diaryListTitleTV) as TextView
-    val diarySelect : CheckBox = view.findViewById(R.id.diaryListSelectCB) as CheckBox
+class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<Temp_diary>(view) {
+    private lateinit var diary : Temp_diary
+    private val diaryDate : TextView = view.findViewById(R.id.diaryListDateTV) as TextView
+    private val diaryDay : TextView = view.findViewById(R.id.diaryListDayTV) as TextView
+    private val diaryTitle : TextView = view.findViewById(R.id.diaryListTitleTV) as TextView
+    private val diarySelect : CheckBox = view.findViewById(R.id.diaryListSelectCB) as CheckBox
 
-    override fun bind(item: Diary, pos:Int) {
+    override fun bind(item: Temp_diary, pos:Int) {
+        diary = item
+
+        bindDate()
+
+        diaryTitle.text = item.title
+
+    }
+
+    fun visibleCheckBox(){
+        if(diary.isVisible == true){
+            diarySelect.visibility = View.VISIBLE
+        }else{
+            diarySelect.visibility = View.INVISIBLE
+        }
+    }
+
+//    fun checkClick(){
+//        if(diary.isChecked == true){
+//            diarySelect.setBackgroundResource(R.drawable.icon_checked)
+//        }else{
+//            diarySelect.setBackgroundResource(R.drawable.icon_unchecked)
+//        }
+//        diary.isChecked = diarySelect.isChecked
+//    }
+
+    fun bindDate(){
         var contentDate = ""
         var contentDay = ""
-        if (item.date != null) {
+        if (diary.date != null) {
             //convert utc to localTime
             val utcFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.KOREA)
             utcFormatter.timeZone = TimeZone.getTimeZone("UTC")
             var gpsUTCDate: Date? = null
             try {
-                gpsUTCDate = utcFormatter.parse(item.date )
+                gpsUTCDate = utcFormatter.parse(diary.date )
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
@@ -41,24 +66,18 @@ class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<D
         }
         when(contentDay){//요일별 색 지정
             "토" -> {
-                diaryDay.setTextColor(Color.parseColor("#4a5eff"))
-                diaryDate.setTextColor(Color.parseColor("#4a5eff"))
+                val lightishBlue = ContextCompat.getColor(itemView.context, R.color.lightish_blue)
+                diaryDay.setTextColor(lightishBlue)
+                diaryDate.setTextColor(lightishBlue)
             }
             "일" -> {
-                diaryDay.setTextColor(Color.parseColor("#ff6262"))
-                diaryDate.setTextColor(Color.parseColor("#ff6262"))
+                val grapeFruit = ContextCompat.getColor(itemView.context, R.color.grapefruit)
+                diaryDay.setTextColor(grapeFruit)
+                diaryDate.setTextColor(grapeFruit)
             }
         }
+
         diaryDay.text = contentDay
         diaryDate.text = contentDate
-        diaryTitle.text = item.title
-
-        diarySelect.setOnClickListener {
-            if(pos != RecyclerView.NO_POSITION){
-                if (mListener != null) {
-                    mListener.onItemClick(it, position) ;
-                }
-            }
-        }
     }
 }

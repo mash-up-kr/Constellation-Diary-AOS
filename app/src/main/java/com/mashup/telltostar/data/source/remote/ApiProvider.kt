@@ -1,5 +1,8 @@
 package com.mashup.telltostar.data.source.remote
 
+import com.mashup.telltostar.data.source.remote.api.DailyApi
+import com.mashup.telltostar.data.source.remote.api.DiaryApi
+import com.mashup.telltostar.data.source.remote.api.HoroscopeApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,15 +11,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiProvider {
 
-    private const val baseUrl = "https://api.github.com/"
+    private const val baseUrl = "https://byeol-byeol.kro.kr/"
 
-    fun provideDiaryApi(): DiaryApi = Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .client(provideOkHttpClient(provideLoggingInterceptor()))
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    fun provideDiaryApi(): DiaryApi = retrofit.build()
         .create(DiaryApi::class.java)
+
+    fun provideHoroscopeApi(): HoroscopeApi = retrofit.build()
+        .create(HoroscopeApi::class.java)
+
+    fun provideDailyApi(): DailyApi = retrofit.build()
+        .create(DailyApi::class.java)
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
@@ -30,7 +34,7 @@ object ApiProvider {
         // 이 클라이언트를 통해 오고 가는 네트워크 요청/응답을 로그로 표시하도록 합니다.
         b.addInterceptor(interceptor)
         // header 에 정보를 추가해 준다.
-        // b.addInterceptor(AddHeaderInterceptor())
+        b.addInterceptor(AddHeaderInterceptor())
         return b.build()
     }
 

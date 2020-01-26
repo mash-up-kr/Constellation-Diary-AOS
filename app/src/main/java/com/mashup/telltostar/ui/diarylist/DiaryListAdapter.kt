@@ -1,25 +1,17 @@
 package com.mashup.telltostar.ui.diarylist
 
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.telltostar.R
-import com.mashup.telltostar.data.Diary
 import com.mashup.telltostar.data.ModelDate
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>() {
     var dataList : ArrayList<Any> = arrayListOf()
-    var deleteList : Array<Boolean> = arrayOf()
-
-    private lateinit var mListener : OnItemClickListener
 
     companion object{
         private val TYPE_CONTENTS = 0
@@ -46,7 +38,9 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         dataList[position].let{
             when(holder){
-                is DiaryListContentsViewHolder -> holder.bind(it as Diary,position)
+                is DiaryListContentsViewHolder -> {
+                    holder.bind(it as Temp_diary,position)
+                }
                 is dateViewHolder -> holder.bind(it as ModelDate,position)
                 else -> throw IllegalArgumentException()
             }
@@ -58,19 +52,11 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>
     override fun getItemViewType(position: Int): Int {
         dataList[position].let{
             return when (it) {
-                is Diary -> TYPE_CONTENTS
+                is Temp_diary -> TYPE_CONTENTS
                 is ModelDate -> TYPE_DATE
                 else -> throw IllegalArgumentException("Invalid type of data " + position)
             }
         }
-    }
-
-    fun setOnItemClickListener(listener : OnItemClickListener){
-        this.mListener = listener
-    }
-
-    interface OnItemClickListener{
-        fun onItemClick(view: View,pos : Int)
     }
 
     //viewHolder
