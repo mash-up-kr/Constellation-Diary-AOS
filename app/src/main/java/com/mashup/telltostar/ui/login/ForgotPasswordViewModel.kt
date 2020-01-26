@@ -27,6 +27,7 @@ object ForgotPasswordViewModel {
     val isTimeRemainsObservable = ObservableBoolean()
     val mRemainTimeObservable = ObservableField<String>()
     val isVerifiedObservable = ObservableBoolean(false)
+    val isLoadingVisibleObservable = ObservableBoolean(false)
 
     fun requestVerificationNumber(id: String, email: String) {
         isIdEmptyWarningVisibleObservable.set(id.isEmpty())
@@ -35,6 +36,7 @@ object ForgotPasswordViewModel {
         if (id.isNotEmpty() && email.isNotEmpty()) {
             if (isEmailPattern(email)) {
                 mCompositeDisposable.clear()
+                isLoadingVisibleObservable.set(true)
                 mCompositeDisposable.add(
                     ApiProvider
                         .provideAuthenticationNumberApi()
@@ -48,9 +50,11 @@ object ForgotPasswordViewModel {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             isVerificationNumberRequestedObservable.set(true)
+                            isLoadingVisibleObservable.set(false)
                             requestTimeCount()
                         }, {
                             isVerificationNumberRequestedObservable.set(false)
+                            isLoadingVisibleObservable.set(false)
                         })
                 )
             }
