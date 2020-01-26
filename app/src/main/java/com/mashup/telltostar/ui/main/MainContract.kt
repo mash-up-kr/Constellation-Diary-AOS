@@ -1,6 +1,6 @@
 package com.mashup.telltostar.ui.main
 
-import com.mashup.telltostar.data.Diary
+import com.mashup.telltostar.data.source.remote.response.Horoscope
 import com.mashup.telltostar.ui.base.BaseView
 
 interface MainContract {
@@ -9,13 +9,15 @@ interface MainContract {
 
         fun showDiaryTitle(title: String)
 
-        fun showQuestionTitle()
+        fun showQuestionTitle(title: String)
 
-        fun showEditDiary(diary: Diary)
-
-        fun showWriteDiary()
+        fun showHoroscope(horoscope: Horoscope)
 
         fun showToast(message: String?)
+
+        fun showEditDiary(diaryId: Int)
+
+        fun showWriteDiary(horoscopeId: Int)
 
         fun showStarList()
 
@@ -23,10 +25,10 @@ interface MainContract {
 
     interface Presenter {
 
-        fun loadTodayDiary()
+        fun loadDailyQuestion()
 
-        fun startDiary()
+        fun loadHoroscope()
 
-        fun changeDiary(diary: Diary)
+        fun editDiary()
     }
 }

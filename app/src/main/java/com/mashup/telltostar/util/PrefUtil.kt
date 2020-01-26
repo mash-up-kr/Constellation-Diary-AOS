@@ -7,6 +7,8 @@ object PrefUtil {
 
     const val PREF_NAME = "Pref"
 
+    const val CONSTELLATION = "constellation"
+
     private lateinit var pref: SharedPreferences
 
     fun init(context: Context) {
