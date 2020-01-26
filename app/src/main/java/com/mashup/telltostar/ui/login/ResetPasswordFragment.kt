@@ -7,23 +7,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import androidx.databinding.DataBindingUtil
 
 import com.mashup.telltostar.R
-import kotlinx.android.synthetic.main.fragment_reset_password.view.*
+import com.mashup.telltostar.databinding.FragmentResetPasswordBinding
 
 class ResetPasswordFragment : Fragment() {
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
-    private lateinit var mRootView: View
+    private lateinit var mBinding: FragmentResetPasswordBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mRootView = inflater.inflate(R.layout.fragment_reset_password, container, false)
+        mBinding = DataBindingUtil.inflate<FragmentResetPasswordBinding>(
+            inflater,
+            R.layout.fragment_reset_password,
+            container,
+            false
+        ).apply {
+            viewModel = ForgotPasswordViewModel
+            fragment = this@ResetPasswordFragment
+        }
 
         setListeners()
 
-        return mRootView
+        return mBinding.root
     }
 
     fun setFragmentListener(listener: LoginActivity.FragmentListener) {
@@ -31,7 +40,7 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun setListeners() {
-        with(mRootView) {
+        with(mBinding) {
             newPasswordEditText.addTextChangedListener {
                 it?.let {
                     loginButton.isEnabled =
@@ -44,13 +53,10 @@ class ResetPasswordFragment : Fragment() {
                         it.isNotEmpty() && newPasswordEditText.text.isNotEmpty()
                 }
             }
-            loginButton.setOnClickListener {
-                performLoginButtonClick()
-            }
         }
     }
 
-    private fun performLoginButtonClick() {
+    fun performLoginButtonClick(view: View) {
         activity?.let {
             mFragmentListener.replaceFragment(
                 (activity as LoginActivity).mLoginFragment,

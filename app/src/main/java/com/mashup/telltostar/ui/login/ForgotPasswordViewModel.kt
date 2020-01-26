@@ -28,6 +28,8 @@ object ForgotPasswordViewModel {
     val mRemainTimeObservable = ObservableField<String>()
     val isVerifiedObservable = ObservableBoolean(false)
     val isLoadingVisibleObservable = ObservableBoolean(false)
+    val isPasswordEmptyWarningVisibleObservable = ObservableBoolean(false)
+    val isPasswordNotIdenticalWarningVisibleObservable = ObservableBoolean(false)
 
     fun requestVerificationNumber(id: String, email: String) {
         isIdEmptyWarningVisibleObservable.set(id.isEmpty())
