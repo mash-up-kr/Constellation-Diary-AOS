@@ -106,8 +106,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             getHeaderView(0).constellationMenuTextView.setOnClickListener {
                 showStarList()
             }
-            getHeaderView(1).constellationMenuTextView.setOnClickListener {
-                //TODO diaryList 코드를 여기에다가 추가해서 사용해 주세요.
+            getHeaderView(0).diaryMenuTextView.setOnClickListener {
             }
         }
     }
@@ -126,11 +125,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         Timber.d("horoscope : $horoscope")
     }
 
-    override fun showEditDiary(diaryId: Int) {
+    override fun showEditDiary(diaryId: Int, horoscopeId: Int) {
         DiaryEditActivity.startDiaryEditActivity(
             this,
             REQUEST_DIARY_EDIT,
-            diaryId
+            diaryId,
+            horoscopeId
         )
     }
 
