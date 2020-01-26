@@ -19,8 +19,11 @@ class ForgotPasswordFragment : Fragment() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 sender?.let {
                     if ((it as ObservableBoolean).get()) {
-                        mFragmentListener
-                            .replaceFragment((activity as LoginActivity).mResetPasswordFragment)
+                        replaceFragment(
+                            (activity as LoginActivity).mResetPasswordFragment,
+                            R.anim.enter_from_right,
+                            R.anim.exit_to_left
+                        )
                     }
                 }
             }
