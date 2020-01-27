@@ -3,14 +3,15 @@ package com.mashup.telltostar.ui.myconstellation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mashup.telltostar.R
+import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationAdapter
 import com.mashup.telltostar.util.ConstellationUtil
+import com.mashup.telltostar.util.PrefUtil
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.InfiniteScrollAdapter
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.activity_my_constellation.*
-import org.jetbrains.anko.toast
 
 class MyConstellationActivity : AppCompatActivity(),
     DiscreteScrollView.ScrollStateChangeListener<ConstellationAdapter.ConstellationViewHolder>,
@@ -36,7 +37,8 @@ class MyConstellationActivity : AppCompatActivity(),
     private fun initButton() {
         btnMyConstellationStart.setOnClickListener {
             val realPosition = constellationAdapter.getRealPosition(customScrollView.currentItem)
-            toast(adapter.getConstellation(realPosition))
+            PrefUtil.put(PrefUtil.CONSTELLATION, adapter.getConstellation(realPosition))
+            MainActivity.startMainActivity(this)
         }
     }
 

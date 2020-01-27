@@ -2,6 +2,7 @@ package com.mashup.telltostar.ui.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
@@ -44,9 +45,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //TODO test data
-        PrefUtil.put(PrefUtil.CONSTELLATION, "황소자리")
 
         presenter = MainPresenter(
             this,
@@ -217,6 +215,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     companion object {
         private const val REQUEST_DIARY_EDIT = 0x001
+
+        fun startMainActivity(context: Context) {
+            context.startActivity(
+                Intent(
+                    context, MainActivity::class.java
+                )
+            )
+        }
     }
 
 }
