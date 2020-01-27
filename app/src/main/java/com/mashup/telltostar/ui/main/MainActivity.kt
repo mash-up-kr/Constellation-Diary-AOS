@@ -137,12 +137,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun showDiaryTitle(title: String) {
         tvMainContentsTitle.text = title
-        tvMainContentsDescription.text = resources.getString(R.string.edit_diary)
+        tvMainContentsDescription.text = resources.getString(R.string.edit_diary) + " >"
+        llBottomSheetView.btnBottomsheetEditDiary.text = resources.getString(R.string.edit_diary)
     }
 
     override fun showQuestionTitle(title: String) {
         tvMainContentsTitle.text = title
-        tvMainContentsDescription.text = resources.getString(R.string.write_diary)
+        tvMainContentsDescription.text = resources.getString(R.string.write_diary) + " >"
+        llBottomSheetView.btnBottomsheetEditDiary.text = resources.getString(R.string.write_diary)
     }
 
     override fun showHoroscope(horoscope: Horoscope) {
