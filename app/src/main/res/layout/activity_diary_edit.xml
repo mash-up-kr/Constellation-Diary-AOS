@@ -19,10 +19,10 @@
 
     <ImageView
         android:id="@+id/ivDiaryEditHoroscope"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="@color/black_two"
+        android:src="@drawable/ic_dot"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
