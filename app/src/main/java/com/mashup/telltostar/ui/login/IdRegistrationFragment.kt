@@ -1,5 +1,6 @@
 package com.mashup.telltostar.ui.login
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
+import com.mashup.telltostar.ui.myconstellation.MyConstellationActivity
 import com.mashup.telltostar.util.VibratorUtil
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -204,6 +206,12 @@ class IdRegistrationFragment : Fragment() {
 
                 if (!isIdentical) {
                     vibrate()
+                } else {
+                    startActivity(Intent(activity, MyConstellationActivity::class.java).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    })
+                    activity.overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left)
+                    activity.finish()
                 }
             })
             IdRegistrationViewModel.isAvailableId.observe(this, Observer {
