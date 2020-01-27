@@ -27,4 +27,6 @@
     <color name="constellationItemOverlay">#cc000000</color>
     <color name="grayIconTint">#727272</color>
     <color name="brownish_grey_three">#707070</color>
+    <color name="dark_sky_blue_three">#4b95e8</color>
+    <color name="dark_sky_blue_four">#4b95e9</color>
 </resources>

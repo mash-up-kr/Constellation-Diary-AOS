@@ -17,6 +17,7 @@ import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.Horoscope
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
+import com.mashup.telltostar.ui.setting.SettingActivity
 import com.mashup.telltostar.ui.starlist.StarListActivity
 import com.mashup.telltostar.util.ConstellationUtil
 import com.mashup.telltostar.util.PrefUtil
@@ -131,6 +132,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 showStarList()
             }
             getHeaderView(0).diaryMenuTextView.setOnClickListener {
+
+            }
+            getHeaderView(0).settingMenuTextView.setOnClickListener {
+                startActivity(
+                    Intent(this@MainActivity, SettingActivity::class.java)
+                )
             }
         }
     }
