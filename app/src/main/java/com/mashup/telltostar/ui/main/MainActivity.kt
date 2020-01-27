@@ -19,9 +19,11 @@ import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import com.mashup.telltostar.ui.starlist.StarListActivity
 import com.mashup.telltostar.util.ConstellationUtil
 import com.mashup.telltostar.util.PrefUtil
+import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_bottomsheet.*
+import kotlinx.android.synthetic.main.fragment_bottomsheet.view.*
 import kotlinx.android.synthetic.main.header.view.*
 import kotlinx.android.synthetic.main.main_contents.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         initToolbar()
         initBottomSheet()
+        initNavigationView()
         initButton()
 
         //TODO 초기화 되는 시점 필요
@@ -96,6 +99,24 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 }
             }
         })
+
+
+        val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
+
+        with(llBottomSheetView) {
+            tvBottomSheetHoroscopeTitle.text = "$constellation 운세"
+            tvBottomSheetDate.text = TimeUtil.getDate()
+        }
+
+    }
+
+    private fun initNavigationView() {
+        val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
+        with(navigationView.getHeaderView(0)) {
+            ivLogo.setImageResource(ConstellationUtil.getIconBlack(resources, constellation))
+            tvMyConstellation.text = constellation
+            tvConstellationDuration.text = ConstellationUtil.getDate(resources, constellation)
+        }
     }
 
     private fun initButton() {
@@ -127,7 +148,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun showHoroscope(horoscope: Horoscope) {
-        Timber.d("horoscope : $horoscope")
+        with(llBottomSheetView) {
+            tvBottomSheetHoroscopeContents.text = horoscope.content
+            tvBottomSheetClothes.text = horoscope.stylist
+            tvBottomSheetNumber.text = horoscope.numeral
+            tvBottomSheetWorkout.text = horoscope.exercise
+            tvBottomSheetWord.text = horoscope.word
+        }
     }
 
     override fun showEditDiary(diaryId: Int, horoscopeId: Int) {

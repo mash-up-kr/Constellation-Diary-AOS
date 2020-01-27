@@ -84,6 +84,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:background="@null"
+        android:lineSpacingExtra="8sp"
         android:gravity="start"
         android:hint="@string/please_write_contents"
         android:textColor="@color/greyish_brown"
