@@ -17,12 +17,14 @@ import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.Horoscope
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import com.mashup.telltostar.ui.starlist.StarListActivity
+import com.mashup.telltostar.util.ConstellationUtil
 import com.mashup.telltostar.util.PrefUtil
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_bottomsheet.*
 import kotlinx.android.synthetic.main.header.view.*
 import kotlinx.android.synthetic.main.main_contents.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.toast
 import timber.log.Timber
 
@@ -72,6 +74,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             it.setDisplayShowTitleEnabled(false)
             it.setDisplayHomeAsUpEnabled(true)
         }
+        toolbarImageView.setImageResource(
+            ConstellationUtil.getIcon(resources, PrefUtil.get(PrefUtil.CONSTELLATION, ""))
+        )
     }
 
     private fun initBottomSheet() {
