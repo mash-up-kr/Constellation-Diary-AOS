@@ -21,7 +21,4 @@ interface UserApi {
 
     @POST("/users/sign-in")
     fun signIn(@Header("Time-Zone") timeZone: String, @Body body: ReqSignInDto): Single<ResUserInfoDto>
-
-    @PATCH("/users/password")
-    fun password(@Header("Authorization") authorization: String, @Body body: ReqResetPassword): Completable
 }
