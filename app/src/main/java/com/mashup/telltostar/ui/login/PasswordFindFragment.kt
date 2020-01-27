@@ -154,9 +154,7 @@ class PasswordFindFragment : Fragment() {
     }
 
     fun performResetPasswordButtonClick(view: View) {
-        timber.log.Timber.d("performResetPasswordButtonClick()")
-
-        mBinding.viewModel?.requestResetPassword(
+        mBinding.viewModel?.requestSelfVerification(
             mBinding.emailEditText.text.toString(),
             mBinding.verificationNumberEditText.text.toString().toInt(),
             mBinding.idEditText.text.toString()

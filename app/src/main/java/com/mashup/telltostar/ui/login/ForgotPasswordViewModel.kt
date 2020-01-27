@@ -82,7 +82,7 @@ object ForgotPasswordViewModel {
         )
     }
 
-    fun requestResetPassword(email: String, verificationNumber: Int, id: String) {
+    fun requestSelfVerification(email: String, verificationNumber: Int, id: String) {
         mCompositeDisposable.add(
             ApiProvider
                 .provideAuthenticationNumberApi()
