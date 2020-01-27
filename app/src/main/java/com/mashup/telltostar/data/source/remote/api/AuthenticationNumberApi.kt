@@ -2,6 +2,8 @@ package com.mashup.telltostar.data.source.remote.api
 
 import com.mashup.telltostar.data.source.remote.*
 import com.mashup.telltostar.data.source.remote.request.ReqFindPasswordNumberDto
+import com.mashup.telltostar.data.source.remote.request.ReqValidationFindPasswordNumberDto
+import com.mashup.telltostar.data.source.remote.response.ResAuthenticationTokenDto
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.Body
@@ -22,5 +24,5 @@ interface AuthenticationNumberApi {
     fun verificationNumberFindPassword(@Body body: ReqFindPasswordNumberDto): Completable
 
     @POST("/authentication/find-password")
-    fun verificationFindPassword(@Body body: ReqVerificationFindPassword): Single<ResVerificationFindPassword>
+    fun verificationFindPassword(@Body body: ReqValidationFindPasswordNumberDto): Single<ResAuthenticationTokenDto>
 }
