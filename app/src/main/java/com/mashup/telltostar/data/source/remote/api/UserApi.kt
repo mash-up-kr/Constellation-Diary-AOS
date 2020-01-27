@@ -1,5 +1,6 @@
-package com.mashup.telltostar.data.source.remote
+package com.mashup.telltostar.data.source.remote.api
 
+import com.mashup.telltostar.data.source.remote.*
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*

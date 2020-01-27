@@ -3,6 +3,7 @@ package com.mashup.telltostar.data.source.remote
 import com.mashup.telltostar.data.source.remote.api.DailyApi
 import com.mashup.telltostar.data.source.remote.api.DiaryApi
 import com.mashup.telltostar.data.source.remote.api.HoroscopeApi
+import com.mashup.telltostar.data.source.remote.api.UserApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
