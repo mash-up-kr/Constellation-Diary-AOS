@@ -3,6 +3,7 @@ package com.mashup.telltostar.data.source.remote.api
 import com.mashup.telltostar.data.source.remote.*
 import com.mashup.telltostar.data.source.remote.request.ReqFindPasswordNumberDto
 import com.mashup.telltostar.data.source.remote.request.ReqValidationFindPasswordNumberDto
+import com.mashup.telltostar.data.source.remote.request.ReqValidationSignUpNumberDto
 import com.mashup.telltostar.data.source.remote.response.ResAuthenticationTokenDto
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -17,8 +18,8 @@ interface AuthenticationNumberApi {
     @POST("/authentication-numbers/sign-up")
     fun authenticationNumbersSignUp(@Body body: ReqSignUpNumberDto): Completable
 
-    @POST("/authentication")
-    fun authentication(@Body body: ReqValidationNumber): Single<ResValidationNumber>
+    @POST("/authentication/sign-up")
+    fun authenticationSignUp(@Body body: ReqValidationSignUpNumberDto): Single<ResAuthenticationTokenDto>
 
     @POST("/authentication-numbers/find-password")
     fun verificationNumberFindPassword(@Body body: ReqFindPasswordNumberDto): Completable

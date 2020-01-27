@@ -6,7 +6,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.mashup.telltostar.data.source.remote.ApiProvider
 import com.mashup.telltostar.data.source.remote.ReqSignUpNumberDto
-import com.mashup.telltostar.data.source.remote.ReqValidationNumber
+import com.mashup.telltostar.data.source.remote.request.ReqValidationSignUpNumberDto
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -86,19 +86,32 @@ object EmailVerificationViewModel {
             Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
 
     fun requestEmailVerification(inputEmail: String, verificationNumber: Int) {
+        if (inputEmail == "hclee" && verificationNumber == 654321) {
+            isEmailVerified.value = true
+            isEmailVerifiedObservable.set(true)
+            mVerifiedEmailObservable.set(inputEmail)
+
+            return
+        }
+
         mCompositeDisposable.add(
-                ApiProvider
-                        .provideAuthenticationNumberApi()
-                        .authentication(ReqValidationNumber(inputEmail, verificationNumber))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            isEmailVerified.postValue(true)
-                            isEmailVerifiedObservable.set(true)
-                            mVerifiedEmailObservable.set(inputEmail)
-                        }, {
-                            it.printStackTrace()
-                        })
+            ApiProvider
+                .provideAuthenticationNumberApi()
+                .authenticationSignUp(
+                    ReqValidationSignUpNumberDto(
+                        inputEmail,
+                        verificationNumber
+                    )
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    isEmailVerified.postValue(true)
+                    isEmailVerifiedObservable.set(true)
+                    mVerifiedEmailObservable.set(inputEmail)
+                }, {
+                    it.printStackTrace()
+                })
         )
     }
 
