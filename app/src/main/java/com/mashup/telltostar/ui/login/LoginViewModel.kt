@@ -2,7 +2,7 @@ package com.mashup.telltostar.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import com.mashup.telltostar.data.source.remote.ApiProvider
-import com.mashup.telltostar.data.source.remote.ReqSignIn
+import com.mashup.telltostar.data.source.remote.request.ReqSignInDto
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -27,7 +27,13 @@ class LoginViewModel {
             mCompositeData.add(
                 ApiProvider
                     .provideUserApi()
-                    .signIn(timeZone, ReqSignIn(id, password))
+                    .signIn(
+                        timeZone,
+                        ReqSignInDto(
+                            id,
+                            password
+                        )
+                    )
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({

@@ -1,6 +1,6 @@
-package com.mashup.telltostar.data.source.remote
+package com.mashup.telltostar.data.source.remote.response
 
-data class ResSignIn(
+data class ResUserInfoDto(
     val tokens: Tokens,
     val user: User
 )
