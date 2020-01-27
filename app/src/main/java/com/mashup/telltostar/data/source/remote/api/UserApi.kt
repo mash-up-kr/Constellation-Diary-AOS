@@ -1,10 +1,9 @@
 package com.mashup.telltostar.data.source.remote.api
 
-import com.mashup.telltostar.data.source.remote.*
 import com.mashup.telltostar.data.source.remote.request.ReqSignInDto
+import com.mashup.telltostar.data.source.remote.response.ResCheckUserDto
 import com.mashup.telltostar.data.source.remote.response.ResUserIdDto
 import com.mashup.telltostar.data.source.remote.response.ResUserInfoDto
-import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -14,7 +13,7 @@ import retrofit2.http.*
 
 interface UserApi {
     @GET("/users/check")
-    fun check(@Query("user-id") userId: String): Single<ResUsersCheck>
+    fun check(@Query("user-id") userId: String): Single<ResCheckUserDto>
 
     @GET("/users/find-id")
     fun findId(@Query("email") email: String): Single<ResUserIdDto>
