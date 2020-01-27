@@ -5,7 +5,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.mashup.telltostar.data.source.remote.ApiProvider
-import com.mashup.telltostar.data.source.remote.ReqSignUpNumberDto
+import com.mashup.telltostar.data.source.remote.request.ReqSignUpNumberDto
 import com.mashup.telltostar.data.source.remote.request.ReqValidationSignUpNumberDto
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -63,7 +63,9 @@ object EmailVerificationViewModel {
                 ApiProvider
                     .provideAuthenticationNumberApi()
                     .authenticationNumbersSignUp(
-                        ReqSignUpNumberDto(inputEmail)
+                        ReqSignUpNumberDto(
+                            inputEmail
+                        )
                     )
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
