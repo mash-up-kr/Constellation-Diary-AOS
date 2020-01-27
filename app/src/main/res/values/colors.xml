@@ -26,4 +26,5 @@
     <color name="constellationCurrentItemOverlay">@android:color/transparent</color>
     <color name="constellationItemOverlay">#cc000000</color>
     <color name="grayIconTint">#727272</color>
+    <color name="brownish_grey_three">#707070</color>
 </resources>
