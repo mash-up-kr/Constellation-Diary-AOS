@@ -3,6 +3,7 @@ package com.mashup.telltostar.ui.login
 import android.util.Patterns
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import com.mashup.telltostar.data.source.remote.ApiProvider
 import com.mashup.telltostar.data.source.remote.ReqVerificationFindPassword
 import com.mashup.telltostar.data.source.remote.ReqVerificationNumberFindPassword
@@ -30,6 +31,7 @@ object ForgotPasswordViewModel {
     val isLoadingVisibleObservable = ObservableBoolean(false)
     val isPasswordEmptyWarningVisibleObservable = ObservableBoolean(false)
     val isPasswordNotIdenticalWarningVisibleObservable = ObservableBoolean(false)
+    val isPasswordInputIdenticalLiveData = MutableLiveData<Boolean>(false)
 
     fun requestVerificationNumber(id: String, email: String) {
         isIdEmptyWarningVisibleObservable.set(id.isEmpty())
@@ -101,6 +103,15 @@ object ForgotPasswordViewModel {
                     isVerifiedObservable.set(false)
                 })
         )
+    }
+
+    fun requestResetPassword(newPassword: String, passwordConfirm: String) {
+        isPasswordEmptyWarningVisibleObservable.set(newPassword.isEmpty())
+        isPasswordNotIdenticalWarningVisibleObservable.set(newPassword != passwordConfirm)
+
+        if (newPassword.isNotEmpty() && passwordConfirm.isNotEmpty()) {
+            isPasswordInputIdenticalLiveData.value = (newPassword == passwordConfirm)
+        }
     }
 
     private fun getIntervalObservable() =
