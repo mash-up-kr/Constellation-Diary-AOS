@@ -5,7 +5,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.mashup.telltostar.data.source.remote.ApiProvider
-import com.mashup.telltostar.data.source.remote.ReqAuthenticationNumbers
+import com.mashup.telltostar.data.source.remote.ReqSignUpNumberDto
 import com.mashup.telltostar.data.source.remote.ReqValidationNumber
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -60,21 +60,21 @@ object EmailVerificationViewModel {
                             })
             )
             mCompositeDisposable.add(
-                    ApiProvider
-                            .provideAuthenticationNumberApi()
-                            .authenticationNumbers(
-                                    ReqAuthenticationNumbers(inputEmail)
-                            )
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
-                                isEmailSend.postValue(true)
-                                isEmailSendObservable.set(true)
-                            }, {
-                                isEmailPattern.postValue(false)
-                                isEmailPatternObservable.set(false)
-                                it.printStackTrace()
-                            })
+                ApiProvider
+                    .provideAuthenticationNumberApi()
+                    .authenticationNumbersSignUp(
+                        ReqSignUpNumberDto(inputEmail)
+                    )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        isEmailSend.postValue(true)
+                        isEmailSendObservable.set(true)
+                    }, {
+                        isEmailPattern.postValue(false)
+                        isEmailPatternObservable.set(false)
+                        it.printStackTrace()
+                    })
             )
         } else {
             isEmailPattern.postValue(false)

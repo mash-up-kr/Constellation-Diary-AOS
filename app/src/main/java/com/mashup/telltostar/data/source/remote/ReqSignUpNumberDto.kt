@@ -1,5 +1,5 @@
 package com.mashup.telltostar.data.source.remote
 
-data class ReqAuthenticationNumbers(
+data class ReqSignUpNumberDto(
     val email: String
 )

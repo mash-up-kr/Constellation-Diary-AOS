@@ -11,13 +11,14 @@ object ApiProvider {
 
     private const val BASE_URL = "https://byeol-byeol.kro.kr/"
 
-    fun provideAuthenticationNumberApi() = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .client(provideOkHttpClient(provideLoggingInterceptor()))
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(AuthenticationNumberApi::class.java)
+    fun provideAuthenticationNumberApi(): AuthenticationNumberApi =
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(provideOkHttpClient(provideLoggingInterceptor()))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(AuthenticationNumberApi::class.java)
 
     fun provideUserApi() = Retrofit.Builder()
         .baseUrl(BASE_URL)

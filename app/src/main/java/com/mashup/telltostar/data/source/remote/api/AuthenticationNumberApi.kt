@@ -14,8 +14,8 @@ import retrofit2.http.POST
  */
 
 interface AuthenticationNumberApi {
-    @POST("/authentication-numbers")
-    fun authenticationNumbers(@Body body: ReqAuthenticationNumbers): Completable
+    @POST("/authentication-numbers/sign-up")
+    fun authenticationNumbersSignUp(@Body body: ReqSignUpNumberDto): Completable
 
     @POST("/authentication")
     fun authentication(@Body body: ReqValidationNumber): Single<ResValidationNumber>
