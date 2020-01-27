@@ -5,9 +5,9 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.mashup.telltostar.data.source.remote.ApiProvider
-import com.mashup.telltostar.data.source.remote.ReqResetPassword
-import com.mashup.telltostar.data.source.remote.ReqVerificationFindPassword
-import com.mashup.telltostar.data.source.remote.ReqVerificationNumberFindPassword
+import com.mashup.telltostar.data.source.remote.request.ReqModifyPasswordDto
+import com.mashup.telltostar.data.source.remote.request.ReqValidationFindPasswordNumberDto
+import com.mashup.telltostar.data.source.remote.request.ReqFindPasswordNumberDto
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -46,7 +46,7 @@ object ForgotPasswordViewModel {
                     ApiProvider
                         .provideAuthenticationNumberApi()
                         .verificationNumberFindPassword(
-                            ReqVerificationNumberFindPassword(
+                            ReqFindPasswordNumberDto(
                                 email,
                                 id
                             )
@@ -90,7 +90,7 @@ object ForgotPasswordViewModel {
             ApiProvider
                 .provideAuthenticationNumberApi()
                 .verificationFindPassword(
-                    ReqVerificationFindPassword(
+                    ReqValidationFindPasswordNumberDto(
                         email,
                         verificationNumber,
                         id
@@ -114,10 +114,12 @@ object ForgotPasswordViewModel {
             if (newPassword == passwordConfirm) {
                 mCompositeDisposable.add(
                     ApiProvider
-                        .provideUserApi()
+                        .provideUserChangeApi()
                         .password(
                             "",
-                            ReqResetPassword(newPassword)
+                            ReqModifyPasswordDto(
+                                newPassword
+                            )
                         )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
