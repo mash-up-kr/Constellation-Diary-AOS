@@ -5,6 +5,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.data.source.remote.ReqResetPassword
 import com.mashup.telltostar.data.source.remote.ReqVerificationFindPassword
 import com.mashup.telltostar.data.source.remote.ReqVerificationNumberFindPassword
 import io.reactivex.Observable
@@ -110,7 +111,23 @@ object ForgotPasswordViewModel {
         isPasswordNotIdenticalWarningVisibleObservable.set(newPassword != passwordConfirm)
 
         if (newPassword.isNotEmpty() && passwordConfirm.isNotEmpty()) {
-            isPasswordInputIdenticalLiveData.value = (newPassword == passwordConfirm)
+            if (newPassword == passwordConfirm) {
+                mCompositeDisposable.add(
+                    ApiProvider
+                        .provideUserApi()
+                        .password(
+                            "",
+                            ReqResetPassword(newPassword)
+                        )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            isPasswordInputIdenticalLiveData.value = true
+                        }, {
+                            it.printStackTrace()
+                        })
+                )
+            }
         }
     }
 
