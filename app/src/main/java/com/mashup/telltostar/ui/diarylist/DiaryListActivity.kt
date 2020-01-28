@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_diary_list.*
 
 class DiaryListActivity : AppCompatActivity() {
     private val diaryListAdapter = DiaryListAdapter()
+    private var checkedNum = 0;
     private val data_1 = Temp_diary(0,"title","2020-01-19T18:02:21.786Z",false,false)
     private val data_2 = Temp_diary(0,"title","2020-01-18T18:02:21.786Z",false,false)
     private val data_3 = Temp_diary(0,"title","2020-01-17T18:02:21.786Z",false,false)//"2020-01-19T18:02:21.786Z"
@@ -26,6 +27,7 @@ class DiaryListActivity : AppCompatActivity() {
 
         initRecycleview()
         changeClickData()
+        changeDeleteText()
     }
 
     fun initRecycleview(){
@@ -50,20 +52,44 @@ class DiaryListActivity : AppCompatActivity() {
             btn.setOnClickListener {
                 diaryListAdapter.let{adapter ->
                     if(btn.text.equals(getString(R.string.select))){
+                        adapter.notifyItemRangeChanged(0,adapter.itemCount,true)
                         btn.setText(getString(R.string.delete))
                         val red = ContextCompat.getColor(this, R.color.grapefruit)
                         btn.setTextColor(red)
-                        adapter.notifyItemRangeChanged(0,adapter.itemCount,true)
                     }else {
+                        adapter.notifyItemRangeChanged(0,adapter.itemCount,false)
                         btn.setText(getString(R.string.select))
                         val blackTwo = ContextCompat.getColor(this, R.color.black_two)
                         btn.setTextColor(blackTwo)
-                        adapter.notifyItemRangeChanged(0,adapter.itemCount,false)
+                        checkedNum = 0
                     }
                 }
             }
         }
         diaryListAdapter.notifyDataSetChanged()
+    }
+
+    fun changeDeleteText(){
+        diaryListAdapter.setOnItemClickListener(object : DiaryListAdapter.OnItemClickListener{
+            override fun onItemClick(isChecked: Boolean) {
+                if(isChecked == true){
+                    checkedNum ++
+                    listDiarySelectTV.text = checkedNum.toString() + getString(R.string.delete)
+                }else{
+                    checkedNum --
+                    if(checkedNum == 0){
+                        listDiarySelectTV.setText(getString(R.string.delete))
+                    }else{
+                        listDiarySelectTV.text = checkedNum.toString() + getString(R.string.delete)
+                    }
+                }
+            }
+
+        })
+    }
+
+    fun deleteDiary(){
+
     }
 
 

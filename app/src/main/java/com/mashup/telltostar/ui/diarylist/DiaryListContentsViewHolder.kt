@@ -1,6 +1,6 @@
 package com.mashup.telltostar.ui.diarylist
 
-import android.util.Log
+
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
@@ -11,11 +11,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<Temp_diary>(view) {
-    private lateinit var diary : Temp_diary
-    private val diaryDate : TextView = view.findViewById(R.id.diaryListDateTV) as TextView
-    private val diaryDay : TextView = view.findViewById(R.id.diaryListDayTV) as TextView
-    private val diaryTitle : TextView = view.findViewById(R.id.diaryListTitleTV) as TextView
-    private val diarySelect : CheckBox = view.findViewById(R.id.diaryListSelectCB) as CheckBox
+    lateinit var diary : Temp_diary
+    val diaryDate : TextView = view.findViewById(R.id.diaryListDateTV) as TextView
+    val diaryDay : TextView = view.findViewById(R.id.diaryListDayTV) as TextView
+    val diaryTitle : TextView = view.findViewById(R.id.diaryListTitleTV) as TextView
+    val diarySelect : CheckBox = view.findViewById(R.id.diaryListSelectCB) as CheckBox
 
     override fun bind(item: Temp_diary, pos:Int) {
 
@@ -25,30 +25,25 @@ class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<T
 
         diaryTitle.text = item.title
 
+        checkClick()
+
     }
 
-    fun changeVisibleData(visibleCheck : Boolean){
-        diary.isVisible = visibleCheck
-
+    fun changeVisible(){
         if(diary.isVisible == true){
             diarySelect.visibility = View.VISIBLE
         }else{
             diarySelect.visibility = View.INVISIBLE
         }
-
-        Log.d("data",diary.isVisible.toString())
     }
-
-//    fun visibleCheckBox(){
-//        if(diary.isVisible == true){
-//            diarySelect.visibility = View.VISIBLE
-//        }else{
-//            diarySelect.visibility = View.INVISIBLE
-//        }
+//    fun changeClick(){
+//        diarySelect.isClickable = diary.isChecked
 //    }
 
     fun checkClick(){
-        diary.isChecked = diarySelect.isChecked
+        diarySelect.setOnCheckedChangeListener { buttonView, isChecked ->
+            diary.isChecked = isChecked
+        }
     }
 
     fun bindDate(){

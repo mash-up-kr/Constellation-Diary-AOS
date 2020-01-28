@@ -12,6 +12,8 @@ import java.util.*
 
 class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>() {
     var dataList : ArrayList<Any> = arrayListOf()
+    private lateinit var checkNumListener : OnItemClickListener
+
 
     companion object{
         private val TYPE_CONTENTS = 0
@@ -41,6 +43,16 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>
             when(holder){
                 is DiaryListContentsViewHolder -> {
                     holder.bind(it as Temp_diary,position)
+                    holder.changeVisible()
+//                    holder.diarySelect.isChecked = holder.diary.isChecked
+                    holder.diarySelect.setOnCheckedChangeListener(null)
+                    holder.diarySelect.setOnCheckedChangeListener { buttonView, isChecked ->
+                        if(position != RecyclerView.NO_POSITION){
+                            if (checkNumListener != null) {
+                                checkNumListener.onItemClick(isChecked) ;
+                            }
+                        }
+                    }
                 }
                 is DateViewHolder -> holder.bind(it as ModelDate,position)
                 else -> throw IllegalArgumentException()
@@ -52,10 +64,21 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>
         if(payloads.isEmpty()){
             super.onBindViewHolder(holder, position, payloads)
         }else{
-            for(payload in payloads){
-                if(payload is Boolean) {
-                    if (holder is DiaryListContentsViewHolder) {
-                        holder.changeVisibleData(payload)
+            if (holder is DiaryListContentsViewHolder) {
+                 for(i in 1..itemCount){
+                     var check = payloads[0]
+                    if (check is Boolean) {
+                        holder.diary.isVisible = check
+                        holder.changeVisible()
+                        if(check == false){
+                            holder.diary.isChecked = false
+                            holder.diarySelect.isChecked = false
+                        }
+                    }
+                    if (check is String) {
+                        if(holder.diary.isChecked){
+
+                        }
                     }
                 }
             }
@@ -72,6 +95,14 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>
                 else -> throw IllegalArgumentException("Invalid type of data " + position)
             }
         }
+    }
+
+    fun setOnItemClickListener(listener : OnItemClickListener){
+        this.checkNumListener = listener
+    }
+
+    interface OnItemClickListener{
+        fun onItemClick(isChecked : Boolean)
     }
 
     //viewHolder
