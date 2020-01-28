@@ -30,9 +30,9 @@ class StarListActivity : AppCompatActivity(){
         setData()
 
         starListAdapter.setOnItemClickListener(object : StarListAdapter.OnItemClickListener{
-            override fun onItemClick(view: View, pos: Int) {
+            override fun onItemClick(view: View, name: String) {
                 val intent  = Intent(this@StarListActivity,StarListDetailActivity::class.java)
-                intent.putExtra("position",pos)
+                intent.putExtra("name",name)
 
                 startActivity(intent)
             }

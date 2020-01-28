@@ -106,9 +106,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             getHeaderView(0).constellationMenuTextView.setOnClickListener {
                 showStarList()
             }
-            getHeaderView(1).constellationMenuTextView.setOnClickListener {
-                //TODO diaryList 코드를 여기에다가 추가해서 사용해 주세요.
-            }
+//            getHeaderView(0).constellationMenuTextView.setOnClickListener {
+//                //TODO diaryList 코드를 여기에다가 추가해서 사용해 주세요.
+//            }
         }
     }
 

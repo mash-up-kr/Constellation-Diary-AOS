@@ -30,7 +30,7 @@ class StarListAdapter : RecyclerView.Adapter<StarListAdapter.StarListViewHolder>
         holder.starBox.setOnClickListener{
             if(position != RecyclerView.NO_POSITION){
                 if (mListener != null) {
-                    mListener.onItemClick(it, position) ;
+                    mListener.onItemClick(it, nameList[position]) ;
                 }
             }
         }
@@ -48,7 +48,7 @@ class StarListAdapter : RecyclerView.Adapter<StarListAdapter.StarListViewHolder>
     }
 
     interface OnItemClickListener{
-        fun onItemClick(view: View,pos : Int)
+        fun onItemClick(view: View,name :String)
     }
 
     class StarListViewHolder(view: View):RecyclerView.ViewHolder(view){
