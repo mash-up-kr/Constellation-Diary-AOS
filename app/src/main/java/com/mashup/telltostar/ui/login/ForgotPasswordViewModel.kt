@@ -33,6 +33,7 @@ object ForgotPasswordViewModel {
     val isPasswordEmptyWarningVisibleObservable = ObservableBoolean(false)
     val isPasswordNotIdenticalWarningVisibleObservable = ObservableBoolean(false)
     val isPasswordInputIdenticalLiveData = MutableLiveData<Boolean>(false)
+    private var mVerificationToken: String? = null
 
     fun requestVerificationNumber(id: String, email: String) {
         isIdEmptyWarningVisibleObservable.set(id.isEmpty())
@@ -100,8 +101,10 @@ object ForgotPasswordViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     isVerifiedObservable.set(true)
+                    mVerificationToken = it.token
                 }, {
                     isVerifiedObservable.set(false)
+                    mVerificationToken = null
                 })
         )
     }
@@ -116,7 +119,8 @@ object ForgotPasswordViewModel {
                     ApiProvider
                         .provideUserChangeApi()
                         .password(
-                            "",
+                            (if (mVerificationToken == null) ""
+                            else "Bearer $mVerificationToken"),
                             ReqModifyPasswordDto(
                                 newPassword
                             )
@@ -125,6 +129,7 @@ object ForgotPasswordViewModel {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             isPasswordInputIdenticalLiveData.value = true
+                            mVerificationToken = null
                         }, {
                             it.printStackTrace()
                         })

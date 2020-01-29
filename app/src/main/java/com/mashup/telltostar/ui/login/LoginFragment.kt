@@ -1,5 +1,6 @@
 package com.mashup.telltostar.ui.login
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
+import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.util.VibratorUtil
 import kotlinx.android.synthetic.main.dialog_forgot_id_password.view.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
@@ -104,7 +106,20 @@ class LoginFragment : Fragment() {
                 })
                 isLoggedIn.observe(this@LoginFragment, Observer {
                     if (it) {
-                        timber.log.Timber.d("login success")
+                        activity?.let { activity ->
+                            activity.startActivity(
+                                Intent(
+                                    context,
+                                    MainActivity::class.java
+                                ).apply {
+                                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                })
+                            activity.overridePendingTransition(
+                                R.anim.enter_from_right,
+                                R.anim.exit_to_left
+                            )
+                            activity.finish()
+                        }
                     }
                 })
             }
