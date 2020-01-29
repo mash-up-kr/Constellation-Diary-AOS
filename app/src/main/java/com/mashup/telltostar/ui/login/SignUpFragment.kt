@@ -1,7 +1,5 @@
 package com.mashup.telltostar.ui.login
 
-import android.content.res.ColorStateList
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,15 +10,14 @@ import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import kotlinx.android.synthetic.main.fragment_email_verification.*
-import kotlinx.android.synthetic.main.fragment_id_register.*
-import kotlinx.android.synthetic.main.fragment_signup.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 
 class SignUpFragment : Fragment() {
+    private lateinit var mRootView: View
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
     private lateinit var mEmailVerificationFragment: EmailVerificationFragment
-    private val mIdRegisterFragment by lazy {
-        IdRegisterFragment()
+    private val mIdRegistrationFragment by lazy {
+        IdRegistrationFragment()
     }
 
     override fun onCreateView(
@@ -29,10 +26,11 @@ class SignUpFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_signup, container, false)
 
+        mRootView = rootView
         mEmailVerificationFragment = EmailVerificationFragment(mFragmentListener)
 
-        setListeners(rootView)
-        setViewModelObserver(rootView)
+        setListeners()
+        setViewModelObserver(mRootView)
         replaceFragment(mEmailVerificationFragment)
 
         return rootView
@@ -42,42 +40,28 @@ class SignUpFragment : Fragment() {
         mFragmentListener = listener
     }
 
-    private fun setListeners(rootView: View) {
+    private fun setListeners() {
         with(activity as LoginActivity) {
-            rootView.arrowBackImageViewContainer.setOnClickListener {
+            mRootView.arrowBackImageViewContainer.setOnClickListener {
                 mFragmentListener.replaceFragment(
                     mLoginFragment,
                     R.anim.enter_from_left,
                     R.anim.exit_to_right
                 )
             }
-            rootView.nextSignUpButton.setOnClickListener {
-                EmailVerificationViewModel.isEmailSend.value?.let { isEmailSend ->
-                    if (isEmailSend) {
-                        EmailVerificationViewModel.isEmailVerified.value?.let { isEmailVerified ->
-                            if (isEmailVerified) {
-                                performSignUpButtonClick()
-                            } else {
-                                EmailVerificationViewModel.requestEmailVerification(
-                                    mEmailVerificationFragment.verificationNumberEditText.text.toString()
-                                )
-                            }
-                        } ?: EmailVerificationViewModel.requestEmailVerification(
-                            mEmailVerificationFragment.verificationNumberEditText.text.toString()
-                        )
-                    }
-                }
+            mRootView.nextSignUpButton.setOnClickListener {
+                performNextSignUpButtonClick()
             }
-            rootView.loginSignUpButton.setOnClickListener {
-                performSignUpButtonClick()
+            mRootView.startStarStarDiaryButton.setOnClickListener {
+                performStartStarStarDiaryButtonClick()
             }
         }
     }
 
-    private fun setViewModelObserver(rootView: View) {
+    private fun setViewModelObserver(mRootView: View) {
         EmailVerificationViewModel.mInputVerificationNumber.observe(this@SignUpFragment, Observer {
             if (it.length >= 6) {
-                with(rootView.nextSignUpButton) {
+                with(mRootView.nextSignUpButton) {
                     isEnabled = true
                     background = ContextCompat.getDrawable(
                         context,
@@ -91,7 +75,7 @@ class SignUpFragment : Fragment() {
                     )
                 }
             } else {
-                with(rootView.nextSignUpButton) {
+                with(mRootView.nextSignUpButton) {
                     isEnabled = false
                     background = ContextCompat.getDrawable(
                         context,
@@ -108,7 +92,7 @@ class SignUpFragment : Fragment() {
         })
         EmailVerificationViewModel.isEmailVerified.observe(this@SignUpFragment, Observer {
             if (it) {
-                with(rootView.nextSignUpButton) {
+                with(mRootView.nextSignUpButton) {
                     background = ContextCompat.getDrawable(
                         context,
                         R.drawable.custom_corner_navy_button
@@ -137,49 +121,35 @@ class SignUpFragment : Fragment() {
             ?.commit()
     }
 
-    private fun performSignUpButtonClick() {
-        if (mEmailVerificationFragment.isVisible) {
-            replaceFragment(mIdRegisterFragment, R.anim.enter_from_right, R.anim.exit_to_left)
-            EmailVerificationViewModel.clearDisposable()
-            signUpStepTextView.text = getString(R.string.sign_up_step_2)
-        } else {
-            with(mIdRegisterFragment) {
-                if (this.idEditText.text.isNullOrEmpty()) {
-                    this.idEditText.backgroundTintList =
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                            ColorStateList.valueOf(resources.getColor(R.color.coral, null))
-                        else
-                            ColorStateList.valueOf(resources.getColor(R.color.coral))
-                    this.inputIdWarningTextView.visibility = View.VISIBLE
-                } else {
-                    this.idEditText.backgroundTintList = null
-                    this.inputIdWarningTextView.visibility = View.GONE
-                }
-
-                if (this.passwordEditText.text.isNullOrEmpty()) {
-                    this.passwordEditText.backgroundTintList =
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                            ColorStateList.valueOf(resources.getColor(R.color.coral, null))
-                        else
-                            ColorStateList.valueOf(resources.getColor(R.color.coral))
-                    this.inputPasswordWarningTextView.visibility = View.VISIBLE
-                } else {
-                    this.passwordEditText.backgroundTintList = null
-                    this.inputPasswordWarningTextView.visibility = View.GONE
-                }
-
-                if (this.passwordConfirmEditText.text.isNullOrEmpty()) {
-                    this.passwordConfirmEditText.backgroundTintList =
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                            ColorStateList.valueOf(resources.getColor(R.color.coral, null))
-                        else
-                            ColorStateList.valueOf(resources.getColor(R.color.coral))
-                    this.inputPasswordConfirmWarningTextView.visibility = View.VISIBLE
-                } else {
-                    this.passwordConfirmEditText.backgroundTintList = null
-                    this.inputPasswordConfirmWarningTextView.visibility = View.GONE
-                }
+    private fun performNextSignUpButtonClick() {
+        EmailVerificationViewModel.isEmailSend.value?.let { isEmailSend ->
+            if (isEmailSend) {
+                EmailVerificationViewModel.isEmailVerified.value?.let { isEmailVerified ->
+                    if (isEmailVerified) {
+                        performStartStarStarDiaryButtonClick()
+                    } else {
+                        EmailVerificationViewModel.requestEmailVerification(
+                            mEmailVerificationFragment.emailEditText.text.toString(),
+                            mEmailVerificationFragment.verificationNumberEditText.text.toString().toInt()
+                        )
+                    }
+                } ?: EmailVerificationViewModel.requestEmailVerification(
+                    mEmailVerificationFragment.emailEditText.text.toString(),
+                    mEmailVerificationFragment.verificationNumberEditText.text.toString().toInt()
+                )
             }
+        }
+    }
+
+    private fun performStartStarStarDiaryButtonClick() {
+        if (mEmailVerificationFragment.isVisible) {
+            replaceFragment(mIdRegistrationFragment, R.anim.enter_from_right, R.anim.exit_to_left)
+            EmailVerificationViewModel.clearDisposable()
+            mRootView.signUpStepTextView.text = getString(R.string.sign_up_step_2)
+            mRootView.startStarStarDiaryButton.visibility = View.VISIBLE
+            mRootView.nextSignUpButton.visibility = View.GONE
+        } else if (mIdRegistrationFragment.isVisible) {
+            mIdRegistrationFragment.performStartStarStarDiaryButtonClick()
         }
     }
 }

@@ -1,8 +1,6 @@
 package com.mashup.telltostar.data.source.remote
 
-import com.mashup.telltostar.data.source.remote.api.DailyApi
-import com.mashup.telltostar.data.source.remote.api.DiaryApi
-import com.mashup.telltostar.data.source.remote.api.HoroscopeApi
+import com.mashup.telltostar.data.source.remote.api.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,7 +9,24 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiProvider {
 
-    private const val baseUrl = "https://byeol-byeol.kro.kr/"
+    private const val BASE_URL = "https://byeol-byeol.kro.kr/"
+
+    fun provideAuthenticationNumberApi(): AuthenticationNumberApi =
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(provideOkHttpClient(provideLoggingInterceptor()))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(AuthenticationNumberApi::class.java)
+
+    fun provideUserApi() = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(provideOkHttpClient(provideLoggingInterceptor()))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(UserApi::class.java)
 
     fun provideDiaryApi(): DiaryApi = retrofit.build()
         .create(DiaryApi::class.java)
@@ -22,8 +37,10 @@ object ApiProvider {
     fun provideDailyApi(): DailyApi = retrofit.build()
         .create(DailyApi::class.java)
 
+    fun provideUserChangeApi(): UserChangeApi = retrofit.build().create(UserChangeApi::class.java)
+
     private val retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
+        .baseUrl(BASE_URL)
         .client(provideOkHttpClient(provideLoggingInterceptor()))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
         .addConverterFactory(GsonConverterFactory.create())

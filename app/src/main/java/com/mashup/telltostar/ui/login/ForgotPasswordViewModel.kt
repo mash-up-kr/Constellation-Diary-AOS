@@ -1,0 +1,149 @@
+package com.mashup.telltostar.ui.login
+
+import android.util.Patterns
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.data.source.remote.request.ReqModifyPasswordDto
+import com.mashup.telltostar.data.source.remote.request.ReqValidationFindPasswordNumberDto
+import com.mashup.telltostar.data.source.remote.request.ReqFindPasswordNumberDto
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
+
+/**
+ * Created by hclee on 2020-01-17.
+ */
+
+object ForgotPasswordViewModel {
+    private const val TIMEOUT = 180L
+    private val mCompositeDisposable by lazy {
+        CompositeDisposable()
+    }
+    val isIdEmptyWarningVisibleObservable = ObservableBoolean(false)
+    val isEmailEmptyWarningVisibleObservable = ObservableBoolean(false)
+    val isVerificationNumberRequestedObservable = ObservableBoolean(false)
+    val isTimeRemainsObservable = ObservableBoolean()
+    val mRemainTimeObservable = ObservableField<String>()
+    val isVerifiedObservable = ObservableBoolean(false)
+    val isLoadingVisibleObservable = ObservableBoolean(false)
+    val isPasswordEmptyWarningVisibleObservable = ObservableBoolean(false)
+    val isPasswordNotIdenticalWarningVisibleObservable = ObservableBoolean(false)
+    val isPasswordInputIdenticalLiveData = MutableLiveData<Boolean>(false)
+
+    fun requestVerificationNumber(id: String, email: String) {
+        isIdEmptyWarningVisibleObservable.set(id.isEmpty())
+        isEmailEmptyWarningVisibleObservable.set(email.isEmpty() || isEmailPattern(email).not())
+
+        if (id.isNotEmpty() && email.isNotEmpty()) {
+            if (isEmailPattern(email)) {
+                mCompositeDisposable.clear()
+                isLoadingVisibleObservable.set(true)
+                mCompositeDisposable.add(
+                    ApiProvider
+                        .provideAuthenticationNumberApi()
+                        .verificationNumberFindPassword(
+                            ReqFindPasswordNumberDto(
+                                email,
+                                id
+                            )
+                        )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            isVerificationNumberRequestedObservable.set(true)
+                            isLoadingVisibleObservable.set(false)
+                            requestTimeCount()
+                        }, {
+                            isVerificationNumberRequestedObservable.set(false)
+                            isLoadingVisibleObservable.set(false)
+                        })
+                )
+            }
+        }
+    }
+
+    private fun requestTimeCount() {
+        mRemainTimeObservable.set(getConvertedTime(TIMEOUT))
+        isTimeRemainsObservable.set(true)
+        mCompositeDisposable.add(
+            getIntervalObservable()
+                .map {
+                    getConvertedTime(it)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    mRemainTimeObservable.set(it)
+                }, {
+
+                }, {
+                    isTimeRemainsObservable.set(false)
+                })
+        )
+    }
+
+    fun requestSelfVerification(email: String, verificationNumber: Int, id: String) {
+        mCompositeDisposable.add(
+            ApiProvider
+                .provideAuthenticationNumberApi()
+                .verificationFindPassword(
+                    ReqValidationFindPasswordNumberDto(
+                        email,
+                        verificationNumber,
+                        id
+                    )
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    isVerifiedObservable.set(true)
+                }, {
+                    isVerifiedObservable.set(false)
+                })
+        )
+    }
+
+    fun requestResetPassword(newPassword: String, passwordConfirm: String) {
+        isPasswordEmptyWarningVisibleObservable.set(newPassword.isEmpty())
+        isPasswordNotIdenticalWarningVisibleObservable.set(newPassword != passwordConfirm)
+
+        if (newPassword.isNotEmpty() && passwordConfirm.isNotEmpty()) {
+            if (newPassword == passwordConfirm) {
+                mCompositeDisposable.add(
+                    ApiProvider
+                        .provideUserChangeApi()
+                        .password(
+                            "",
+                            ReqModifyPasswordDto(
+                                newPassword
+                            )
+                        )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            isPasswordInputIdenticalLiveData.value = true
+                        }, {
+                            it.printStackTrace()
+                        })
+                )
+            }
+        }
+    }
+
+    private fun getIntervalObservable() =
+        Observable.interval(0, 1000, TimeUnit.MILLISECONDS)
+            .take(TIMEOUT + 1)
+
+    private fun getConvertedTime(time: Long): String {
+        val minute = (TIMEOUT - time) / 60
+        val seconds = (TIMEOUT - time) % 60
+
+        return if (seconds < 10) "$minute:0${seconds}" else "$minute:$seconds"
+    }
+
+    private fun isEmailPattern(inputEmail: String) =
+        Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
+}
