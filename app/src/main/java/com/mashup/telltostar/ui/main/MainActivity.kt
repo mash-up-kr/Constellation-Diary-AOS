@@ -128,19 +128,26 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         with(navigationView.getHeaderView(0)) {
             constellationMenuTextView.setOnClickListener {
+                cloasNavigationView()
                 showStarList()
             }
             diaryMenuTextView.setOnClickListener {
+                cloasNavigationView()
                 startActivity(
                     Intent(this@MainActivity, StarListActivity::class.java)
                 )
             }
             settingMenuTextView.setOnClickListener {
+                cloasNavigationView()
                 startActivity(
                     Intent(this@MainActivity, SettingActivity::class.java)
                 )
             }
         }
+    }
+
+    private fun cloasNavigationView() {
+        //TODO cloasNavigationView
     }
 
     override fun showDiaryTitle(title: String) {
