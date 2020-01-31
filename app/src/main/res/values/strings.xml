@@ -100,10 +100,15 @@
     <string name="not_identical_password">비밀번호가 일치하지 않습니다.</string>
 
     <!--    StarListActivity-->
-    <string name="Constellation">별자리</string>
+    <string name="Constellation_luck">별자리별 운세</string>
 
     <!--    StarListDetailActivity-->
     <string name="ChangeStar">내별자리 변경</string>
+    
+    <!--    DiaryListActivity-->
+    <string name="diary_list">일기장</string>
+    <string name="select">선택</string>
+    <string name="delete">삭제</string>
 
     <!-- Setting -->
     <string name="setting_am_push_title">오전 운세 알림 -</string>

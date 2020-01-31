@@ -25,8 +25,8 @@ class StarListActivity : AppCompatActivity(){
     fun initRecycleview(){
         starListAdapter = StarListAdapter()
 
-        listRV.adapter = this.starListAdapter
-        listRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        starListRV.adapter = this.starListAdapter
+        starListRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         setData()
 
         starListAdapter.setOnItemClickListener(object : StarListAdapter.OnItemClickListener{
@@ -40,7 +40,7 @@ class StarListActivity : AppCompatActivity(){
     }
 
     fun listClose(){
-        listCloseBtn.setOnClickListener { finish() }
+        starListCloseBtn.setOnClickListener { finish() }
     }
 
     fun setData(){

@@ -16,6 +16,7 @@ import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.Horoscope
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
+import com.mashup.telltostar.ui.diarylist.DiaryListActivity
 import com.mashup.telltostar.ui.starlist.StarListActivity
 import com.mashup.telltostar.util.PrefUtil
 import io.reactivex.disposables.CompositeDisposable
@@ -106,8 +107,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             getHeaderView(0).constellationMenuTextView.setOnClickListener {
                 showStarList()
             }
-            getHeaderView(1).constellationMenuTextView.setOnClickListener {
-                //TODO diaryList 코드를 여기에다가 추가해서 사용해 주세요.
+            getHeaderView(0).diaryMenuTextView.setOnClickListener {
+                startActivity(Intent(this@MainActivity, DiaryListActivity::class.java))
             }
         }
     }
