@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         with(llBottomSheetView) {
             tvBottomSheetHoroscopeTitle.text = "$constellation 운세"
-            tvBottomSheetDate.text = TimeUtil.getDate()
+            tvBottomSheetDate.text = TimeUtil.getDateFromUTC(TimeUtil.getUTCDate())
         }
 
     }
@@ -123,18 +123,19 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             presenter.editDiary()
         }
         btnBottomsheetEditDiary.setOnClickListener {
-            //TODO 1일 1일기 이므로 버튼 텍스트가 변경되어야 합니다.
             presenter.editDiary()
         }
 
-        with(navigationView) {
-            getHeaderView(0).constellationMenuTextView.setOnClickListener {
+        with(navigationView.getHeaderView(0)) {
+            constellationMenuTextView.setOnClickListener {
                 showStarList()
             }
-            getHeaderView(0).diaryMenuTextView.setOnClickListener {
-
+            diaryMenuTextView.setOnClickListener {
+                startActivity(
+                    Intent(this@MainActivity, StarListActivity::class.java)
+                )
             }
-            getHeaderView(0).settingMenuTextView.setOnClickListener {
+            settingMenuTextView.setOnClickListener {
                 startActivity(
                     Intent(this@MainActivity, SettingActivity::class.java)
                 )
@@ -226,11 +227,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         private const val REQUEST_DIARY_EDIT = 0x001
 
         fun startMainActivity(context: Context) {
-            context.startActivity(
-                Intent(
-                    context, MainActivity::class.java
-                )
-            )
+            context.startActivity(Intent(context, MainActivity::class.java))
         }
     }
 

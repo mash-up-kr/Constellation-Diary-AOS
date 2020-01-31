@@ -79,6 +79,7 @@ class MyConstellationActivity : AppCompatActivity(),
 
             //TODO 회원 가입 성공 후 이동
             MainActivity.startMainActivity(this@MyConstellationActivity)
+            finish()
         }
     }
 

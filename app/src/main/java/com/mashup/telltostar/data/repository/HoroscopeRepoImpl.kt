@@ -11,7 +11,7 @@ class HoroscopeRepoImpl(
     private val horoscopeApi: HoroscopeApi
 ) : HoroscopeRepository {
 
-    val date = TimeUtil.getDate()
+    val date = TimeUtil.getUTCDate()
 
     override fun get(constellation: String): Single<Horoscope> {
         return horoscopeApi.getHoroscope(constellation, date)

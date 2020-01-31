@@ -21,8 +21,12 @@ class SettingActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener 
         initButton()
         initSwitch()
 
+        //TODO 초기 설정 값 받아오기
         tvSettingHoroscopePush.text = "오전 08:00"
         tvSettingQuestionPush.text = "오후 10:00"
+
+        hideHoroscopePush()
+        hideQuestionPush()
     }
 
     private fun initButton() {

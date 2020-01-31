@@ -196,8 +196,8 @@
         android:id="@+id/rlSettingLogout"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginStart="@dimen/setting_item_start_margin"
-        android:layout_marginEnd="@dimen/setting_item_end_margin"
+        android:paddingStart="@dimen/setting_item_start_margin"
+        android:paddingEnd="@dimen/setting_item_end_margin"
         android:background="?attr/selectableItemBackground"
         android:gravity="center_vertical">
 
@@ -221,8 +221,8 @@
         android:id="@+id/rlSettingFeedback"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginStart="@dimen/setting_item_start_margin"
-        android:layout_marginEnd="@dimen/setting_item_end_margin"
+        android:paddingStart="@dimen/setting_item_start_margin"
+        android:paddingEnd="@dimen/setting_item_end_margin"
         android:background="?attr/selectableItemBackground"
         android:gravity="center_vertical">
 
@@ -252,8 +252,8 @@
         android:id="@+id/rlSettingDeveloper"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginStart="@dimen/setting_item_start_margin"
-        android:layout_marginEnd="@dimen/setting_item_end_margin"
+        android:paddingStart="@dimen/setting_item_start_margin"
+        android:paddingEnd="@dimen/setting_item_end_margin"
         android:background="?attr/selectableItemBackground"
         android:gravity="center_vertical">
 
@@ -283,8 +283,8 @@
         android:id="@+id/rlSettingAppVersion"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginStart="@dimen/setting_item_start_margin"
-        android:layout_marginEnd="@dimen/setting_item_end_margin"
+        android:paddingStart="@dimen/setting_item_start_margin"
+        android:paddingEnd="@dimen/setting_item_end_margin"
         android:background="?attr/selectableItemBackground"
         android:gravity="center_vertical">
 

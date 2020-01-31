@@ -26,7 +26,7 @@ class DiaryRemoteDataSource(
         content: String
     ): Single<Any> {
 
-        val date = TimeUtil.getDate()
+        val date = TimeUtil.getUTCDate()
 
         val dairyDto = DiaryDto(
             horoscopeId = horoscopeId,
@@ -45,7 +45,7 @@ class DiaryRemoteDataSource(
         content: String
     ): Single<Any> {
 
-        val date = TimeUtil.getDate()
+        val date = TimeUtil.getUTCDate()
 
         val dairyDto = DiaryDto(
             horoscopeId = horoscopeId,

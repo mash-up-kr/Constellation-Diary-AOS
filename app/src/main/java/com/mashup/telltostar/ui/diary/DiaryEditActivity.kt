@@ -75,7 +75,9 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         intent?.run {
             when (getSerializableExtra(EXTRA_DIARY_TYPE) as DiaryType) {
                 DiaryType.WRITE -> {
-                    tvDiaryEditDate.text = TimeUtil.getDate()
+                    tvDiaryEditDate.text = TimeUtil.getDateFromUTC(
+                        TimeUtil.getUTCDate()
+                    )
                 }
                 DiaryType.EDIT -> {
                     presenter.loadDiary()
@@ -87,7 +89,7 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
     override fun showDiary(diary: Diary) {
         etDiaryEditTitle.setText(diary.title)
         etDiaryEditContents.setText(diary.content)
-        tvDiaryEditDate.text = diary.date
+        tvDiaryEditDate.text = TimeUtil.getDateFromUTC(diary.date)
     }
 
     override fun showHoroscopeDialog(horoscopeId: Int) {
