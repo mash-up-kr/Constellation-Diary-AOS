@@ -91,10 +91,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
-                        drawer_container.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                        drawerContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                     }
                     else -> {
-                        drawer_container.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                        drawerContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                     }
                 }
             }
@@ -125,30 +125,33 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
         btnBottomsheetEditDiary.setOnClickListener {
             presenter.editDiary()
+            closeBottomSheet()
         }
 
         with(navigationView.getHeaderView(0)) {
             constellationMenuTextView.setOnClickListener {
-                cloasNavigationView()
+                closeNavigationView()
                 showStarList()
             }
             diaryMenuTextView.setOnClickListener {
-                cloasNavigationView()
-                startActivity(
-                    Intent(this@MainActivity, DiaryListActivity::class.java)
-                )
+                closeNavigationView()
+                showDiaryList()
             }
             settingMenuTextView.setOnClickListener {
-                cloasNavigationView()
-                startActivity(
-                    Intent(this@MainActivity, SettingActivity::class.java)
-                )
+                closeNavigationView()
+                showSetting()
             }
         }
     }
 
-    private fun cloasNavigationView() {
-        //TODO cloasNavigationView
+    private fun closeNavigationView() {
+        drawerContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    }
+
+    private fun closeBottomSheet() {
+        if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
     }
 
     override fun showDiaryTitle(title: String) {
@@ -197,7 +200,21 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun showStarList() {
-        startActivity(Intent(this, StarListActivity::class.java))
+        startActivity(
+            Intent(this@MainActivity, StarListActivity::class.java)
+        )
+    }
+
+    override fun showDiaryList() {
+        startActivity(
+            Intent(this@MainActivity, DiaryListActivity::class.java)
+        )
+    }
+
+    override fun showSetting() {
+        startActivity(
+            Intent(this@MainActivity, SettingActivity::class.java)
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -210,10 +227,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
     }
 
+    @SuppressLint("WrongConstant")
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-                drawer_container.openDrawer(Gravity.LEFT)
+                drawerContainer.openDrawer(Gravity.START)
             }
         }
 
@@ -222,8 +240,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     @SuppressLint("WrongConstant")
     override fun onBackPressed() {
-        if (drawer_container.isDrawerOpen(GravityCompat.START)) {
-            drawer_container.closeDrawer(Gravity.START)
+        if (drawerContainer.isDrawerOpen(GravityCompat.START)) {
+            drawerContainer.closeDrawer(Gravity.START)
         } else if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         } else {
