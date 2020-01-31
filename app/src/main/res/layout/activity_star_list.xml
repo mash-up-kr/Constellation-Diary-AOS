@@ -7,27 +7,28 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     tools:context=".ui.starlist.StarListActivity">
-    <FrameLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/listCloseBtn"
+            android:id="@+id/starListCloseBtn"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="16dp"
-            android:layout_gravity="center_vertical"
             android:background="@drawable/ic_expand_close"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/Constellation"
+            android:layout_marginStart="16dp"
+            android:text="@string/Constellation_luck"
             android:textSize="16sp"
             android:textColor="@color/black_two"/>
 
-    </FrameLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -35,7 +36,7 @@
         android:background="@color/white_two"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listRV"
+        android:id="@+id/starListRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
