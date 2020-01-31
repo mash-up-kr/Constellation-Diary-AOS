@@ -4,6 +4,7 @@ import com.mashup.telltostar.data.source.remote.request.DiaryDto
 import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
 import io.reactivex.Single
+import retrofit2.Response
 import retrofit2.http.*
 
 interface DiaryApi {
@@ -15,11 +16,11 @@ interface DiaryApi {
     fun getDiary(@Path("id") diaryId: Int): Single<Diary>
 
     @POST("diaries")
-    fun postDiaries(@Body diaryDto: DiaryDto): Single<Any>
+    fun postDiaries(@Body diaryDto: DiaryDto): Single<Response<Void>>
 
     @PATCH("diaries/{id}")
     fun putDiary(@Path("id") diaryId: Int, @Body diaryDto: DiaryDto): Single<Any>
 
     @DELETE("diaries/{id}")
-    fun deleteDiary(@Path("id") diaryId: Int): Single<Any>
+    fun deleteDiary(@Path("id") diaryId: Int): Single<Response<Void>>
 }

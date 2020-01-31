@@ -7,6 +7,7 @@ import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
 import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.Single
+import retrofit2.Response
 
 class DiaryRemoteDataSource(
     private val diaryApi: DiaryApi
@@ -24,7 +25,7 @@ class DiaryRemoteDataSource(
         horoscopeId: Int,
         title: String,
         content: String
-    ): Single<Any> {
+    ): Single<Response<Void>> {
 
         val date = TimeUtil.getUTCDate()
 
@@ -57,7 +58,7 @@ class DiaryRemoteDataSource(
         return diaryApi.putDiary(id, dairyDto)
     }
 
-    override fun delete(id: Int): Single<Any> {
+    override fun delete(id: Int): Single<Response<Void>> {
         return diaryApi.deleteDiary(id)
     }
 }
