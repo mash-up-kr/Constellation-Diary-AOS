@@ -10,14 +10,14 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<Temp_diary>(view) {
-    lateinit var diary : Temp_diary
-    val diaryDate : TextView = view.findViewById(R.id.diaryListDateTV) as TextView
-    val diaryDay : TextView = view.findViewById(R.id.diaryListDayTV) as TextView
-    val diaryTitle : TextView = view.findViewById(R.id.diaryListTitleTV) as TextView
-    val diarySelect : CheckBox = view.findViewById(R.id.diaryListSelectCB) as CheckBox
+class DiaryListContentsViewHolder(view: View) : DiaryListAdapter.BaseViewHolder<Temp_diary>(view) {
+    lateinit var diary: Temp_diary
+    val diaryDate: TextView = view.findViewById(R.id.diaryListDateTV) as TextView
+    val diaryDay: TextView = view.findViewById(R.id.diaryListDayTV) as TextView
+    val diaryTitle: TextView = view.findViewById(R.id.diaryListTitleTV) as TextView
+    val diarySelect: CheckBox = view.findViewById(R.id.diaryListSelectCB) as CheckBox
 
-    override fun bind(item: Temp_diary, pos:Int) {
+    override fun bind(item: Temp_diary, pos: Int) {
 
         diary = item
 
@@ -29,10 +29,10 @@ class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<T
 
     }
 
-    fun changeVisible(){
-        if(diary.isVisible == true){
+    fun changeVisible() {
+        if (diary.isVisible == true) {
             diarySelect.visibility = View.VISIBLE
-        }else{
+        } else {
             diarySelect.visibility = View.INVISIBLE
         }
     }
@@ -40,13 +40,13 @@ class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<T
 //        diarySelect.isClickable = diary.isChecked
 //    }
 
-    fun checkClick(){
+    fun checkClick() {
         diarySelect.setOnCheckedChangeListener { buttonView, isChecked ->
             diary.isChecked = isChecked
         }
     }
 
-    fun bindDate(){
+    fun bindDate() {
         var contentDate = ""
         var contentDay = ""
         if (diary.date != null) {
@@ -55,7 +55,7 @@ class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<T
             utcFormatter.timeZone = TimeZone.getTimeZone("UTC")
             var gpsUTCDate: Date? = null
             try {
-                gpsUTCDate = utcFormatter.parse(diary.date )
+                gpsUTCDate = utcFormatter.parse(diary.date)
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
@@ -68,7 +68,7 @@ class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<T
 
             contentDay = localDayFormatter.format(gpsUTCDate?.time)
         }
-        when(contentDay){//요일별 색 지정
+        when (contentDay) {//요일별 색 지정
             "토" -> {
                 val lightishBlue = ContextCompat.getColor(itemView.context, R.color.lightish_blue)
                 diaryDay.setTextColor(lightishBlue)

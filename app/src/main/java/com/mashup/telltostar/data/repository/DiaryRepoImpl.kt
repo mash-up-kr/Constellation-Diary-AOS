@@ -5,6 +5,7 @@ import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import retrofit2.Response
 
 class DiaryRepoImpl(
     private val dataSource: DiaryDataRepository
@@ -24,7 +25,7 @@ class DiaryRepoImpl(
         horoscopeId: Int,
         title: String,
         content: String
-    ): Single<Any> {
+    ): Single<Response<Void>> {
         return dataSource.insert(horoscopeId, title, content)
             .observeOn(AndroidSchedulers.mainThread())
     }
@@ -39,7 +40,7 @@ class DiaryRepoImpl(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun delete(id: Int): Single<Any> {
+    override fun delete(id: Int): Single<Response<Void>> {
         return dataSource.delete(id)
             .observeOn(AndroidSchedulers.mainThread())
     }

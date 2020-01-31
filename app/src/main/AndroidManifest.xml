@@ -21,19 +21,8 @@
             android:name=".ui.starlist.StarListActivity"
             android:theme="@style/NoActionBarTheme" />
         <activity
-            android:name=".ui.myconstellation.MyConstellationActivity"
-            android:theme="@style/NoActionBarTheme" />
-        <activity
             android:name=".ui.login.LoginActivity"
             android:theme="@style/NoActionBarTheme">
-        </activity>
-        <activity
-            android:name=".ui.diary.DiaryEditActivity"
-            android:theme="@style/NoActionBarTheme" />
-        <activity
-            android:name=".ui.main.MainActivity"
-            android:theme="@style/NoActionBarTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -41,6 +30,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:theme="@style/NoActionBarTheme" />
+        <activity android:name=".ui.diary.DiaryEditActivity" />
+        <activity android:name=".ui.setting.SettingActivity" />
+        <activity android:name=".ui.myconstellation.MyConstellationActivity" />
 
     </application>
 

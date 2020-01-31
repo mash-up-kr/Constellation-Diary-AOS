@@ -1,9 +1,9 @@
 package com.mashup.telltostar.ui.starlist
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.StarList

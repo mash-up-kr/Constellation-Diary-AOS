@@ -2,6 +2,7 @@ package com.mashup.telltostar.ui.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
@@ -17,13 +18,18 @@ import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.Horoscope
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import com.mashup.telltostar.ui.diarylist.DiaryListActivity
+import com.mashup.telltostar.ui.setting.SettingActivity
 import com.mashup.telltostar.ui.starlist.StarListActivity
+import com.mashup.telltostar.util.ConstellationUtil
 import com.mashup.telltostar.util.PrefUtil
+import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_bottomsheet.*
+import kotlinx.android.synthetic.main.fragment_bottomsheet.view.*
 import kotlinx.android.synthetic.main.header.view.*
 import kotlinx.android.synthetic.main.main_contents.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.toast
 import timber.log.Timber
 
@@ -42,9 +48,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //TODO test data
-        PrefUtil.put(PrefUtil.CONSTELLATION, "황소자리")
-
         presenter = MainPresenter(
             this,
             Injection.provideDailyQuestionRepo(),
@@ -54,6 +57,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         initToolbar()
         initBottomSheet()
+        initNavigationView()
         initButton()
 
         //TODO 초기화 되는 시점 필요
@@ -73,6 +77,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             it.setDisplayShowTitleEnabled(false)
             it.setDisplayHomeAsUpEnabled(true)
         }
+        toolbarImageView.setImageResource(
+            ConstellationUtil.getIcon(resources, PrefUtil.get(PrefUtil.CONSTELLATION, ""))
+        )
     }
 
     private fun initBottomSheet() {
@@ -84,14 +91,32 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
-                        drawer_container.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                        drawerContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                     }
                     else -> {
-                        drawer_container.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                        drawerContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                     }
                 }
             }
         })
+
+
+        val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
+
+        with(llBottomSheetView) {
+            tvBottomSheetHoroscopeTitle.text = "$constellation 운세"
+            tvBottomSheetDate.text = TimeUtil.getDateFromUTC(TimeUtil.getUTCDate())
+        }
+
+    }
+
+    private fun initNavigationView() {
+        val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
+        with(navigationView.getHeaderView(0)) {
+            ivLogo.setImageResource(ConstellationUtil.getIconBlack(resources, constellation))
+            tvMyConstellation.text = constellation
+            tvConstellationDuration.text = ConstellationUtil.getDate(resources, constellation)
+        }
     }
 
     private fun initButton() {
@@ -99,39 +124,64 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             presenter.editDiary()
         }
         btnBottomsheetEditDiary.setOnClickListener {
-            //TODO 1일 1일기 이므로 버튼 텍스트가 변경되어야 합니다.
             presenter.editDiary()
+            closeBottomSheet()
         }
 
-        with(navigationView) {
-            getHeaderView(0).constellationMenuTextView.setOnClickListener {
+        with(navigationView.getHeaderView(0)) {
+            constellationMenuTextView.setOnClickListener {
+                closeNavigationView()
                 showStarList()
             }
-            getHeaderView(0).diaryMenuTextView.setOnClickListener {
-                startActivity(Intent(this@MainActivity, DiaryListActivity::class.java))
+            diaryMenuTextView.setOnClickListener {
+                closeNavigationView()
+                showDiaryList()
             }
+            settingMenuTextView.setOnClickListener {
+                closeNavigationView()
+                showSetting()
+            }
+        }
+    }
+
+    private fun closeNavigationView() {
+        drawerContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    }
+
+    private fun closeBottomSheet() {
+        if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
     }
 
     override fun showDiaryTitle(title: String) {
         tvMainContentsTitle.text = title
-        tvMainContentsDescription.text = resources.getString(R.string.edit_diary)
+        tvMainContentsDescription.text = resources.getString(R.string.edit_diary) + " >"
+        llBottomSheetView.btnBottomsheetEditDiary.text = resources.getString(R.string.edit_diary)
     }
 
     override fun showQuestionTitle(title: String) {
         tvMainContentsTitle.text = title
-        tvMainContentsDescription.text = resources.getString(R.string.write_diary)
+        tvMainContentsDescription.text = resources.getString(R.string.write_diary) + " >"
+        llBottomSheetView.btnBottomsheetEditDiary.text = resources.getString(R.string.write_diary)
     }
 
     override fun showHoroscope(horoscope: Horoscope) {
-        Timber.d("horoscope : $horoscope")
+        with(llBottomSheetView) {
+            tvBottomSheetHoroscopeContents.text = horoscope.content
+            tvBottomSheetClothes.text = horoscope.stylist
+            tvBottomSheetNumber.text = horoscope.numeral
+            tvBottomSheetWorkout.text = horoscope.exercise
+            tvBottomSheetWord.text = horoscope.word
+        }
     }
 
-    override fun showEditDiary(diaryId: Int) {
+    override fun showEditDiary(diaryId: Int, horoscopeId: Int) {
         DiaryEditActivity.startDiaryEditActivity(
             this,
             REQUEST_DIARY_EDIT,
-            diaryId
+            diaryId,
+            horoscopeId
         )
     }
 
@@ -150,7 +200,21 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun showStarList() {
-        startActivity(Intent(this, StarListActivity::class.java))
+        startActivity(
+            Intent(this@MainActivity, StarListActivity::class.java)
+        )
+    }
+
+    override fun showDiaryList() {
+        startActivity(
+            Intent(this@MainActivity, DiaryListActivity::class.java)
+        )
+    }
+
+    override fun showSetting() {
+        startActivity(
+            Intent(this@MainActivity, SettingActivity::class.java)
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -163,10 +227,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
     }
 
+    @SuppressLint("WrongConstant")
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-                drawer_container.openDrawer(Gravity.LEFT)
+                drawerContainer.openDrawer(Gravity.START)
             }
         }
 
@@ -175,8 +240,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     @SuppressLint("WrongConstant")
     override fun onBackPressed() {
-        if (drawer_container.isDrawerOpen(GravityCompat.START)) {
-            drawer_container.closeDrawer(Gravity.START)
+        if (drawerContainer.isDrawerOpen(GravityCompat.START)) {
+            drawerContainer.closeDrawer(Gravity.START)
         } else if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         } else {
@@ -186,6 +251,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     companion object {
         private const val REQUEST_DIARY_EDIT = 0x001
+
+        fun startMainActivity(context: Context) {
+            context.startActivity(Intent(context, MainActivity::class.java))
+        }
     }
 
 }

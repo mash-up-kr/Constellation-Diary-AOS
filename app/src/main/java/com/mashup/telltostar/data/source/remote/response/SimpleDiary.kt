@@ -2,7 +2,7 @@ package com.mashup.telltostar.data.source.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class SimpleDiary (
+data class SimpleDiary(
     @SerializedName("id")
     val id: Int = -1,
     @SerializedName("date")

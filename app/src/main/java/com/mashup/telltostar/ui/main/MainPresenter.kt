@@ -34,7 +34,6 @@ class MainPresenter(
     }
 
     override fun loadHoroscope() {
-
         val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
         Timber.d(constellation)
 
@@ -53,7 +52,7 @@ class MainPresenter(
 
     override fun editDiary() {
         if (diaryId > 0) {
-            view.showEditDiary(diaryId)
+            view.showEditDiary(diaryId, horoscopeId)
         } else {
             view.showWriteDiary(horoscopeId)
         }
