@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.IdRegisterFragment">
+    tools:context=".ui.login.IdRegistrationFragment">
 
     <TextView
         android:id="@+id/idTextView"
@@ -24,6 +24,8 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/input_id"
+        android:imeOptions="actionNext"
+        android:inputType="text"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
         android:theme="@style/EditTextTheme"
@@ -31,12 +33,52 @@
         app:layout_constraintStart_toStartOf="@id/idTextView"
         app:layout_constraintTop_toBottomOf="@+id/idTextView" />
 
+    <Button
+        android:id="@+id/idDuplicationCheckButton"
+        android:layout_width="61.5dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/rounded_corner_sky_blue_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="6.5sp"
+        android:stateListAnimator="@null"
+        android:text="@string/id_duplication_check"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/idEditText"
+        app:layout_constraintEnd_toEndOf="@id/idEditText"
+        app:layout_constraintTop_toTopOf="@+id/idEditText" />
+
     <TextView
         android:id="@+id/inputIdWarningTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/input_id"
         android:textColor="@color/coral"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/idEditText"
+        app:layout_constraintTop_toBottomOf="@+id/idEditText"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/duplicateIdWarningTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/duplicate_id"
+        android:textColor="@color/coral"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/idEditText"
+        app:layout_constraintTop_toBottomOf="@+id/idEditText"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/availableIdTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/available_id"
+        android:textColor="@color/kelly_green"
         android:textSize="12sp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/idEditText"
@@ -61,12 +103,44 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/input_password"
+        android:imeOptions="actionNext"
+        android:inputType="text"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
+        android:textSize="16sp"
         android:theme="@style/EditTextTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/idTextView"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextView" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/passwordEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/passwordEditText">
+
+        <ImageView
+            android:id="@+id/passwordVisibilityImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:src="@drawable/ic_visibility_black"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/passwordInvisibilityImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:src="@drawable/ic_visibility_white"
+            android:visibility="visible" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/inputPasswordWarningTextView"
@@ -98,18 +172,63 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/input_confirm_password"
+        android:imeOptions="actionDone"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
+        android:textSize="16sp"
         android:theme="@style/EditTextTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/idTextView"
         app:layout_constraintTop_toBottomOf="@+id/passwordConfirmTextView" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/passwordConfirmEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/passwordConfirmEditText">
+
+        <ImageView
+            android:id="@+id/passwordConfirmVisibilityImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:clickable="false"
+            android:src="@drawable/ic_visibility_black"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/passwordConfirmInvisibilityImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:clickable="false"
+            android:src="@drawable/ic_visibility_white"
+            android:visibility="visible" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/inputPasswordConfirmWarningTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/input_password"
+        android:textColor="@color/coral"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/passwordConfirmEditText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmEditText"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/inputPasswordNotIdenticalWarningTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/not_identical_password_reinput"
         android:textColor="@color/coral"
         android:textSize="12sp"
         android:visibility="gone"

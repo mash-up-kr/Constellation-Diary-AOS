@@ -10,52 +10,60 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
-import kotlinx.android.synthetic.main.fragment_email_verification.view.*
+import com.mashup.telltostar.databinding.FragmentEmailVerificationBinding
+import com.mashup.telltostar.util.VibratorUtil
 
 class EmailVerificationFragment(
-    private val mFragmentListener: LoginActivity.FragmentListener
+        private val mFragmentListener: LoginActivity.FragmentListener
 ) : Fragment() {
-    private lateinit var mRootView: View
+    private lateinit var mBinding: FragmentEmailVerificationBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_email_verification, container, false)
-        mRootView = rootView
+        mBinding = DataBindingUtil.inflate<FragmentEmailVerificationBinding>(
+                inflater,
+                R.layout.fragment_email_verification,
+                container,
+                false
+        ).apply {
+            this.emailVerificationViewModel = EmailVerificationViewModel
+        }
 
         setListeners()
         setViewModelObserver()
 
-        return rootView
+        return mBinding.root
     }
 
     private fun setListeners() {
-        mRootView.verificationRequestButton.setOnClickListener {
-            EmailVerificationViewModel.requestVerificationNumber(mRootView.emailEditText.text.toString())
+        mBinding.verificationRequestButton.setOnClickListener {
+            EmailVerificationViewModel.requestVerificationNumber(mBinding.emailEditText.text.toString())
         }
-        mRootView.verificationRequestAgainButton.setOnClickListener {
-            EmailVerificationViewModel.requestVerificationNumber(mRootView.emailEditText.text.toString())
+        mBinding.verificationRequestAgainButton.setOnClickListener {
+            EmailVerificationViewModel.requestVerificationNumber(mBinding.emailEditText.text.toString())
         }
-        mRootView.emailEditText.setOnFocusChangeListener { v, hasFocus ->
+        mBinding.emailEditText.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
                 mFragmentListener.expandBottomSheet()
             }
         }
-        mRootView.verificationNumberEditText.addTextChangedListener {
+        mBinding.verificationNumberEditText.addTextChangedListener {
             EmailVerificationViewModel.mInputVerificationNumber.postValue(it.toString())
 
             it?.let { editable ->
                 activity?.let {
                     if (editable.length >= 6) {
                         (it.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                            .hideSoftInputFromWindow(
-                                mRootView.verificationNumberEditText.windowToken,
-                                0
-                            )
+                                .hideSoftInputFromWindow(
+                                        mBinding.verificationNumberEditText.windowToken,
+                                        0
+                                )
                     }
                 }
             }
@@ -65,58 +73,36 @@ class EmailVerificationFragment(
     private fun setViewModelObserver() {
         with(EmailVerificationViewModel) {
             isEmailPattern.observe(this@EmailVerificationFragment, Observer { isEmailPattern ->
-                mRootView.verificationRequestButton.visibility =
-                    if (isEmailPattern) View.GONE
-                    else View.VISIBLE
-                mRootView.inputEmailWarningTextView.visibility =
-                    if (isEmailPattern) View.GONE
-                    else View.VISIBLE
+                if (isEmailPattern) {
+                    mBinding.inputEmailWarningTextView.visibility = View.GONE
+                } else {
+                    mBinding.inputEmailWarningTextView.visibility = View.VISIBLE
+
+                    context?.let {
+                        VibratorUtil.vibrate(it)
+                    }
+                }
 
                 activity?.let {
-                    mRootView.emailEditText.backgroundTintList =
-                        if (isEmailPattern) null
-                        else ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
+                    mBinding.emailEditText.backgroundTintList =
+                            if (isEmailPattern) null
+                            else ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
                 }
-            })
-            mRemainTime.observe(this@EmailVerificationFragment, Observer {
-                mRootView.verificationTimeoutTextView.text = it
             })
             isEmailVerified.observe(this@EmailVerificationFragment, Observer { isEmailVerified ->
                 if (isEmailVerified) {
-                    mRootView.emailVerifiedImageView.visibility = View.VISIBLE
-                    mRootView.verificationRequestAgainButton.visibility = View.GONE
-                    mRootView.verificationNumberTextView.visibility = View.GONE
-                    mRootView.verificationTimeoutTextView.visibility = View.GONE
-                    mRootView.verificationNumberEditText.visibility = View.GONE
                     clearDisposable()
-                } else {
-                    mRootView.emailVerifiedImageView.visibility = View.GONE
                 }
 
-                mRootView.emailEditText.isEnabled = !isEmailVerified
-                mRootView.inputVerificationNumberWarningTextView.visibility =
-                    if (isEmailVerified) View.GONE
-                    else View.VISIBLE
+                mBinding.emailEditText.isEnabled = !isEmailVerified
+                mBinding.inputVerificationNumberWarningTextView.visibility =
+                        if (isEmailVerified) View.GONE
+                        else View.VISIBLE
 
                 activity?.let {
-                    mRootView.verificationNumberEditText.backgroundTintList =
-                        if (isEmailVerified) null
-                        else ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
-                }
-            })
-            isEmailSend.observe(this@EmailVerificationFragment, Observer {
-                if (it) {
-                    mRootView.verificationRequestButton.visibility = View.GONE
-                    mRootView.verificationNumberTextView.visibility = View.VISIBLE
-                    mRootView.verificationNumberEditText.visibility = View.VISIBLE
-                    mRootView.verificationRequestAgainButton.visibility = View.VISIBLE
-                    mRootView.verificationTimeoutTextView.visibility = View.VISIBLE
-                } else {
-                    mRootView.verificationRequestButton.visibility = View.VISIBLE
-                    mRootView.verificationNumberTextView.visibility = View.GONE
-                    mRootView.verificationNumberEditText.visibility = View.GONE
-                    mRootView.verificationRequestAgainButton.visibility = View.GONE
-                    mRootView.verificationTimeoutTextView.visibility = View.GONE
+                    mBinding.verificationNumberEditText.backgroundTintList =
+                            if (isEmailVerified) null
+                            else ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
                 }
             })
         }
