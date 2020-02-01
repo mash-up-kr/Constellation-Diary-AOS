@@ -32,7 +32,7 @@ class StarListDetailActivity : AppCompatActivity() {
 
         getHoroscope()
         btnBackClick()
-        changeConstellation()
+//        changeConstellation()
     }
 
     fun bindActivity(horoscope: Horoscope){
@@ -68,20 +68,20 @@ class StarListDetailActivity : AppCompatActivity() {
             }
     }
 
-    @SuppressLint("TimberArgCount")
-    fun changeConstellation(){
-        detailStarChangeStarBtn.setOnClickListener{
-            ApiProvider
-                .provideUserChangeApi()
-                .constellation(
-                    reqModifyConstellationDto
-                )
-                .subscribe({
-                    Timber.d("succeed",name)
-                   //TODO(이진성) CLICK THE BUTTON THAT MODIFY CONSTELLATION
-                },{
-                    Timber.d("$it.message",it.message)
-                })
-        }
-    }
+//    @SuppressLint("TimberArgCount")
+//    fun changeConstellation(){
+//        detailStarChangeStarBtn.setOnClickListener{
+//            ApiProvider
+//                .provideUserChangeApi()
+//                .constellation(
+//                    reqModifyConstellationDto
+//                )
+//                .subscribe({
+//                    Timber.d("succeed",name)
+//                   //TODO(이진성) CLICK THE BUTTON THAT MODIFY CONSTELLATION
+//                },{
+//                    Timber.d("$it.message",it.message)
+//                })
+//        }
+//    }
 }

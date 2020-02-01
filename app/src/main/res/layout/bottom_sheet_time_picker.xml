@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/fragment_rounded"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:layout_marginStart="16dp"
+        android:gravity="center"
+        android:text="@string/setting_time"
+        android:textColor="@color/black_two"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_three" />
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:timePickerMode="spinner" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_three" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="52dp">
+
+        <TextView
+            android:id="@+id/tvTimePickerCancel"
+            android:layout_width="62dp"
+            android:layout_height="match_parent"
+            android:layout_toStartOf="@+id/tvTimePickerOk"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="@color/black_two"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvTimePickerOk"
+            android:layout_width="62dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="@string/ok"
+            android:textColor="@color/dark_sky_blue_four"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

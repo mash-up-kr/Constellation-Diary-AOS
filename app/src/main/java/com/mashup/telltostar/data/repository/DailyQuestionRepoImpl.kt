@@ -13,7 +13,7 @@ class DailyQuestionRepoImpl(
 
     override fun get(): Single<DailyQuestion> {
 
-        val date = TimeUtil.getDate()
+        val date = TimeUtil.getUTCDate()
 
         return dailyApi.getDailyQuestions(date)
             .observeOn(AndroidSchedulers.mainThread())
