@@ -1,26 +1,39 @@
 package com.mashup.telltostar.ui.diarylist
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.telltostar.R
+import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.ModelDate
+import com.mashup.telltostar.data.repository.DiaryRepoImpl
+import kotlinx.android.synthetic.main.activity_diary_edit.*
 import kotlinx.android.synthetic.main.activity_diary_list.*
+import timber.log.Timber
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Month
+import java.time.MonthDay
+import java.util.*
+import java.util.logging.SimpleFormatter
+import kotlin.collections.ArrayList
 
 class DiaryListActivity : AppCompatActivity() {
     private val diaryListAdapter = DiaryListAdapter()
     private var checkedNum = 0;
-    private val data_1 = Temp_diary(0,"title","2020-01-19T18:02:21.786Z",false,false)
-    private val data_2 = Temp_diary(0,"title","2020-01-18T18:02:21.786Z",false,false)
-    private val data_3 = Temp_diary(0,"title","2020-01-17T18:02:21.786Z",false,false)//"2020-01-19T18:02:21.786Z"
-    private var date_1 : ModelDate = ModelDate(2020,1)
-    private var date_2 : ModelDate = ModelDate(2020,2)
+    private val diaryRepository by lazy {
+        DiaryRepoImpl(
+            Injection.provideDiaryRepo(this)
+        )
+    }
 
-
-    private var diaryList : ArrayList<Any> = arrayListOf(date_1,data_1,data_2,data_3,data_1,date_2,data_1,data_2,data_3,data_1,date_1,data_1,data_2,data_3,data_1,date_2,data_1,data_2,data_3,data_1)
-
+    private var diaryList : ArrayList<Any> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_diary_list)
@@ -38,15 +51,33 @@ class DiaryListActivity : AppCompatActivity() {
         diveder.setDrawable(this.getDrawable(R.drawable.divider_diary_list))
         listDiaryRV.addItemDecoration(diveder)
 
-        setData()
         closeClick()
+        dataLoad()
     }
 
-    fun setData(){
+    @SuppressLint("CheckResult")
+    fun dataLoad(){
+        val formatYear = SimpleDateFormat("yyyy")
+        val formatMonth = SimpleDateFormat("MM")
+
+        val current = LocalDate.now()
+
+        val currentYear = formatYear.parse(current.time.toString())
+        val currentMonth = formatMonth.parse(current.toString()).time.toInt()
+
+        while(diaryList.size <= 10) {
+            var date = ModelDate(currentYear,currentMonth)
+            diaryList.add(date)
+            diaryRepository.gets(currentMonth, currentYear)
+                .subscribe({
+                    diaryList.addAll(it.diaries)
+                }) {
+                }
+        }
         diaryListAdapter.setData(diaryList)
     }
 
-    fun dataLoad(){
+    fun dataUpdate(){
 
     }
 

@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.ModelDate
+import com.mashup.telltostar.data.source.remote.response.Diary
+import com.mashup.telltostar.data.source.remote.response.SimpleDiary
 import java.util.*
 
 class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>() {
@@ -42,7 +44,8 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>
         dataList[position].let{
             when(holder){
                 is DiaryListContentsViewHolder -> {
-                    holder.bind(it as Temp_diary,position)
+                    var diary = Temp_diary(it as SimpleDiary,false,false)
+                    holder.bind(diary,position)
                     holder.changeVisible()
 //                    holder.diarySelect.isChecked = holder.diary.isChecked
                     holder.diarySelect.setOnCheckedChangeListener(null)
@@ -85,12 +88,20 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListAdapter.BaseViewHolder<*>>
         }
     }
 
-    fun setData(item: ArrayList<Any>)= dataList.addAll(item)
+    fun setData(item: ArrayList<Any>){
+        dataList.clear()
+        dataList.addAll(item)
+    }
+
+    fun updateData(item: ArrayList<Any>){
+        dataList.addAll(item)
+        notifyDataSetChanged()
+    }
 
     override fun getItemViewType(position: Int): Int {
         dataList[position].let{
             return when (it) {
-                is Temp_diary -> TYPE_CONTENTS
+                is Diary -> TYPE_CONTENTS
                 is ModelDate -> TYPE_DATE
                 else -> throw IllegalArgumentException("Invalid type of data " + position)
             }

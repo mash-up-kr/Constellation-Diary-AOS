@@ -23,7 +23,7 @@ class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<T
 
         bindDate()
 
-        diaryTitle.text = item.title
+        diaryTitle.text = item.diary.title
 
         checkClick()
 
@@ -49,13 +49,13 @@ class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<T
     fun bindDate(){
         var contentDate = ""
         var contentDay = ""
-        if (diary.date != null) {
+        if (diary.diary.date != null) {
             //convert utc to localTime
             val utcFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.KOREA)
             utcFormatter.timeZone = TimeZone.getTimeZone("UTC")
             var gpsUTCDate: Date? = null
             try {
-                gpsUTCDate = utcFormatter.parse(diary.date )
+                gpsUTCDate = utcFormatter.parse(diary.diary.date )
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
