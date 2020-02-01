@@ -46,6 +46,10 @@ class DiaryListActivity : AppCompatActivity() {
         diaryListAdapter.setData(diaryList)
     }
 
+    fun dataLoad(){
+
+    }
+
 
     fun changeClickData(){
         listDiarySelectTV.let{btn ->

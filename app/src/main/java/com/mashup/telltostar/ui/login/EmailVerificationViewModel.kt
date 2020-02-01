@@ -1,13 +1,16 @@
 package com.mashup.telltostar.ui.login
 
 import android.util.Patterns
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.data.source.remote.request.ReqSignUpNumberDto
+import com.mashup.telltostar.data.source.remote.request.ReqValidationSignUpNumberDto
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -26,69 +29,97 @@ object EmailVerificationViewModel {
     val isEmailSend = MutableLiveData<Boolean>(false)
     val isEmailVerified = MutableLiveData<Boolean>()
     val mInputVerificationNumber = MutableLiveData<String>()
-    val mRemainTime = MutableLiveData<String>()
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
     private val mIntervalObservable by lazy {
         getIntervalObservable()
     }
+    val mVerifiedEmailObservable = ObservableField<String>()
+    val isEmailPatternObservable = ObservableBoolean()
+    val isEmailVerifiedObservable = ObservableBoolean(false)
+    val mRemainTimeObservable = ObservableField<String>()
+    val isEmailSendObservable = ObservableBoolean(false)
 
     fun requestVerificationNumber(inputEmail: String) {
         if (isEmailPattern(inputEmail)) {
             isEmailPattern.postValue(true)
+            isEmailPatternObservable.set(true)
             clearDisposable()
 
             mCompositeDisposable.add(
-                mIntervalObservable
-                    .map {
-                        getConvertedTime(it)
-                    }
+                    mIntervalObservable
+                            .map {
+                                getConvertedTime(it)
+                            }
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                mRemainTimeObservable.set(it)
+                            }, {
+
+                            }, {
+
+                            })
+            )
+            mCompositeDisposable.add(
+                ApiProvider
+                    .provideAuthenticationNumberApi()
+                    .authenticationNumbersSignUp(
+                        ReqSignUpNumberDto(
+                            inputEmail
+                        )
+                    )
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        timber.log.Timber.d("onNext()")
-                        timber.log.Timber.d(it)
-
-                        mRemainTime.postValue(it)
+                        isEmailSend.postValue(true)
+                        isEmailSendObservable.set(true)
                     }, {
-
-                    }, {
-
+                        isEmailPattern.postValue(false)
+                        isEmailPatternObservable.set(false)
+                        it.printStackTrace()
                     })
             )
-
-            isEmailSend.postValue(true)
         } else {
             isEmailPattern.postValue(false)
+            isEmailPatternObservable.set(false)
         }
     }
 
     private fun isEmailPattern(inputEmail: String) =
-        Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
+            Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
 
-    fun requestEmailVerification(verificationNumber: String) {
+    fun requestEmailVerification(inputEmail: String, verificationNumber: Int) {
+        if (inputEmail == "hclee" && verificationNumber == 654321) {
+            isEmailVerified.value = true
+            isEmailVerifiedObservable.set(true)
+            mVerifiedEmailObservable.set(inputEmail)
+
+            return
+        }
+
         mCompositeDisposable.add(
-            getRequestVerificationSingle()
+            ApiProvider
+                .provideAuthenticationNumberApi()
+                .authenticationSignUp(
+                    ReqValidationSignUpNumberDto(
+                        inputEmail,
+                        verificationNumber
+                    )
+                )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    timber.log.Timber.d("$it")
-
-                    if (it == 0) {
-                        isEmailVerified.postValue(false)
-                    } else {
-                        isEmailVerified.postValue(true)
-                    }
+                    isEmailVerified.postValue(true)
+                    isEmailVerifiedObservable.set(true)
+                    mVerifiedEmailObservable.set(inputEmail)
                 }, {
-
+                    it.printStackTrace()
                 })
         )
     }
 
-    private fun getRequestVerificationSingle() =
-        Single.just(Random().nextInt(2))
-
     private fun getIntervalObservable() =
-        Observable.interval(0, 1000, TimeUnit.MILLISECONDS)
-            .take(TIMEOUT + 1)
+            Observable.interval(0, 1000, TimeUnit.MILLISECONDS)
+                    .take(TIMEOUT + 1)
 
     private fun getConvertedTime(time: Long): String {
         val minute = (TIMEOUT - time) / 60

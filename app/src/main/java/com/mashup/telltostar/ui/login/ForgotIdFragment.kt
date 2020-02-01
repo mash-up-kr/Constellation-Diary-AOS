@@ -1,6 +1,5 @@
 package com.mashup.telltostar.ui.login
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,30 +7,49 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Observer
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
+import androidx.databinding.ObservableBoolean
 
 import com.mashup.telltostar.R
-import kotlinx.android.synthetic.main.fragment_forgot_id.*
+import com.mashup.telltostar.databinding.FragmentForgotIdBinding
+import com.mashup.telltostar.util.VibratorUtil
 import kotlinx.android.synthetic.main.fragment_forgot_id.view.*
 
 class ForgotIdFragment : Fragment() {
-    private lateinit var mRootView: View
+    private lateinit var mBinding: FragmentForgotIdBinding
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
-    private val mForgotIdViewModel by lazy {
-        ForgotIdViewModel()
+    private val emailEmptyWarningObservableCallback by lazy {
+        object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                sender?.let {
+                    if ((it as ObservableBoolean).get()) {
+                        context?.let { context ->
+                            VibratorUtil.vibrate(context)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_forgot_id, container, false)
-        mRootView = rootView
+        mBinding = DataBindingUtil.inflate<FragmentForgotIdBinding>(
+            inflater,
+            R.layout.fragment_forgot_id,
+            container,
+            false
+        ).apply {
+            this.viewModel = ForgotIdViewModel()
+            this.fragment = this@ForgotIdFragment
+        }
 
-        setViewModelObserver()
         setListeners()
 
-        return rootView
+        return mBinding.root
     }
 
     fun setFragmentListener(listener: LoginActivity.FragmentListener) {
@@ -40,128 +58,87 @@ class ForgotIdFragment : Fragment() {
 
     private fun setListeners() {
         with(activity as LoginActivity) {
-            mRootView.arrowBackImageViewContainer.setOnClickListener {
+            mBinding.arrowBackImageViewContainer.setOnClickListener {
                 mFragmentListener.replaceFragment(
                     mLoginFragment,
                     R.anim.enter_from_left,
                     R.anim.exit_to_right
                 )
             }
-            mRootView.verificationRequestButton.setOnClickListener {
-                performVerificationRequestButtonClick()
-            }
-            mRootView.emailEditText.setOnFocusChangeListener { v, hasFocus ->
+            mBinding.emailEditText.setOnFocusChangeListener { v, hasFocus ->
                 if (hasFocus) {
                     mFragmentListener.expandBottomSheet()
                 }
             }
-            with(mRootView.verificationNumberEditText) {
-                addTextChangedListener {
-                    mRootView.disabledNextButton.visibility =
-                        if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
-                    mRootView.forgotIdButton.visibility =
-                        if (it.isNullOrEmpty()) View.GONE
-                        else View.VISIBLE
+            mBinding.forgotPasswordTextView.setOnClickListener {
+                mFragmentListener.replaceFragment(
+                    mForgotPasswordFragment,
+                    R.anim.enter_from_right,
+                    R.anim.exit_to_left
+                )
+            }
+            with(mBinding.emailEditText) {
+                emailEditText.addTextChangedListener {
+                    it?.let {
+                        context?.let { context ->
+                            if (it.isNotEmpty()) {
+                                mBinding.nextButton.isEnabled = true
+                                mBinding.nextButton.background = ContextCompat.getDrawable(
+                                    context,
+                                    R.drawable.custom_corner_navy_button
+                                )
+                                mBinding.nextButton.setTextColor(
+                                    ContextCompat.getColor(
+                                        context,
+                                        android.R.color.white
+                                    )
+                                )
+                            } else {
+                                mBinding.nextButton.isEnabled = false
+                                mBinding.nextButton.background = ContextCompat.getDrawable(
+                                    context,
+                                    R.drawable.custom_corner_silver_button
+                                )
+                                mBinding.nextButton.setTextColor(
+                                    ContextCompat.getColor(
+                                        context,
+                                        R.color.brownish_grey_two
+                                    )
+                                )
+                            }
+                        }
+                    }
                 }
                 setOnEditorActionListener { v, actionId, event ->
-                    performNextButtonClick()
+                    performNextButtonClick(mBinding.nextButton)
 
                     false
                 }
             }
-            mRootView.forgotIdButton.setOnClickListener {
-                performNextButtonClick()
-            }
         }
+
+        mBinding.viewModel?.isEmailEmptyWarningVisibleObservable?.addOnPropertyChangedCallback(
+            emailEmptyWarningObservableCallback
+        )
     }
 
-    private fun performVerificationRequestButtonClick() {
-        with(emailEditText.text.isNullOrEmpty()) {
-            activity?.let {
-                mRootView.emailEditText.backgroundTintList =
-                    if (this)
-                        ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
-                    else
-                        null
-            }
-            mRootView.inputEmailWarningTextView.visibility = if (this) View.VISIBLE else View.GONE
-            mRootView.verificationNumberTextView.visibility = if (!this) View.VISIBLE else View.GONE
-            mRootView.verificationNumberEditText.visibility = if (!this) View.VISIBLE else View.GONE
-            mRootView.verificationRequestButton.text =
-                if (this) getString(R.string.request_verification_mail)
-                else getString(R.string.request_again_verification_mail)
-        }
+    fun performNextButtonClick(view: View) {
+        mBinding.viewModel?.requestFindId(mBinding.root.emailEditText.text.toString())
     }
 
-    private fun performNextButtonClick() {
-        mForgotIdViewModel.isEmailVerified.value?.let { isVerified ->
-            if (isVerified) {
-
-            } else {
-                with((mRootView.verificationNumberEditText.text.isNullOrEmpty())) {
-                    activity?.let { activity ->
-                        mRootView.verificationNumberEditText.backgroundTintList =
-                            if (this)
-                                ColorStateList.valueOf(
-                                    ContextCompat.getColor(
-                                        activity,
-                                        R.color.coral
-                                    )
-                                )
-                            else
-                                null
-                    }
-                    mRootView.inputVerificationNumberWarningTextView.visibility =
-                        if (this) View.VISIBLE
-                        else View.GONE
-
-                    if (!this) {
-                        mForgotIdViewModel.requestEmailVerification(mRootView.verificationNumberEditText.text.toString())
-                    }
-                }
-            }
-        }
-    }
-
-    private fun setViewModelObserver() {
-        mForgotIdViewModel.isEmailVerified.observe(this, Observer { isVerified ->
-            mRootView.forgotIdButton.text =
-                if (isVerified) getString(R.string.complete_forgot_id)
-                else getString(R.string.next)
-
-            mRootView.verificationRequestButton.visibility =
-                if (isVerified) View.GONE
-                else View.VISIBLE
-            mRootView.verificationCompleteButton.visibility =
-                if (isVerified) View.VISIBLE
-                else View.GONE
-
-            mForgotIdViewModel.isEmailVerificationTried.value?.let { isVerificationTried ->
-                if (isVerificationTried) {
-                    activity?.let {
-                        if (isVerified) {
-                            mRootView.verificationNumberEditText.backgroundTintList = null
-                            mRootView.verificationNumberEditText.setTextColor(
-                                ContextCompat.getColor(it, android.R.color.black)
-                            )
-                        } else {
-                            mRootView.verificationNumberEditText.backgroundTintList =
-                                ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
-                            mRootView.verificationNumberEditText.setTextColor(
-                                ContextCompat.getColor(it, R.color.coral)
-                            )
-                        }
-                    }
-                    mRootView.inputVerificationNumberAgainWarningTextView.visibility =
-                        if (isVerified) View.GONE
-                        else View.VISIBLE
-                }
-            }
-        })
+    fun performLoginButtonClick(view: View) {
+        mFragmentListener.replaceFragment(
+            (activity as LoginActivity).mLoginFragment,
+            R.anim.enter_from_left,
+            R.anim.exit_to_right
+        )
     }
 
     override fun onDestroy() {
-        mForgotIdViewModel.clearCompositeDisposable()
+        mBinding.viewModel?.isEmailEmptyWarningVisibleObservable?.removeOnPropertyChangedCallback(
+            emailEmptyWarningObservableCallback
+        )
+        mBinding.viewModel?.clearCompositeDisposable()
 
         super.onDestroy()
     }

@@ -1,7 +1,11 @@
 package com.mashup.telltostar.ui.login
 
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.mashup.telltostar.data.source.remote.ApiProvider
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
@@ -13,28 +17,30 @@ import java.util.concurrent.TimeUnit
 
 class ForgotIdViewModel {
     private val mCompositeDisposable = CompositeDisposable()
-    val isEmailVerified = MutableLiveData<Boolean>(false)
-    val isEmailVerificationTried = MutableLiveData<Boolean>(false)
+    val isEmailEmptyWarningVisibleObservable = ObservableBoolean(false)
+    val isFindIdSuccess = ObservableBoolean(false)
+    val mFoundIdObservable = ObservableField<String>()
 
-    fun requestEmailVerification(verificationNumber: String) {
-        // TODO: 메일 인증 서버에 요청
-        mCompositeDisposable.add(
-            Single.just(Random().nextInt(2))
-                .subscribeOn(Schedulers.io())
-                .delay(1500, TimeUnit.MILLISECONDS)
-                .map {
-                    it > 0
-                }
-                .subscribe({
-                    isEmailVerified.postValue(it)
+    fun requestFindId(email: String) {
+        isEmailEmptyWarningVisibleObservable.set(email.isEmpty())
 
-                    timber.log.Timber.d("$it")
-                }, {
-                    it.printStackTrace()
-                })
-        )
-
-        isEmailVerificationTried.postValue(true)
+        if (email.isNotEmpty()) {
+            mCompositeDisposable.add(
+                ApiProvider
+                    .provideUserApi()
+                    .findId(email)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        isFindIdSuccess.set(true)
+                        isEmailEmptyWarningVisibleObservable.set(false)
+                        mFoundIdObservable.set(it.userId)
+                    }, {
+                        isFindIdSuccess.set(false)
+                        isEmailEmptyWarningVisibleObservable.set(true)
+                    })
+            )
+        }
     }
 
     fun clearCompositeDisposable() {
