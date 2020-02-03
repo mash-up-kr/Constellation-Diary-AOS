@@ -19,7 +19,7 @@ class LoginViewModel {
         CompositeDisposable()
     }
 
-    fun requestLogin(timeZone: String, id: String, password: String) {
+    fun requestLogin(timeZone: String, fcmToken: String, id: String, password: String) {
         isInputIdWarningTextViewVisible.postValue(id.isEmpty())
         isInputPasswordWarningTextViewVisible.postValue(password.isEmpty())
 
@@ -30,7 +30,7 @@ class LoginViewModel {
                     .signIn(
                         timeZone,
                         ReqSignInDto(
-                            "temptemp",
+                            fcmToken,
                             id,
                             password
                         )

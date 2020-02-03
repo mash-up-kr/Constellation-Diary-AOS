@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.google.firebase.iid.FirebaseInstanceId
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.ui.main.MainActivity
@@ -23,6 +24,7 @@ class LoginFragment : Fragment() {
     private val mLoginViewModel by lazy {
         LoginViewModel()
     }
+    private var mFcmToken: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +35,15 @@ class LoginFragment : Fragment() {
 
         setListeners()
         setViewModelObserver()
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
+            if (it.isSuccessful) {
+                it.result?.token?.let { token ->
+                    mFcmToken = token
+                }
+            } else if (it.isCanceled) {
+                timber.log.Timber.d("firebase token getting canceled")
+            }
+        }
 
         return rootView
     }
@@ -127,11 +138,14 @@ class LoginFragment : Fragment() {
     }
 
     private fun performStartButtonClick() {
-        mLoginViewModel.requestLogin(
-            "KST", // 현재 기기 위치에 따른 시간대 넘기도록 변경해야함
-            mRootView.idEditText.text.toString(),
-            mRootView.passwordEditText.text.toString()
-        )
+        mFcmToken?.let {
+            mLoginViewModel.requestLogin(
+                "KST", // 현재 기기 위치에 따른 시간대 넘기도록 변경해야함
+                it,
+                mRootView.idEditText.text.toString(),
+                mRootView.passwordEditText.text.toString()
+            )
+        }
     }
 
     private fun performForgotIdPasswordTextViewClick() {
