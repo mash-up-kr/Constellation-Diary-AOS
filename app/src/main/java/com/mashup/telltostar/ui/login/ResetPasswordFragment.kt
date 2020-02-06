@@ -59,10 +59,17 @@ class ResetPasswordFragment : Fragment() {
 
     private fun setListeners() {
         with(mBinding) {
-            newPasswordEditText.addTextChangedListener {
-                it?.let {
-                    loginButton.isEnabled =
-                        it.isNotEmpty() && passwordConfirmEditText.text.isNotEmpty()
+            with(newPasswordEditText) {
+                addTextChangedListener {
+                    it?.let {
+                        loginButton.isEnabled =
+                            it.isNotEmpty() && passwordConfirmEditText.text.isNotEmpty()
+                    }
+                }
+                setOnFocusChangeListener { v, hasFocus ->
+                    if (hasFocus) {
+                        mFragmentListener.expandBottomSheet()
+                    }
                 }
             }
             with(passwordConfirmEditText) {
@@ -70,6 +77,11 @@ class ResetPasswordFragment : Fragment() {
                     it?.let {
                         loginButton.isEnabled =
                             it.isNotEmpty() && newPasswordEditText.text.isNotEmpty()
+                    }
+                }
+                setOnFocusChangeListener { v, hasFocus ->
+                    if (hasFocus) {
+                        mFragmentListener.expandBottomSheet()
                     }
                 }
                 setOnEditorActionListener { v, actionId, event ->
