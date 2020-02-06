@@ -158,7 +158,7 @@ class LoginFragment : Fragment() {
                 .inflate(R.layout.dialog_forgot_id_password, null).apply {
                     this.forgotIdPasswordDialogIdTextView.setOnClickListener {
                         mFragmentListener.replaceFragment(
-                            (activity as LoginActivity).mForgotIdFragment,
+                            initForgotIdFragment(),
                             R.anim.enter_from_right,
                             R.anim.exit_to_left
                         )
@@ -179,5 +179,9 @@ class LoginFragment : Fragment() {
             it.setView(dialogView)
             it.show()
         }
+    }
+
+    private fun initForgotIdFragment() = ForgotIdFragment().apply {
+        setFragmentListener(mFragmentListener)
     }
 }

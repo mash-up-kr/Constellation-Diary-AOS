@@ -36,7 +36,6 @@ class LoginActivity : AppCompatActivity() {
     }
     lateinit var mLoginFragment: LoginFragment
     lateinit var mSignUpFragment: SignUpFragment
-    lateinit var mForgotIdFragment: ForgotIdFragment
     lateinit var mForgotPasswordFragment: ForgotPasswordFragment
     lateinit var mResetPasswordFragment: ResetPasswordFragment
 
@@ -50,10 +49,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initSignUpFragment() = SignUpFragment().apply {
-        setFragmentListener(mFragmentListener)
-    }
-
-    private fun initForgotIdFragment() = ForgotIdFragment().apply {
         setFragmentListener(mFragmentListener)
     }
 
@@ -85,7 +80,6 @@ class LoginActivity : AppCompatActivity() {
     private fun initBottomSheetView() {
         mLoginFragment = initLoginFragment()
         mSignUpFragment = initSignUpFragment()
-        mForgotIdFragment = initForgotIdFragment()
         mForgotPasswordFragment = initForgotPasswordFragment()
         mResetPasswordFragment = initResetPasswordFragment()
         mBottomSheetBehavior.addBottomSheetCallback(object :
