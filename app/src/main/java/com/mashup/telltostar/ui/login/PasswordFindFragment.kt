@@ -186,7 +186,7 @@ class PasswordFindFragment(private val mFragmentListener: LoginActivity.Fragment
         )
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         mBinding.viewModel?.let {
             it.isIdEmptyWarningVisibleObservable.removeOnPropertyChangedCallback(
                 mEditTextEmptyWarningCallback
@@ -196,6 +196,6 @@ class PasswordFindFragment(private val mFragmentListener: LoginActivity.Fragment
             )
         }
 
-        super.onDestroy()
+        super.onDestroyView()
     }
 }
