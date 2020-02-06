@@ -1,10 +1,12 @@
 package com.mashup.telltostar.ui.login
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
@@ -87,38 +89,46 @@ class PasswordFindFragment(private val mFragmentListener: LoginActivity.Fragment
                     mEditTextEmptyWarningCallback
                 )
             }
-            verificationNumberEditText.setOnEditorActionListener { v, actionId, event ->
-                performResetPasswordButtonClick(mBinding.resetPasswordButton)
+            with(verificationNumberEditText) {
+                setOnEditorActionListener { v, actionId, event ->
+                    performResetPasswordButtonClick(mBinding.resetPasswordButton)
 
-                false
-            }
-            verificationNumberEditText.addTextChangedListener {
-                context?.let { context ->
-                    with(mBinding.resetPasswordButton) {
-                        if (it.isNullOrEmpty()) {
-                            isEnabled = false
-                            background = ContextCompat.getDrawable(
-                                context,
-                                R.drawable.custom_corner_silver_button
-                            )
-                            setTextColor(
-                                ContextCompat.getColor(
+                    false
+                }
+                addTextChangedListener {
+                    context?.let { context ->
+                        with(mBinding.resetPasswordButton) {
+                            if (it.isNullOrEmpty()) {
+                                isEnabled = false
+                                background = ContextCompat.getDrawable(
                                     context,
-                                    R.color.brownish_grey_two
+                                    R.drawable.custom_corner_silver_button
                                 )
-                            )
-                        } else {
-                            isEnabled = true
-                            background = ContextCompat.getDrawable(
-                                context,
-                                R.drawable.custom_corner_navy_button
-                            )
-                            setTextColor(
-                                ContextCompat.getColor(
+                                setTextColor(
+                                    ContextCompat.getColor(
+                                        context,
+                                        R.color.brownish_grey_two
+                                    )
+                                )
+                            } else {
+                                isEnabled = true
+                                background = ContextCompat.getDrawable(
                                     context,
-                                    android.R.color.white
+                                    R.drawable.custom_corner_navy_button
                                 )
-                            )
+                                setTextColor(
+                                    ContextCompat.getColor(
+                                        context,
+                                        android.R.color.white
+                                    )
+                                )
+                            }
+                        }
+
+                        if (it.toString().length >= 6) {
+                            (activity?.getSystemService(Context.INPUT_METHOD_SERVICE)
+                                    as InputMethodManager)
+                                .hideSoftInputFromWindow(this.windowToken, 0)
                         }
                     }
                 }
