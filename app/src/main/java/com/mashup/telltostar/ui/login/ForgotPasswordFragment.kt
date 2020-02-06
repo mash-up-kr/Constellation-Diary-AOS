@@ -38,7 +38,7 @@ class ForgotPasswordFragment : Fragment() {
         mRootView = inflater.inflate(R.layout.fragment_forgot_password, container, false)
 
         setListeners()
-        replaceFragment(PasswordFindFragment(), R.anim.enter_from_right, R.anim.exit_to_left)
+        replaceFragment(PasswordFindFragment(mFragmentListener), R.anim.enter_from_right, R.anim.exit_to_left)
 
         return mRootView
     }

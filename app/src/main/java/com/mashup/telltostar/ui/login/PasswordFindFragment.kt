@@ -15,7 +15,8 @@ import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentPasswordFindBinding
 import com.mashup.telltostar.util.VibratorUtil
 
-class PasswordFindFragment : Fragment() {
+class PasswordFindFragment(private val mFragmentListener: LoginActivity.FragmentListener) :
+    Fragment() {
     private lateinit var mBinding: FragmentPasswordFindBinding
     private val mEditTextEmptyWarningCallback by lazy {
         object : Observable.OnPropertyChangedCallback() {
@@ -53,11 +54,25 @@ class PasswordFindFragment : Fragment() {
 
     private fun setListeners() {
         with(mBinding) {
-            idEditText.addTextChangedListener {
-                replaceVerificationButtonBackground()
+            with(idEditText) {
+                addTextChangedListener {
+                    replaceVerificationButtonBackground()
+                }
+                setOnFocusChangeListener { v, hasFocus ->
+                    if (hasFocus) {
+                        mFragmentListener.expandBottomSheet()
+                    }
+                }
             }
-            emailEditText.addTextChangedListener {
-                replaceVerificationButtonBackground()
+            with(emailEditText) {
+                addTextChangedListener {
+                    replaceVerificationButtonBackground()
+                }
+                setOnFocusChangeListener { v, hasFocus ->
+                    if (hasFocus) {
+                        mFragmentListener.expandBottomSheet()
+                    }
+                }
             }
             emailEditText.setOnEditorActionListener { v, actionId, event ->
                 performRequestVerificationNumberButtonClick(mBinding.requestVerificationNumberButton)
