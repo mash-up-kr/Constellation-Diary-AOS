@@ -20,7 +20,7 @@ class ForgotPasswordFragment : Fragment() {
                 sender?.let {
                     if ((it as ObservableBoolean).get()) {
                         replaceFragment(
-                            (activity as LoginActivity).mResetPasswordFragment,
+                            initResetPasswordFragment(),
                             R.anim.enter_from_right,
                             R.anim.exit_to_left
                         )
@@ -41,6 +41,10 @@ class ForgotPasswordFragment : Fragment() {
         replaceFragment(PasswordFindFragment(mFragmentListener), R.anim.enter_from_right, R.anim.exit_to_left)
 
         return mRootView
+    }
+
+    private fun initResetPasswordFragment() = ResetPasswordFragment().apply {
+        setFragmentListener(mFragmentListener)
     }
 
     fun setFragmentListener(listener: LoginActivity.FragmentListener) {
