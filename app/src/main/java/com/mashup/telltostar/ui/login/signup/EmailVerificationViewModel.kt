@@ -88,14 +88,6 @@ object EmailVerificationViewModel {
             Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
 
     fun requestEmailVerification(inputEmail: String, verificationNumber: Int) {
-        if (inputEmail == "hclee" && verificationNumber == 654321) {
-            isEmailVerified.value = true
-            isEmailVerifiedObservable.set(true)
-            mVerifiedEmailObservable.set(inputEmail)
-
-            return
-        }
-
         mCompositeDisposable.add(
             ApiProvider
                 .provideAuthenticationNumberApi()
