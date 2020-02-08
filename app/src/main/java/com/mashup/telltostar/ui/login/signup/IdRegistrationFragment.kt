@@ -207,9 +207,15 @@ class IdRegistrationFragment : Fragment() {
                 if (!isIdentical) {
                     vibrate()
                 } else {
-                    startActivity(Intent(activity, MyConstellationActivity::class.java).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    })
+                    EmailVerificationViewModel.mVerifiedEmailObservable.get()?.let { userEmail ->
+                        MyConstellationActivity.startMyConstellationForSignUp(
+                            activity,
+                            mRootView.idEditText.text.toString(),
+                            userEmail,
+                            mRootView.passwordEditText.text.toString()
+                        )
+                    }
+
                     activity.overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left)
                     activity.finish()
                 }
