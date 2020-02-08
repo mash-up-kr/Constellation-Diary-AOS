@@ -1,4 +1,4 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.forgotpassword
 
 import android.util.Patterns
 import androidx.databinding.ObservableBoolean

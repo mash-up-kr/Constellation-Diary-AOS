@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mashup.telltostar.R
+import com.mashup.telltostar.ui.login.forgotpassword.ForgotPasswordFragment
 import com.mashup.telltostar.ui.login.signup.SignUpFragment
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.loginSingUpButton

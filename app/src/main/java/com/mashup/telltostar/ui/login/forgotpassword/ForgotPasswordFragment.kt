@@ -1,4 +1,4 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.forgotpassword
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,7 +9,7 @@ import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 
 import com.mashup.telltostar.R
-import kotlinx.android.synthetic.main.bottom_sheet_time_picker.*
+import com.mashup.telltostar.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_forgot_password.view.*
 
 class ForgotPasswordFragment : Fragment() {

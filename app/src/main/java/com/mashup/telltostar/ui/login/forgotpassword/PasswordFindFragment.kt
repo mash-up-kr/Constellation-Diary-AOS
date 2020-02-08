@@ -1,4 +1,4 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.forgotpassword
 
 import android.content.Context
 import android.os.Bundle
@@ -15,6 +15,7 @@ import androidx.databinding.ObservableBoolean
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentPasswordFindBinding
+import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.util.VibratorUtil
 
 class PasswordFindFragment(

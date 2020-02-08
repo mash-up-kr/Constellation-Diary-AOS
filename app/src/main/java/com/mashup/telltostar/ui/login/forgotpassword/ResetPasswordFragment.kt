@@ -1,4 +1,4 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.forgotpassword
 
 
 import android.os.Bundle
@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentResetPasswordBinding
+import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.util.VibratorUtil
 
 class ResetPasswordFragment(private val mForgotPasswordViewModel: ForgotPasswordViewModel) :
