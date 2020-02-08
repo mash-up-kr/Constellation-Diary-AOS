@@ -7,17 +7,17 @@
 
         <import type="android.view.View" />
 
-        <import type="com.mashup.telltostar.ui.login.EmailVerificationViewModel" />
+        <import type="com.mashup.telltostar.ui.login.signup.EmailVerificationViewModel" />
 
         <variable
             name="emailVerificationViewModel"
-            type="EmailVerificationViewModel" />
+            type="com.mashup.telltostar.ui.login.signup.EmailVerificationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.login.EmailVerificationFragment">
+        tools:context=".ui.login.signup.EmailVerificationFragment">
 
         <TextView
             android:id="@+id/emailTextView"
