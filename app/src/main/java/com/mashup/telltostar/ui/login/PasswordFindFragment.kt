@@ -17,8 +17,10 @@ import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentPasswordFindBinding
 import com.mashup.telltostar.util.VibratorUtil
 
-class PasswordFindFragment(private val mFragmentListener: LoginActivity.FragmentListener) :
-    Fragment() {
+class PasswordFindFragment(
+    private val mForgotPasswordViewModel: ForgotPasswordViewModel,
+    private val mFragmentListener: LoginActivity.FragmentListener
+) : Fragment() {
     private lateinit var mBinding: FragmentPasswordFindBinding
     private val mEditTextEmptyWarningCallback by lazy {
         object : Observable.OnPropertyChangedCallback() {
@@ -44,7 +46,7 @@ class PasswordFindFragment(private val mFragmentListener: LoginActivity.Fragment
             container,
             false
         ).apply {
-            viewModel = ForgotPasswordViewModel
+            viewModel = mForgotPasswordViewModel
             fragment = this@PasswordFindFragment
             requestVerificationNumberButton.isEnabled = false
         }

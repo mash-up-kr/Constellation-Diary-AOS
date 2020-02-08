@@ -9,11 +9,13 @@ import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 
 import com.mashup.telltostar.R
+import kotlinx.android.synthetic.main.bottom_sheet_time_picker.*
 import kotlinx.android.synthetic.main.fragment_forgot_password.view.*
 
 class ForgotPasswordFragment : Fragment() {
     private lateinit var mRootView: View
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
+    private lateinit var mForgotPasswordViewModel: ForgotPasswordViewModel
     private val mVerifiedCallback by lazy {
         object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
@@ -36,16 +38,22 @@ class ForgotPasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         mRootView = inflater.inflate(R.layout.fragment_forgot_password, container, false)
+        mForgotPasswordViewModel = ForgotPasswordViewModel()
 
         setListeners()
-        replaceFragment(PasswordFindFragment(mFragmentListener), R.anim.enter_from_right, R.anim.exit_to_left)
+        replaceFragment(
+            PasswordFindFragment(mForgotPasswordViewModel, mFragmentListener),
+            R.anim.enter_from_right,
+            R.anim.exit_to_left
+        )
 
         return mRootView
     }
 
-    private fun initResetPasswordFragment() = ResetPasswordFragment().apply {
-        setFragmentListener(mFragmentListener)
-    }
+    private fun initResetPasswordFragment() =
+        ResetPasswordFragment(mForgotPasswordViewModel).apply {
+            setFragmentListener(mFragmentListener)
+        }
 
     fun setFragmentListener(listener: LoginActivity.FragmentListener) {
         mFragmentListener = listener
@@ -68,14 +76,19 @@ class ForgotPasswordFragment : Fragment() {
             )
         }
 
-        ForgotPasswordViewModel.isVerifiedObservable.addOnPropertyChangedCallback(mVerifiedCallback)
+        mForgotPasswordViewModel.isVerifiedObservable.addOnPropertyChangedCallback(mVerifiedCallback)
     }
 
-    override fun onDestroy() {
-        ForgotPasswordViewModel.isVerifiedObservable.removeOnPropertyChangedCallback(
-            mVerifiedCallback
-        )
+    override fun onDestroyView() {
+        timber.log.Timber.d("onDestroyView()")
 
-        super.onDestroy()
+        with(mForgotPasswordViewModel) {
+            isVerifiedObservable.removeOnPropertyChangedCallback(
+                mVerifiedCallback
+            )
+            clearCompositeDisposable()
+        }
+
+        super.onDestroyView()
     }
 }

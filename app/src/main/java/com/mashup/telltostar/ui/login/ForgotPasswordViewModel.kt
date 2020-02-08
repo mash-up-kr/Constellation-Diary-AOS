@@ -18,8 +18,11 @@ import java.util.concurrent.TimeUnit
  * Created by hclee on 2020-01-17.
  */
 
-object ForgotPasswordViewModel {
-    private const val TIMEOUT = 180L
+class ForgotPasswordViewModel {
+    companion object {
+        private const val TIMEOUT = 180L
+    }
+
     private val mCompositeDisposable by lazy {
         CompositeDisposable()
     }
@@ -151,4 +154,10 @@ object ForgotPasswordViewModel {
 
     private fun isEmailPattern(inputEmail: String) =
         Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
+
+    fun clearCompositeDisposable() {
+        timber.log.Timber.d("clearCompositeDisposable()")
+
+        mCompositeDisposable.clear()
+    }
 }
