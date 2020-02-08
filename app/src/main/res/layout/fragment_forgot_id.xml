@@ -9,11 +9,11 @@
 
         <variable
             name="viewModel"
-            type="com.mashup.telltostar.ui.login.ForgotIdViewModel" />
+            type="com.mashup.telltostar.ui.login.forgotid.ForgotIdViewModel" />
 
         <variable
             name="fragment"
-            type="com.mashup.telltostar.ui.login.ForgotIdFragment" />
+            type="com.mashup.telltostar.ui.login.forgotid.ForgotIdFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

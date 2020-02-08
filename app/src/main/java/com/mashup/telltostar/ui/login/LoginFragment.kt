@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.google.firebase.iid.FirebaseInstanceId
 
 import com.mashup.telltostar.R
+import com.mashup.telltostar.ui.login.forgotid.ForgotIdFragment
 import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.util.VibratorUtil
 import kotlinx.android.synthetic.main.dialog_forgot_id_password.view.*

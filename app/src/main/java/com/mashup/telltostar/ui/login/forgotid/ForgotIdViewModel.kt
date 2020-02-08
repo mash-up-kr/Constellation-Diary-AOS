@@ -1,15 +1,11 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.forgotid
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import com.mashup.telltostar.data.source.remote.ApiProvider
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by hclee on 2020-01-04.
