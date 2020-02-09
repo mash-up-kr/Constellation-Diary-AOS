@@ -22,6 +22,7 @@ class LoginViewModel {
     val isInputPasswordWarningTextViewVisible = MutableLiveData<Boolean>()
     val isLoginErrorButtonVisible = MutableLiveData<Boolean>(false)
     val isLoggedIn = MutableLiveData<Boolean>(false)
+    val isInputPasswordVisible = MutableLiveData<Boolean>(false)
     private val mCompositeData by lazy {
         CompositeDisposable()
     }
@@ -91,5 +92,9 @@ class LoginViewModel {
 
                 })
         )
+    }
+
+    fun requestTogglePasswordVisibility() {
+        isInputPasswordVisible.value = isInputPasswordVisible.value?.not()
     }
 }

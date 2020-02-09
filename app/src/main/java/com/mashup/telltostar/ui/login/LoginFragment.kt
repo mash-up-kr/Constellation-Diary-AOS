@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -16,11 +18,17 @@ import com.google.firebase.iid.FirebaseInstanceId
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.ui.login.forgotid.ForgotIdFragment
+import com.mashup.telltostar.ui.login.signup.CustomPasswordTransformationMethod
 import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.util.VibratorUtil
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.dialog_forgot_id_password.view.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
+import java.util.concurrent.TimeUnit
 
 class LoginFragment : Fragment() {
     private lateinit var mRootView: View
@@ -29,6 +37,7 @@ class LoginFragment : Fragment() {
         LoginViewModel()
     }
     private var mFcmToken: String? = null
+    private val mCompositeDisposable = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,6 +100,9 @@ class LoginFragment : Fragment() {
                     true
                 }
             }
+            mRootView.passwordVisibilityLinearLayout.setOnClickListener {
+                performPasswordVisibilityLinearLayoutClick()
+            }
         }
     }
 
@@ -118,6 +130,19 @@ class LoginFragment : Fragment() {
                         mRootView.passwordEditText.backgroundTintList = null
                         mRootView.inputPasswordWarningTextView.visibility = View.GONE
                     }
+                })
+                isInputPasswordVisible.observe(this@LoginFragment, Observer {
+                    if (it) {
+                        mRootView.passwordVisibilityImageView.visibility = View.VISIBLE
+                        mRootView.passwordInvisibilityImageView.visibility = View.GONE
+                    } else {
+                        mRootView.passwordVisibilityImageView.visibility = View.GONE
+                        mRootView.passwordInvisibilityImageView.visibility = View.VISIBLE
+                    }
+
+                    mRootView.passwordEditText.transformationMethod =
+                        if (it) HideReturnsTransformationMethod.getInstance()
+                        else CustomPasswordTransformationMethod()
                 })
                 isLoginErrorButtonVisible.observe(this@LoginFragment, Observer {
                     loginErrorButton.visibility =
@@ -194,6 +219,25 @@ class LoginFragment : Fragment() {
             it.setView(dialogView)
             it.show()
         }
+    }
+
+    private fun performPasswordVisibilityLinearLayoutClick() {
+        mLoginViewModel.requestTogglePasswordVisibility()
+        moveEditTextCursorEnd(mRootView.passwordEditText)
+    }
+
+    private fun moveEditTextCursorEnd(editText: EditText) {
+        mCompositeDisposable.add(
+            Single.just(1)
+                .subscribeOn(Schedulers.io())
+                .delay(50, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    editText.setSelection(editText.text.length)
+                }, {
+                    it.printStackTrace()
+                })
+        )
     }
 
     private fun initForgotIdFragment() = ForgotIdFragment().apply {
