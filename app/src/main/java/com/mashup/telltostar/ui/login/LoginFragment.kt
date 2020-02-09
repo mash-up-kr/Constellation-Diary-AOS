@@ -19,6 +19,7 @@ import com.mashup.telltostar.ui.login.forgotid.ForgotIdFragment
 import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.util.VibratorUtil
 import kotlinx.android.synthetic.main.dialog_forgot_id_password.view.*
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 
 class LoginFragment : Fragment() {
@@ -117,6 +118,11 @@ class LoginFragment : Fragment() {
                         mRootView.passwordEditText.backgroundTintList = null
                         mRootView.inputPasswordWarningTextView.visibility = View.GONE
                     }
+                })
+                isLoginErrorButtonVisible.observe(this@LoginFragment, Observer {
+                    loginErrorButton.visibility =
+                        if (it) View.VISIBLE
+                        else View.GONE
                 })
                 isLoggedIn.observe(this@LoginFragment, Observer {
                     if (it) {

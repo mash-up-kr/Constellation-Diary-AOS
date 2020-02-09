@@ -17,5 +17,5 @@ interface UserApi {
     fun findId(@Query("email") email: String): Single<ResUserIdDto>
 
     @POST("/users/sign-in")
-    fun signIn(@Header("Time-Zone") timeZone: String, @Body body: ReqSignInDto): Single<BaseResUserInfoDto>
+    fun signIn(@Header("Time-Zone") timeZone: String, @Body body: ReqSignInDto): Single<ResUserInfoDto>
 }

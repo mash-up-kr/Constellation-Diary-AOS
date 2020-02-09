@@ -177,6 +177,24 @@
         tools:visibility="visible" />
 
     <Button
+        android:id="@+id/loginErrorButton"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/warning_message_bg"
+        android:clickable="false"
+        android:text="@string/error_login"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/startStarStarDiaryButton"
+        app:layout_constraintEnd_toEndOf="@+id/startStarStarDiaryButton"
+        app:layout_constraintStart_toStartOf="@+id/startStarStarDiaryButton"
+        tools:visibility="visible" />
+
+    <Button
         android:id="@+id/startStarStarDiaryButton"
         android:layout_width="328dp"
         android:layout_height="52dp"

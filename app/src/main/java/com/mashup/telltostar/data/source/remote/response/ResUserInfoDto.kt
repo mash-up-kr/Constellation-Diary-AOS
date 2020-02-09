@@ -1,9 +1,9 @@
 package com.mashup.telltostar.data.source.remote.response
 
-data class ResUserInfoDto(
-    val tokens: Tokens,
-    val user: User
-) : BaseResUserInfoDto()
+open class ResUserInfoDto {
+    lateinit var tokens: Tokens
+    lateinit var user: User
+}
 
 data class Tokens(
     val authenticationToken: String,

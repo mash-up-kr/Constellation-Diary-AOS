@@ -98,6 +98,7 @@
     <string name="new_password">새로운 비밀번호</string>
     <string name="reinput_password">비밀번호 재입력</string>
     <string name="not_identical_password">비밀번호가 일치하지 않습니다.</string>
+    <string name="error_login">가입되지 않은 아이디이거나, 잘못된 비밀번호입니다.</string>
 
     <!--    StarListActivity-->
     <string name="Constellation_luck">별자리별 운세</string>

@@ -6,10 +6,12 @@ import com.mashup.telltostar.data.source.remote.ApiProvider
 import com.mashup.telltostar.data.source.remote.request.ReqSignInDto
 import com.mashup.telltostar.data.source.remote.response.ResUserInfoDto
 import com.mashup.telltostar.data.source.remote.response.ResUserInfoErrorDto
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by hclee on 2020-01-12.
@@ -18,6 +20,7 @@ import retrofit2.HttpException
 class LoginViewModel {
     val isInputIdWarningTextViewVisible = MutableLiveData<Boolean>()
     val isInputPasswordWarningTextViewVisible = MutableLiveData<Boolean>()
+    val isLoginErrorButtonVisible = MutableLiveData<Boolean>(false)
     val isLoggedIn = MutableLiveData<Boolean>(false)
     private val mCompositeData by lazy {
         CompositeDisposable()
@@ -45,14 +48,14 @@ class LoginViewModel {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        if (it is ResUserInfoDto) {
-                            isLoggedIn.postValue(true)
-                        } else if (it is ResUserInfoErrorDto) {
+                        if (it is ResUserInfoErrorDto) {
                             when (it.error.code) {
                                 4104, 4105 -> {
-                                    timber.log.Timber.d("가입되지 않은 아이디이거나, 잘못된 비밀번호입니다.")
+                                    showThenHideLoginErrorMessage()
                                 }
                             }
+                        } else if (it is ResUserInfoDto) {
+                            isLoggedIn.postValue(true)
                         }
                     }, {
                         isLoggedIn.postValue(false)
@@ -66,4 +69,27 @@ class LoginViewModel {
             (throwable as HttpException).response().errorBody()?.string(),
             ResUserInfoErrorDto::class.java
         )
+
+    private fun showThenHideLoginErrorMessage() {
+        mCompositeData.add(
+            Observable
+                .interval(0, 1500L, TimeUnit.MILLISECONDS)
+                .take(2)
+                .flatMap {
+                    if (it < 1) {
+                        Observable.just(true)
+                    } else {
+                        Observable.just(false)
+                    }
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    isLoginErrorButtonVisible.value = it
+                }, {
+
+                }, {
+
+                })
+        )
+    }
 }
