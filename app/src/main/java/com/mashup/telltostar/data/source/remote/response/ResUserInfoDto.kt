@@ -3,7 +3,7 @@ package com.mashup.telltostar.data.source.remote.response
 data class ResUserInfoDto(
     val tokens: Tokens,
     val user: User
-)
+) : BaseResUserInfoDto()
 
 data class Tokens(
     val authenticationToken: String,

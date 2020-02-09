@@ -1,9 +1,7 @@
 package com.mashup.telltostar.data.source.remote.api
 
 import com.mashup.telltostar.data.source.remote.request.ReqSignInDto
-import com.mashup.telltostar.data.source.remote.response.ResCheckUserDto
-import com.mashup.telltostar.data.source.remote.response.ResUserIdDto
-import com.mashup.telltostar.data.source.remote.response.ResUserInfoDto
+import com.mashup.telltostar.data.source.remote.response.*
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -19,5 +17,5 @@ interface UserApi {
     fun findId(@Query("email") email: String): Single<ResUserIdDto>
 
     @POST("/users/sign-in")
-    fun signIn(@Header("Time-Zone") timeZone: String, @Body body: ReqSignInDto): Single<ResUserInfoDto>
+    fun signIn(@Header("Time-Zone") timeZone: String, @Body body: ReqSignInDto): Single<BaseResUserInfoDto>
 }
