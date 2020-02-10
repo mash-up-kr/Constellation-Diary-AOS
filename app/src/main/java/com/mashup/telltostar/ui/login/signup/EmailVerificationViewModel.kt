@@ -73,8 +73,6 @@ object EmailVerificationViewModel {
                         isEmailSend.postValue(true)
                         isEmailSendObservable.set(true)
                     }, {
-                        isEmailPattern.postValue(false)
-                        isEmailPatternObservable.set(false)
                         it.printStackTrace()
                     })
             )
