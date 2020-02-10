@@ -29,6 +29,7 @@ object EmailVerificationViewModel {
     val isEmailSend = MutableLiveData<Boolean>(false)
     val isEmailVerified = MutableLiveData<Boolean>()
     val mInputVerificationNumber = MutableLiveData<String>()
+    val isVerificationTimeoutLiveData = MutableLiveData<Boolean>(false)
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
     private val mIntervalObservable by lazy {
         getIntervalObservable()
@@ -38,8 +39,13 @@ object EmailVerificationViewModel {
     val isEmailVerifiedObservable = ObservableBoolean(false)
     val mRemainTimeObservable = ObservableField<String>()
     val isEmailSendObservable = ObservableBoolean(false)
+    val isVerificationTimeoutWarningVisibleObservable = ObservableBoolean(false)
+    private var isVerificationTimeout = false
 
     fun requestVerificationNumber(inputEmail: String) {
+        isVerificationTimeout = false
+        isVerificationTimeoutWarningVisibleObservable.set(false)
+
         if (isEmailPattern(inputEmail)) {
             isEmailPattern.postValue(true)
             isEmailPatternObservable.set(true)
@@ -56,7 +62,7 @@ object EmailVerificationViewModel {
                             }, {
 
                             }, {
-
+                                isVerificationTimeout = true
                             })
             )
             mCompositeDisposable.add(
@@ -86,25 +92,32 @@ object EmailVerificationViewModel {
             Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
 
     fun requestEmailVerification(inputEmail: String, verificationNumber: Int) {
-        mCompositeDisposable.add(
-            ApiProvider
-                .provideAuthenticationNumberApi()
-                .authenticationSignUp(
-                    ReqValidationSignUpNumberDto(
-                        inputEmail,
-                        verificationNumber
+        if (isVerificationTimeout) {
+            isVerificationTimeoutWarningVisibleObservable.set(true)
+            isVerificationTimeoutLiveData.value = true
+        } else {
+            mCompositeDisposable.add(
+                ApiProvider
+                    .provideAuthenticationNumberApi()
+                    .authenticationSignUp(
+                        ReqValidationSignUpNumberDto(
+                            inputEmail,
+                            verificationNumber
+                        )
                     )
-                )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    isEmailVerified.postValue(true)
-                    isEmailVerifiedObservable.set(true)
-                    mVerifiedEmailObservable.set(inputEmail)
-                }, {
-                    it.printStackTrace()
-                })
-        )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        isEmailVerified.postValue(true)
+                        isEmailVerifiedObservable.set(true)
+                        mVerifiedEmailObservable.set(inputEmail)
+                    }, {
+                        it.printStackTrace()
+                        isEmailVerified.value = false
+                        isEmailVerifiedObservable.set(false)
+                    })
+            )
+        }
     }
 
     private fun getIntervalObservable() =

@@ -35,6 +35,22 @@ class EmailVerificationFragment(
             }
         }
     }
+    private val mVerificationTimeoutCallback = object : Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            (sender as ObservableBoolean).let {
+                activity?.let { activity ->
+                    mBinding.verificationNumberEditText.backgroundTintList =
+                        if (it.get()) ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                activity,
+                                R.color.coral
+                            )
+                        )
+                        else null
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -82,6 +98,9 @@ class EmailVerificationFragment(
                 }
             }
         }
+        mBinding.emailVerificationViewModel?.isVerificationTimeoutWarningVisibleObservable?.addOnPropertyChangedCallback(
+            mVerificationTimeoutCallback
+        )
     }
 
     private fun setViewModelObserver() {
@@ -110,12 +129,22 @@ class EmailVerificationFragment(
                             else ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
                 }
             })
+            isVerificationTimeoutLiveData.observe(this@EmailVerificationFragment, Observer {
+                if (it) {
+                    activity?.let {
+                        VibratorUtil.vibrate(it)
+                    }
+                }
+            })
         }
     }
 
     override fun onDestroyView() {
         mBinding.emailVerificationViewModel?.isEmailPatternObservable?.removeOnPropertyChangedCallback(
             mEmailPatternChangeCallback
+        )
+        mBinding.emailVerificationViewModel?.isVerificationTimeoutWarningVisibleObservable?.removeOnPropertyChangedCallback(
+            mVerificationTimeoutCallback
         )
 
         super.onDestroyView()
