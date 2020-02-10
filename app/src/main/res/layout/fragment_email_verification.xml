@@ -79,10 +79,10 @@
             android:id="@+id/inputEmailWarningTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/input_email"
+            android:text="@string/error_not_email_pattern"
             android:textColor="@color/coral"
             android:textSize="12sp"
-            android:visibility="gone"
+            android:visibility="@{emailVerificationViewModel.isEmailPatternObservable() ? View.GONE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="@+id/emailTextView"
             app:layout_constraintTop_toBottomOf="@+id/emailEditText"
             tools:visibility="visible" />

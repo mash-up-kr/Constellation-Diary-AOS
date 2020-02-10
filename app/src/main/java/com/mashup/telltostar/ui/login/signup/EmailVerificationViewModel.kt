@@ -34,7 +34,7 @@ object EmailVerificationViewModel {
         getIntervalObservable()
     }
     val mVerifiedEmailObservable = ObservableField<String>()
-    val isEmailPatternObservable = ObservableBoolean()
+    val isEmailPatternObservable = ObservableBoolean(true)
     val isEmailVerifiedObservable = ObservableBoolean(false)
     val mRemainTimeObservable = ObservableField<String>()
     val isEmailSendObservable = ObservableBoolean(false)

@@ -11,6 +11,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
@@ -22,6 +24,17 @@ class EmailVerificationFragment(
         private val mFragmentListener: LoginActivity.FragmentListener
 ) : Fragment() {
     private lateinit var mBinding: FragmentEmailVerificationBinding
+    private val mEmailPatternChangeCallback = object : Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            (sender as ObservableBoolean).let {
+                activity?.let { activity ->
+                    mBinding.emailEditText.backgroundTintList =
+                        if (it.get()) null
+                        else ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -73,21 +86,12 @@ class EmailVerificationFragment(
 
     private fun setViewModelObserver() {
         with(EmailVerificationViewModel) {
+            isEmailPatternObservable.addOnPropertyChangedCallback(mEmailPatternChangeCallback)
             isEmailPattern.observe(this@EmailVerificationFragment, Observer { isEmailPattern ->
-                if (isEmailPattern) {
-                    mBinding.inputEmailWarningTextView.visibility = View.GONE
-                } else {
-                    mBinding.inputEmailWarningTextView.visibility = View.VISIBLE
-
+                if (isEmailPattern.not()) {
                     context?.let {
                         VibratorUtil.vibrate(it)
                     }
-                }
-
-                activity?.let {
-                    mBinding.emailEditText.backgroundTintList =
-                            if (isEmailPattern) null
-                            else ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
                 }
             })
             isEmailVerified.observe(this@EmailVerificationFragment, Observer { isEmailVerified ->
@@ -107,5 +111,13 @@ class EmailVerificationFragment(
                 }
             })
         }
+    }
+
+    override fun onDestroyView() {
+        mBinding.emailVerificationViewModel?.isEmailPatternObservable?.removeOnPropertyChangedCallback(
+            mEmailPatternChangeCallback
+        )
+
+        super.onDestroyView()
     }
 }
