@@ -101,6 +101,7 @@
     <string name="error_login">가입되지 않은 아이디이거나, 잘못된 비밀번호입니다.</string>
     <string name="error_not_email_pattern">잘못된 이메일 형식입니다.</string>
     <string name="error_verification_timeout">인증번호 입력 시간이 지났습니다.</string>
+    <string name="error_nonexistent_email">가입되지 않은 이메일 주소입니다.</string>
 
     <!--    StarListActivity-->
     <string name="Constellation_luck">별자리별 운세</string>

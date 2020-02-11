@@ -10,6 +10,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentForgotIdBinding
@@ -118,9 +119,18 @@ class ForgotIdFragment : Fragment() {
             }
         }
 
-        mBinding.viewModel?.isEmailEmptyWarningVisibleObservable?.addOnPropertyChangedCallback(
-            emailEmptyWarningObservableCallback
-        )
+        mBinding.viewModel?.let {
+            it.isEmailEmptyWarningVisibleObservable.addOnPropertyChangedCallback(
+                emailEmptyWarningObservableCallback
+            )
+            it.isNonExistentEmailWarningVisibleLiveData.observe(this@ForgotIdFragment, Observer {
+                if (it) {
+                    context?.let { context ->
+                        VibratorUtil.vibrate(context)
+                    }
+                }
+            })
+        }
     }
 
     fun performNextButtonClick(view: View) {
@@ -135,12 +145,12 @@ class ForgotIdFragment : Fragment() {
         )
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         mBinding.viewModel?.isEmailEmptyWarningVisibleObservable?.removeOnPropertyChangedCallback(
             emailEmptyWarningObservableCallback
         )
         mBinding.viewModel?.clearCompositeDisposable()
 
-        super.onDestroy()
+        super.onDestroyView()
     }
 }
