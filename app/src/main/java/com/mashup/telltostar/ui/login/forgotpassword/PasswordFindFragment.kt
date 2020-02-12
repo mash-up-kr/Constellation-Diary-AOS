@@ -170,6 +170,32 @@ class PasswordFindFragment(
                     }
                 }
             )
+            it.isNonExistentEmailLiveData.observe(
+                this@PasswordFindFragment,
+                Observer { isNonExistentEmail ->
+                    with(mBinding) {
+                        context?.let { context ->
+                            nonExistentEmailWarningTextView.visibility =
+                                if (isNonExistentEmail) View.VISIBLE
+                                else View.GONE
+                            emailEditText.backgroundTintList =
+                                if (isNonExistentEmail)
+                                    ColorStateList.valueOf(
+                                        ContextCompat.getColor(
+                                            context,
+                                            R.color.coral
+                                        )
+                                    )
+                                else
+                                    null
+
+                            if (isNonExistentEmail) {
+                                VibratorUtil.vibrate(context)
+                            }
+                        }
+                    }
+                }
+            )
         }
     }
 

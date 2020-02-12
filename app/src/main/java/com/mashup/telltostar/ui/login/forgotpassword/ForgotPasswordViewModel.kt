@@ -10,6 +10,7 @@ import com.mashup.telltostar.data.source.remote.request.ReqModifyPasswordDto
 import com.mashup.telltostar.data.source.remote.request.ReqValidationFindPasswordNumberDto
 import com.mashup.telltostar.data.source.remote.request.ReqFindPasswordNumberDto
 import com.mashup.telltostar.data.source.remote.response.ResAuthenticationTokenErrorDto
+import com.mashup.telltostar.data.source.remote.response.ResFindPasswordNumberErrorDto
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -41,11 +42,13 @@ class ForgotPasswordViewModel {
     val isPasswordInputIdenticalLiveData = MutableLiveData<Boolean>(false)
     var isVerificationTimeoutLiveData = MutableLiveData<Boolean>(false)
     var isVerificationNumberWrongLiveData = MutableLiveData<Boolean>(false)
+    var isNonExistentEmailLiveData = MutableLiveData<Boolean>(false)
     private var mVerificationToken: String? = null
 
     fun requestVerificationNumber(id: String, email: String) {
         isVerificationTimeoutLiveData.value = false
         isVerificationNumberWrongLiveData.value = false
+        isNonExistentEmailLiveData.value = false
         isIdEmptyWarningVisibleObservable.set(id.isEmpty())
         isEmailEmptyWarningVisibleObservable.set(email.isEmpty() || isEmailPattern(email).not())
 
@@ -71,6 +74,16 @@ class ForgotPasswordViewModel {
                         }, {
                             isVerificationNumberRequestedObservable.set(false)
                             isLoadingVisibleObservable.set(false)
+
+                            when (
+                                getConvertedErrorData(
+                                    it,
+                                    ResFindPasswordNumberErrorDto::class.java
+                                ).error.code) {
+                                4002 -> {
+                                    isNonExistentEmailLiveData.value = true
+                                }
+                            }
                         })
                 )
             }
@@ -115,7 +128,7 @@ class ForgotPasswordViewModel {
                 )
                 .subscribeOn(Schedulers.io())
                 .onErrorReturn {
-                    getConvertedErrorData(it)
+                    getConvertedErrorData(it, ResAuthenticationTokenErrorDto::class.java)
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -176,10 +189,10 @@ class ForgotPasswordViewModel {
         return if (seconds < 10) "$minute:0${seconds}" else "$minute:$seconds"
     }
 
-    private fun getConvertedErrorData(throwable: Throwable) =
+    private fun <T> getConvertedErrorData(throwable: Throwable, type: Class<T>): T =
         Gson().fromJson(
             (throwable as HttpException).response().errorBody()?.string(),
-            ResAuthenticationTokenErrorDto::class.java
+            type
         )
 
     private fun isEmailPattern(inputEmail: String) =
