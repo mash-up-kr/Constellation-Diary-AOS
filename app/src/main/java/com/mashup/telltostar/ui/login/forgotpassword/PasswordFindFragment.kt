@@ -143,28 +143,56 @@ class PasswordFindFragment(
     }
 
     private fun setViewModelObserver() {
-        mBinding.viewModel?.isVerificationTimeoutLiveData?.observe(
-            this@PasswordFindFragment,
-            Observer { isTimeout ->
-                context?.let { context ->
-                    mBinding.verificationTimeoutWarningTextView.visibility =
-                        if (isTimeout) View.VISIBLE
-                        else View.GONE
-                    mBinding.verificationNumberEditText.backgroundTintList =
-                        if (isTimeout) ColorStateList.valueOf(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.coral
-                            )
-                        )
-                        else null
-
+        mBinding.viewModel?.let {
+            it.isVerificationTimeoutLiveData.observe(
+                this@PasswordFindFragment,
+                Observer { isTimeout ->
                     if (isTimeout) {
-                        VibratorUtil.vibrate(context)
+                        onVerificationNumberInputErrorOccurs()
+
+                        mBinding.verificationTimeoutWarningTextView.visibility = View.VISIBLE
+                    } else {
+                        mBinding.verificationNumberEditText.backgroundTintList = null
+                        mBinding.verificationTimeoutWarningTextView.visibility = View.GONE
                     }
                 }
-            }
-        )
+            )
+            it.isVerificationNumberWrongLiveData.observe(
+                this@PasswordFindFragment,
+                Observer { isWrong ->
+                    if (isWrong) {
+                        onVerificationNumberInputErrorOccurs()
+
+                        mBinding.verificationNumberWrongWarningTextView.visibility = View.VISIBLE
+                    } else {
+                        mBinding.verificationNumberEditText.backgroundTintList = null
+                        mBinding.verificationNumberWrongWarningTextView.visibility = View.GONE
+                    }
+                }
+            )
+        }
+    }
+
+    private fun onVerificationNumberInputErrorOccurs() {
+        context?.let {
+            mBinding.verificationNumberEditText.backgroundTintList =
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        it,
+                        R.color.coral
+                    )
+                )
+
+            VibratorUtil.vibrate(it)
+        }
+    }
+
+    private fun removeVerificationNumberEditTextError() {
+        with(mBinding) {
+            verificationNumberEditText.backgroundTintList = null
+            verificationTimeoutWarningTextView.visibility = View.GONE
+            verificationNumberWrongWarningTextView.visibility = View.GONE
+        }
     }
 
     private fun replaceVerificationButtonBackground() {
@@ -210,6 +238,8 @@ class PasswordFindFragment(
     }
 
     fun performResetPasswordButtonClick(view: View) {
+        removeVerificationNumberEditTextError()
+
         mBinding.viewModel?.requestSelfVerification(
             mBinding.emailEditText.text.toString(),
             mBinding.verificationNumberEditText.text.toString().toInt(),
