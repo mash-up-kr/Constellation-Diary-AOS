@@ -1,6 +1,7 @@
 package com.mashup.telltostar.ui.login.forgotpassword
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentPasswordFindBinding
@@ -53,6 +55,7 @@ class PasswordFindFragment(
         }
 
         setListeners()
+        setViewModelObserver()
 
         return mBinding.root
     }
@@ -137,6 +140,31 @@ class PasswordFindFragment(
                 }
             }
         }
+    }
+
+    private fun setViewModelObserver() {
+        mBinding.viewModel?.isVerificationTimeoutLiveData?.observe(
+            this@PasswordFindFragment,
+            Observer { isTimeout ->
+                context?.let { context ->
+                    mBinding.verificationTimeoutWarningTextView.visibility =
+                        if (isTimeout) View.VISIBLE
+                        else View.GONE
+                    mBinding.verificationNumberEditText.backgroundTintList =
+                        if (isTimeout) ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.coral
+                            )
+                        )
+                        else null
+
+                    if (isTimeout) {
+                        VibratorUtil.vibrate(context)
+                    }
+                }
+            }
+        )
     }
 
     private fun replaceVerificationButtonBackground() {

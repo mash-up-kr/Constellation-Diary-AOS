@@ -36,9 +36,11 @@ class ForgotPasswordViewModel {
     val isPasswordEmptyWarningVisibleObservable = ObservableBoolean(false)
     val isPasswordNotIdenticalWarningVisibleObservable = ObservableBoolean(false)
     val isPasswordInputIdenticalLiveData = MutableLiveData<Boolean>(false)
+    var isVerificationTimeoutLiveData = MutableLiveData<Boolean>(false)
     private var mVerificationToken: String? = null
 
     fun requestVerificationNumber(id: String, email: String) {
+        isVerificationTimeoutLiveData.value = false
         isIdEmptyWarningVisibleObservable.set(id.isEmpty())
         isEmailEmptyWarningVisibleObservable.set(email.isEmpty() || isEmailPattern(email).not())
 
@@ -90,6 +92,12 @@ class ForgotPasswordViewModel {
     }
 
     fun requestSelfVerification(email: String, verificationNumber: Int, id: String) {
+        if (isTimeRemainsObservable.get().not()) {
+            isVerificationTimeoutLiveData.value = true
+
+            return
+        }
+
         mCompositeDisposable.add(
             ApiProvider
                 .provideAuthenticationNumberApi()
