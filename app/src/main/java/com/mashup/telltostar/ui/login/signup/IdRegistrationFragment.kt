@@ -247,6 +247,29 @@ class IdRegistrationFragment : Fragment() {
                     }
                 }
             })
+            IdRegistrationViewModel.isNotIdPatternWarningTextViewVisible.observe(this, Observer {
+                timber.log.Timber.d("onChanged() - $it")
+
+                mRootView.notIdPatternWarningTextView.visibility =
+                    if (it) View.VISIBLE
+                    else View.GONE
+                mRootView.idEditText.backgroundTintList =
+                    if (it)
+                        ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                activity,
+                                R.color.coral
+                            )
+                        )
+                    else
+                        null
+
+                if (it) {
+                    context?.let {
+                        VibratorUtil.vibrate(it)
+                    }
+                }
+            })
         }
     }
 
