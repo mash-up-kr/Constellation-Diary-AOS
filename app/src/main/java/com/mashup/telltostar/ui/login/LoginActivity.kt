@@ -33,9 +33,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-    private val mBottomSheetBehavior by lazy {
-        BottomSheetBehavior.from(login_sign_up_bottom_sheet)
-    }
+    private var mBottomSheetBehavior: BottomSheetBehavior<View>? = null
     lateinit var mLoginFragment: LoginFragment
     lateinit var mSignUpFragment: SignUpFragment
     lateinit var mForgotPasswordFragment: ForgotPasswordFragment
@@ -59,18 +57,18 @@ class LoginActivity : AppCompatActivity() {
 
     private fun openBottomSheet() {
         login_sign_up_bottom_sheet.visibility = View.VISIBLE
-        mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        mBottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
         setDimLayoutVisibility(View.VISIBLE)
     }
 
     private fun closeBottomSheet() {
-        mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        mBottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
         setDimLayoutVisibility(View.GONE)
     }
 
     private fun expandBottomSheet() {
         login_sign_up_bottom_sheet.visibility = View.VISIBLE
-        mBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        mBottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
         setDimLayoutVisibility(View.VISIBLE)
     }
 
@@ -78,16 +76,18 @@ class LoginActivity : AppCompatActivity() {
         mLoginFragment = initLoginFragment()
         mSignUpFragment = initSignUpFragment()
         mForgotPasswordFragment = initForgotPasswordFragment()
-        mBottomSheetBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (slideOffset <= -1f) {
-                    closeBottomSheet()
+        mBottomSheetBehavior = BottomSheetBehavior.from(login_sign_up_bottom_sheet).apply {
+            addBottomSheetCallback(object :
+                BottomSheetBehavior.BottomSheetCallback() {
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                    if (slideOffset <= -1f) {
+                        closeBottomSheet()
+                    }
                 }
-            }
 
-            override fun onStateChanged(bottomSheet: View, newState: Int) {}
-        })
+                override fun onStateChanged(bottomSheet: View, newState: Int) {}
+            })
+        }
 
         replaceBottomSheetFragment(mLoginFragment)
     }
@@ -121,18 +121,20 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (mBottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN) {
-            if (mLoginFragment.isVisible) {
-                closeBottomSheet()
+        mBottomSheetBehavior?.let {
+            if (it.state != BottomSheetBehavior.STATE_HIDDEN) {
+                if (mLoginFragment.isVisible) {
+                    closeBottomSheet()
+                } else {
+                    replaceBottomSheetFragment(
+                        mLoginFragment,
+                        R.anim.enter_from_left,
+                        R.anim.exit_to_right
+                    )
+                }
             } else {
-                replaceBottomSheetFragment(
-                    mLoginFragment,
-                    R.anim.enter_from_left,
-                    R.anim.exit_to_right
-                )
+                super.onBackPressed()
             }
-        } else {
-            super.onBackPressed()
-        }
+        } ?: super.onBackPressed()
     }
 }
