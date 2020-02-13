@@ -20,6 +20,7 @@ import com.mashup.telltostar.R
 import com.mashup.telltostar.ui.login.forgotid.ForgotIdFragment
 import com.mashup.telltostar.ui.login.signup.CustomPasswordTransformationMethod
 import com.mashup.telltostar.ui.main.MainActivity
+import com.mashup.telltostar.util.PrefUtil
 import com.mashup.telltostar.util.VibratorUtil
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -151,6 +152,11 @@ class LoginFragment : Fragment() {
                 })
                 isLoggedIn.observe(this@LoginFragment, Observer {
                     if (it) {
+                        if (mAuthenticationToken.isNotEmpty() && mRefreshToken.isNotEmpty()) {
+                            PrefUtil.put(PrefUtil.AUTHENTICATION_TOKEN, mAuthenticationToken)
+                            PrefUtil.put(PrefUtil.REFRESH_TOKEN, mRefreshToken)
+                        }
+
                         activity?.let { activity ->
                             activity.startActivity(
                                 Intent(
