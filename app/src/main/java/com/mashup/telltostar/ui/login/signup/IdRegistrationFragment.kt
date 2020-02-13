@@ -243,9 +243,7 @@ class IdRegistrationFragment : Fragment() {
                         )
                     mRootView.duplicateIdWarningTextView.visibility = View.VISIBLE
 
-                    context?.let {
-                        VibratorUtil.vibrate(it)
-                    }
+                    vibrate()
                 }
             })
             IdRegistrationViewModel.isNotIdPatternWarningTextViewVisible.observe(this, Observer {
@@ -266,9 +264,7 @@ class IdRegistrationFragment : Fragment() {
                         null
 
                 if (it) {
-                    context?.let {
-                        VibratorUtil.vibrate(it)
-                    }
+                    vibrate()
                 }
             })
             IdRegistrationViewModel.isNotPasswordPatternWarningTextViewVisible.observe(
