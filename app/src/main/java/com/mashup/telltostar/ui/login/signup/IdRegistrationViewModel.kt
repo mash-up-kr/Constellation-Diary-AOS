@@ -21,6 +21,7 @@ object IdRegistrationViewModel {
     val isInputConfirmPasswordWarningTextViewVisible = MutableLiveData<Boolean>()
     val isAvailableId = MutableLiveData<Boolean>()
     val isNotIdPatternWarningTextViewVisible = MutableLiveData<Boolean>()
+    val isNotPasswordPatternWarningTextViewVisible = MutableLiveData<Boolean>()
 
     private val mCompositeDisposable by lazy {
         CompositeDisposable()
@@ -65,12 +66,17 @@ object IdRegistrationViewModel {
     }
 
     fun requestCheckTwoPasswordIdentical(id: String, password: String, confirmPassword: String) {
+        isNotPasswordPatternWarningTextViewVisible.value = false
         isInputIdWarningTextViewVisible.postValue(id.isEmpty())
         isInputPasswordWarningTextViewVisible.postValue(password.isEmpty())
         isInputConfirmPasswordWarningTextViewVisible.value = confirmPassword.isEmpty()
 
         if (id.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
-            isTwoPasswordIdentical.value = (password == confirmPassword)
+            if (RegexUtil.isPasswordPattern(password)) {
+                isTwoPasswordIdentical.value = (password == confirmPassword)
+            } else {
+                isNotPasswordPatternWarningTextViewVisible.value = true
+            }
         }
     }
 }

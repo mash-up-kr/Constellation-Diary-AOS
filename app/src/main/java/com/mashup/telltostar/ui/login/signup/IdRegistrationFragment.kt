@@ -19,6 +19,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_id_registration.*
 import kotlinx.android.synthetic.main.fragment_id_registration.view.*
 import java.util.concurrent.TimeUnit
 
@@ -270,6 +271,26 @@ class IdRegistrationFragment : Fragment() {
                     }
                 }
             })
+            IdRegistrationViewModel.isNotPasswordPatternWarningTextViewVisible.observe(
+                this,
+                Observer {
+                    notPasswordPatternWarningTextView.visibility =
+                        if (it) View.VISIBLE
+                        else View.GONE
+                    passwordEditText.backgroundTintList =
+                        if (it) ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                activity,
+                                R.color.coral
+                            )
+                        )
+                        else
+                            null
+
+                    if (it) {
+                        vibrate()
+                    }
+                })
         }
     }
 

@@ -167,6 +167,18 @@
         tools:visibility="visible" />
 
     <TextView
+        android:id="@+id/notPasswordPatternWarningTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_not_password_pattern"
+        android:textColor="@color/coral"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/passwordEditText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
+        tools:visibility="visible" />
+
+    <TextView
         android:id="@+id/passwordConfirmTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
