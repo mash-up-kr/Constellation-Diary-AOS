@@ -143,7 +143,7 @@ class DiaryListActivity : AppCompatActivity() {
 
         diaryListInclude.setOnLongClickListener {
             val diaryDate = Integer.parseInt(diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).text.toString())
-            val diaryId= calendarData[diaryDate].diary.idg
+            val diaryId= calendarData[diaryDate].diary.id
 
             true
         }
