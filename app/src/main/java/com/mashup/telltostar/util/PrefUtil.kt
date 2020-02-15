@@ -11,6 +11,9 @@ object PrefUtil {
     const val REFRESH_TOKEN = "refresh_token"
     const val CONSTELLATION = "constellation"
 
+    const val AUTHENTICATION_TOKEN = "authenticationToken"
+    const val REFRESH_TOKEN = "refreshToken"
+
     private lateinit var pref: SharedPreferences
 
     fun init(context: Context) {

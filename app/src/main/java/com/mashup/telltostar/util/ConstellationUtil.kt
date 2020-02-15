@@ -21,6 +21,22 @@ object ConstellationUtil {
         else -> resource.getString(R.string.date_goat)
     }
 
+    fun getInfo(resource: Resources, constellation: String) = when (constellation) {
+        resource.getString(R.string.goat) -> resource.getString(R.string.info_goat)
+        resource.getString(R.string.waterbottle) -> resource.getString(R.string.info_waterbottle)
+        resource.getString(R.string.fish) -> resource.getString(R.string.info_fish)
+        resource.getString(R.string.yang) -> resource.getString(R.string.info_yang)
+        resource.getString(R.string.hwangso) -> resource.getString(R.string.info_hwangso)
+        resource.getString(R.string.twin) -> resource.getString(R.string.info_twin)
+        resource.getString(R.string.crab) -> resource.getString(R.string.info_crab)
+        resource.getString(R.string.lion) -> resource.getString(R.string.info_lion)
+        resource.getString(R.string.girl) -> resource.getString(R.string.info_girl)
+        resource.getString(R.string.chunching) -> resource.getString(R.string.info_chunching)
+        resource.getString(R.string.jungal) -> resource.getString(R.string.info_jungal)
+        resource.getString(R.string.gungso) -> resource.getString(R.string.info_gungso)
+        else -> resource.getString(R.string.info_goat)
+    }
+
     fun getIconBlack(resource: Resources, constellation: String) = when (constellation) {
         resource.getString(R.string.goat) -> R.drawable.star_goat
         resource.getString(R.string.waterbottle) -> R.drawable.star_waterbottle
@@ -84,4 +100,5 @@ object ConstellationUtil {
         resource.getString(R.string.jungal),
         resource.getString(R.string.gungso)
     )
+
 }
