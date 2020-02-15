@@ -208,17 +208,27 @@ class IdRegistrationFragment : Fragment() {
                 if (!isIdentical) {
                     vibrate()
                 } else {
-                    EmailVerificationViewModel.mVerifiedEmailObservable.get()?.let { userEmail ->
-                        MyConstellationActivity.startMyConstellationForSignUp(
-                            activity,
-                            mRootView.idEditText.text.toString(),
-                            userEmail,
-                            mRootView.passwordEditText.text.toString()
-                        )
-                    }
+                    with(EmailVerificationViewModel) {
+                        mToken?.let { token ->
+                            if (mToken.isNullOrEmpty().not()) {
+                                mVerifiedEmailObservable.get()?.let { userEmail ->
+                                    MyConstellationActivity.startMyConstellationForSignUp(
+                                        activity,
+                                        mRootView.idEditText.text.toString(),
+                                        userEmail,
+                                        mRootView.passwordEditText.text.toString(),
+                                        token
+                                    )
+                                }
+                            }
 
-                    activity.overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left)
-                    activity.finish()
+                            activity.overridePendingTransition(
+                                R.anim.enter_from_right,
+                                R.anim.exit_to_left
+                            )
+                            activity.finish()
+                        }
+                    }
                 }
             })
             IdRegistrationViewModel.isAvailableId.observe(this, Observer {
