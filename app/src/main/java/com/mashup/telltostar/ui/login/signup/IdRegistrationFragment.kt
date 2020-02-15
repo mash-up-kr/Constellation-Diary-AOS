@@ -1,6 +1,5 @@
 package com.mashup.telltostar.ui.login.signup
 
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
@@ -23,7 +22,9 @@ import kotlinx.android.synthetic.main.fragment_id_registration.*
 import kotlinx.android.synthetic.main.fragment_id_registration.view.*
 import java.util.concurrent.TimeUnit
 
-class IdRegistrationFragment : Fragment() {
+class IdRegistrationFragment(
+    private val mEmailVerificationViewModel: EmailVerificationViewModel
+) : Fragment() {
 
     private lateinit var mRootView: View
     private val mCompositeDisposable by lazy {
@@ -208,7 +209,7 @@ class IdRegistrationFragment : Fragment() {
                 if (!isIdentical) {
                     vibrate()
                 } else {
-                    with(EmailVerificationViewModel) {
+                    with(mEmailVerificationViewModel) {
                         mToken?.let { token ->
                             if (mToken.isNullOrEmpty().not()) {
                                 mVerifiedEmailObservable.get()?.let { userEmail ->

@@ -16,9 +16,10 @@ import kotlinx.android.synthetic.main.fragment_signup.view.*
 class SignUpFragment : Fragment() {
     private lateinit var mRootView: View
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
+    private lateinit var mEmailVerificationViewModel: EmailVerificationViewModel
     private lateinit var mEmailVerificationFragment: EmailVerificationFragment
     private val mIdRegistrationFragment by lazy {
-        IdRegistrationFragment()
+        IdRegistrationFragment(mEmailVerificationViewModel)
     }
 
     override fun onCreateView(
@@ -28,7 +29,11 @@ class SignUpFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_signup, container, false)
 
         mRootView = rootView
-        mEmailVerificationFragment = EmailVerificationFragment(mFragmentListener)
+        mEmailVerificationViewModel = EmailVerificationViewModel()
+        mEmailVerificationFragment = EmailVerificationFragment(
+            mEmailVerificationViewModel,
+            mFragmentListener
+        )
 
         setListeners()
         setViewModelObserver(mRootView)
@@ -60,7 +65,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun setViewModelObserver(mRootView: View) {
-        EmailVerificationViewModel.mInputVerificationNumber.observe(this@SignUpFragment, Observer {
+        mEmailVerificationViewModel.mInputVerificationNumber.observe(this@SignUpFragment, Observer {
             if (it.length >= 6) {
                 with(mRootView.nextSignUpButton) {
                     isEnabled = true
@@ -91,7 +96,7 @@ class SignUpFragment : Fragment() {
                 }
             }
         })
-        EmailVerificationViewModel.isEmailVerified.observe(this@SignUpFragment, Observer {
+        mEmailVerificationViewModel.isEmailVerified.observe(this@SignUpFragment, Observer {
             if (it) {
                 with(mRootView.nextSignUpButton) {
                     background = ContextCompat.getDrawable(
@@ -123,18 +128,18 @@ class SignUpFragment : Fragment() {
     }
 
     private fun performNextSignUpButtonClick() {
-        EmailVerificationViewModel.isEmailSend.value?.let { isEmailSend ->
+        mEmailVerificationViewModel.isEmailSend.value?.let { isEmailSend ->
             if (isEmailSend) {
-                EmailVerificationViewModel.isEmailVerified.value?.let { isEmailVerified ->
+                mEmailVerificationViewModel.isEmailVerified.value?.let { isEmailVerified ->
                     if (isEmailVerified) {
                         performStartStarStarDiaryButtonClick()
                     } else {
-                        EmailVerificationViewModel.requestEmailVerification(
+                        mEmailVerificationViewModel.requestEmailVerification(
                             mEmailVerificationFragment.emailEditText.text.toString(),
                             mEmailVerificationFragment.verificationNumberEditText.text.toString().toInt()
                         )
                     }
-                } ?: EmailVerificationViewModel.requestEmailVerification(
+                } ?: mEmailVerificationViewModel.requestEmailVerification(
                     mEmailVerificationFragment.emailEditText.text.toString(),
                     mEmailVerificationFragment.verificationNumberEditText.text.toString().toInt()
                 )
@@ -145,7 +150,7 @@ class SignUpFragment : Fragment() {
     private fun performStartStarStarDiaryButtonClick() {
         if (mEmailVerificationFragment.isVisible) {
             replaceFragment(mIdRegistrationFragment, R.anim.enter_from_right, R.anim.exit_to_left)
-            EmailVerificationViewModel.clearDisposable()
+            mEmailVerificationViewModel.clearDisposable()
             mRootView.signUpStepTextView.text = getString(R.string.sign_up_step_2)
             mRootView.startStarStarDiaryButton.visibility = View.VISIBLE
             mRootView.nextSignUpButton.visibility = View.GONE
