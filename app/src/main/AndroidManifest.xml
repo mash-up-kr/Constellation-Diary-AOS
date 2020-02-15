@@ -23,15 +23,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ui.diarylist.DiaryListActivity"/>
         <activity
-            android:name=".ui.starlist.StarListDetailActivity"
-            android:theme="@style/NoActionBarTheme" />
-        <activity
-            android:name=".ui.starlist.StarListActivity"
-            android:theme="@style/NoActionBarTheme" />
-        <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.splash.SplashActivity"
             android:theme="@style/NoActionBarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +33,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".ui.diarylist.DiaryListActivity" />
+        <activity
+            android:name=".ui.starlist.StarListDetailActivity"
+            android:theme="@style/NoActionBarTheme" />
+        <activity
+            android:name=".ui.starlist.StarListActivity"
+            android:theme="@style/NoActionBarTheme" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:theme="@style/NoActionBarTheme"></activity>
         <activity
             android:name=".ui.main.MainActivity"
             android:launchMode="singleTask"
