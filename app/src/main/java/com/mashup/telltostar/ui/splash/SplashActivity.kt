@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.mashup.telltostar.R
 import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.ui.main.MainActivity
+import com.mashup.telltostar.util.PrefUtil
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -18,6 +19,12 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        if (PrefUtil.get(PrefUtil.AUTHENTICATION_TOKEN, "").isNotEmpty()) {
+            startMainActivity()
+        } else {
+            startLoginActivity()
+        }
     }
 
     private fun startLoginActivity() {
