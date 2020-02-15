@@ -10,6 +10,7 @@ import com.mashup.telltostar.data.repository.SignRepoImpl
 import com.mashup.telltostar.data.source.remote.ApiProvider
 import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationAdapter
+import com.mashup.telltostar.ui.starlist.StarListDetailActivity
 import com.mashup.telltostar.util.ConstellationUtil
 import com.mashup.telltostar.util.PrefUtil
 import com.yarolegovich.discretescrollview.DiscreteScrollView
@@ -17,7 +18,6 @@ import com.yarolegovich.discretescrollview.InfiniteScrollAdapter
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.activity_my_constellation.*
-import org.jetbrains.anko.toast
 import timber.log.Timber
 
 class MyConstellationActivity : AppCompatActivity(),
@@ -76,8 +76,13 @@ class MyConstellationActivity : AppCompatActivity(),
                     signUp(adapter.getConstellation(realPosition))
                 }
                 Type.WATCH -> {
-                    //TODO 별자리 상세 화면 이동
-                    toast("별자리 상세 화면 이동")
+                    //TODO 별자리 상세 화면 이동t
+                    val realPosition =
+                        constellationAdapter.getRealPosition(customScrollView.currentItem)
+
+                    startActivity(Intent(this, StarListDetailActivity::class.java).apply {
+                        putExtra("name", adapter.getConstellation(realPosition))
+                    })
                 }
             }
         }
