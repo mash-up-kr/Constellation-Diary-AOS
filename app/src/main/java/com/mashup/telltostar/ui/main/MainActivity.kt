@@ -18,8 +18,8 @@ import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.Horoscope
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import com.mashup.telltostar.ui.diarylist.DiaryListActivity
+import com.mashup.telltostar.ui.myconstellation.MyConstellationActivity
 import com.mashup.telltostar.ui.setting.SettingActivity
-import com.mashup.telltostar.ui.starlist.StarListActivity
 import com.mashup.telltostar.util.ConstellationUtil
 import com.mashup.telltostar.util.PrefUtil
 import com.mashup.telltostar.util.TimeUtil
@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             this,
             Injection.provideDailyQuestionRepo(),
             Injection.provideHoroscopeRepo(),
+            Injection.provideUserRepo(),
             compositeDisposable
         )
 
@@ -60,7 +61,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         initNavigationView()
         initButton()
 
-        //TODO 초기화 되는 시점 필요
         presenter.loadDailyQuestion()
         presenter.loadHoroscope()
     }
@@ -68,6 +68,19 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.dispose()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.run {
+            val type = getStringExtra(TYPE)
+            Timber.d("type : $type")
+            if (type == TYPE_RESTART) {
+                presenter.loadDailyQuestion()
+                presenter.loadHoroscope()
+                removeExtra(TYPE)
+            }
+        }
     }
 
     private fun initToolbar() {
@@ -200,9 +213,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun showStarList() {
-        startActivity(
-            Intent(this@MainActivity, StarListActivity::class.java)
-        )
+        MyConstellationActivity.startMyConstellationForWatch(this)
     }
 
     override fun showDiaryList() {
@@ -252,8 +263,17 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     companion object {
         private const val REQUEST_DIARY_EDIT = 0x001
 
+        private const val TYPE = "type"
+        private const val TYPE_RESTART = "restart"
+
         fun startMainActivity(context: Context) {
             context.startActivity(Intent(context, MainActivity::class.java))
+        }
+
+        fun startMainActivityRestart(context: Context) {
+            context.startActivity(Intent(context, MainActivity::class.java).apply {
+                putExtra(TYPE, TYPE_RESTART)
+            })
         }
     }
 

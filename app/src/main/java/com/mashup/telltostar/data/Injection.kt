@@ -4,9 +4,11 @@ import android.content.Context
 import com.mashup.telltostar.data.repository.DailyQuestionRepoImpl
 import com.mashup.telltostar.data.repository.DiaryRepoImpl
 import com.mashup.telltostar.data.repository.HoroscopeRepoImpl
+import com.mashup.telltostar.data.repository.UserRepoImpl
 import com.mashup.telltostar.data.source.DailyQuestionRepository
 import com.mashup.telltostar.data.source.DiaryDataRepository
 import com.mashup.telltostar.data.source.HoroscopeRepository
+import com.mashup.telltostar.data.source.UserRepository
 import com.mashup.telltostar.data.source.remote.ApiProvider
 import com.mashup.telltostar.data.source.remote.datasource.DiaryRemoteDataSource
 
@@ -27,5 +29,10 @@ object Injection {
     fun provideDailyQuestionRepo(): DailyQuestionRepository {
         val remote = ApiProvider.provideDailyApi()
         return DailyQuestionRepoImpl(remote)
+    }
+
+    fun provideUserRepo(): UserRepository {
+        val remote = ApiProvider.provideUserApi()
+        return UserRepoImpl(remote)
     }
 }

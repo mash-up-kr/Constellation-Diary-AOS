@@ -1,5 +1,6 @@
 package com.mashup.telltostar.data.repository
 
+import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.DailyQuestionRepository
 import com.mashup.telltostar.data.source.remote.api.DailyApi
 import com.mashup.telltostar.data.source.remote.response.DailyQuestion
@@ -18,10 +19,8 @@ class DailyQuestionRepoImpl(
         val authorization = "Bearer ${PrefUtil.get(PrefUtil.AUTHENTICATION_TOKEN, "")}"
         val date = TimeUtil.getUTCDate()
 
-        return dailyApi.getDailyQuestions(
-            authorization = authorization,
-            date = date
-        )
+        return dailyApi.getDailyQuestions(authorization = authorization, date = date)
+            .composeError()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
