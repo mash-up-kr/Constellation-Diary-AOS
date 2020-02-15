@@ -47,4 +47,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ProgressBar
+        android:id="@+id/pbMyConstellationStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMyConstellationStart"
+        app:layout_constraintEnd_toEndOf="@+id/btnMyConstellationStart"
+        app:layout_constraintStart_toStartOf="@+id/btnMyConstellationStart"
+        app:layout_constraintTop_toTopOf="@+id/btnMyConstellationStart" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
