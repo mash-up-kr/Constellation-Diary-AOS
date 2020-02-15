@@ -5,6 +5,7 @@ import com.mashup.telltostar.data.source.remote.api.DiaryApi
 import com.mashup.telltostar.data.source.remote.request.DiaryDto
 import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
+import com.mashup.telltostar.util.PrefUtil
 import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.Single
 import retrofit2.Response
@@ -13,12 +14,14 @@ class DiaryRemoteDataSource(
     private val diaryApi: DiaryApi
 ) : DiaryDataRepository {
 
+    private val authorization = "Bearer ${PrefUtil.get(PrefUtil.AUTHENTICATION_TOKEN, "")}"
+
     override fun get(id: Int): Single<Diary> {
-        return diaryApi.getDiary(id)
+        return diaryApi.getDiary(authorization, id)
     }
 
     override fun gets(month: Int, year: Int): Single<Diaries> {
-        return diaryApi.getDiaries(month, year)
+        return diaryApi.getDiaries(authorization, month, year)
     }
 
     override fun insert(
@@ -36,7 +39,7 @@ class DiaryRemoteDataSource(
             date = date
         )
 
-        return diaryApi.postDiaries(dairyDto)
+        return diaryApi.postDiaries(authorization, dairyDto)
     }
 
     override fun update(
@@ -55,10 +58,10 @@ class DiaryRemoteDataSource(
             date = date
         )
 
-        return diaryApi.putDiary(id, dairyDto)
+        return diaryApi.putDiary(authorization, id, dairyDto)
     }
 
     override fun delete(id: Int): Single<Response<Void>> {
-        return diaryApi.deleteDiary(id)
+        return diaryApi.deleteDiary(authorization, id)
     }
 }

@@ -5,6 +5,7 @@ import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 
 class DiaryRepoImpl(
@@ -13,11 +14,13 @@ class DiaryRepoImpl(
 
     override fun get(id: Int): Single<Diary> {
         return dataSource.get(id)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun gets(month: Int, year: Int): Single<Diaries> {
         return dataSource.gets(month, year)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
@@ -27,6 +30,7 @@ class DiaryRepoImpl(
         content: String
     ): Single<Response<Void>> {
         return dataSource.insert(horoscopeId, title, content)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
@@ -37,11 +41,13 @@ class DiaryRepoImpl(
         content: String
     ): Single<Any> {
         return dataSource.update(id, horoscopeId, title, content)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun delete(id: Int): Single<Response<Void>> {
         return dataSource.delete(id)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 }

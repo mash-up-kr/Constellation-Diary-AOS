@@ -13,6 +13,7 @@ import retrofit2.Response
 class SignRepoImpl(
     private val api: UserApi
 ) : SignRepository {
+    private val authorization = PrefUtil.get(PrefUtil.AUTHENTICATION_TOKEN, "")
 
     override fun sighUp(
         constellation: String,
@@ -20,7 +21,6 @@ class SignRepoImpl(
         password: String,
         userId: String
     ): Single<Authentication> {
-        val authorization = PrefUtil.get(PrefUtil.AUTHENTICATION_TOKEN, "")
         val signUp = ReqSignUpDto(
             constellation = constellation,
             email = email,
@@ -33,7 +33,6 @@ class SignRepoImpl(
     }
 
     override fun sighOut(): Single<Response<Void>> {
-        val authorization = PrefUtil.get(PrefUtil.AUTHENTICATION_TOKEN, "")
         return api.signOut(authorization)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
