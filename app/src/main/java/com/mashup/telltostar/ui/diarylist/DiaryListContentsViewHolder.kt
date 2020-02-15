@@ -5,25 +5,29 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.mashup.telltostar.R
+import com.mashup.telltostar.data.source.remote.response.SimpleDiary
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<Temp_diary>(view) {
+class DiaryListContentsViewHolder(view: View): RecyclerView.ViewHolder(view){
     lateinit var diary : Temp_diary
+    lateinit var content : SimpleDiary
     val diaryDate : TextView = view.findViewById(R.id.diaryListDateTV) as TextView
     val diaryDay : TextView = view.findViewById(R.id.diaryListDayTV) as TextView
     val diaryTitle : TextView = view.findViewById(R.id.diaryListTitleTV) as TextView
     val diarySelect : CheckBox = view.findViewById(R.id.diaryListSelectCB) as CheckBox
 
-    override fun bind(item: Temp_diary, pos:Int) {
+    fun bind(item: Temp_diary) {
 
         diary = item
+        content = item.diary
 
         bindDate()
 
-        diaryTitle.text = item.diary.title
+        diaryTitle.text = content.title
 
         checkClick()
 
@@ -49,13 +53,13 @@ class DiaryListContentsViewHolder(view: View): DiaryListAdapter.BaseViewHolder<T
     fun bindDate(){
         var contentDate = ""
         var contentDay = ""
-        if (diary.diary.date != null) {
+        if (content.date != null) {
             //convert utc to localTime
             val utcFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.KOREA)
             utcFormatter.timeZone = TimeZone.getTimeZone("UTC")
             var gpsUTCDate: Date? = null
             try {
-                gpsUTCDate = utcFormatter.parse(diary.diary.date )
+                gpsUTCDate = utcFormatter.parse(content.date )
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
