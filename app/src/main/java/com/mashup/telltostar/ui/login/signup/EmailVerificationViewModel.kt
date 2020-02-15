@@ -40,6 +40,7 @@ object EmailVerificationViewModel {
     val mRemainTimeObservable = ObservableField<String>()
     val isEmailSendObservable = ObservableBoolean(false)
     val isVerificationTimeoutWarningVisibleObservable = ObservableBoolean(false)
+    var mToken: String? = null
     private var isVerificationTimeout = false
 
     fun requestVerificationNumber(inputEmail: String) {
@@ -111,6 +112,7 @@ object EmailVerificationViewModel {
                         isEmailVerified.postValue(true)
                         isEmailVerifiedObservable.set(true)
                         mVerifiedEmailObservable.set(inputEmail)
+                        mToken = it.token
                     }, {
                         it.printStackTrace()
                         isEmailVerified.value = false

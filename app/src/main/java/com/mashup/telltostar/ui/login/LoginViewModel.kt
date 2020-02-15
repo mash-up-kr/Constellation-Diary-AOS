@@ -23,6 +23,8 @@ class LoginViewModel {
     val isLoginErrorButtonVisible = MutableLiveData<Boolean>(false)
     val isLoggedIn = MutableLiveData<Boolean>(false)
     val isInputPasswordVisible = MutableLiveData<Boolean>(false)
+    var mAuthenticationToken = ""
+    var mRefreshToken = ""
     private val mCompositeData by lazy {
         CompositeDisposable()
     }
@@ -56,10 +58,12 @@ class LoginViewModel {
                                 }
                             }
                         } else if (it is ResUserInfoDto) {
-                            isLoggedIn.postValue(true)
+                            mAuthenticationToken = it.tokens.authenticationToken
+                            mRefreshToken = it.tokens.refreshToken
+                            isLoggedIn.value = true
                         }
                     }, {
-                        isLoggedIn.postValue(false)
+                        isLoggedIn.value = false
                     })
             )
         }
