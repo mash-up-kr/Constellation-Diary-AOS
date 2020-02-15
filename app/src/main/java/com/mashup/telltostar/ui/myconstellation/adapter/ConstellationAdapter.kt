@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.telltostar.R
 import com.mashup.telltostar.util.ConstellationUtil
@@ -38,8 +39,7 @@ class ConstellationAdapter(private val constellations: List<String>) :
 
     class ConstellationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val topParent: LinearLayout =
-            itemView.findViewById(R.id.llItemConstellationTextParent)
+        private val parent: LinearLayout = itemView.findViewById(R.id.cvItemConstellationParent)
         private val topIcon: ImageView = itemView.findViewById(R.id.ivItemConstellationIcon)
         private val topTitle: TextView = itemView.findViewById(R.id.tvItemConstellationTitle)
         private val topDate: TextView = itemView.findViewById(R.id.tvItemConstellationDate)
@@ -58,30 +58,16 @@ class ConstellationAdapter(private val constellations: List<String>) :
             )
         }
 
-        fun showText() {
-            val parentHeight = constellationImage.height
-            val scale = (parentHeight - topParent.height) / constellationImage.height.toFloat()
+        fun getTitle() = topTitle.text.toString()
 
-            constellationImage.pivotX = constellationImage.width * 0.5f
-            constellationImage.pivotY = constellationImage.height * 1f
-            constellationImage.animate()
-                .scaleX(scale)
-                .scaleY(scale)
-                .withEndAction {
-                    topParent.visibility = View.VISIBLE
-                    constellationImage.alpha = 1f
-                }
-                .setDuration(200)
-                .start()
-
+        fun showLine() {
+            parent.background =
+                ContextCompat.getDrawable(itemView.context, R.drawable.constellation_selected)
         }
 
-        fun hideText() {
-            constellationImage.alpha = 0.5f
-            topParent.visibility = View.INVISIBLE
-            constellationImage.animate().scaleX(1.0f).scaleY(1.0f)
-                .setDuration(200)
-                .start()
+        fun hideLine() {
+            parent.background =
+                ContextCompat.getDrawable(itemView.context, R.drawable.constellation_unselected)
         }
     }
 }
