@@ -9,9 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +20,8 @@ import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.SimpleDiary
 import kotlinx.android.synthetic.main.activity_diary_list.*
+import kotlinx.android.synthetic.main.fragment_diary_list.*
+import org.w3c.dom.Text
 import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -28,11 +31,13 @@ import kotlin.collections.ArrayList
 class DiaryListActivity : AppCompatActivity() {
     private val diaryListCalendarAdapter = DiaryListCalendarAdapter()
     private val diaryListAdapter = DiaryListAdapter()
-    private var checkedNum = 0;
-    private val diaryRepository = Injection.privideDiariesRepo()
+    private var checkedNum = 0
     private var data : List<SimpleDiary> = listOf()
-
+    private var calendarData : ArrayList<DataCalendar> = arrayListOf()
     private val current = Calendar.getInstance()
+
+
+    private val diaryRepository = Injection.provideDiaryRepo(this@DiaryListActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,9 +130,27 @@ class DiaryListActivity : AppCompatActivity() {
     fun initCalendar(){
         listDiaryCalendarRV.adapter = this.diaryListCalendarAdapter
         listDiaryCalendarRV.setLayoutManager(GridLayoutManager(this,7))
+        diaryListCalendarAdapter.setOnItemClickListener(object :DiaryListCalendarAdapter.OnItemClickListener {
+            override fun onDiarySet(view: View, diary: SimpleDiary) {
+                diaryListInclude.visibility = View.VISIBLE
+                setDiary(diary)
+            }
+
+            override fun onDiaryClear(view: View) {
+                diaryListInclude.visibility = View.INVISIBLE
+            }
+        })
+
+        diaryListInclude.setOnLongClickListener {
+            val diaryDate = Integer.parseInt(diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).text.toString())
+            val diaryId= calendarData[diaryDate].diary.idg
+
+            true
+        }
+
     }
     fun setCalendarData(diaryList : List<SimpleDiary>){
-        var calendarData : ArrayList<Boolean> = arrayListOf()
+        val nullData = SimpleDiary(-1,"","")
 
         val currentDay = current.get(Calendar.DAY_OF_MONTH)
         current.set(Calendar.DAY_OF_MONTH,1)
@@ -136,19 +159,17 @@ class DiaryListActivity : AppCompatActivity() {
         val lastDay = current.getActualMaximum(Calendar.DAY_OF_MONTH)
 
         for(i in 0 until lastDay){
-            calendarData.add(i,false)
+            calendarData.add(DataCalendar(false,false,nullData))
         }
 
         for(i in 0 until diaryList.size){
             val date = utcToDay(diaryList[i].date)
-            calendarData[date] = true
+            calendarData[date].stamp = true
+            calendarData[date].diary = diaryList[i]
         }
         diaryListCalendarAdapter.setDay(calendarData,startPosition,lastDay)
     }
     fun utcToDay(utc : String) : Int{
-        var contentDate = ""
-        var contentDay = ""
-        //convert utc to localTime
         val utcFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.KOREA)
         utcFormatter.timeZone = TimeZone.getTimeZone("UTC")
         var gpsUTCDate: Date? = null
@@ -163,7 +184,38 @@ class DiaryListActivity : AppCompatActivity() {
 
         return Integer.parseInt(localDateFormatter.format(gpsUTCDate?.time))-1
     }
-
+    fun setDiary(diary : SimpleDiary){
+        val utcFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.ss", Locale.KOREA)
+        utcFormatter.timeZone = TimeZone.getTimeZone("UTC")
+        var gpsUTCDate: Date? = null
+        try {
+            gpsUTCDate = utcFormatter.parse(diary.date)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        val localDateFormatter = SimpleDateFormat("dd", Locale.KOREA)
+        val localDayFormatter = SimpleDateFormat("EEE", Locale.KOREA)
+        localDateFormatter.timeZone = TimeZone.getDefault()
+        localDayFormatter.timeZone = TimeZone.getDefault()
+        assert(gpsUTCDate != null)
+        diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).text = localDateFormatter.format(gpsUTCDate?.time)
+        diaryListInclude.findViewById<TextView>(R.id.diaryListDayTV).text = localDayFormatter.format(gpsUTCDate?.time)
+        when (diaryListDayTV.text) {//요일별 색 지정
+            "토" -> {
+                val lightishBlue =
+                    ContextCompat.getColor(this@DiaryListActivity, R.color.lightish_blue)
+                diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).setTextColor(lightishBlue)
+                diaryListInclude.findViewById<TextView>(R.id.diaryListDayTV).setTextColor(lightishBlue)
+            }
+            "일" -> {
+                val grapeFruit =
+                    ContextCompat.getColor(this@DiaryListActivity, R.color.grapefruit)
+                diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).setTextColor(grapeFruit)
+                diaryListInclude.findViewById<TextView>(R.id.diaryListDayTV).setTextColor(grapeFruit)
+            }
+        }
+        diaryListInclude.findViewById<TextView>(R.id.diaryListTitleTV).text = diary.title
+    }
 
 
     //메뉴 화면 변화

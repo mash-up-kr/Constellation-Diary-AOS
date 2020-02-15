@@ -144,6 +144,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <include
+                android:id="@+id/diaryListInclude"
                 layout="@layout/fragment_diary_list"/>
         </LinearLayout>
 
