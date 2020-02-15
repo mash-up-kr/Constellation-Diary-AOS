@@ -1,13 +1,15 @@
 package com.mashup.telltostar.ui.diary
 
+import com.mashup.telltostar.data.exception.Exception
 import com.mashup.telltostar.data.source.DiaryDataRepository
+import com.mashup.telltostar.data.source.UserRepository
 import com.mashup.telltostar.data.source.remote.response.Diary
 import io.reactivex.disposables.CompositeDisposable
-import timber.log.Timber
 
 class DiaryEditPresenter(
     private val view: DiaryEditContract.View,
     private val diaryRepository: DiaryDataRepository,
+    private val userRepository: UserRepository,
     private val compositeDisposable: CompositeDisposable,
     private val horoscopeId: Int,
     private val diaryId: Int
@@ -22,7 +24,16 @@ class DiaryEditPresenter(
                     view.showDiary(it)
                     this.diary = it
                 }) {
-                    view.showToast(it.message)
+                    if (it is Exception.AuthenticationException) {
+                        userRepository.refreshToken()
+                            .subscribe({
+                                loadDiary()
+                            }) {
+                                view.showToast(it.message)
+                            }
+                    } else {
+                        view.showToast(it.message)
+                    }
                 }.also {
                     compositeDisposable.add(it)
                 }
@@ -52,8 +63,16 @@ class DiaryEditPresenter(
             ).subscribe({
                 view.finishWithResultOk()
             }) {
-                view.showToast(it.message)
-                Timber.e(it)
+                if (it is Exception.AuthenticationException) {
+                    userRepository.refreshToken()
+                        .subscribe({
+                            loadDiary()
+                        }) {
+                            view.showToast(it.message)
+                        }
+                } else {
+                    view.showToast(it.message)
+                }
             }.also {
                 compositeDisposable.add(it)
             }
@@ -70,8 +89,16 @@ class DiaryEditPresenter(
             ).subscribe({
                 view.finishWithResultOk()
             }) {
-                view.showToast(it.message)
-                Timber.e(it)
+                if (it is Exception.AuthenticationException) {
+                    userRepository.refreshToken()
+                        .subscribe({
+                            loadDiary()
+                        }) {
+                            view.showToast(it.message)
+                        }
+                } else {
+                    view.showToast(it.message)
+                }
             }.also {
                 compositeDisposable.add(it)
             }
