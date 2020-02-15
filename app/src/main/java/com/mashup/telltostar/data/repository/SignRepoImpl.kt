@@ -20,7 +20,8 @@ class SignRepoImpl(
         constellation: String,
         email: String,
         password: String,
-        userId: String
+        userId: String,
+        token: String
     ): Single<Authentication> {
         val signUp = ReqSignUpDto(
             constellation = constellation,
@@ -28,8 +29,7 @@ class SignRepoImpl(
             password = password,
             userId = userId
         )
-        return api.signUp(authorization, signUp)
-            .composeError()
+        return api.signUp(token, signUp)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

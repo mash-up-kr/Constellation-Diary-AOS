@@ -6,8 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.mashup.telltostar.R
-import com.mashup.telltostar.data.repository.SignRepoImpl
-import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationAdapter
 import com.mashup.telltostar.ui.starlist.StarListDetailActivity
@@ -18,6 +17,7 @@ import com.yarolegovich.discretescrollview.InfiniteScrollAdapter
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.activity_my_constellation.*
+import org.jetbrains.anko.toast
 import timber.log.Timber
 
 class MyConstellationActivity : AppCompatActivity(),
@@ -25,9 +25,7 @@ class MyConstellationActivity : AppCompatActivity(),
     DiscreteScrollView.OnItemChangedListener<ConstellationAdapter.ConstellationViewHolder> {
 
     private val signRepository by lazy {
-        SignRepoImpl(
-            ApiProvider.provideUserApi()
-        )
+        Injection.provideSignRepo()
     }
 
     private val adapter by lazy {
@@ -69,19 +67,16 @@ class MyConstellationActivity : AppCompatActivity(),
 
     private fun initButton() {
         btnMyConstellationStart.setOnClickListener {
+            val realPosition = constellationAdapter.getRealPosition(customScrollView.currentItem)
+            val constellation = adapter.getConstellation(realPosition)
+
             when (type) {
                 Type.SIGNUP -> {
-                    val realPosition =
-                        constellationAdapter.getRealPosition(customScrollView.currentItem)
-                    signUp(adapter.getConstellation(realPosition))
+                    signUp(constellation)
                 }
                 Type.WATCH -> {
-                    //TODO 별자리 상세 화면 이동t
-                    val realPosition =
-                        constellationAdapter.getRealPosition(customScrollView.currentItem)
-
                     startActivity(Intent(this, StarListDetailActivity::class.java).apply {
-                        putExtra("name", adapter.getConstellation(realPosition))
+                        putExtra("name", constellation)
                     })
                 }
             }
@@ -124,13 +119,14 @@ class MyConstellationActivity : AppCompatActivity(),
                 constellation = constellation,
                 email = email,
                 password = password,
-                userId = id
+                userId = id,
+                token = token
             ).doOnSubscribe {
                 showLoading()
             }.doOnSuccess {
-                hideLopading()
+                hideLoading()
             }.doOnError {
-                hideLopading()
+                hideLoading()
             }.subscribe({
                 val authenticationToken = it.tokens.authenticationToken
                 val refreshToken = it.tokens.refreshToken
@@ -142,7 +138,7 @@ class MyConstellationActivity : AppCompatActivity(),
                 MainActivity.startMainActivity(this@MyConstellationActivity)
                 finish()
             }) {
-
+                toast(it.message ?: "error")
             }
         }
     }
@@ -152,7 +148,7 @@ class MyConstellationActivity : AppCompatActivity(),
         btnMyConstellationStart.isEnabled = true
     }
 
-    private fun hideLopading() {
+    private fun hideLoading() {
         pbMyConstellationStart.visibility = View.GONE
         btnMyConstellationStart.isEnabled = false
     }
