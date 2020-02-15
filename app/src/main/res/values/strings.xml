@@ -39,6 +39,43 @@
     <string name="date_girl">August 23~September 22</string>
     <string name="date_fish">February 19~March 20</string>
 
+    <string name="info_goat">염소자리는  자기관리를 잘하며, 신중하게 자신을 표현합니다.
+권위와 싸워 이겨내거나, 힘들게 일해서 성취한 것을 가치있게
+여깁니다. 책임감이 투철하며, 자신의 의무를 잘 수행합니다.</string>
+    <string name="info_waterbottle">물병자리는 자유롭고 독창적인 사람이 되고자 합니다.
+지성이 지배하는 인간적 세계를 꿈꾸며,
+절대적으로 옳고 바른 것을 찾으려는 경향이 있습니다.</string>
+    <string name="info_fish">물고기자리는 정서적으로 민감하며,
+아낌없이 베풀 줄 아는 사람으로 인정받고 싶어합니다.
+타인의 상황이나 감정에 공감하는 능력이 뛰어납니다.</string>
+    <string name="info_yang">양자리는 정의감이 있기 때문에 주변의 신뢰를 받으며
+거짓말을 잘 하지 못합니다.
+차갑고 냉정한 면이 있지만 속으로는 순수한 구석이 있습니다.</string>
+    <string name="info_hwangso">황소자리는 정이 많고 평화로운 성격을 가지고 있습니다.
+감정이나 기분 변화의 폭이 적고 안정적이기 때문에
+주변 사람들을 편안하게 해주는 장기가 있습니다. </string>
+    <string name="info_twin">쌍둥이자리는 연결고리를 찾는데 열중합니다.
+자신의 생각을 말로 표현하고자 하며,
+다양한 사람들과 관계를 형성하길 원합니다.</string>
+    <string name="info_crab">게자리의 감정 기복은 매우 심한 편입니다.
+애정이 깊고 감수성이 예민하기 때문에
+주변의 변화를 빠르게 눈치채는 편입니다.</string>
+    <string name="info_lion">사자자리는 리더십이 있고 집중받는 것을 좋아합니다.
+다른 사람들을 끌어들이는  매력을 가지고 있습니다.
+사고방식이 복잡하지 않고 때로는 아이처럼 단순하기도 합니다.</string>
+    <string name="info_girl">처녀자리는 뛰어난 커뮤니케이터이자 멀티플레이어입니다.
+한 번에 여러 가지 일을 능숙하게 해치우는 동시에
+여러 인간관계에서 중간 다리 역할을 하기도 합니다. </string>
+    <string name="info_chunching">천칭자리는 정이 많고 평화로운 성격을 가지고 있습니다.\n
+감정이나 기분 변화의 폭이 적고 안정적이기 때문에\n
+주변 사람들을 편안하게 해주는 장기가 있습니다. </string>
+    <string name="info_jungal">전갈자리는 비장한 구석이 있습니다.
+옳고 그름에 대한 신념이 있으며,
+정의감이 있기 때문에 주변의 신뢰를 받습니다.</string>
+    <string name="info_gungso">사수자리는 현실보다는 자신의 이상을 추구하고,
+자유를 동경합니다. 폭넓고 낙관적인 의견을 가치있게 여기며,
+미지의 세계를 탐험하는 것을 좋아합니다.</string>
+
     <!-- MainActivity -->
     <string name="main_question_title">오늘 하루\n어떠셨나요?</string>
 
@@ -105,6 +142,9 @@
     <string name="error_verification_number_wrong">인증번호가 잘못되었습니다.</string>
     <string name="error_not_id_pattern">올바른 아이디 형식이 아닙니다.</string>
     <string name="error_not_password_pattern">올바른 비밀번호 형식이 아닙니다.</string>
+
+    <!-- my constellation -->
+    <string name="watch_constellation">별자리 운세 보기</string>
 
     <!--    StarListActivity-->
     <string name="Constellation_luck">별자리별 운세</string>
