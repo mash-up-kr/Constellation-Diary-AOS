@@ -26,6 +26,7 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         presenter = DiaryEditPresenter(
             view = this,
             diaryRepository = Injection.provideDiaryRepo(this),
+            userRepository = Injection.provideUserRepo(),
             compositeDisposable = compositeDisposable,
             diaryId = intent.getIntExtra(EXTRA_DIARY_ID, -1),
             horoscopeId = intent.getIntExtra(EXTRA_HOROSCOPE_ID, -1)
