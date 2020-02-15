@@ -1,5 +1,6 @@
 package com.mashup.telltostar.data.repository
 
+import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.HoroscopeRepository
 import com.mashup.telltostar.data.source.remote.api.HoroscopeApi
 import com.mashup.telltostar.data.source.remote.response.Horoscope
@@ -18,12 +19,14 @@ class HoroscopeRepoImpl(
 
     override fun get(constellation: String): Single<Horoscope> {
         return horoscopeApi.getHoroscope(authorization, constellation, date)
+            .composeError()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun get(id: Int): Single<Horoscope> {
         return horoscopeApi.getHoroscopeById(authorization, id)
+            .composeError()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

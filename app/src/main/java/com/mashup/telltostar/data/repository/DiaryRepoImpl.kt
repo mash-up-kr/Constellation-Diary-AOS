@@ -1,5 +1,6 @@
 package com.mashup.telltostar.data.repository
 
+import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.DiaryDataRepository
 import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
@@ -14,6 +15,7 @@ class DiaryRepoImpl(
 
     override fun get(id: Int): Single<Diary> {
         return dataSource.get(id)
+            .composeError()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
@@ -30,6 +32,7 @@ class DiaryRepoImpl(
         content: String
     ): Single<Response<Void>> {
         return dataSource.insert(horoscopeId, title, content)
+            .composeError()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
@@ -41,12 +44,14 @@ class DiaryRepoImpl(
         content: String
     ): Single<Any> {
         return dataSource.update(id, horoscopeId, title, content)
+            .composeError()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun delete(id: Int): Single<Response<Void>> {
         return dataSource.delete(id)
+            .composeError()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

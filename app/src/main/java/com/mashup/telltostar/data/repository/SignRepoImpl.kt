@@ -1,5 +1,6 @@
 package com.mashup.telltostar.data.repository
 
+import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.SignRepository
 import com.mashup.telltostar.data.source.remote.api.UserApi
 import com.mashup.telltostar.data.source.remote.request.ReqSignUpDto
@@ -28,12 +29,14 @@ class SignRepoImpl(
             userId = userId
         )
         return api.signUp(authorization, signUp)
+            .composeError()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun sighOut(): Single<Response<Void>> {
         return api.signOut(authorization)
+            .composeError()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
