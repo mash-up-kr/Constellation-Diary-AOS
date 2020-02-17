@@ -3,15 +3,14 @@ package com.mashup.telltostar.ui.splash
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import com.mashup.telltostar.R
 import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.ui.main.MainActivity
-import com.mashup.telltostar.util.PrefUtil
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var mDisposable: Disposable
@@ -19,11 +18,22 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        setViewModelObserver()
+        TokenCheckViewModel.requestAuthenticationTokenAvailability()
+    }
 
-        if (PrefUtil.get(PrefUtil.AUTHENTICATION_TOKEN, "").isNotEmpty()) {
-            startMainActivity()
-        } else {
-            startLoginActivity()
+    private fun setViewModelObserver() {
+        with(TokenCheckViewModel) {
+            shouldStartLogin.observe(this@SplashActivity, Observer {
+                if (it) {
+                    startLoginActivity()
+                }
+            })
+            shouldStartMain.observe(this@SplashActivity, Observer {
+                if (it) {
+                    startMainActivity()
+                }
+            })
         }
     }
 
@@ -38,7 +48,6 @@ class SplashActivity : AppCompatActivity() {
     private fun <T> startActivity(activity: Class<T>) {
         mDisposable = Single.just(activity)
             .subscribeOn(Schedulers.io())
-            .delay(2500L, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
@@ -53,6 +62,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         mDisposable.dispose()
+        TokenCheckViewModel.clearDisposable()
 
         super.onDestroy()
     }
