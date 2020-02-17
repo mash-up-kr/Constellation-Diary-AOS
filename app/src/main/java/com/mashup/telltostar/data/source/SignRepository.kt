@@ -10,7 +10,8 @@ interface SignRepository {
         constellation: String,
         email: String,
         password: String,
-        userId: String
+        userId: String,
+        token: String
     ): Single<Authentication>
 
     fun sighOut(): Single<Response<Void>>

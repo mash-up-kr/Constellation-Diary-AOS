@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.telltostar.R
@@ -39,7 +39,7 @@ class ConstellationAdapter(private val constellations: List<String>) :
 
     class ConstellationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val parent: LinearLayout = itemView.findViewById(R.id.cvItemConstellationParent)
+        private val parent: ConstraintLayout = itemView.findViewById(R.id.cvItemConstellationParent)
         private val topIcon: ImageView = itemView.findViewById(R.id.ivItemConstellationIcon)
         private val topTitle: TextView = itemView.findViewById(R.id.tvItemConstellationTitle)
         private val topDate: TextView = itemView.findViewById(R.id.tvItemConstellationDate)
