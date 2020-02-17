@@ -8,8 +8,12 @@ object PrefUtil {
     const val PREF_NAME = "Pref"
 
     const val CONSTELLATION = "constellation"
-    const val HOROSCOPE_ALARM = "horoscope_alarm"
-    const val QUESTION_ALARM = "question_alarm"
+
+    const val HOROSCOPE_ALARM_FLAG = "horoscope_alarm_flag"
+    const val HOROSCOPE_TIME = "horoscope_time"
+
+    const val QUESTION_ALARM_FLAG = "question_alarm_flag"
+    const val QUESTION_TIME = "question_time"
 
     const val AUTHENTICATION_TOKEN = "authenticationToken"
     const val REFRESH_TOKEN = "refreshToken"

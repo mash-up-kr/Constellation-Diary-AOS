@@ -27,7 +27,10 @@ object TimeUtil {
         }.format(date)
     }
 
-    fun getDateFromUTC(utcDate: String): String {  // 2020년 1월 22일 (요일)
+    /**
+     *  2020-1-22T15:45:58.222Z -> 2020년 1월 22일 (요일)
+     */
+    fun getDateFromUTC(utcDate: String): String {
 
         val totalDate = StringBuilder()
 
@@ -60,6 +63,49 @@ object TimeUtil {
         return totalDate.toString()
     }
 
+    /**
+     *  14:00:00 -> 2020-1-22T14:00:00.222Z
+     */
+    fun getUTCFromTime(time: String): String {
+        val utc = TimeZone.getTimeZone("UTC")
+        //val time = TimeZone.getDefault()
+        val date = Date()
+
+        // 2020-1-22T{time}.222Z
+        return SimpleDateFormat("yyyy-MM-dd'T'").apply {
+            timeZone = utc
+        }.format(date).plus("${time}.0Z")
+    }
+
+    /**
+     *  14:00:00 -> 오후2:00
+     */
+    fun getAlarmFromTime(time: String): String {
+        val totalDate = StringBuilder()
+
+        val times = time.split(":")
+
+        if (times.isNullOrEmpty()) {
+            return ""
+        }
+
+        var prefix = "오전 "
+
+        var hour = times[0].toInt()
+
+        if (hour > 12) {
+            hour -= 12
+            prefix = "오후 "
+        }
+
+        totalDate.append(prefix)
+        totalDate.append(hour)
+        totalDate.append(":")
+        totalDate.append(times[1])
+
+        return totalDate.toString()
+    }
+
     private fun dateValue(pos: Int) = when (pos) {
         0 -> "년"
         1 -> "월"
@@ -78,8 +124,4 @@ object TimeUtil {
         7 -> "토"
         else -> ""
     }
-
-    fun get(unixTime: Long) =
-        SimpleDateFormat("yyyy년 MM월 dd일 a hh시 mm분 ss초").format(Date(unixTime * 1000))
-
 }

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.firebase.iid.FirebaseInstanceId
-
 import com.mashup.telltostar.R
 import com.mashup.telltostar.ui.login.forgotid.ForgotIdFragment
 import com.mashup.telltostar.ui.login.signup.CustomPasswordTransformationMethod
@@ -157,8 +156,12 @@ class LoginFragment : Fragment() {
                             PrefUtil.put(PrefUtil.REFRESH_TOKEN, mRefreshToken)
 
                             PrefUtil.put(PrefUtil.CONSTELLATION, constellation)
-                            PrefUtil.put(PrefUtil.HOROSCOPE_ALARM, horoscopeAlarmFlag)
-                            PrefUtil.put(PrefUtil.QUESTION_ALARM, questionAlarmFlag)
+
+                            PrefUtil.put(PrefUtil.HOROSCOPE_ALARM_FLAG, horoscopeAlarmFlag)
+                            PrefUtil.put(PrefUtil.HOROSCOPE_TIME, horoscopeAlarmTime)
+
+                            PrefUtil.put(PrefUtil.QUESTION_ALARM_FLAG, questionAlarmFlag)
+                            PrefUtil.put(PrefUtil.QUESTION_TIME, questionAlarmTime)
                         }
 
                         activity?.let { activity ->
