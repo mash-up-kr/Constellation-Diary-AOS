@@ -14,8 +14,8 @@ class HoroscopeRepoImpl(
     private val horoscopeApi: HoroscopeApi
 ) : HoroscopeRepository {
 
-    val authorization = "Bearer ${PrefUtil.get(PrefUtil.AUTHENTICATION_TOKEN, "")}"
-    val date = TimeUtil.getUTCDate()
+    private val authorization = "Bearer ${PrefUtil.get(PrefUtil.AUTHENTICATION_TOKEN, "")}"
+    private val date = TimeUtil.getUTCDate()
 
     override fun get(constellation: String): Single<Horoscope> {
         return horoscopeApi.getHoroscope(authorization, constellation, date)
