@@ -14,7 +14,8 @@ import retrofit2.Response
 class SignRepoImpl(
     private val api: UserApi
 ) : SignRepository {
-    private val authorization = PrefUtil.get(PrefUtil.AUTHENTICATION_TOKEN, "")
+
+    private val authorization = "Bearer ${PrefUtil.get(PrefUtil.AUTHENTICATION_TOKEN, "")}"
 
     override fun sighUp(
         constellation: String,

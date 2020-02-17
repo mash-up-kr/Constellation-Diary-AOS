@@ -25,6 +25,12 @@ class LoginViewModel {
     val isInputPasswordVisible = MutableLiveData<Boolean>(false)
     var mAuthenticationToken = ""
     var mRefreshToken = ""
+    var constellation = ""
+    var horoscopeAlarmFlag = true
+    var questionAlarmFlag = true
+    var horoscopeAlarmTime = ""
+    var questionAlarmTime = ""
+
     private val mCompositeData by lazy {
         CompositeDisposable()
     }
@@ -60,6 +66,15 @@ class LoginViewModel {
                         } else if (it is ResUserInfoDto) {
                             mAuthenticationToken = it.tokens.authenticationToken
                             mRefreshToken = it.tokens.refreshToken
+
+                            constellation = it.user.constellation
+
+                            horoscopeAlarmFlag = it.user.horoscopeAlarmFlag
+                            horoscopeAlarmTime = it.user.horoscopeTime
+
+                            questionAlarmFlag = it.user.questionAlarmFlag
+                            questionAlarmTime = it.user.questionTime
+
                             isLoggedIn.value = true
                         }
                     }, {

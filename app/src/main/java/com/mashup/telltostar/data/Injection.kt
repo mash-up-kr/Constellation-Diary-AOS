@@ -30,6 +30,11 @@ object Injection {
         return UserRepoImpl(remote)
     }
 
+    fun provideUserChangeRepo(): UserChangeRepository {
+        val remote = ApiProvider.provideUserChangeApi()
+        return UserChangeRepoImpl(remote)
+    }
+
     fun provideSignRepo(): SignRepository {
         val remote = ApiProvider.provideUserApi()
         return SignRepoImpl(remote)

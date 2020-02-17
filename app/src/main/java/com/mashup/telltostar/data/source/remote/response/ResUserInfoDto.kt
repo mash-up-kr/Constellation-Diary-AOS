@@ -13,6 +13,7 @@ data class Tokens(
 data class User(
     val constellation: String,
     val horoscopeAlarmFlag: Boolean,
+    val horoscopeTime: String,
     val id: Int,
     val questionAlarmFlag: Boolean,
     val questionTime: String,
