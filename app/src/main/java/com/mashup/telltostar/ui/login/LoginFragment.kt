@@ -155,6 +155,10 @@ class LoginFragment : Fragment() {
                         if (mAuthenticationToken.isNotEmpty() && mRefreshToken.isNotEmpty()) {
                             PrefUtil.put(PrefUtil.AUTHENTICATION_TOKEN, mAuthenticationToken)
                             PrefUtil.put(PrefUtil.REFRESH_TOKEN, mRefreshToken)
+
+                            PrefUtil.put(PrefUtil.CONSTELLATION, constellation)
+                            PrefUtil.put(PrefUtil.HOROSCOPE_ALARM, horoscopeAlarmFlag)
+                            PrefUtil.put(PrefUtil.QUESTION_ALARM, questionAlarmFlag)
                         }
 
                         activity?.let { activity ->
