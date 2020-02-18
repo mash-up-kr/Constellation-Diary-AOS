@@ -6,25 +6,30 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
-import com.mashup.telltostar.data.repository.DiaryRepoImpl
+import com.mashup.telltostar.data.source.remote.response.Diary
+import com.mashup.telltostar.ui.dialog.HoroscopeDialog
+import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_diary_edit.*
 import org.jetbrains.anko.toast
-import timber.log.Timber
 
-class DiaryEditActivity : AppCompatActivity() {
+class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
 
-    private val diaryRepository by lazy {
-        DiaryRepoImpl(
-            Injection.provideDiaryRepo(this)
-        )
-    }
+    override lateinit var presenter: DiaryEditContract.Presenter
 
     private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_diary_edit)
+
+        presenter = DiaryEditPresenter(
+            view = this,
+            diaryRepository = Injection.provideDiaryRepo(this),
+            compositeDisposable = compositeDisposable,
+            diaryId = intent.getIntExtra(EXTRA_DIARY_ID, -1),
+            horoscopeId = intent.getIntExtra(EXTRA_HOROSCOPE_ID, -1)
+        )
 
         initButton()
         initIntent()
@@ -44,69 +49,94 @@ class DiaryEditActivity : AppCompatActivity() {
             if (title.isEmpty() || contents.isEmpty()) {
                 toast("내용을 입력해 주세요")
             } else {
-                intent?.run {
-                    //TODO insert, update 구분 하기
-                    val horoscopeId = getIntExtra(EXTRA_HOROSCOPE_ID, -1)
-                    if (horoscopeId > 0) {
-                        diaryRepository.insert(
-                            horoscopeId = horoscopeId,
-                            title = title,
-                            content = contents
-                        ).subscribe({
-                            setResult(Activity.RESULT_OK)
-                            finish()
-                        }) {
-                            toast("error")
-                            Timber.e(it)
-                        }
-                    }
+                presenter.done(
+                    type = intent.getSerializableExtra(EXTRA_DIARY_TYPE) as DiaryType,
+                    title = title,
+                    contents = contents
+                )
+            }
+        }
+
+        ivDiaryEditClose.setOnClickListener {
+            onBackPressed()
+        }
+
+        ivDiaryEditHoroscope.setOnClickListener {
+            intent?.run {
+                val horoscopeId = getIntExtra(EXTRA_HOROSCOPE_ID, -1)
+                if (horoscopeId > 0) {
+                    showHoroscopeDialog(horoscopeId)
                 }
             }
         }
     }
 
     private fun initIntent() {
-
         intent?.run {
-            val diaryId = getIntExtra(EXTRA_DIARY_ID, -1)
-            val horoscopeId = getIntExtra(EXTRA_HOROSCOPE_ID, -1)
-            Timber.d("diaryId : $diaryId , horoscopeId : $horoscopeId")
-
-            if (diaryId > 0) {
-                diaryRepository.get(diaryId)
-                    .subscribe({ diary ->
-                        Timber.d("diary : $diary")
-
-                        etDiaryEditTitle.setText(diary.title)
-                        etDiaryEditContents.setText(diary.content)
-
-                    }) {
-                        Timber.e(it)
-                        toast(it.message.toString())
-                    }.also {
-                        compositeDisposable.add(it)
-                    }
+            when (getSerializableExtra(EXTRA_DIARY_TYPE) as DiaryType) {
+                DiaryType.WRITE -> {
+                    tvDiaryEditDate.text = TimeUtil.getDateFromUTC(
+                        TimeUtil.getUTCDate()
+                    )
+                }
+                DiaryType.EDIT -> {
+                    presenter.loadDiary()
+                }
             }
         }
     }
 
+    override fun showDiary(diary: Diary) {
+        etDiaryEditTitle.setText(diary.title)
+        etDiaryEditContents.setText(diary.content)
+        tvDiaryEditDate.text = TimeUtil.getDateFromUTC(diary.date)
+    }
+
+    override fun showHoroscopeDialog(horoscopeId: Int) {
+        HoroscopeDialog.newInstance(horoscopeId).show(supportFragmentManager, "horoscope")
+    }
+
+    override fun showToast(message: String?) {
+        if (message != null) {
+            toast(message)
+        }
+    }
+
+    override fun finishWithResultOk() {
+        setResult(Activity.RESULT_OK)
+        finish()
+    }
+
+    enum class DiaryType {
+        WRITE, EDIT
+    }
+
     companion object {
 
+        const val EXTRA_DIARY_TYPE = "diary_type"
         const val EXTRA_DIARY_ID = "diary_id"
         const val EXTRA_HOROSCOPE_ID = "horoscope_id"
 
-        fun startDiaryEditActivity(activity: Activity, requestCode: Int, diaryId: Int) {
+        fun startDiaryWriteActivity(activity: Activity, requestCode: Int, horoscopeId: Int) {
             activity.startActivityForResult(
                 Intent(activity, DiaryEditActivity::class.java).apply {
-                    putExtra(EXTRA_DIARY_ID, diaryId)
+                    putExtra(EXTRA_DIARY_TYPE, DiaryType.WRITE)
+                    putExtra(EXTRA_HOROSCOPE_ID, horoscopeId)
                 }
                 , requestCode
             )
         }
 
-        fun startDiaryWriteActivity(activity: Activity, requestCode: Int, horoscopeId: Int) {
+        fun startDiaryEditActivity(
+            activity: Activity,
+            requestCode: Int,
+            diaryId: Int,
+            horoscopeId: Int
+        ) {
             activity.startActivityForResult(
                 Intent(activity, DiaryEditActivity::class.java).apply {
+                    putExtra(EXTRA_DIARY_TYPE, DiaryType.EDIT)
+                    putExtra(EXTRA_DIARY_ID, diaryId)
                     putExtra(EXTRA_HOROSCOPE_ID, horoscopeId)
                 }
                 , requestCode

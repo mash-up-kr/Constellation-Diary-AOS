@@ -1,5 +1,7 @@
 package com.mashup.telltostar.ui.diarylist
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.source.remote.response.SimpleDiary
 import org.jetbrains.anko.find
+import timber.log.Timber
 
 class DiaryListCalendarAdapter : RecyclerView.Adapter<DiaryListCalendarAdapter.DiaryListCalendarViewHolder>() {
     private var stampList : ArrayList<DataCalendar> = arrayListOf()
@@ -69,6 +72,8 @@ class DiaryListCalendarAdapter : RecyclerView.Adapter<DiaryListCalendarAdapter.D
         this.stampList = dayList
         this.startPosition = startPosition-1
         this.lastDay = lastDay
+        notifyDataSetChanged()
+        Timber.d(dayList.toString(),"")
     }
 
     fun setOnItemClickListener(listener : OnItemClickListener){

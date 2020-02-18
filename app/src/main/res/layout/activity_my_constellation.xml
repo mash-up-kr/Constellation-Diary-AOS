@@ -18,7 +18,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.37" />
+        app:layout_constraintVertical_bias="0.37"
+        tools:background="@color/white" />
+
+    <TextView
+        android:id="@+id/tvMyConstellationInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center_horizontal"
+        android:letterSpacing="-0.07"
+        android:lineSpacingExtra="8sp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customScrollView"
+        tools:text="@string/info_chunching" />
 
     <Button
         android:id="@+id/btnMyConstellationStart"
@@ -30,5 +46,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pbMyConstellationStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMyConstellationStart"
+        app:layout_constraintEnd_toEndOf="@+id/btnMyConstellationStart"
+        app:layout_constraintStart_toStartOf="@+id/btnMyConstellationStart"
+        app:layout_constraintTop_toTopOf="@+id/btnMyConstellationStart" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

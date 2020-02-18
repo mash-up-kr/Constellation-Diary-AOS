@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.source.remote.response.SimpleDiary
+import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,6 +22,7 @@ class DiaryListContentsViewHolder(view: View): RecyclerView.ViewHolder(view){
     val diarySelect : CheckBox = view.findViewById(R.id.diaryListSelectCB) as CheckBox
 
     fun bind(item: Temp_diary) {
+        Timber.d(item.toString(),"")
 
         diary = item
         content = item.diary
@@ -33,10 +35,10 @@ class DiaryListContentsViewHolder(view: View): RecyclerView.ViewHolder(view){
 
     }
 
-    fun changeVisible(){
-        if(diary.isVisible == true){
+    fun changeVisible() {
+        if (diary.isVisible == true) {
             diarySelect.visibility = View.VISIBLE
-        }else{
+        } else {
             diarySelect.visibility = View.INVISIBLE
         }
     }
@@ -44,13 +46,13 @@ class DiaryListContentsViewHolder(view: View): RecyclerView.ViewHolder(view){
 //        diarySelect.isClickable = diary.isChecked
 //    }
 
-    fun checkClick(){
+    fun checkClick() {
         diarySelect.setOnCheckedChangeListener { buttonView, isChecked ->
             diary.isChecked = isChecked
         }
     }
 
-    fun bindDate(){
+    fun bindDate() {
         var contentDate = ""
         var contentDay = ""
         if (content.date != null) {
@@ -72,7 +74,7 @@ class DiaryListContentsViewHolder(view: View): RecyclerView.ViewHolder(view){
 
             contentDay = localDayFormatter.format(gpsUTCDate?.time)
         }
-        when(contentDay){//요일별 색 지정
+        when (contentDay) {//요일별 색 지정
             "토" -> {
                 val lightishBlue = ContextCompat.getColor(itemView.context, R.color.lightish_blue)
                 diaryDay.setTextColor(lightishBlue)

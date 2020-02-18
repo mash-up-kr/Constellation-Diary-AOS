@@ -3,13 +3,11 @@ package com.mashup.telltostar.ui.diarylist
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.DatePickerDialog
-import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -38,6 +36,7 @@ class DiaryListActivity : AppCompatActivity() {
 
 
     private val diaryRepository = Injection.provideDiaryRepo(this@DiaryListActivity)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,7 +109,6 @@ class DiaryListActivity : AppCompatActivity() {
                 current.get(Calendar.DAY_OF_MONTH)).show()
         }
 
-
     }
 
 
@@ -120,7 +118,7 @@ class DiaryListActivity : AppCompatActivity() {
         listDiaryList.adapter = this.diaryListAdapter
         listDiaryList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        var diveder = DividerItemDecoration(this,LinearLayoutManager.VERTICAL)
+        var diveder = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
         diveder.setDrawable(this.getDrawable(R.drawable.divider_diary_list))
         listDiaryList.addItemDecoration(diveder)
 
@@ -148,11 +146,11 @@ class DiaryListActivity : AppCompatActivity() {
             true
         }
 
+
+
     }
     fun setCalendarData(diaryList : List<SimpleDiary>){
         val nullData = SimpleDiary(-1,"","")
-
-        val currentDay = current.get(Calendar.DAY_OF_MONTH)
         current.set(Calendar.DAY_OF_MONTH,1)
 
         val startPosition = current.get(Calendar.DAY_OF_WEEK)
@@ -222,14 +220,14 @@ class DiaryListActivity : AppCompatActivity() {
     fun changeClickData(){
         listDiarySelectTV.let{btn ->
             btn.setOnClickListener {
-                diaryListAdapter.let{adapter ->
-                    if(btn.text.equals(getString(R.string.select))){
-                        adapter.notifyItemRangeChanged(0,adapter.itemCount,true)
+                diaryListAdapter.let { adapter ->
+                    if (btn.text.equals(getString(R.string.select))) {
+                        adapter.notifyItemRangeChanged(0, adapter.itemCount, true)
                         btn.setText(getString(R.string.delete))
                         val red = ContextCompat.getColor(this, R.color.grapefruit)
                         btn.setTextColor(red)
-                    }else {
-                        adapter.notifyItemRangeChanged(0,adapter.itemCount,false)
+                    } else {
+                        adapter.notifyItemRangeChanged(0, adapter.itemCount, false)
                         btn.setText(getString(R.string.select))
                         val blackTwo = ContextCompat.getColor(this, R.color.black_two)
                         btn.setTextColor(blackTwo)
@@ -241,7 +239,6 @@ class DiaryListActivity : AppCompatActivity() {
         diaryListAdapter.notifyDataSetChanged()
     }
     fun changeFormat(){
-        val listImg = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_today_24_px)
         listDiaryformatBtn.setOnClickListener {
             if(listDiaryformatBtn.tag.equals("list")) {//리스트 보여주고 있음
                 listDiaryformatBtn.setImageResource(R.drawable.icon_list_24_px)
@@ -258,25 +255,6 @@ class DiaryListActivity : AppCompatActivity() {
 
         }
     }
-
-    fun changeDeleteText(){
-        diaryListAdapter.setOnItemClickListener(object : DiaryListAdapter.OnItemClickListener{
-            override fun onItemClick(isChecked: Boolean) {
-                if(isChecked == true){
-                    checkedNum ++
-                    listDiarySelectTV.text = checkedNum.toString() + getString(R.string.delete)
-                }else{
-                    checkedNum --
-                    if(checkedNum == 0){
-                        listDiarySelectTV.setText(getString(R.string.delete))
-                    }else{
-                        listDiarySelectTV.text = checkedNum.toString() + getString(R.string.delete)
-                    }
-                }
-            }
-
-        })
-    }
     fun setDate(){
         val formatDate = SimpleDateFormat("yyyy'년 'MM'월'",Locale.getDefault())
         val date = formatDate.format(current.time)
@@ -285,6 +263,7 @@ class DiaryListActivity : AppCompatActivity() {
 
     fun closeClick(){
         listDiaryCloseBtn.setOnClickListener{
+
             finish()
         }
     }

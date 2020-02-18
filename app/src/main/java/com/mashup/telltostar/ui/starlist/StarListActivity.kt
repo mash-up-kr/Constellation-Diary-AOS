@@ -1,9 +1,9 @@
 package com.mashup.telltostar.ui.starlist
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.StarList
@@ -30,9 +30,9 @@ class StarListActivity : AppCompatActivity(){
         setData()
 
         starListAdapter.setOnItemClickListener(object : StarListAdapter.OnItemClickListener{
-            override fun onItemClick(view: View, pos: Int) {
+            override fun onItemClick(view: View, name: String) {
                 val intent  = Intent(this@StarListActivity,StarListDetailActivity::class.java)
-                intent.putExtra("position",pos)
+                intent.putExtra("name",name)
 
                 startActivity(intent)
             }

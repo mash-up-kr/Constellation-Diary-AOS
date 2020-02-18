@@ -1,25 +1,32 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.forgotpassword
 
 import android.util.Patterns
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.mashup.telltostar.data.source.remote.ApiProvider
 import com.mashup.telltostar.data.source.remote.request.ReqModifyPasswordDto
 import com.mashup.telltostar.data.source.remote.request.ReqValidationFindPasswordNumberDto
 import com.mashup.telltostar.data.source.remote.request.ReqFindPasswordNumberDto
+import com.mashup.telltostar.data.source.remote.response.ResAuthenticationTokenErrorDto
+import com.mashup.telltostar.data.source.remote.response.ResFindPasswordNumberErrorDto
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
 import java.util.concurrent.TimeUnit
 
 /**
  * Created by hclee on 2020-01-17.
  */
 
-object ForgotPasswordViewModel {
-    private const val TIMEOUT = 180L
+class ForgotPasswordViewModel {
+    companion object {
+        private const val TIMEOUT = 180L
+    }
+
     private val mCompositeDisposable by lazy {
         CompositeDisposable()
     }
@@ -33,9 +40,15 @@ object ForgotPasswordViewModel {
     val isPasswordEmptyWarningVisibleObservable = ObservableBoolean(false)
     val isPasswordNotIdenticalWarningVisibleObservable = ObservableBoolean(false)
     val isPasswordInputIdenticalLiveData = MutableLiveData<Boolean>(false)
+    var isVerificationTimeoutLiveData = MutableLiveData<Boolean>(false)
+    var isVerificationNumberWrongLiveData = MutableLiveData<Boolean>(false)
+    var isNonExistentEmailLiveData = MutableLiveData<Boolean>(false)
     private var mVerificationToken: String? = null
 
     fun requestVerificationNumber(id: String, email: String) {
+        isVerificationTimeoutLiveData.value = false
+        isVerificationNumberWrongLiveData.value = false
+        isNonExistentEmailLiveData.value = false
         isIdEmptyWarningVisibleObservable.set(id.isEmpty())
         isEmailEmptyWarningVisibleObservable.set(email.isEmpty() || isEmailPattern(email).not())
 
@@ -61,6 +74,16 @@ object ForgotPasswordViewModel {
                         }, {
                             isVerificationNumberRequestedObservable.set(false)
                             isLoadingVisibleObservable.set(false)
+
+                            when (
+                                getConvertedErrorData(
+                                    it,
+                                    ResFindPasswordNumberErrorDto::class.java
+                                ).error.code) {
+                                4002 -> {
+                                    isNonExistentEmailLiveData.value = true
+                                }
+                            }
                         })
                 )
             }
@@ -87,6 +110,12 @@ object ForgotPasswordViewModel {
     }
 
     fun requestSelfVerification(email: String, verificationNumber: Int, id: String) {
+        if (isTimeRemainsObservable.get().not()) {
+            isVerificationTimeoutLiveData.value = true
+
+            return
+        }
+
         mCompositeDisposable.add(
             ApiProvider
                 .provideAuthenticationNumberApi()
@@ -98,10 +127,21 @@ object ForgotPasswordViewModel {
                     )
                 )
                 .subscribeOn(Schedulers.io())
+                .onErrorReturn {
+                    getConvertedErrorData(it, ResAuthenticationTokenErrorDto::class.java)
+                }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    isVerifiedObservable.set(true)
-                    mVerificationToken = it.token
+                    if (it is ResAuthenticationTokenErrorDto) {
+                        when (it.error.code) {
+                            4102 -> {
+                                isVerificationNumberWrongLiveData.value = true
+                            }
+                        }
+                    } else {
+                        isVerifiedObservable.set(true)
+                        mVerificationToken = it.token
+                    }
                 }, {
                     isVerifiedObservable.set(false)
                     mVerificationToken = null
@@ -149,6 +189,18 @@ object ForgotPasswordViewModel {
         return if (seconds < 10) "$minute:0${seconds}" else "$minute:$seconds"
     }
 
+    private fun <T> getConvertedErrorData(throwable: Throwable, type: Class<T>): T =
+        Gson().fromJson(
+            (throwable as HttpException).response().errorBody()?.string(),
+            type
+        )
+
     private fun isEmailPattern(inputEmail: String) =
         Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
+
+    fun clearCompositeDisposable() {
+        timber.log.Timber.d("clearCompositeDisposable()")
+
+        mCompositeDisposable.clear()
+    }
 }

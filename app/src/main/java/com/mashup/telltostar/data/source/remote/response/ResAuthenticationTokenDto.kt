@@ -1,5 +1,5 @@
 package com.mashup.telltostar.data.source.remote.response
 
-data class ResAuthenticationTokenDto(
-    val token: String
-)
+open class ResAuthenticationTokenDto {
+    lateinit var token: String
+}

@@ -1,11 +1,6 @@
 package com.mashup.telltostar.data.source.local
 
-import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.mashup.telltostar.data.source.local.entity.DiaryEntity
-
+/*
 @Database(entities = [DiaryEntity::class], version = 2)
 abstract class DiaryDataBase : RoomDatabase() {
 
@@ -35,4 +30,4 @@ abstract class DiaryDataBase : RoomDatabase() {
 
     }
 
-}
+}*/

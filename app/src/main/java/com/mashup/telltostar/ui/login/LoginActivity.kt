@@ -6,6 +6,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mashup.telltostar.R
+import com.mashup.telltostar.ui.login.forgotpassword.ForgotPasswordFragment
+import com.mashup.telltostar.ui.login.signup.SignUpFragment
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.loginSingUpButton
 
@@ -31,14 +33,10 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-    private val mBottomSheetBehavior by lazy {
-        BottomSheetBehavior.from(login_sign_up_bottom_sheet)
-    }
+    private var mBottomSheetBehavior: BottomSheetBehavior<View>? = null
     lateinit var mLoginFragment: LoginFragment
     lateinit var mSignUpFragment: SignUpFragment
-    lateinit var mForgotIdFragment: ForgotIdFragment
     lateinit var mForgotPasswordFragment: ForgotPasswordFragment
-    lateinit var mResetPasswordFragment: ResetPasswordFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,51 +51,43 @@ class LoginActivity : AppCompatActivity() {
         setFragmentListener(mFragmentListener)
     }
 
-    private fun initForgotIdFragment() = ForgotIdFragment().apply {
-        setFragmentListener(mFragmentListener)
-    }
-
     private fun initForgotPasswordFragment() = ForgotPasswordFragment().apply {
-        setFragmentListener(mFragmentListener)
-    }
-
-    private fun initResetPasswordFragment() = ResetPasswordFragment().apply {
         setFragmentListener(mFragmentListener)
     }
 
     private fun openBottomSheet() {
         login_sign_up_bottom_sheet.visibility = View.VISIBLE
-        mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        mBottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
         setDimLayoutVisibility(View.VISIBLE)
     }
 
     private fun closeBottomSheet() {
-        mBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        mBottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
         setDimLayoutVisibility(View.GONE)
     }
 
     private fun expandBottomSheet() {
         login_sign_up_bottom_sheet.visibility = View.VISIBLE
-        mBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        mBottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
         setDimLayoutVisibility(View.VISIBLE)
     }
 
     private fun initBottomSheetView() {
         mLoginFragment = initLoginFragment()
         mSignUpFragment = initSignUpFragment()
-        mForgotIdFragment = initForgotIdFragment()
         mForgotPasswordFragment = initForgotPasswordFragment()
-        mResetPasswordFragment = initResetPasswordFragment()
-        mBottomSheetBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (slideOffset <= -1f) {
-                    closeBottomSheet()
+        mBottomSheetBehavior = BottomSheetBehavior.from(login_sign_up_bottom_sheet).apply {
+            addBottomSheetCallback(object :
+                BottomSheetBehavior.BottomSheetCallback() {
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                    if (slideOffset <= -1f) {
+                        closeBottomSheet()
+                    }
                 }
-            }
 
-            override fun onStateChanged(bottomSheet: View, newState: Int) {}
-        })
+                override fun onStateChanged(bottomSheet: View, newState: Int) {}
+            })
+        }
 
         replaceBottomSheetFragment(mLoginFragment)
     }
@@ -131,18 +121,20 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (mBottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN) {
-            if (mLoginFragment.isVisible) {
-                closeBottomSheet()
+        mBottomSheetBehavior?.let {
+            if (it.state != BottomSheetBehavior.STATE_HIDDEN) {
+                if (mLoginFragment.isVisible) {
+                    closeBottomSheet()
+                } else {
+                    replaceBottomSheetFragment(
+                        mLoginFragment,
+                        R.anim.enter_from_left,
+                        R.anim.exit_to_right
+                    )
+                }
             } else {
-                replaceBottomSheetFragment(
-                    mLoginFragment,
-                    R.anim.enter_from_left,
-                    R.anim.exit_to_right
-                )
+                super.onBackPressed()
             }
-        } else {
-            super.onBackPressed()
-        }
+        } ?: super.onBackPressed()
     }
 }

@@ -9,11 +9,11 @@
 
         <variable
             name="viewModel"
-            type="com.mashup.telltostar.ui.login.ForgotIdViewModel" />
+            type="com.mashup.telltostar.ui.login.forgotid.ForgotIdViewModel" />
 
         <variable
             name="fragment"
-            type="com.mashup.telltostar.ui.login.ForgotIdFragment" />
+            type="com.mashup.telltostar.ui.login.forgotid.ForgotIdFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -98,6 +98,18 @@
             android:textColor="@color/coral"
             android:textSize="12sp"
             android:visibility="@{viewModel.isEmailEmptyWarningVisibleObservable() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="@+id/emailEditText"
+            app:layout_constraintTop_toBottomOf="@+id/emailEditText"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/nonExistentEmailWarningTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_nonexistent_email"
+            android:textColor="@color/coral"
+            android:textSize="12sp"
+            android:visibility="@{viewModel.isNonExistentEmailWarningVisibleObservable()? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toStartOf="@+id/emailEditText"
             app:layout_constraintTop_toBottomOf="@+id/emailEditText"
             tools:visibility="visible" />

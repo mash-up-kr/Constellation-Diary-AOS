@@ -1,4 +1,4 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.signup
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -11,16 +11,46 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentEmailVerificationBinding
+import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.util.VibratorUtil
 
 class EmailVerificationFragment(
         private val mFragmentListener: LoginActivity.FragmentListener
 ) : Fragment() {
     private lateinit var mBinding: FragmentEmailVerificationBinding
+    private val mEmailPatternChangeCallback = object : Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            (sender as ObservableBoolean).let {
+                activity?.let { activity ->
+                    mBinding.emailEditText.backgroundTintList =
+                        if (it.get()) null
+                        else ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
+                }
+            }
+        }
+    }
+    private val mVerificationTimeoutCallback = object : Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            (sender as ObservableBoolean).let {
+                activity?.let { activity ->
+                    mBinding.verificationNumberEditText.backgroundTintList =
+                        if (it.get()) ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                activity,
+                                R.color.coral
+                            )
+                        )
+                        else null
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -68,25 +98,19 @@ class EmailVerificationFragment(
                 }
             }
         }
+        mBinding.emailVerificationViewModel?.isVerificationTimeoutWarningVisibleObservable?.addOnPropertyChangedCallback(
+            mVerificationTimeoutCallback
+        )
     }
 
     private fun setViewModelObserver() {
         with(EmailVerificationViewModel) {
+            isEmailPatternObservable.addOnPropertyChangedCallback(mEmailPatternChangeCallback)
             isEmailPattern.observe(this@EmailVerificationFragment, Observer { isEmailPattern ->
-                if (isEmailPattern) {
-                    mBinding.inputEmailWarningTextView.visibility = View.GONE
-                } else {
-                    mBinding.inputEmailWarningTextView.visibility = View.VISIBLE
-
+                if (isEmailPattern.not()) {
                     context?.let {
                         VibratorUtil.vibrate(it)
                     }
-                }
-
-                activity?.let {
-                    mBinding.emailEditText.backgroundTintList =
-                            if (isEmailPattern) null
-                            else ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
                 }
             })
             isEmailVerified.observe(this@EmailVerificationFragment, Observer { isEmailVerified ->
@@ -105,6 +129,24 @@ class EmailVerificationFragment(
                             else ColorStateList.valueOf(ContextCompat.getColor(it, R.color.coral))
                 }
             })
+            isVerificationTimeoutLiveData.observe(this@EmailVerificationFragment, Observer {
+                if (it) {
+                    activity?.let {
+                        VibratorUtil.vibrate(it)
+                    }
+                }
+            })
         }
+    }
+
+    override fun onDestroyView() {
+        mBinding.emailVerificationViewModel?.isEmailPatternObservable?.removeOnPropertyChangedCallback(
+            mEmailPatternChangeCallback
+        )
+        mBinding.emailVerificationViewModel?.isVerificationTimeoutWarningVisibleObservable?.removeOnPropertyChangedCallback(
+            mVerificationTimeoutCallback
+        )
+
+        super.onDestroyView()
     }
 }

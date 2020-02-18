@@ -1,4 +1,4 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.signup
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
+import com.mashup.telltostar.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_email_verification.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 

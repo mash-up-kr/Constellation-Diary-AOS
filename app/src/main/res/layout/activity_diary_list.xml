@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.diarylist.DiaryListActivity"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -19,7 +17,8 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="16dp"
-            android:background="@drawable/ic_expand_close"/>
+            android:background="@drawable/ic_expand_close" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,20 +32,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="11dp" />
+
         <TextView
             android:id="@+id/listDiarySelectTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:textSize="14sp"
+            android:text="@string/select"
             android:textColor="@color/black_two"
-            android:text="@string/select"/>
+            android:textSize="14sp" />
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/white_three"/>
+        android:background="@color/white_three" />
 
     <TextView
         android:id="@+id/listDiaryDateTV"
@@ -149,7 +150,4 @@
         </LinearLayout>
 
     </FrameLayout>
-
-
-
 </LinearLayout>

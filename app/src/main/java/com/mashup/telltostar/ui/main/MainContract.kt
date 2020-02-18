@@ -15,11 +15,15 @@ interface MainContract {
 
         fun showToast(message: String?)
 
-        fun showEditDiary(diaryId: Int)
+        fun showEditDiary(diaryId: Int, horoscopeId: Int)
 
         fun showWriteDiary(horoscopeId: Int)
 
         fun showStarList()
+
+        fun showDiaryList()
+
+        fun showSetting()
 
     }
 

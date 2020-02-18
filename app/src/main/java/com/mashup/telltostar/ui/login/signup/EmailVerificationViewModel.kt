@@ -1,4 +1,4 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.signup
 
 import android.util.Patterns
 import androidx.databinding.ObservableBoolean
@@ -29,17 +29,24 @@ object EmailVerificationViewModel {
     val isEmailSend = MutableLiveData<Boolean>(false)
     val isEmailVerified = MutableLiveData<Boolean>()
     val mInputVerificationNumber = MutableLiveData<String>()
+    val isVerificationTimeoutLiveData = MutableLiveData<Boolean>(false)
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
     private val mIntervalObservable by lazy {
         getIntervalObservable()
     }
     val mVerifiedEmailObservable = ObservableField<String>()
-    val isEmailPatternObservable = ObservableBoolean()
+    val isEmailPatternObservable = ObservableBoolean(true)
     val isEmailVerifiedObservable = ObservableBoolean(false)
     val mRemainTimeObservable = ObservableField<String>()
     val isEmailSendObservable = ObservableBoolean(false)
+    val isVerificationTimeoutWarningVisibleObservable = ObservableBoolean(false)
+    var mToken: String? = null
+    private var isVerificationTimeout = false
 
     fun requestVerificationNumber(inputEmail: String) {
+        isVerificationTimeout = false
+        isVerificationTimeoutWarningVisibleObservable.set(false)
+
         if (isEmailPattern(inputEmail)) {
             isEmailPattern.postValue(true)
             isEmailPatternObservable.set(true)
@@ -56,7 +63,7 @@ object EmailVerificationViewModel {
                             }, {
 
                             }, {
-
+                                isVerificationTimeout = true
                             })
             )
             mCompositeDisposable.add(
@@ -73,8 +80,6 @@ object EmailVerificationViewModel {
                         isEmailSend.postValue(true)
                         isEmailSendObservable.set(true)
                     }, {
-                        isEmailPattern.postValue(false)
-                        isEmailPatternObservable.set(false)
                         it.printStackTrace()
                     })
             )
@@ -88,33 +93,33 @@ object EmailVerificationViewModel {
             Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()
 
     fun requestEmailVerification(inputEmail: String, verificationNumber: Int) {
-        if (inputEmail == "hclee" && verificationNumber == 654321) {
-            isEmailVerified.value = true
-            isEmailVerifiedObservable.set(true)
-            mVerifiedEmailObservable.set(inputEmail)
-
-            return
-        }
-
-        mCompositeDisposable.add(
-            ApiProvider
-                .provideAuthenticationNumberApi()
-                .authenticationSignUp(
-                    ReqValidationSignUpNumberDto(
-                        inputEmail,
-                        verificationNumber
+        if (isVerificationTimeout) {
+            isVerificationTimeoutWarningVisibleObservable.set(true)
+            isVerificationTimeoutLiveData.value = true
+        } else {
+            mCompositeDisposable.add(
+                ApiProvider
+                    .provideAuthenticationNumberApi()
+                    .authenticationSignUp(
+                        ReqValidationSignUpNumberDto(
+                            inputEmail,
+                            verificationNumber
+                        )
                     )
-                )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    isEmailVerified.postValue(true)
-                    isEmailVerifiedObservable.set(true)
-                    mVerifiedEmailObservable.set(inputEmail)
-                }, {
-                    it.printStackTrace()
-                })
-        )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        isEmailVerified.postValue(true)
+                        isEmailVerifiedObservable.set(true)
+                        mVerifiedEmailObservable.set(inputEmail)
+                        mToken = it.token
+                    }, {
+                        it.printStackTrace()
+                        isEmailVerified.value = false
+                        isEmailVerifiedObservable.set(false)
+                    })
+            )
+        }
     }
 
     private fun getIntervalObservable() =

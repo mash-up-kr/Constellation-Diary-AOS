@@ -1,4 +1,4 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.forgotpassword
 
 
 import android.os.Bundle
@@ -14,9 +14,11 @@ import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentResetPasswordBinding
+import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.util.VibratorUtil
 
-class ResetPasswordFragment : Fragment() {
+class ResetPasswordFragment(private val mForgotPasswordViewModel: ForgotPasswordViewModel) :
+    Fragment() {
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
     private lateinit var mBinding: FragmentResetPasswordBinding
     private val mWarningCallback by lazy {
@@ -43,7 +45,7 @@ class ResetPasswordFragment : Fragment() {
             container,
             false
         ).apply {
-            viewModel = ForgotPasswordViewModel
+            viewModel = mForgotPasswordViewModel
             fragment = this@ResetPasswordFragment
         }
 
@@ -59,10 +61,17 @@ class ResetPasswordFragment : Fragment() {
 
     private fun setListeners() {
         with(mBinding) {
-            newPasswordEditText.addTextChangedListener {
-                it?.let {
-                    loginButton.isEnabled =
-                        it.isNotEmpty() && passwordConfirmEditText.text.isNotEmpty()
+            with(newPasswordEditText) {
+                addTextChangedListener {
+                    it?.let {
+                        loginButton.isEnabled =
+                            it.isNotEmpty() && passwordConfirmEditText.text.isNotEmpty()
+                    }
+                }
+                setOnFocusChangeListener { v, hasFocus ->
+                    if (hasFocus) {
+                        mFragmentListener.expandBottomSheet()
+                    }
                 }
             }
             with(passwordConfirmEditText) {
@@ -70,6 +79,11 @@ class ResetPasswordFragment : Fragment() {
                     it?.let {
                         loginButton.isEnabled =
                             it.isNotEmpty() && newPasswordEditText.text.isNotEmpty()
+                    }
+                }
+                setOnFocusChangeListener { v, hasFocus ->
+                    if (hasFocus) {
+                        mFragmentListener.expandBottomSheet()
                     }
                 }
                 setOnEditorActionListener { v, actionId, event ->
@@ -90,7 +104,7 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun setViewModelObserver() {
-        ForgotPasswordViewModel.isPasswordInputIdenticalLiveData.observe(this, Observer {
+        mBinding.viewModel?.isPasswordInputIdenticalLiveData?.observe(this, Observer {
             if (it) {
                 activity?.let {
                     mFragmentListener.replaceFragment(
@@ -104,13 +118,15 @@ class ResetPasswordFragment : Fragment() {
     }
 
     fun performLoginButtonClick(view: View) {
-        ForgotPasswordViewModel.requestResetPassword(
-            mBinding.newPasswordEditText.text.toString(),
-            mBinding.passwordConfirmEditText.text.toString()
-        )
+        with(mBinding) {
+            viewModel?.requestResetPassword(
+                newPasswordEditText.text.toString(),
+                passwordConfirmEditText.text.toString()
+            )
+        }
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         mBinding.viewModel?.let {
             it.isPasswordEmptyWarningVisibleObservable.removeOnPropertyChangedCallback(
                 mWarningCallback
@@ -120,6 +136,6 @@ class ResetPasswordFragment : Fragment() {
             )
         }
 
-        super.onDestroy()
+        super.onDestroyView()
     }
 }

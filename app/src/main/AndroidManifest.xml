@@ -13,19 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.diarylist.DiaryListActivity"
-            android:theme="@style/NoActionBarTheme" />
+        <service
+            android:name=".StarStarMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
-            android:name=".ui.starlist.StarListDetailActivity"
-            android:theme="@style/NoActionBarTheme" />
-        <activity
-            android:name=".ui.starlist.StarListActivity"
-            android:theme="@style/NoActionBarTheme" />
-        <activity
-            android:name=".ui.myconstellation.MyConstellationActivity"
-            android:theme="@style/NoActionBarTheme" />
-        <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.splash.SplashActivity"
             android:theme="@style/NoActionBarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,14 +33,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.diarylist.DiaryListActivity" />
         <activity
-            android:name=".ui.diary.DiaryEditActivity"
+            android:name=".ui.starlist.StarListDetailActivity"
             android:theme="@style/NoActionBarTheme" />
+        <activity
+            android:name=".ui.starlist.StarListActivity"
+            android:theme="@style/NoActionBarTheme" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:theme="@style/NoActionBarTheme"></activity>
         <activity
             android:name=".ui.main.MainActivity"
             android:theme="@style/NoActionBarTheme">
         </activity>
-
+        <activity android:name=".ui.diary.DiaryEditActivity" />
+        <activity android:name=".ui.setting.SettingActivity" />
+        <activity android:name=".ui.myconstellation.MyConstellationActivity" />
     </application>
 
 </manifest>

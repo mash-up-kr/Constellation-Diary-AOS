@@ -1,4 +1,4 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.forgotid
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,9 +10,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentForgotIdBinding
+import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.util.VibratorUtil
 import kotlinx.android.synthetic.main.fragment_forgot_id.view.*
 
@@ -117,9 +119,18 @@ class ForgotIdFragment : Fragment() {
             }
         }
 
-        mBinding.viewModel?.isEmailEmptyWarningVisibleObservable?.addOnPropertyChangedCallback(
-            emailEmptyWarningObservableCallback
-        )
+        mBinding.viewModel?.let {
+            it.isEmailEmptyWarningVisibleObservable.addOnPropertyChangedCallback(
+                emailEmptyWarningObservableCallback
+            )
+            it.isNonExistentEmailWarningVisibleLiveData.observe(this@ForgotIdFragment, Observer {
+                if (it) {
+                    context?.let { context ->
+                        VibratorUtil.vibrate(context)
+                    }
+                }
+            })
+        }
     }
 
     fun performNextButtonClick(view: View) {
@@ -134,12 +145,12 @@ class ForgotIdFragment : Fragment() {
         )
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         mBinding.viewModel?.isEmailEmptyWarningVisibleObservable?.removeOnPropertyChangedCallback(
             emailEmptyWarningObservableCallback
         )
         mBinding.viewModel?.clearCompositeDisposable()
 
-        super.onDestroy()
+        super.onDestroyView()
     }
 }

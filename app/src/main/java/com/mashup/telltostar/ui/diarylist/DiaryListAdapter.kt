@@ -1,11 +1,11 @@
 package com.mashup.telltostar.ui.diarylist
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.source.remote.response.SimpleDiary
+import timber.log.Timber
 
 class DiaryListAdapter: RecyclerView.Adapter<DiaryListContentsViewHolder>(){
     var dataList : List<SimpleDiary> = listOf()
@@ -21,18 +21,18 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListContentsViewHolder>(){
     override fun getItemCount(): Int = dataList.size
 
     override fun onBindViewHolder(holder: DiaryListContentsViewHolder, position: Int) {
-        dataList[position].let{
-            var diary = Temp_diary(it,false,false)
+        dataList[position].let {
+            var diary = Temp_diary(it, false, false)
             holder.bind(diary)
             holder.changeVisible()
-//          holder.diarySelect.isChecked = holder.diary.isChecked
             holder.diarySelect.setOnCheckedChangeListener(null)
             holder.diarySelect.setOnCheckedChangeListener { buttonView, isChecked ->
-                if(position != RecyclerView.NO_POSITION){
+                if (position != RecyclerView.NO_POSITION) {
                     if (checkNumListener != null) {
                         checkNumListener.onItemClick(isChecked)
                     }
                 }
+
             }
         }
     }
@@ -57,6 +57,7 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListContentsViewHolder>(){
                     if(check.equals("set")){
                         var diary = Temp_diary(dataList[i],false,false)
                         holder.bind(diary)
+
                     }
                 }
 
@@ -66,14 +67,15 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListContentsViewHolder>(){
 
     fun setData(item: List<SimpleDiary>){
         dataList = item
+        notifyDataSetChanged()
+        Timber.d(dataList.toString(),"")
     }
 
-    fun setOnItemClickListener(listener : OnItemClickListener){
+    fun setOnItemClickListener(listener: OnItemClickListener) {
         this.checkNumListener = listener
     }
 
-    interface OnItemClickListener{
-        fun onItemClick(isChecked : Boolean)
+    interface OnItemClickListener {
+        fun onItemClick(isChecked: Boolean)
     }
-
 }

@@ -29,7 +29,7 @@ class StarListAdapter : RecyclerView.Adapter<StarListAdapter.StarListViewHolder>
         holder.starBox.setOnClickListener{
             if(position != RecyclerView.NO_POSITION){
                 if (mListener != null) {
-                    mListener.onItemClick(it, position) ;
+                    mListener.onItemClick(it, nameList[position]) ;
                 }
             }
         }
@@ -47,13 +47,13 @@ class StarListAdapter : RecyclerView.Adapter<StarListAdapter.StarListViewHolder>
     }
 
     interface OnItemClickListener{
-        fun onItemClick(view: View,pos : Int)
+        fun onItemClick(view: View,name :String)
     }
 
     class StarListViewHolder(view: View):RecyclerView.ViewHolder(view){
         val starImage : ImageView = view.find(R.id.listStarImageIV) as ImageView
         val starName : TextView = view.find(R.id.listStarNameTV) as TextView
-        val starBox : LinearLayout = view.find(R.id.listStarBox) as LinearLayout
+        val starBox : LinearLayout = view.find(R.id.listStarLL) as LinearLayout
 
 
     }

@@ -1,7 +1,8 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.signup
 
 import androidx.lifecycle.MutableLiveData
 import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.util.RegexUtil
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -19,6 +20,8 @@ object IdRegistrationViewModel {
     val isInputPasswordWarningTextViewVisible = MutableLiveData<Boolean>()
     val isInputConfirmPasswordWarningTextViewVisible = MutableLiveData<Boolean>()
     val isAvailableId = MutableLiveData<Boolean>()
+    val isNotIdPatternWarningTextViewVisible = MutableLiveData<Boolean>()
+    val isNotPasswordPatternWarningTextViewVisible = MutableLiveData<Boolean>()
 
     private val mCompositeDisposable by lazy {
         CompositeDisposable()
@@ -41,7 +44,9 @@ object IdRegistrationViewModel {
     }
 
     fun requestCheckIdDuplication(id: String) {
-        if (id.isNotEmpty()) {
+        isNotIdPatternWarningTextViewVisible.value = RegexUtil.isIdPattern(id).not()
+
+        if (RegexUtil.isIdPattern(id)) {
             mCompositeDisposable.add(
                 ApiProvider
                     .provideUserApi()
@@ -61,12 +66,17 @@ object IdRegistrationViewModel {
     }
 
     fun requestCheckTwoPasswordIdentical(id: String, password: String, confirmPassword: String) {
+        isNotPasswordPatternWarningTextViewVisible.value = false
         isInputIdWarningTextViewVisible.postValue(id.isEmpty())
         isInputPasswordWarningTextViewVisible.postValue(password.isEmpty())
         isInputConfirmPasswordWarningTextViewVisible.value = confirmPassword.isEmpty()
 
         if (id.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
-            isTwoPasswordIdentical.value = (password == confirmPassword)
+            if (RegexUtil.isPasswordPattern(password)) {
+                isTwoPasswordIdentical.value = (password == confirmPassword)
+            } else {
+                isNotPasswordPatternWarningTextViewVisible.value = true
+            }
         }
     }
 }

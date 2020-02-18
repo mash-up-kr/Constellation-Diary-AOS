@@ -1,20 +1,34 @@
 package com.mashup.telltostar.ui.myconstellation
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.mashup.telltostar.R
+import com.mashup.telltostar.data.repository.SignRepoImpl
+import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationAdapter
 import com.mashup.telltostar.util.ConstellationUtil
+import com.mashup.telltostar.util.PrefUtil
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.InfiniteScrollAdapter
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.activity_my_constellation.*
 import org.jetbrains.anko.toast
+import timber.log.Timber
 
 class MyConstellationActivity : AppCompatActivity(),
     DiscreteScrollView.ScrollStateChangeListener<ConstellationAdapter.ConstellationViewHolder>,
     DiscreteScrollView.OnItemChangedListener<ConstellationAdapter.ConstellationViewHolder> {
+
+    private val signRepository by lazy {
+        SignRepoImpl(
+            ApiProvider.provideUserApi()
+        )
+    }
 
     private val adapter by lazy {
         ConstellationAdapter(
@@ -25,18 +39,47 @@ class MyConstellationActivity : AppCompatActivity(),
     private val constellationAdapter
             by lazy { InfiniteScrollAdapter.wrap(adapter) }
 
+    private lateinit var type: Type
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_constellation)
 
+        initType()
         initButton()
         initCustomView()
     }
 
+    private fun initType() {
+        val type = intent?.getSerializableExtra(KEY_TYPE) as? Type
+        if (type != null) {
+            this.type = type
+            Timber.d("type : $type")
+
+            val title = when (type) {
+                Type.SIGNUP -> getString(R.string.start_star_star)
+                Type.WATCH -> getString(R.string.watch_constellation)
+            }
+
+            btnMyConstellationStart.text = title
+        } else {
+            error("type exception")
+        }
+    }
+
     private fun initButton() {
         btnMyConstellationStart.setOnClickListener {
-            val realPosition = constellationAdapter.getRealPosition(customScrollView.currentItem)
-            toast(adapter.getConstellation(realPosition))
+            when (type) {
+                Type.SIGNUP -> {
+                    val realPosition =
+                        constellationAdapter.getRealPosition(customScrollView.currentItem)
+                    signUp(adapter.getConstellation(realPosition))
+                }
+                Type.WATCH -> {
+                    //TODO 별자리 상세 화면 이동
+                    toast("별자리 상세 화면 이동")
+                }
+            }
         }
     }
 
@@ -63,11 +106,57 @@ class MyConstellationActivity : AppCompatActivity(),
         }
     }
 
+    private fun signUp(constellation: String) {
+        intent?.run {
+            val id = getStringExtra(KEY_SIGN_UP_ID)
+            val email = getStringExtra(KEY_SIGN_UP_EMAIL)
+            val password = getStringExtra(KEY_SIGN_UP_PASSWORD)
+            val token = getStringExtra(KEY_SIGN_UP_TOKEN)
+
+            Timber.d("constellation : $constellation , id : $id , email : $email , password : $password , token : $token")
+
+            signRepository.sighUp(
+                constellation = constellation,
+                email = email,
+                password = password,
+                userId = id
+            ).doOnSubscribe {
+                showLoading()
+            }.doOnSuccess {
+                hideLopading()
+            }.doOnError {
+                hideLopading()
+            }.subscribe({
+                val authenticationToken = it.tokens.authenticationToken
+                val refreshToken = it.tokens.refreshToken
+
+                PrefUtil.put(PrefUtil.CONSTELLATION, constellation)
+                PrefUtil.put(PrefUtil.AUTHENTICATION_TOKEN, authenticationToken)
+                PrefUtil.put(PrefUtil.REFRESH_TOKEN, refreshToken)
+
+                MainActivity.startMainActivity(this@MyConstellationActivity)
+                finish()
+            }) {
+
+            }
+        }
+    }
+
+    private fun showLoading() {
+        pbMyConstellationStart.visibility = View.VISIBLE
+        btnMyConstellationStart.isEnabled = true
+    }
+
+    private fun hideLopading() {
+        pbMyConstellationStart.visibility = View.GONE
+        btnMyConstellationStart.isEnabled = false
+    }
+
     override fun onScrollStart(
         holder: ConstellationAdapter.ConstellationViewHolder,
         adapterPosition: Int
     ) {
-        //holder.hideText()
+        holder.hideLine()
     }
 
     override fun onScroll(
@@ -89,12 +178,60 @@ class MyConstellationActivity : AppCompatActivity(),
 
     }
 
-
     override fun onCurrentItemChanged(
         holder: ConstellationAdapter.ConstellationViewHolder?,
         adapterPosition: Int
     ) {
-        //holder?.showText()
+        if (holder != null) {
+            changeConstellationInfo(holder.getTitle())
+            holder.showLine()
+        }
+    }
+
+    private fun changeConstellationInfo(constellation: String) {
+        tvMyConstellationInfo.text = ConstellationUtil.getInfo(resources, constellation)
+    }
+
+    enum class Type {
+        SIGNUP, WATCH
+    }
+
+    companion object {
+
+        private const val KEY_TYPE = "type"
+
+        private const val KEY_SIGN_UP_ID = "sign_up_id"
+        private const val KEY_SIGN_UP_EMAIL = "sign_up_email"
+        private const val KEY_SIGN_UP_PASSWORD = "sign_up_password"
+        private const val KEY_SIGN_UP_TOKEN = "sign_up_token"
+
+        fun startMyConstellationForSignUp(
+            context: Context,
+            userId: String,
+            email: String,
+            password: String,
+            token: String
+        ) {
+            context.startActivity(
+                Intent(context, MyConstellationActivity::class.java).apply {
+                    putExtra(KEY_TYPE, Type.SIGNUP)
+                    putExtra(KEY_SIGN_UP_ID, userId)
+                    putExtra(KEY_SIGN_UP_EMAIL, email)
+                    putExtra(KEY_SIGN_UP_PASSWORD, password)
+                    putExtra(KEY_SIGN_UP_TOKEN, token)
+                }
+            )
+        }
+
+        fun startMyConstellationForWatch(
+            context: Context
+        ) {
+            context.startActivity(
+                Intent(context, MyConstellationActivity::class.java).apply {
+                    putExtra(KEY_TYPE, Type.WATCH)
+                }
+            )
+        }
     }
 
 }

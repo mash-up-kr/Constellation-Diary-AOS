@@ -1,4 +1,4 @@
-package com.mashup.telltostar.ui.login
+package com.mashup.telltostar.ui.login.signup
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -19,6 +19,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_id_registration.*
 import kotlinx.android.synthetic.main.fragment_id_registration.view.*
 import java.util.concurrent.TimeUnit
 
@@ -207,11 +208,27 @@ class IdRegistrationFragment : Fragment() {
                 if (!isIdentical) {
                     vibrate()
                 } else {
-                    startActivity(Intent(activity, MyConstellationActivity::class.java).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    })
-                    activity.overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left)
-                    activity.finish()
+                    with(EmailVerificationViewModel) {
+                        mToken?.let { token ->
+                            if (mToken.isNullOrEmpty().not()) {
+                                mVerifiedEmailObservable.get()?.let { userEmail ->
+                                    MyConstellationActivity.startMyConstellationForSignUp(
+                                        activity,
+                                        mRootView.idEditText.text.toString(),
+                                        userEmail,
+                                        mRootView.passwordEditText.text.toString(),
+                                        token
+                                    )
+                                }
+                            }
+
+                            activity.overridePendingTransition(
+                                R.anim.enter_from_right,
+                                R.anim.exit_to_left
+                            )
+                            activity.finish()
+                        }
+                    }
                 }
             })
             IdRegistrationViewModel.isAvailableId.observe(this, Observer {
@@ -236,11 +253,50 @@ class IdRegistrationFragment : Fragment() {
                         )
                     mRootView.duplicateIdWarningTextView.visibility = View.VISIBLE
 
-                    context?.let {
-                        VibratorUtil.vibrate(it)
-                    }
+                    vibrate()
                 }
             })
+            IdRegistrationViewModel.isNotIdPatternWarningTextViewVisible.observe(this, Observer {
+                timber.log.Timber.d("onChanged() - $it")
+
+                mRootView.notIdPatternWarningTextView.visibility =
+                    if (it) View.VISIBLE
+                    else View.GONE
+                mRootView.idEditText.backgroundTintList =
+                    if (it)
+                        ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                activity,
+                                R.color.coral
+                            )
+                        )
+                    else
+                        null
+
+                if (it) {
+                    vibrate()
+                }
+            })
+            IdRegistrationViewModel.isNotPasswordPatternWarningTextViewVisible.observe(
+                this,
+                Observer {
+                    notPasswordPatternWarningTextView.visibility =
+                        if (it) View.VISIBLE
+                        else View.GONE
+                    passwordEditText.backgroundTintList =
+                        if (it) ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                activity,
+                                R.color.coral
+                            )
+                        )
+                        else
+                            null
+
+                    if (it) {
+                        vibrate()
+                    }
+                })
         }
     }
 
