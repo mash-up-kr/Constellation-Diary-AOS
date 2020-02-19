@@ -124,7 +124,7 @@ class SettingActivity : AppCompatActivity() {
             putExtra(Intent.EXTRA_SUBJECT, "<" + getString(R.string.app_name) + ">")
             putExtra(
                 Intent.EXTRA_TEXT,
-                "AppVersion :${BuildConfig.VERSION_CODE}\nDevice : ${Build.MODEL}\nAndroid OS : ${Build.VERSION.SDK_INT}\n\n Content : \n"
+                "AppVersion :${BuildConfig.VERSION_NAME}\nDevice : ${Build.MODEL}\nAndroid OS : ${Build.VERSION.SDK_INT}\n\n Content : \n"
             )
         }
         startActivity(email)
@@ -266,6 +266,6 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun initVersion() {
-        tvSettingVersion.text = "ver. ${BuildConfig.VERSION_CODE}"
+        tvSettingVersion.text = "ver. ${BuildConfig.VERSION_NAME}"
     }
 }
