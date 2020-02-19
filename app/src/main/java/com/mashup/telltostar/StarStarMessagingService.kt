@@ -21,7 +21,7 @@ class StarStarMessagingService : FirebaseMessagingService() {
                      }
             }*/
             val title = message.data["title"]
-            val message = message.data["message"]
+            val message = message.data["body"]
 
             if (!title.isNullOrEmpty() && !message.isNullOrEmpty()) {
                 NotificationUtil.generate(applicationContext, title, message)
