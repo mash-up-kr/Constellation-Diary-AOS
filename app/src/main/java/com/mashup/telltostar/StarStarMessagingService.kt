@@ -3,13 +3,14 @@ package com.mashup.telltostar
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.mashup.telltostar.util.NotificationUtil
+import timber.log.Timber
 
 class StarStarMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        timber.log.Timber.d("onMessageReceived()")
+        Timber.d("onMessageReceived()")
 
         if (message.data.isNotEmpty()) {
             /*val iterator = message.data.iterator()
@@ -31,7 +32,7 @@ class StarStarMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
 
-        timber.log.Timber.d("onNewToken()")
-        timber.log.Timber.d("token $token")
+        Timber.d("onNewToken()")
+        Timber.d("token $token")
     }
 }
