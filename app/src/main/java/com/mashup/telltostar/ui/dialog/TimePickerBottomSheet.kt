@@ -10,7 +10,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mashup.telltostar.R
 import com.mashup.telltostar.ui.setting.SettingActivity
 import kotlinx.android.synthetic.main.bottom_sheet_time_picker.*
-import org.jetbrains.anko.support.v4.toast
 
 class TimePickerBottomSheet : BottomSheetDialogFragment() {
 
@@ -70,17 +69,9 @@ class TimePickerBottomSheet : BottomSheetDialogFragment() {
 
             when (type) {
                 TimePickerType.HOROSCOPE -> {
-                    if (hour > 12) {
-                        toast("오전 시간을 선택해 주세요")
-                        return@setOnClickListener
-                    }
                     (requireActivity() as SettingActivity).setHoroscopeTime(time)
                 }
                 TimePickerType.QUESTION -> {
-                    if (hour <= 12) {
-                        toast("오후 시간을 선택해 주세요")
-                        return@setOnClickListener
-                    }
                     (requireActivity() as SettingActivity).setQuestionTime(time)
                 }
 
