@@ -263,8 +263,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     companion object {
         private const val REQUEST_DIARY_EDIT = 0x001
 
-        private const val TYPE = "type"
-        private const val TYPE_RESTART = "restart"
+        const val TYPE = "type"
+        const val TYPE_RESTART = "restart"
 
         fun startMainActivity(context: Context) {
             context.startActivity(Intent(context, MainActivity::class.java))

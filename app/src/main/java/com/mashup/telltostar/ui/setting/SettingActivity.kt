@@ -2,9 +2,11 @@ package com.mashup.telltostar.ui.setting
 
 import android.content.Intent
 import android.graphics.PorterDuff
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.mashup.telltostar.BuildConfig
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.exception.Exception
@@ -17,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_setting.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import timber.log.Timber
+
 
 class SettingActivity : AppCompatActivity() {
 
@@ -37,7 +40,7 @@ class SettingActivity : AppCompatActivity() {
         initButton()
         initSwitch()
         initPush()
-
+        initVersion()
     }
 
     override fun onDestroy() {
@@ -68,17 +71,25 @@ class SettingActivity : AppCompatActivity() {
                 negativeButton("취소") {
 
                 }
-            }
+            }.show()
 
         }
         rlSettingFeedback.setOnClickListener {
-            toast("피드백 주기")
+            feedback()
         }
         rlSettingDeveloper.setOnClickListener {
-            toast("개발자 정보")
+            alert(
+                message = "안드로이드 : 최민정, 이진성, 이해창\n" +
+                        "디자인 : 고은이, 이정은, 님궁욱\n" +
+                        "서버 : 이동근"
+            ) {
+                positiveButton("확인") {
+
+                }
+            }.show()
         }
         rlSettingAppVersion.setOnClickListener {
-            toast("버전 확인")
+            //toast("버전 확인")
         }
     }
 
@@ -103,6 +114,20 @@ class SettingActivity : AppCompatActivity() {
             }.also {
                 compositeDisposable.add(it)
             }
+    }
+
+    private fun feedback() {
+        val email = Intent(Intent.ACTION_SEND).apply {
+            type = "plain/Text"
+            val address = arrayOf("dlgockd45@gmail.com")
+            putExtra(Intent.EXTRA_EMAIL, address)
+            putExtra(Intent.EXTRA_SUBJECT, "<" + getString(R.string.app_name) + ">")
+            putExtra(
+                Intent.EXTRA_TEXT,
+                "AppVersion :${BuildConfig.VERSION_NAME}\nDevice : ${Build.MODEL}\nAndroid OS : ${Build.VERSION.SDK_INT}\n\n Content :\n"
+            )
+        }
+        startActivity(email)
     }
 
     private fun initSwitch() {
@@ -238,5 +263,9 @@ class SettingActivity : AppCompatActivity() {
             }.also {
                 compositeDisposable.add(it)
             }
+    }
+
+    private fun initVersion() {
+        tvSettingVersion.text = "ver. ${BuildConfig.VERSION_NAME}"
     }
 }

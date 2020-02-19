@@ -21,10 +21,26 @@
         android:id="@+id/ivDiaryEditHoroscope"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_dot"
+        android:padding="8dp"
+        android:src="@drawable/ic_star_constellation"
+        app:layout_constraintBottom_toBottomOf="@+id/ivDiaryEditClose"
+        app:layout_constraintEnd_toStartOf="@+id/tvDiaryEditDone"
+        app:layout_constraintTop_toTopOf="@id/ivDiaryEditClose" />
+
+    <TextView
+        android:id="@+id/tvDiaryEditDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="7dp"
+        android:padding="10dp"
+        android:text="@string/done"
+        android:textColor="@color/navy"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivDiaryEditClose"
+        app:layout_constraintTop_toTopOf="@id/ivDiaryEditClose" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideLineStartMargin"
@@ -50,7 +66,7 @@
         android:textColor="@color/black_two"
         android:textSize="18sp"
         android:gravity="start|bottom"
-        android:maxLines="2"
+        android:maxLength="24"
         app:layout_constraintTop_toBottomOf="@+id/ivDiaryEditClose"
         app:layout_constraintBottom_toTopOf="@+id/flDiaryEditBoundary"
         app:layout_constraintEnd_toStartOf="@+id/guideLineEndMargin"
@@ -93,18 +109,5 @@
         app:layout_constraintEnd_toStartOf="@+id/guideLineEndMargin"
         app:layout_constraintStart_toEndOf="@+id/guideLineStartMargin"
         app:layout_constraintTop_toBottomOf="@+id/tvDiaryEditDate" />
-
-    <TextView
-        android:id="@+id/tvDiaryEditDone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginBottom="3dp"
-        android:padding="17dp"
-        android:text="@string/done"
-        android:textColor="@color/navy"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

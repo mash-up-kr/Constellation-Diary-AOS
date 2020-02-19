@@ -65,16 +65,29 @@ object TimeUtil {
 
     /**
      *  14:00:00 -> 2020-1-22T14:00:00.222Z
+     *
+     *  여기서 오는 time 은 한국 시간이므로 -9를 해서 utc로 변환해 줍니다.
      */
     fun getUTCFromTime(time: String): String {
         val utc = TimeZone.getTimeZone("UTC")
         //val time = TimeZone.getDefault()
         val date = Date()
 
+        val times = time.split(":")
+        var hour = times[0].toInt()
+
+        if (hour >= 9) {
+            hour = hour - 9
+        } else {
+            hour = 24 - (9 - hour)
+        }
+
+        val utcTime = "$hour:${times[1]}:00"
+
         // 2020-1-22T{time}.222Z
         return SimpleDateFormat("yyyy-MM-dd'T'").apply {
             timeZone = utc
-        }.format(date).plus("${time}.0Z")
+        }.format(date).plus("${utcTime}.0Z")
     }
 
     /**
@@ -105,6 +118,10 @@ object TimeUtil {
 
         return totalDate.toString()
     }
+
+    /**
+     *
+     */
 
     private fun dateValue(pos: Int) = when (pos) {
         0 -> "년"

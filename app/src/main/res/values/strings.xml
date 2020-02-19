@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TellToStar</string>
+    <string name="app_name">별별일기</string>
     <string name="일기작성">일기작성</string>
     <string name="별자리_운세">별자리 운세</string>
     <string name="행운의_키워드">행운의 키워드를 보세요.</string>
@@ -158,8 +158,8 @@
     <string name="delete">삭제</string>
 
     <!-- Setting -->
-    <string name="setting_am_push_title">오전 운세 알림</string>
-    <string name="setting_pm_push_title">오후 질문 알림</string>
+    <string name="setting_horoscope_push_title">운세 알림</string>
+    <string name="setting_question_push_title">질문 알림</string>
     <string name="please_write_contents">내용을 입력해 주세요</string>
     <string name="developer_info">개발자 정보</string>
     <string name="app_version">앱버전</string>
