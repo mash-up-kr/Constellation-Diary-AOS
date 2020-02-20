@@ -20,6 +20,7 @@ class SignRepoImpl(
     override fun sighUp(
         constellation: String,
         email: String,
+        fcmToken: String,
         password: String,
         userId: String,
         token: String
@@ -27,6 +28,7 @@ class SignRepoImpl(
         val signUp = ReqSignUpDto(
             constellation = constellation,
             email = email,
+            fcmToken = fcmToken,
             password = password,
             userId = userId
         )

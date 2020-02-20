@@ -9,6 +9,7 @@ interface SignRepository {
     fun sighUp(
         constellation: String,
         email: String,
+        fcmToken: String,
         password: String,
         userId: String,
         token: String
