@@ -22,6 +22,7 @@ object IdRegistrationViewModel {
     val isAvailableId = MutableLiveData<Boolean>()
     val isNotIdPatternWarningTextViewVisible = MutableLiveData<Boolean>()
     val isNotPasswordPatternWarningTextViewVisible = MutableLiveData<Boolean>()
+    private var mFcmToken: String? = null
 
     private val mCompositeDisposable by lazy {
         CompositeDisposable()
@@ -78,5 +79,11 @@ object IdRegistrationViewModel {
                 isNotPasswordPatternWarningTextViewVisible.value = true
             }
         }
+    }
+
+    fun getFcmToken() = mFcmToken
+
+    fun setFcmToken(token: String?) {
+        mFcmToken = token
     }
 }

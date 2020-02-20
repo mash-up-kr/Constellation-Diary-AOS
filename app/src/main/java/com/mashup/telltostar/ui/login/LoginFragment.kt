@@ -18,6 +18,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.mashup.telltostar.R
 import com.mashup.telltostar.ui.login.forgotid.ForgotIdFragment
 import com.mashup.telltostar.ui.login.signup.CustomPasswordTransformationMethod
+import com.mashup.telltostar.ui.login.signup.IdRegistrationViewModel
 import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.util.PrefUtil
 import com.mashup.telltostar.util.VibratorUtil
@@ -46,19 +47,26 @@ class LoginFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_login, container, false)
         mRootView = rootView
 
+        initFcmToken()
         setListeners()
         setViewModelObserver()
+
+        return rootView
+    }
+
+    private fun initFcmToken() {
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
             if (it.isSuccessful) {
                 it.result?.token?.let { token ->
-                    mFcmToken = token
+                    mLoginViewModel.setFcmToken(token)
+                    IdRegistrationViewModel.setFcmToken(token)
                 }
             } else if (it.isCanceled) {
                 timber.log.Timber.d("firebase token getting canceled")
+                mLoginViewModel.setFcmToken(null)
+                IdRegistrationViewModel.setFcmToken(null)
             }
         }
-
-        return rootView
     }
 
     fun setFragmentListener(listener: LoginActivity.FragmentListener) {
@@ -185,10 +193,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun performStartButtonClick() {
-        mFcmToken?.let {
+        mLoginViewModel.getFcmToken()?.let {
             mLoginViewModel.requestLogin(
                 "KST", // 현재 기기 위치에 따른 시간대 넘기도록 변경해야함
-                it,
                 mRootView.idEditText.text.toString(),
                 mRootView.passwordEditText.text.toString()
             )
