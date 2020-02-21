@@ -211,23 +211,26 @@ class IdRegistrationFragment(
                 } else {
                     with(mEmailVerificationViewModel) {
                         mToken?.let { token ->
-                            if (mToken.isNullOrEmpty().not()) {
-                                mVerifiedEmailObservable.get()?.let { userEmail ->
-                                    MyConstellationActivity.startMyConstellationForSignUp(
-                                        activity,
-                                        mRootView.idEditText.text.toString(),
-                                        userEmail,
-                                        mRootView.passwordEditText.text.toString(),
-                                        token
+                            IdRegistrationViewModel.getFcmToken()?.let { fcmToken ->
+                                if (mToken.isNullOrEmpty().not() && fcmToken.isNotEmpty()) {
+                                    mVerifiedEmailObservable.get()?.let { userEmail ->
+                                        MyConstellationActivity.startMyConstellationForSignUp(
+                                            activity,
+                                            mRootView.idEditText.text.toString(),
+                                            userEmail,
+                                            fcmToken,
+                                            mRootView.passwordEditText.text.toString(),
+                                            token
+                                        )
+                                    }
+
+                                    activity.overridePendingTransition(
+                                        R.anim.enter_from_right,
+                                        R.anim.exit_to_left
                                     )
+                                    activity.finish()
                                 }
                             }
-
-                            activity.overridePendingTransition(
-                                R.anim.enter_from_right,
-                                R.anim.exit_to_left
-                            )
-                            activity.finish()
                         }
                     }
                 }
