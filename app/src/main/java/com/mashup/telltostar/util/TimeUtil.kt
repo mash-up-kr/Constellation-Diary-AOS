@@ -113,6 +113,27 @@ object TimeUtil {
     }
 
     /**
+     * 14:00 -> 23:00
+     *
+     * 화면상에 시간을 보여줄 떄에는 +9 시간을 해줘야 합니다.
+     */
+    fun getPrefTimeFromUtcTime(time: String): String {
+        val times = time.split(":")
+
+        val hour = times[0].toInt()
+        val minute = times[1].toInt()
+
+        val strHour = if (hour > 15) {
+            (hour + 9 - 24).toString()
+        } else {
+            (hour + 9).toString()
+        }
+
+        return "$strHour:$minute"
+    }
+
+
+    /**
      *  14:00:00 -> 오후2:00
      */
     fun getAlarmFromTime(time: String): String {

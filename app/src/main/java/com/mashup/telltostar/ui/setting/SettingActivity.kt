@@ -186,10 +186,14 @@ class SettingActivity : AppCompatActivity() {
         }
 
         tvSettingHoroscopePush.text = TimeUtil.getAlarmFromTime(
-            PrefUtil.get(PrefUtil.HOROSCOPE_TIME, "")
+            TimeUtil.getPrefTimeFromUtcTime(
+                PrefUtil.get(PrefUtil.HOROSCOPE_TIME, "")
+            )
         )
         tvSettingQuestionPush.text = TimeUtil.getAlarmFromTime(
-            PrefUtil.get(PrefUtil.QUESTION_TIME, "")
+            TimeUtil.getPrefTimeFromUtcTime(
+                PrefUtil.get(PrefUtil.QUESTION_TIME, "")
+            )
         )
     }
 
