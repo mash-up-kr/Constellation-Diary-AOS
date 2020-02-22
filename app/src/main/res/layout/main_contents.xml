@@ -59,6 +59,8 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include layout="@layout/fragment_bottomsheet" />
+    <include
+        layout="@layout/fragment_bottomsheet"
+        tools:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
