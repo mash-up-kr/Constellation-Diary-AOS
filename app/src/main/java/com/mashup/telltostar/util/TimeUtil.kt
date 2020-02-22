@@ -75,14 +75,30 @@ object TimeUtil {
 
         val times = time.split(":")
         var hour = times[0].toInt()
+        var strHour = ""
 
         if (hour >= 9) {
-            hour = hour - 9
+            hour -= 9
         } else {
             hour = 24 - (9 - hour)
         }
 
-        val utcTime = "$hour:${times[1]}:00"
+        if (hour < 10) {
+            strHour = "0$hour"
+        } else {
+            strHour = hour.toString()
+        }
+
+        val minute = times[1].toInt()
+        var strMinute = ""
+
+        if (minute < 10) {
+            strMinute = "0$strMinute"
+        } else {
+            strMinute = minute.toString()
+        }
+
+        val utcTime = "$strHour:$strMinute:00"
 
         // 2020-1-22T{time}.222Z
         return SimpleDateFormat("yyyy-MM-dd'T'").apply {

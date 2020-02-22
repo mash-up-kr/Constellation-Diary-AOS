@@ -58,24 +58,14 @@ class TimePickerBottomSheet : BottomSheetDialogFragment() {
             }
 
             val hour = if (hourOfDay == 0) {
-                (hourOfDay + 12).toString()
+                (hourOfDay + 12)
             } else if (hourOfDay == 12) {
-                (hourOfDay + 12).toString()
+                (hourOfDay + 12)
             } else {
-                if (hourOfDay < 10) {
-                    "0${hourOfDay}"
-                } else {
-                    hourOfDay.toString()
-                }
+                hourOfDay
             }
 
-            val min = if (minute < 10) {
-                "0$minute"
-            } else {
-                minute.toString()
-            }
-
-            val time = "$hour:$min"
+            val time = "$hour:$minute"
 
             when (type) {
                 TimePickerType.HOROSCOPE -> {
