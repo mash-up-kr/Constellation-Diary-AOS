@@ -22,38 +22,16 @@ data class Authentication(
         @SerializedName("horoscopeAlarmFlag")
         val horoscopeAlarmFlag: Boolean,
         @SerializedName("horoscopeTime")
-        val horoscopeTime: HoroscopeTime,
+        val horoscopeTime: String,
         @SerializedName("id")
         val id: Int,
         @SerializedName("questionAlarmFlag")
         val questionAlarmFlag: Boolean,
         @SerializedName("questionTime")
-        val questionTime: QuestionTime,
+        val questionTime: String,
         @SerializedName("timeZone")
         val timeZone: String,
         @SerializedName("userId")
         val userId: String
-    ) {
-        data class HoroscopeTime(
-            @SerializedName("hour")
-            val hour: Int,
-            @SerializedName("minute")
-            val minute: Int,
-            @SerializedName("nano")
-            val nano: Int,
-            @SerializedName("second")
-            val second: Int
-        )
-
-        data class QuestionTime(
-            @SerializedName("hour")
-            val hour: Int,
-            @SerializedName("minute")
-            val minute: Int,
-            @SerializedName("nano")
-            val nano: Int,
-            @SerializedName("second")
-            val second: Int
-        )
-    }
+    )
 }
