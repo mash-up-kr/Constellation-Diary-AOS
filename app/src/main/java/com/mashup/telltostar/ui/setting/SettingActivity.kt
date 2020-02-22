@@ -140,6 +140,7 @@ class SettingActivity : AppCompatActivity() {
                     } else {
                         hideHoroscopePush()
                     }
+                    PrefUtil.put(PrefUtil.HOROSCOPE_ALARM_FLAG, isChecked)
                 }) {
                     Timber.e(it)
                 }.also {
@@ -156,6 +157,7 @@ class SettingActivity : AppCompatActivity() {
                     } else {
                         hideQuestionPush()
                     }
+                    PrefUtil.put(PrefUtil.QUESTION_ALARM_FLAG, isChecked)
                 }) {
                     Timber.e(it)
                 }.also {
