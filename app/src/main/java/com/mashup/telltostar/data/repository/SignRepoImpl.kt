@@ -32,7 +32,7 @@ class SignRepoImpl(
             password = password,
             userId = userId
         )
-        return api.signUp(token, signUp)
+        return api.signUp("Bearer $token", signUp)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

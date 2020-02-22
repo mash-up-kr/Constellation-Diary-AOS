@@ -140,6 +140,7 @@ class MyConstellationActivity : AppCompatActivity(),
                 MainActivity.startMainActivity(this@MyConstellationActivity)
                 finish()
             }) {
+                Timber.e(it)
                 toast(it.message ?: "error")
             }
         }
