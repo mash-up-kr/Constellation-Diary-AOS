@@ -1,5 +1,6 @@
 package com.mashup.telltostar.data.exception
 
+import com.mashup.telltostar.constant.RefreshToken
 import io.reactivex.Single
 import io.reactivex.SingleSource
 import io.reactivex.SingleTransformer
@@ -22,7 +23,19 @@ internal class NetworkExceptionSingleTransformer<T> : SingleTransformer<T, T> {
 
                             if (code == 4101) {
                                 //Fail Authentication check token
-                                Exception.AuthenticationException(it.message(), it.code())
+                                RefreshToken.upCountRefreshToken()
+                                Timber.d("error : $error -> ${RefreshToken.getRefreshToken()}")
+
+                                if (RefreshToken.getRefreshToken() > 4) {
+                                    RefreshToken.initRefreshToken()
+
+                                    Exception.OverRefreshException(
+                                        "refresh token over three times",
+                                        it.code()
+                                    )
+                                } else {
+                                    Exception.AuthenticationException(it.message(), it.code())
+                                }
                             } else {
                                 it
                             }
