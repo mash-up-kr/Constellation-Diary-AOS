@@ -74,36 +74,42 @@ object TimeUtil {
         val date = Date()
 
         val times = time.split(":")
-        var hour = times[0].toInt()
-        var strHour = ""
 
-        if (hour >= 9) {
-            hour -= 9
-        } else {
-            hour = 24 - (9 - hour)
-        }
-
-        if (hour < 10) {
-            strHour = "0$hour"
-        } else {
-            strHour = hour.toString()
-        }
-
+        val hour = times[0].toInt()
         val minute = times[1].toInt()
-        var strMinute = ""
 
-        if (minute < 10) {
-            strMinute = "0$strMinute"
-        } else {
-            strMinute = minute.toString()
-        }
-
-        val utcTime = "$strHour:$strMinute:00"
+        val utcTime = "${getUTCHour(hour)}:${getUTCMinute(minute)}:00"
 
         // 2020-1-22T{time}.222Z
         return SimpleDateFormat("yyyy-MM-dd'T'").apply {
             timeZone = utc
         }.format(date).plus("${utcTime}.0Z")
+    }
+
+    private fun getUTCHour(hour: Int): String {
+
+        var mHour = hour
+
+        if (mHour >= 9) {
+            mHour -= 9
+        } else {
+            mHour = 24 - (9 - mHour)
+        }
+
+        return if (mHour < 10) {
+            "0$mHour"
+        } else {
+            mHour.toString()
+        }
+    }
+
+    private fun getUTCMinute(minute: Int): String {
+
+        return if (minute < 10) {
+            "0$minute"
+        } else {
+            minute.toString()
+        }
     }
 
     /**
@@ -127,10 +133,24 @@ object TimeUtil {
             prefix = "오후 "
         }
 
+        val strHour = if (hour < 10) {
+            "0$hour"
+        } else {
+            hour.toString()
+        }
+
+        val minute = times[1].toInt()
+
+        val strMinute = if (minute < 10) {
+            "0$minute"
+        } else {
+            minute.toString()
+        }
+
         totalDate.append(prefix)
-        totalDate.append(hour)
+        totalDate.append(strHour)
         totalDate.append(":")
-        totalDate.append(times[1])
+        totalDate.append(strMinute)
 
         return totalDate.toString()
     }

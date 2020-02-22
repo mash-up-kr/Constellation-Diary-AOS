@@ -29,7 +29,7 @@ class UserChangeRepoImpl(
 
     override fun setHoroscopeTime(time: String): Single<Any> {
         val date = TimeUtil.getUTCFromTime(time)
-        Timber.d("date : $date")
+        Timber.d("time : $time , date : $date")
 
         return userChangeApi.horoscopeTime(authorization, ReqModifyHoroscopeTimeDto(date))
             .composeError()
@@ -46,7 +46,7 @@ class UserChangeRepoImpl(
 
     override fun setQuestionTime(time: String): Single<Any> {
         val date = TimeUtil.getUTCFromTime(time)
-        Timber.d("date : $date")
+        Timber.d("time : $time , date : $date")
 
         return userChangeApi.questionTime(authorization, ReqModifyQuestionTimeDto(date))
             .composeError()
