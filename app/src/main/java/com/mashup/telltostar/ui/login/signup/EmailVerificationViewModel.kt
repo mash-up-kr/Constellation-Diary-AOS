@@ -52,6 +52,8 @@ class EmailVerificationViewModel {
     fun requestVerificationNumber(inputEmail: String) {
         isVerificationTimeout = false
         isVerificationTimeoutWarningVisibleObservable.set(false)
+        isEmailSend.postValue(false)
+        isEmailSendObservable.set(false)
         isExistEmailLiveData.value = false
 
         if (isEmailPattern(inputEmail)) {
@@ -59,20 +61,6 @@ class EmailVerificationViewModel {
             isEmailPatternObservable.set(true)
             clearDisposable()
 
-            mCompositeDisposable.add(
-                    mIntervalObservable
-                            .map {
-                                getConvertedTime(it)
-                            }
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
-                                mRemainTimeObservable.set(it)
-                            }, {
-
-                            }, {
-                                isVerificationTimeout = true
-                            })
-            )
             mCompositeDisposable.add(
                 ApiProvider
                     .provideAuthenticationNumberApi()
@@ -88,6 +76,8 @@ class EmailVerificationViewModel {
                         isEmailSend.postValue(true)
                         isEmailSendObservable.set(true)
                         isExistEmailLiveData.value = false
+
+                        startRemainTimeCheck()
                     }, {
                         it.printStackTrace()
 
@@ -100,6 +90,23 @@ class EmailVerificationViewModel {
             isEmailPattern.postValue(false)
             isEmailPatternObservable.set(false)
         }
+    }
+
+    private fun startRemainTimeCheck() {
+        mCompositeDisposable.add(
+            mIntervalObservable
+                .map {
+                    getConvertedTime(it)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    mRemainTimeObservable.set(it)
+                }, {
+
+                }, {
+                    isVerificationTimeout = true
+                })
+        )
     }
 
     private fun isEmailPattern(inputEmail: String) =
