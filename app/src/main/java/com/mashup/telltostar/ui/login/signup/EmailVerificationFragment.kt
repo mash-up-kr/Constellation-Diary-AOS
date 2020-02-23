@@ -19,6 +19,7 @@ import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentEmailVerificationBinding
 import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.util.VibratorUtil
+import kotlinx.android.synthetic.main.fragment_email_verification.*
 
 class EmailVerificationFragment(
     private val mEmailVerificationViewModel: EmailVerificationViewModel,
@@ -111,6 +112,19 @@ class EmailVerificationFragment(
                 if (isEmailPattern.not()) {
                     context?.let {
                         VibratorUtil.vibrate(it)
+                    }
+                }
+            })
+            isExistEmailLiveData.observe(this@EmailVerificationFragment, Observer { isExist ->
+                context?.let { context ->
+                    if (isExist) {
+                        VibratorUtil.vibrate(context)
+                        existEmailWarningTextView.visibility = View.VISIBLE
+                        mBinding.emailEditText.backgroundTintList =
+                            ColorStateList.valueOf(ContextCompat.getColor(context, R.color.coral))
+                    } else {
+                        existEmailWarningTextView.visibility = View.GONE
+                        mBinding.emailEditText.backgroundTintList = null
                     }
                 }
             })

@@ -4,6 +4,8 @@ import android.util.Patterns
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.mashup.telltostar.data.exception.Exception
+import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.remote.ApiProvider
 import com.mashup.telltostar.data.source.remote.request.ReqSignUpNumberDto
 import com.mashup.telltostar.data.source.remote.request.ReqValidationSignUpNumberDto
@@ -33,6 +35,7 @@ class EmailVerificationViewModel {
     val isEmailVerified = MutableLiveData<Boolean>()
     val mInputVerificationNumber = MutableLiveData<String>()
     val isVerificationTimeoutLiveData = MutableLiveData<Boolean>(false)
+    val isExistEmailLiveData = MutableLiveData<Boolean>()
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
     private val mIntervalObservable by lazy {
         getIntervalObservable()
@@ -49,6 +52,7 @@ class EmailVerificationViewModel {
     fun requestVerificationNumber(inputEmail: String) {
         isVerificationTimeout = false
         isVerificationTimeoutWarningVisibleObservable.set(false)
+        isExistEmailLiveData.value = false
 
         if (isEmailPattern(inputEmail)) {
             isEmailPattern.postValue(true)
@@ -78,12 +82,18 @@ class EmailVerificationViewModel {
                         )
                     )
                     .subscribeOn(Schedulers.io())
+                    .composeError()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         isEmailSend.postValue(true)
                         isEmailSendObservable.set(true)
+                        isExistEmailLiveData.value = false
                     }, {
                         it.printStackTrace()
+
+                        if (it is Exception.ExistEmailException) {
+                            isExistEmailLiveData.value = true
+                        }
                     })
             )
         } else {
