@@ -22,7 +22,9 @@ object IdRegistrationViewModel {
     val isAvailableId = MutableLiveData<Boolean>()
     val isNotIdPatternWarningTextViewVisible = MutableLiveData<Boolean>()
     val isNotPasswordPatternWarningTextViewVisible = MutableLiveData<Boolean>()
+    val shouldIdDuplicationCheck = MutableLiveData<Boolean>()
     private var mFcmToken: String? = null
+    private var mLastDuplicationCheckedId = ""
 
     private val mCompositeDisposable by lazy {
         CompositeDisposable()
@@ -59,6 +61,7 @@ object IdRegistrationViewModel {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         isAvailableId.value = it
+                        mLastDuplicationCheckedId = id
                     }, {
                         it.printStackTrace()
                     })
@@ -67,19 +70,33 @@ object IdRegistrationViewModel {
     }
 
     fun requestCheckTwoPasswordIdentical(id: String, password: String, confirmPassword: String) {
+        if (id.isEmpty()) {
+            isInputIdWarningTextViewVisible.postValue(true)
+        }
+
         isNotPasswordPatternWarningTextViewVisible.value = false
-        isInputIdWarningTextViewVisible.postValue(id.isEmpty())
         isInputPasswordWarningTextViewVisible.postValue(password.isEmpty())
         isInputConfirmPasswordWarningTextViewVisible.value = confirmPassword.isEmpty()
 
         if (id.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
-            if (RegexUtil.isPasswordPattern(password)) {
-                isTwoPasswordIdentical.value = (password == confirmPassword)
+            if (isDuplicationCheckedId(id)) {
+                shouldIdDuplicationCheck.value = false
+
+                if (RegexUtil.isPasswordPattern(password)) {
+                    isTwoPasswordIdentical.value = (password == confirmPassword)
+                } else {
+                    isNotPasswordPatternWarningTextViewVisible.value = true
+                }
             } else {
-                isNotPasswordPatternWarningTextViewVisible.value = true
+                shouldIdDuplicationCheck.value = true
             }
         }
     }
+
+    private fun isDuplicationCheckedId(id: String) =
+        isAvailableId.value?.let {
+            (it && mLastDuplicationCheckedId == id)
+        } ?: false
 
     fun getFcmToken() = mFcmToken
 

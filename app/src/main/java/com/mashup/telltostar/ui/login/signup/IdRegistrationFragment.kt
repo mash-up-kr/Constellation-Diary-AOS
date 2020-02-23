@@ -126,6 +126,22 @@ class IdRegistrationFragment(
         })
 
         activity?.let { activity ->
+            IdRegistrationViewModel.shouldIdDuplicationCheck.observe(
+                this@IdRegistrationFragment,
+                Observer {
+                    clearIdInputWarning()
+
+                    if (it) {
+                        notDuplicationCheckedIdWarningTextView.visibility = View.VISIBLE
+                        mRootView.idEditText.backgroundTintList =
+                            ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
+
+                        VibratorUtil.vibrate(activity)
+                    } else {
+                        notDuplicationCheckedIdWarningTextView.visibility = View.GONE
+                        mRootView.idEditText.backgroundTintList = null
+                    }
+                })
             IdRegistrationViewModel.isInputIdWarningTextViewVisible.observe(
                 this,
                 Observer { isVisible ->
@@ -195,6 +211,8 @@ class IdRegistrationFragment(
                 })
             IdRegistrationViewModel.isTwoPasswordIdentical.observe(this, Observer { isIdentical ->
                 clearPasswordConfirmInputWarning()
+
+                timber.log.Timber.d("isTwoPasswordIdentical: $isIdentical")
 
                 mRootView.inputPasswordNotIdenticalWarningTextView.visibility =
                     if (isIdentical) View.GONE
@@ -317,6 +335,7 @@ class IdRegistrationFragment(
         mRootView.inputIdWarningTextView.visibility = View.GONE
         mRootView.availableIdTextView.visibility = View.GONE
         mRootView.duplicateIdWarningTextView.visibility = View.GONE
+        mRootView.notDuplicationCheckedIdWarningTextView.visibility = View.GONE
     }
 
     private fun clearPasswordConfirmInputWarning() {

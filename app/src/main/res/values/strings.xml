@@ -142,6 +142,7 @@
     <string name="error_verification_number_wrong">인증번호가 잘못되었습니다.</string>
     <string name="error_not_id_pattern">올바른 아이디 형식이 아닙니다.</string>
     <string name="error_not_password_pattern">올바른 비밀번호 형식이 아닙니다.</string>
+    <string name="error_not_duplication_checked_id">중복확인이 필요한 아이디입니다.</string>
 
     <!-- my constellation -->
     <string name="watch_constellation">별자리 운세 보기</string>
