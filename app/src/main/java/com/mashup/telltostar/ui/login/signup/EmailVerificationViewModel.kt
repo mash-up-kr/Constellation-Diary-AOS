@@ -40,6 +40,7 @@ class EmailVerificationViewModel {
     private val mIntervalObservable by lazy {
         getIntervalObservable()
     }
+    val shouldShowLoadingInteractionObservable = ObservableBoolean(false)
     val mVerifiedEmailObservable = ObservableField<String>()
     val isEmailPatternObservable = ObservableBoolean(true)
     val isEmailVerifiedObservable = ObservableBoolean(false)
@@ -55,6 +56,7 @@ class EmailVerificationViewModel {
         isEmailSend.postValue(false)
         isEmailSendObservable.set(false)
         isExistEmailLiveData.value = false
+        shouldShowLoadingInteractionObservable.set(false)
 
         if (isEmailPattern(inputEmail)) {
             isEmailPattern.postValue(true)
@@ -76,6 +78,7 @@ class EmailVerificationViewModel {
                         isEmailSend.postValue(true)
                         isEmailSendObservable.set(true)
                         isExistEmailLiveData.value = false
+                        shouldShowLoadingInteractionObservable.set(true)
 
                         startRemainTimeCheck()
                     }, {
@@ -100,6 +103,7 @@ class EmailVerificationViewModel {
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    shouldShowLoadingInteractionObservable.set(false)
                     mRemainTimeObservable.set(it)
                 }, {
 
