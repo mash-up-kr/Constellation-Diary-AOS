@@ -62,7 +62,7 @@ class MainPresenter(
 
     override fun editDiary() {
         if (diaryId > 0) {
-            view.showEditDiary(diaryId, horoscopeId)
+            view.showEditDiary(diaryId)
         } else {
             view.showWriteDiary(horoscopeId)
         }

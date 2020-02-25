@@ -40,6 +40,17 @@ class DiaryEditPresenter(
         }
     }
 
+    override fun loadHoroscopeDialog(type: DiaryEditActivity.DiaryType) {
+        when (type) {
+            DiaryEditActivity.DiaryType.WRITE -> {
+                view.showHoroscopeDialog(horoscopeId)
+            }
+            DiaryEditActivity.DiaryType.EDIT -> {
+                view.showHoroscopeDialog(diary.horoscopeId)
+            }
+        }
+    }
+
     override fun done(type: DiaryEditActivity.DiaryType, title: String, contents: String) {
         when (type) {
             DiaryEditActivity.DiaryType.WRITE -> {
@@ -49,7 +60,7 @@ class DiaryEditPresenter(
             }
             DiaryEditActivity.DiaryType.EDIT -> {
                 //update
-                editDiary(horoscopeId, title, contents)
+                editDiary(diary.horoscopeId, title, contents)
             }
         }
     }

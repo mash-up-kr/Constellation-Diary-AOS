@@ -189,12 +189,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
     }
 
-    override fun showEditDiary(diaryId: Int, horoscopeId: Int) {
+    override fun showEditDiary(diaryId: Int) {
         DiaryEditActivity.startDiaryEditActivity(
             this,
             REQUEST_DIARY_EDIT,
-            diaryId,
-            horoscopeId
+            diaryId
         )
     }
 

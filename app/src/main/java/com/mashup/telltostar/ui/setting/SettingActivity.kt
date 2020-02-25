@@ -65,7 +65,7 @@ class SettingActivity : AppCompatActivity() {
 
         rlSettingLogout.setOnClickListener {
             alert(message = "로그아웃 하실 건가요?") {
-                positiveButton("로그하웃") {
+                positiveButton("로그아웃") {
                     logout()
                 }
                 negativeButton("취소") {
@@ -188,12 +188,12 @@ class SettingActivity : AppCompatActivity() {
         }
 
         tvSettingHoroscopePush.text = TimeUtil.getAlarmFromTime(
-            TimeUtil.getPrefTimeFromUtcTime(
+            TimeUtil.getTimePlusNine(
                 PrefUtil.get(PrefUtil.HOROSCOPE_TIME, "")
             )
         )
         tvSettingQuestionPush.text = TimeUtil.getAlarmFromTime(
-            TimeUtil.getPrefTimeFromUtcTime(
+            TimeUtil.getTimePlusNine(
                 PrefUtil.get(PrefUtil.QUESTION_TIME, "")
             )
         )
@@ -251,6 +251,7 @@ class SettingActivity : AppCompatActivity() {
             .subscribe({
                 Timber.d("setHoroscopeTime : $it")
                 tvSettingHoroscopePush.text = alarm
+                PrefUtil.put(PrefUtil.HOROSCOPE_TIME, TimeUtil.getTimeMinusNine(time))
             }) {
                 Timber.e(it)
             }.also {
@@ -264,6 +265,7 @@ class SettingActivity : AppCompatActivity() {
             .subscribe({
                 Timber.d("setQuestionTime : $it")
                 tvSettingQuestionPush.text = alarm
+                PrefUtil.put(PrefUtil.QUESTION_TIME, TimeUtil.getTimeMinusNine(time))
             }) {
                 Timber.e(it)
             }.also {
