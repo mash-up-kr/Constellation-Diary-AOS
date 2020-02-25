@@ -3,6 +3,7 @@ package com.mashup.telltostar.ui.diarylist
 
 import android.view.View
 import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,7 @@ class DiaryListContentsViewHolder(view: View): RecyclerView.ViewHolder(view){
     val diaryDate : TextView = view.findViewById(R.id.diaryListDateTV) as TextView
     val diaryDay : TextView = view.findViewById(R.id.diaryListDayTV) as TextView
     val diaryTitle : TextView = view.findViewById(R.id.diaryListTitleTV) as TextView
-    val diarySelect : CheckBox = view.findViewById(R.id.diaryListSelectCB) as CheckBox
+    val diaryBox : LinearLayout = view.findViewById(R.id.diaryListItem) as LinearLayout
 
     fun bind(item: Temp_diary) {
         Timber.d(item.toString(),"")
@@ -31,25 +32,6 @@ class DiaryListContentsViewHolder(view: View): RecyclerView.ViewHolder(view){
 
         diaryTitle.text = content.title
 
-        checkClick()
-
-    }
-
-    fun changeVisible() {
-        if (diary.isVisible == true) {
-            diarySelect.visibility = View.VISIBLE
-        } else {
-            diarySelect.visibility = View.INVISIBLE
-        }
-    }
-//    fun changeClick(){
-//        diarySelect.isClickable = diary.isChecked
-//    }
-
-    fun checkClick() {
-        diarySelect.setOnCheckedChangeListener { buttonView, isChecked ->
-            diary.isChecked = isChecked
-        }
     }
 
     fun bindDate() {

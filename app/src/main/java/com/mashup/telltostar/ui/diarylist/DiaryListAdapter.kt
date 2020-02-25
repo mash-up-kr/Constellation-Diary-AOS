@@ -9,7 +9,7 @@ import timber.log.Timber
 
 class DiaryListAdapter: RecyclerView.Adapter<DiaryListContentsViewHolder>(){
     var dataList : List<SimpleDiary> = listOf()
-    private lateinit var checkNumListener : OnItemClickListener
+    private lateinit var clickListener : OnItemClickListener
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiaryListContentsViewHolder {
@@ -24,43 +24,12 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListContentsViewHolder>(){
         dataList[position].let {
             var diary = Temp_diary(it, false, false)
             holder.bind(diary)
-            holder.changeVisible()
-            holder.diarySelect.setOnCheckedChangeListener(null)
-            holder.diarySelect.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (position != RecyclerView.NO_POSITION) {
-                    if (checkNumListener != null) {
-                        checkNumListener.onItemClick(isChecked)
+            holder.diaryBox.setOnClickListener {
+                if(position != RecyclerView.NO_POSITION){
+                    if (clickListener != null) {
+                        clickListener.onItemClick(it.id) ;
                     }
                 }
-
-            }
-        }
-    }
-
-    override fun onBindViewHolder(holder: DiaryListContentsViewHolder, position: Int, payloads: MutableList<Any>) {
-        if (payloads.isEmpty()) {
-            super.onBindViewHolder(holder, position, payloads)
-        } else {
-            for (i in 1..(itemCount-1)) {
-                var check = payloads[0]
-                if (check is Boolean) {
-                    holder.diary.isVisible = check
-                    holder.changeVisible()
-                    if (check == false) {
-                        holder.diary.isChecked = false
-                        holder.diarySelect.isChecked = false
-                    }
-                }
-                if (check is String) {
-                    if (holder.diary.isChecked) {
-                    }
-                    if(check.equals("set")){
-                        var diary = Temp_diary(dataList[i],false,false)
-                        holder.bind(diary)
-
-                    }
-                }
-
             }
         }
     }
@@ -72,10 +41,10 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListContentsViewHolder>(){
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.checkNumListener = listener
+        this.clickListener = listener
     }
 
     interface OnItemClickListener {
-        fun onItemClick(isChecked: Boolean)
+        fun onItemClick(id : Int)
     }
 }

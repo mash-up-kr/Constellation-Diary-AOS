@@ -64,6 +64,7 @@ class DiaryListCalendarAdapter : RecyclerView.Adapter<DiaryListCalendarAdapter.D
                 }
             }
         }
+
     }
 
 

@@ -33,15 +33,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="11dp" />
 
-        <TextView
-            android:id="@+id/listDiarySelectTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="@string/select"
-            android:textColor="@color/black_two"
-            android:textSize="14sp" />
-
     </LinearLayout>
 
     <View

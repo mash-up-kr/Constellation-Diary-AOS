@@ -2,7 +2,9 @@ package com.mashup.telltostar.ui.diarylist
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,9 +19,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.SimpleDiary
+import com.mashup.telltostar.ui.diary.DiaryEditActivity
+import com.mashup.telltostar.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_diary_list.*
 import kotlinx.android.synthetic.main.fragment_diary_list.*
-import org.w3c.dom.Text
 import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -29,7 +32,6 @@ import kotlin.collections.ArrayList
 class DiaryListActivity : AppCompatActivity() {
     private val diaryListCalendarAdapter = DiaryListCalendarAdapter()
     private val diaryListAdapter = DiaryListAdapter()
-    private var checkedNum = 0
     private var data : List<SimpleDiary> = listOf()
     private var calendarData : ArrayList<DataCalendar> = arrayListOf()
     private val current = Calendar.getInstance()
@@ -44,17 +46,17 @@ class DiaryListActivity : AppCompatActivity() {
 
         listDiaryformatBtn.setImageResource(R.drawable.icon_today_24_px)
         listDiaryformatBtn.tag = "list"
-
+        //초기 셋팅
         initList()
         initCalendar()
+        dataLoad()
         changeFormat()
-
+        //날짜 선택
         setDatePicker()
-
+        //종료
         closeClick()
-//        changeClickData()
-//        changeDeleteText()
     }
+
     //전체 데이터 로드 (리스트 & 캘린더 공동사용 )
     @SuppressLint("CheckResult")
     @TargetApi(Build.VERSION_CODES.O)
@@ -77,19 +79,27 @@ class DiaryListActivity : AppCompatActivity() {
 
         Timber.d(data.toString(),"")
 
-//        diaryListAdapter.setData(data)
-//        setCalendarData(data)
-
         setDate()
 
         diaryListAdapter.notifyItemRangeChanged(0,diaryListAdapter.itemCount,"set")
     }
 
-    fun dataUpdate(){
-
+    fun diaryDetail(id : Int){
+        val diaryDate = Integer.parseInt(diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).text.toString())
+        DiaryEditActivity.startDiaryEditActivity(
+            this,
+            REQUEST_DIARY_EDIT,
+            id
+        )
     }
-    fun deleteDiary(){
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Timber.d("requestCode ; $requestCode , resultCode : $resultCode , data : $data")
+        if (requestCode == REQUEST_DIARY_EDIT) {
+            if (resultCode == Activity.RESULT_OK) {
+                dataLoad()
+            }
+        }
     }
 
     //달 선택
@@ -118,36 +128,32 @@ class DiaryListActivity : AppCompatActivity() {
         listDiaryList.adapter = this.diaryListAdapter
         listDiaryList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
+
         var diveder = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
         diveder.setDrawable(this.getDrawable(R.drawable.divider_diary_list))
         listDiaryList.addItemDecoration(diveder)
 
-        dataLoad()
+        //list기능
+        diaryListDetail()
     }
+
+    fun diaryListDetail(){
+        diaryListAdapter.setOnItemClickListener(object : DiaryListAdapter.OnItemClickListener{
+            override fun onItemClick(id: Int) {
+                diaryDetail(id)
+            }
+
+        })
+    }
+
     //캘린더
     fun initCalendar(){
         listDiaryCalendarRV.adapter = this.diaryListCalendarAdapter
         listDiaryCalendarRV.setLayoutManager(GridLayoutManager(this,7))
-        diaryListCalendarAdapter.setOnItemClickListener(object :DiaryListCalendarAdapter.OnItemClickListener {
-            override fun onDiarySet(view: View, diary: SimpleDiary) {
-                diaryListInclude.visibility = View.VISIBLE
-                setDiary(diary)
-            }
 
-            override fun onDiaryClear(view: View) {
-                diaryListInclude.visibility = View.INVISIBLE
-            }
-        })
-
-        diaryListInclude.setOnLongClickListener {
-            val diaryDate = Integer.parseInt(diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).text.toString())
-            val diaryId= calendarData[diaryDate].diary.id
-
-            true
-        }
-
-
-
+        // 기능
+        diaryCalendarDetail()
+        diaryCalendarItemVisible()
     }
     fun setCalendarData(diaryList : List<SimpleDiary>){
         val nullData = SimpleDiary(-1,"","")
@@ -214,30 +220,54 @@ class DiaryListActivity : AppCompatActivity() {
         }
         diaryListInclude.findViewById<TextView>(R.id.diaryListTitleTV).text = diary.title
     }
+    fun diaryCalendarItemVisible(){
+        diaryListCalendarAdapter.setOnItemClickListener(object :DiaryListCalendarAdapter.OnItemClickListener {
+            override fun onDiarySet(view: View, diary: SimpleDiary) {
+                diaryListInclude.visibility = View.VISIBLE
+                setDiary(diary)
+            }
+
+            override fun onDiaryClear(view: View) {
+                diaryListInclude.visibility = View.INVISIBLE
+            }
+        })
+    }
+    fun diaryCalendarDetail(){
+        val diaryDate = Integer.parseInt(diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).text.toString())
+        diaryListInclude.setOnClickListener{
+            diaryDetail(calendarData[diaryDate].diary.id)
+        }
+    }
+
+
+    fun deleteDiary(){
+//       diaryListInclude.setOnLongClickListener {
+//       }
+    }
 
 
     //메뉴 화면 변화
-    fun changeClickData(){
-        listDiarySelectTV.let{btn ->
-            btn.setOnClickListener {
-                diaryListAdapter.let { adapter ->
-                    if (btn.text.equals(getString(R.string.select))) {
-                        adapter.notifyItemRangeChanged(0, adapter.itemCount, true)
-                        btn.setText(getString(R.string.delete))
-                        val red = ContextCompat.getColor(this, R.color.grapefruit)
-                        btn.setTextColor(red)
-                    } else {
-                        adapter.notifyItemRangeChanged(0, adapter.itemCount, false)
-                        btn.setText(getString(R.string.select))
-                        val blackTwo = ContextCompat.getColor(this, R.color.black_two)
-                        btn.setTextColor(blackTwo)
-                        checkedNum = 0
-                    }
-                }
-            }
-        }
-        diaryListAdapter.notifyDataSetChanged()
-    }
+//    fun changeClickData(){
+//        listDiarySelectTV.let{btn ->
+//            btn.setOnClickListener {
+//                diaryListAdapter.let { adapter ->
+//                    if (btn.text.equals(getString(R.string.select))) {
+//                        adapter.notifyItemRangeChanged(0, adapter.itemCount, true)
+//                        btn.setText(getString(R.string.delete))
+//                        val red = ContextCompat.getColor(this, R.color.grapefruit)
+//                        btn.setTextColor(red)
+//                    } else {
+//                        adapter.notifyItemRangeChanged(0, adapter.itemCount, false)
+//                        btn.setText(getString(R.string.select))
+//                        val blackTwo = ContextCompat.getColor(this, R.color.black_two)
+//                        btn.setTextColor(blackTwo)
+//                        checkedNum = 0
+//                    }
+//                }
+//            }
+//        }
+//        diaryListAdapter.notifyDataSetChanged()
+//    }
     fun changeFormat(){
         listDiaryformatBtn.setOnClickListener {
             if(listDiaryformatBtn.tag.equals("list")) {//리스트 보여주고 있음
@@ -266,5 +296,10 @@ class DiaryListActivity : AppCompatActivity() {
 
             finish()
         }
+    }
+
+
+    companion object {
+        private const val REQUEST_DIARY_EDIT = 0x001
     }
 }
