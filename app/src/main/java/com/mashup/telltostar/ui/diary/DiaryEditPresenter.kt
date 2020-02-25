@@ -49,7 +49,7 @@ class DiaryEditPresenter(
             }
             DiaryEditActivity.DiaryType.EDIT -> {
                 //update
-                editDiary(horoscopeId, title, contents)
+                editDiary(diary.horoscopeId, title, contents)
             }
         }
     }

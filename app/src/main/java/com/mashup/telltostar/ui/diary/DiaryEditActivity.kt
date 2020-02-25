@@ -131,14 +131,12 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         fun startDiaryEditActivity(
             activity: Activity,
             requestCode: Int,
-            diaryId: Int,
-            horoscopeId: Int
+            diaryId: Int
         ) {
             activity.startActivityForResult(
                 Intent(activity, DiaryEditActivity::class.java).apply {
                     putExtra(EXTRA_DIARY_TYPE, DiaryType.EDIT)
                     putExtra(EXTRA_DIARY_ID, diaryId)
-                    putExtra(EXTRA_HOROSCOPE_ID, horoscopeId)
                 }
                 , requestCode
             )
