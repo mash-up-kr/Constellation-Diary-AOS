@@ -114,10 +114,8 @@ object TimeUtil {
 
     /**
      * 14:00 -> 23:00
-     *
-     * 화면상에 시간을 보여줄 떄에는 +9 시간을 해줘야 합니다.
      */
-    fun getPrefTimeFromUtcTime(time: String): String {
+    fun getTimePlusNine(time: String): String {
         val times = time.split(":")
 
         val hour = times[0].toInt()
@@ -132,6 +130,23 @@ object TimeUtil {
         return "$strHour:$minute"
     }
 
+    /**
+     * 23:00 -> 14:00
+     */
+    fun getTimeMinusNine(time: String): String {
+        val times = time.split(":")
+
+        val hour = times[0].toInt()
+        val minute = times[1].toInt()
+
+        val strHour = if (hour > 9) {
+            (hour - 9).toString()
+        } else {
+            (24 - 9 + hour).toString()
+        }
+
+        return "$strHour:$minute"
+    }
 
     /**
      *  14:00:00 -> 오후2:00
@@ -154,18 +169,18 @@ object TimeUtil {
             prefix = "오후 "
         }
 
+        val minute = times[1].toInt()
+
         val strHour = if (hour < 10) {
             "0$hour"
         } else {
-            hour.toString()
+            "$hour"
         }
-
-        val minute = times[1].toInt()
 
         val strMinute = if (minute < 10) {
             "0$minute"
         } else {
-            minute.toString()
+            "$minute"
         }
 
         totalDate.append(prefix)
