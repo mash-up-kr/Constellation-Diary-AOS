@@ -64,10 +64,8 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
 
         ivDiaryEditHoroscope.setOnClickListener {
             intent?.run {
-                val horoscopeId = getIntExtra(EXTRA_HOROSCOPE_ID, -1)
-                if (horoscopeId > 0) {
-                    showHoroscopeDialog(horoscopeId)
-                }
+                val type = intent.getSerializableExtra(EXTRA_DIARY_TYPE) as DiaryType
+                presenter.loadHoroscopeDialog(type)
             }
         }
     }
