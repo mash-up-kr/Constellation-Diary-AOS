@@ -21,13 +21,13 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListContentsViewHolder>(){
     override fun getItemCount(): Int = dataList.size
 
     override fun onBindViewHolder(holder: DiaryListContentsViewHolder, position: Int) {
-        dataList[position].let {
-            var diary = Temp_diary(it, false, false)
+        dataList[position].let {data ->
+            var diary = Temp_diary(data, false, false)
             holder.bind(diary)
             holder.diaryBox.setOnClickListener {
                 if(position != RecyclerView.NO_POSITION){
                     if (clickListener != null) {
-                        clickListener.onItemClick(it.id) ;
+                        clickListener.onItemClick(data.id) ;
                     }
                 }
             }

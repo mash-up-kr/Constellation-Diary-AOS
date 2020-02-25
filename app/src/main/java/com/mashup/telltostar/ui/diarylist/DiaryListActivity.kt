@@ -85,7 +85,6 @@ class DiaryListActivity : AppCompatActivity() {
     }
 
     fun diaryDetail(id : Int){
-        val diaryDate = Integer.parseInt(diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).text.toString())
         DiaryEditActivity.startDiaryEditActivity(
             this,
             REQUEST_DIARY_EDIT,
@@ -156,6 +155,7 @@ class DiaryListActivity : AppCompatActivity() {
         diaryCalendarItemVisible()
     }
     fun setCalendarData(diaryList : List<SimpleDiary>){
+        calendarData = arrayListOf()
         val nullData = SimpleDiary(-1,"","")
         current.set(Calendar.DAY_OF_MONTH,1)
 
@@ -233,9 +233,9 @@ class DiaryListActivity : AppCompatActivity() {
         })
     }
     fun diaryCalendarDetail(){
-        val diaryDate = Integer.parseInt(diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).text.toString())
         diaryListInclude.setOnClickListener{
-            diaryDetail(calendarData[diaryDate].diary.id)
+            val diaryDate = Integer.parseInt(diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).text.toString())
+            diaryDetail(calendarData[diaryDate].diary.id-1)
         }
     }
 
