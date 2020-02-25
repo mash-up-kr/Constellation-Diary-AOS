@@ -29,4 +29,7 @@ interface UserApi {
 
     @POST("/users/sign-out")
     fun signOut(@Header("Authorization") authorization: String): Single<Response<Void>>
+
+    @GET("/users/tokens")
+    fun tokens(@Header("Authorization") refreshToken: String): Single<Authentication.Tokens>
 }

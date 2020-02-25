@@ -25,47 +25,65 @@ class LoginViewModel {
     val isInputPasswordVisible = MutableLiveData<Boolean>(false)
     var mAuthenticationToken = ""
     var mRefreshToken = ""
+    var constellation = ""
+    var horoscopeAlarmFlag = true
+    var questionAlarmFlag = true
+    var horoscopeAlarmTime = ""
+    var questionAlarmTime = ""
+    private var mFcmToken: String? = null
+
     private val mCompositeData by lazy {
         CompositeDisposable()
     }
 
-    fun requestLogin(timeZone: String, fcmToken: String, id: String, password: String) {
+    fun requestLogin(timeZone: String, id: String, password: String) {
         isInputIdWarningTextViewVisible.postValue(id.isEmpty())
         isInputPasswordWarningTextViewVisible.postValue(password.isEmpty())
 
         if (id.isNotEmpty() && password.isNotEmpty()) {
-            mCompositeData.add(
-                ApiProvider
-                    .provideUserApi()
-                    .signIn(
-                        timeZone,
-                        ReqSignInDto(
-                            fcmToken,
-                            id,
-                            password
+            mFcmToken?.let { fcmToken ->
+                mCompositeData.add(
+                    ApiProvider
+                        .provideUserApi()
+                        .signIn(
+                            timeZone,
+                            ReqSignInDto(
+                                fcmToken,
+                                id,
+                                password
+                            )
                         )
-                    )
-                    .onErrorReturn {
-                        getConvertedErrorData(it)
-                    }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        if (it is ResUserInfoErrorDto) {
-                            when (it.error.code) {
-                                4104, 4105 -> {
-                                    showThenHideLoginErrorMessage()
-                                }
-                            }
-                        } else if (it is ResUserInfoDto) {
-                            mAuthenticationToken = it.tokens.authenticationToken
-                            mRefreshToken = it.tokens.refreshToken
-                            isLoggedIn.value = true
+                        .onErrorReturn {
+                            getConvertedErrorData(it)
                         }
-                    }, {
-                        isLoggedIn.value = false
-                    })
-            )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            if (it is ResUserInfoErrorDto) {
+                                when (it.error.code) {
+                                    4104, 4105 -> {
+                                        showThenHideLoginErrorMessage()
+                                    }
+                                }
+                            } else if (it is ResUserInfoDto) {
+                                mAuthenticationToken = it.tokens.authenticationToken
+                                mRefreshToken = it.tokens.refreshToken
+
+                                constellation = it.user.constellation
+
+                                horoscopeAlarmFlag = it.user.horoscopeAlarmFlag
+                                horoscopeAlarmTime = it.user.horoscopeTime
+
+                                questionAlarmFlag = it.user.questionAlarmFlag
+                                questionAlarmTime = it.user.questionTime
+
+                                isLoggedIn.value = true
+                            }
+                        }, {
+                            isLoggedIn.value = false
+                        })
+                )
+            }
         }
     }
 
@@ -96,6 +114,12 @@ class LoginViewModel {
 
                 })
         )
+    }
+
+    fun getFcmToken() = mFcmToken
+
+    fun setFcmToken(token: String?) {
+        mFcmToken = token
     }
 
     fun requestTogglePasswordVisibility() {

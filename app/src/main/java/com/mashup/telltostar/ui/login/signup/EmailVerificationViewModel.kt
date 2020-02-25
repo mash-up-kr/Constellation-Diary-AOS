@@ -4,6 +4,8 @@ import android.util.Patterns
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.mashup.telltostar.data.exception.Exception
+import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.remote.ApiProvider
 import com.mashup.telltostar.data.source.remote.request.ReqSignUpNumberDto
 import com.mashup.telltostar.data.source.remote.request.ReqValidationSignUpNumberDto
@@ -18,22 +20,27 @@ import java.util.concurrent.TimeUnit
  */
 
 /**
- * 이메일 인증 동작(인증 메일 받기 선택 후 남은 시간 표시)은 회원가입 화면을 벗어나더라도
- * 계속 시간이 흘러가야하며, 회원가입 화면으로 재진입 시에도 이전에 흐르기 시작한 시간을 그대로 보여줘야 하기 때문에
- * 이 부분을 처리할 ViewModel이 화면 진입 시마다 새로 만들어져서는 안된다.
- * 또한, 해당 ViewModel은 다른 화면에서 사용될 이유가 전혀 없기 때문에 Singleton으로 구현한다.
+ * 이 ViewModel의 객체는 SignUpFragment, EmailVerificationFragment, IdRegistrationFragment
+ * 3개의 fragment에서 동일한 하나의 객체를 참조해야 한다. 싱글턴으로 만들지 않는 이유는 회원가입 프로세스 진행 중에
+ * 사용자가 뒤로가기를 선택하거나 BottomSheet을 닫아 버리는 경우에 회원가입 프로세스가 처음부터 진행되어야 하는데,
+ * 이 ViewModel이 갖고있는 상태 멤버 field들이 초기화 되어야 하기 때문이다.
  */
-object EmailVerificationViewModel {
-    private const val TIMEOUT = 180L
+class EmailVerificationViewModel {
+    companion object {
+        private const val TIMEOUT = 180L
+    }
+
     val isEmailPattern = MutableLiveData<Boolean>()
     val isEmailSend = MutableLiveData<Boolean>(false)
     val isEmailVerified = MutableLiveData<Boolean>()
     val mInputVerificationNumber = MutableLiveData<String>()
     val isVerificationTimeoutLiveData = MutableLiveData<Boolean>(false)
+    val isExistEmailLiveData = MutableLiveData<Boolean>()
     private val mCompositeDisposable: CompositeDisposable = CompositeDisposable()
     private val mIntervalObservable by lazy {
         getIntervalObservable()
     }
+    val shouldShowLoadingInteractionObservable = ObservableBoolean(false)
     val mVerifiedEmailObservable = ObservableField<String>()
     val isEmailPatternObservable = ObservableBoolean(true)
     val isEmailVerifiedObservable = ObservableBoolean(false)
@@ -46,26 +53,16 @@ object EmailVerificationViewModel {
     fun requestVerificationNumber(inputEmail: String) {
         isVerificationTimeout = false
         isVerificationTimeoutWarningVisibleObservable.set(false)
+        isEmailSend.postValue(false)
+        isEmailSendObservable.set(false)
+        isExistEmailLiveData.value = false
+        shouldShowLoadingInteractionObservable.set(false)
 
         if (isEmailPattern(inputEmail)) {
             isEmailPattern.postValue(true)
             isEmailPatternObservable.set(true)
             clearDisposable()
 
-            mCompositeDisposable.add(
-                    mIntervalObservable
-                            .map {
-                                getConvertedTime(it)
-                            }
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
-                                mRemainTimeObservable.set(it)
-                            }, {
-
-                            }, {
-                                isVerificationTimeout = true
-                            })
-            )
             mCompositeDisposable.add(
                 ApiProvider
                     .provideAuthenticationNumberApi()
@@ -75,18 +72,45 @@ object EmailVerificationViewModel {
                         )
                     )
                     .subscribeOn(Schedulers.io())
+                    .composeError()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         isEmailSend.postValue(true)
                         isEmailSendObservable.set(true)
+                        isExistEmailLiveData.value = false
+                        shouldShowLoadingInteractionObservable.set(true)
+
+                        startRemainTimeCheck()
                     }, {
                         it.printStackTrace()
+
+                        if (it is Exception.ExistEmailException) {
+                            isExistEmailLiveData.value = true
+                        }
                     })
             )
         } else {
             isEmailPattern.postValue(false)
             isEmailPatternObservable.set(false)
         }
+    }
+
+    private fun startRemainTimeCheck() {
+        mCompositeDisposable.add(
+            mIntervalObservable
+                .map {
+                    getConvertedTime(it)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    shouldShowLoadingInteractionObservable.set(false)
+                    mRemainTimeObservable.set(it)
+                }, {
+
+                }, {
+                    isVerificationTimeout = true
+                })
+        )
     }
 
     private fun isEmailPattern(inputEmail: String) =

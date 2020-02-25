@@ -13,7 +13,7 @@ class AddHeaderInterceptor : Interceptor {
         proceed(
             request()
                 .newBuilder()
-                .addHeader("Authorization", testToken)
+                //.addHeader("Authorization", testToken)
                 .addHeader("Time-Zone", "KST")
                 .build()
         )

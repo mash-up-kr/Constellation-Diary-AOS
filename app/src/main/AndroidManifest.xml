@@ -45,7 +45,8 @@
             android:theme="@style/NoActionBarTheme"></activity>
         <activity
             android:name=".ui.main.MainActivity"
-            android:theme="@style/NoActionBarTheme">
+            android:launchMode="singleTask"
+            android:theme="@style/NoActionBarTheme" >
         </activity>
         <activity android:name=".ui.diary.DiaryEditActivity" />
         <activity android:name=".ui.setting.SettingActivity" />

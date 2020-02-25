@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.mashup.telltostar.R
-import com.mashup.telltostar.data.repository.SignRepoImpl
-import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.ui.myconstellation.adapter.ConstellationAdapter
+import com.mashup.telltostar.ui.starlist.StarListDetailActivity
 import com.mashup.telltostar.util.ConstellationUtil
 import com.mashup.telltostar.util.PrefUtil
 import com.yarolegovich.discretescrollview.DiscreteScrollView
@@ -25,9 +25,7 @@ class MyConstellationActivity : AppCompatActivity(),
     DiscreteScrollView.OnItemChangedListener<ConstellationAdapter.ConstellationViewHolder> {
 
     private val signRepository by lazy {
-        SignRepoImpl(
-            ApiProvider.provideUserApi()
-        )
+        Injection.provideSignRepo()
     }
 
     private val adapter by lazy {
@@ -69,15 +67,17 @@ class MyConstellationActivity : AppCompatActivity(),
 
     private fun initButton() {
         btnMyConstellationStart.setOnClickListener {
+            val realPosition = constellationAdapter.getRealPosition(customScrollView.currentItem)
+            val constellation = adapter.getConstellation(realPosition)
+
             when (type) {
                 Type.SIGNUP -> {
-                    val realPosition =
-                        constellationAdapter.getRealPosition(customScrollView.currentItem)
-                    signUp(adapter.getConstellation(realPosition))
+                    signUp(constellation)
                 }
                 Type.WATCH -> {
-                    //TODO 별자리 상세 화면 이동
-                    toast("별자리 상세 화면 이동")
+                    startActivity(Intent(this, StarListDetailActivity::class.java).apply {
+                        putExtra("name", constellation)
+                    })
                 }
             }
         }
@@ -110,22 +110,25 @@ class MyConstellationActivity : AppCompatActivity(),
         intent?.run {
             val id = getStringExtra(KEY_SIGN_UP_ID)
             val email = getStringExtra(KEY_SIGN_UP_EMAIL)
+            val fcmToken = getStringExtra(KEY_SIGN_UP_FCM_TOKEN)
             val password = getStringExtra(KEY_SIGN_UP_PASSWORD)
             val token = getStringExtra(KEY_SIGN_UP_TOKEN)
 
-            Timber.d("constellation : $constellation , id : $id , email : $email , password : $password , token : $token")
+            Timber.d("constellation : $constellation , id : $id , email : $email , fcmToken , : $fcmToken, password : $password , token : $token")
 
             signRepository.sighUp(
                 constellation = constellation,
                 email = email,
+                fcmToken = fcmToken,
                 password = password,
-                userId = id
+                userId = id,
+                token = token
             ).doOnSubscribe {
                 showLoading()
             }.doOnSuccess {
-                hideLopading()
+                hideLoading()
             }.doOnError {
-                hideLopading()
+                hideLoading()
             }.subscribe({
                 val authenticationToken = it.tokens.authenticationToken
                 val refreshToken = it.tokens.refreshToken
@@ -137,7 +140,8 @@ class MyConstellationActivity : AppCompatActivity(),
                 MainActivity.startMainActivity(this@MyConstellationActivity)
                 finish()
             }) {
-
+                Timber.e(it)
+                toast(it.message ?: "error")
             }
         }
     }
@@ -147,7 +151,7 @@ class MyConstellationActivity : AppCompatActivity(),
         btnMyConstellationStart.isEnabled = true
     }
 
-    private fun hideLopading() {
+    private fun hideLoading() {
         pbMyConstellationStart.visibility = View.GONE
         btnMyConstellationStart.isEnabled = false
     }
@@ -202,6 +206,7 @@ class MyConstellationActivity : AppCompatActivity(),
 
         private const val KEY_SIGN_UP_ID = "sign_up_id"
         private const val KEY_SIGN_UP_EMAIL = "sign_up_email"
+        private const val KEY_SIGN_UP_FCM_TOKEN = "sign_up_fcm_token"
         private const val KEY_SIGN_UP_PASSWORD = "sign_up_password"
         private const val KEY_SIGN_UP_TOKEN = "sign_up_token"
 
@@ -209,6 +214,7 @@ class MyConstellationActivity : AppCompatActivity(),
             context: Context,
             userId: String,
             email: String,
+            fcmToken: String,
             password: String,
             token: String
         ) {
@@ -217,6 +223,7 @@ class MyConstellationActivity : AppCompatActivity(),
                     putExtra(KEY_TYPE, Type.SIGNUP)
                     putExtra(KEY_SIGN_UP_ID, userId)
                     putExtra(KEY_SIGN_UP_EMAIL, email)
+                    putExtra(KEY_SIGN_UP_FCM_TOKEN, fcmToken)
                     putExtra(KEY_SIGN_UP_PASSWORD, password)
                     putExtra(KEY_SIGN_UP_TOKEN, token)
                 }

@@ -15,7 +15,7 @@ interface MainContract {
 
         fun showToast(message: String?)
 
-        fun showEditDiary(diaryId: Int, horoscopeId: Int)
+        fun showEditDiary(diaryId: Int)
 
         fun showWriteDiary(horoscopeId: Int)
 

@@ -37,7 +37,8 @@ object ApiProvider {
     fun provideDailyApi(): DailyApi = retrofit.build()
         .create(DailyApi::class.java)
 
-    fun provideUserChangeApi(): UserChangeApi = retrofit.build().create(UserChangeApi::class.java)
+    fun provideUserChangeApi(): UserChangeApi = retrofit.build()
+        .create(UserChangeApi::class.java)
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)

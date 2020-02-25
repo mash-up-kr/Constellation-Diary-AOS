@@ -1,7 +1,9 @@
 package com.mashup.telltostar.ui.main
 
+import com.mashup.telltostar.data.exception.Exception
 import com.mashup.telltostar.data.source.DailyQuestionRepository
 import com.mashup.telltostar.data.source.HoroscopeRepository
+import com.mashup.telltostar.data.source.UserRepository
 import com.mashup.telltostar.util.PrefUtil
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
@@ -10,6 +12,7 @@ class MainPresenter(
     private val view: MainContract.View,
     private val dailyRepository: DailyQuestionRepository,
     private val horoscopeRepository: HoroscopeRepository,
+    private val userRepository: UserRepository,
     private val compositeDisposable: CompositeDisposable
 ) : MainContract.Presenter {
 
@@ -17,7 +20,6 @@ class MainPresenter(
     private var horoscopeId = -1
 
     override fun loadDailyQuestion() {
-
         dailyRepository.get().subscribe({
             if (it.existDiary) {
                 view.showDiaryTitle(it.question)
@@ -26,8 +28,16 @@ class MainPresenter(
                 view.showQuestionTitle(it.question)
             }
         }) {
-            Timber.e(it)
-            view.showToast(it.message)
+            if (it is Exception.AuthenticationException) {
+                userRepository.refreshToken()
+                    .subscribe({
+                        loadDailyQuestion()
+                    }) {
+                        view.showToast(it.message)
+                    }
+            } else {
+                view.showToast(it.message)
+            }
         }.also {
             compositeDisposable.add(it)
         }
@@ -52,7 +62,7 @@ class MainPresenter(
 
     override fun editDiary() {
         if (diaryId > 0) {
-            view.showEditDiary(diaryId, horoscopeId)
+            view.showEditDiary(diaryId)
         } else {
             view.showWriteDiary(horoscopeId)
         }

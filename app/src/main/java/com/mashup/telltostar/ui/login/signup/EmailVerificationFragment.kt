@@ -19,9 +19,11 @@ import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentEmailVerificationBinding
 import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.util.VibratorUtil
+import kotlinx.android.synthetic.main.fragment_email_verification.*
 
 class EmailVerificationFragment(
-        private val mFragmentListener: LoginActivity.FragmentListener
+    private val mEmailVerificationViewModel: EmailVerificationViewModel,
+    private val mFragmentListener: LoginActivity.FragmentListener
 ) : Fragment() {
     private lateinit var mBinding: FragmentEmailVerificationBinding
     private val mEmailPatternChangeCallback = object : Observable.OnPropertyChangedCallback() {
@@ -62,7 +64,7 @@ class EmailVerificationFragment(
                 container,
                 false
         ).apply {
-            this.emailVerificationViewModel = EmailVerificationViewModel
+            this.emailVerificationViewModel = mEmailVerificationViewModel
         }
 
         setListeners()
@@ -73,10 +75,10 @@ class EmailVerificationFragment(
 
     private fun setListeners() {
         mBinding.verificationRequestButton.setOnClickListener {
-            EmailVerificationViewModel.requestVerificationNumber(mBinding.emailEditText.text.toString())
+            mEmailVerificationViewModel.requestVerificationNumber(mBinding.emailEditText.text.toString())
         }
         mBinding.verificationRequestAgainButton.setOnClickListener {
-            EmailVerificationViewModel.requestVerificationNumber(mBinding.emailEditText.text.toString())
+            mEmailVerificationViewModel.requestVerificationNumber(mBinding.emailEditText.text.toString())
         }
         mBinding.emailEditText.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
@@ -84,7 +86,7 @@ class EmailVerificationFragment(
             }
         }
         mBinding.verificationNumberEditText.addTextChangedListener {
-            EmailVerificationViewModel.mInputVerificationNumber.postValue(it.toString())
+            mEmailVerificationViewModel.mInputVerificationNumber.postValue(it.toString())
 
             it?.let { editable ->
                 activity?.let {
@@ -104,12 +106,25 @@ class EmailVerificationFragment(
     }
 
     private fun setViewModelObserver() {
-        with(EmailVerificationViewModel) {
+        with(mEmailVerificationViewModel) {
             isEmailPatternObservable.addOnPropertyChangedCallback(mEmailPatternChangeCallback)
             isEmailPattern.observe(this@EmailVerificationFragment, Observer { isEmailPattern ->
                 if (isEmailPattern.not()) {
                     context?.let {
                         VibratorUtil.vibrate(it)
+                    }
+                }
+            })
+            isExistEmailLiveData.observe(this@EmailVerificationFragment, Observer { isExist ->
+                context?.let { context ->
+                    if (isExist) {
+                        VibratorUtil.vibrate(context)
+                        existEmailWarningTextView.visibility = View.VISIBLE
+                        mBinding.emailEditText.backgroundTintList =
+                            ColorStateList.valueOf(ContextCompat.getColor(context, R.color.coral))
+                    } else {
+                        existEmailWarningTextView.visibility = View.GONE
+                        mBinding.emailEditText.backgroundTintList = null
                     }
                 }
             })

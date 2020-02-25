@@ -1,6 +1,5 @@
 package com.mashup.telltostar.ui.login.signup
 
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
@@ -23,7 +22,9 @@ import kotlinx.android.synthetic.main.fragment_id_registration.*
 import kotlinx.android.synthetic.main.fragment_id_registration.view.*
 import java.util.concurrent.TimeUnit
 
-class IdRegistrationFragment : Fragment() {
+class IdRegistrationFragment(
+    private val mEmailVerificationViewModel: EmailVerificationViewModel
+) : Fragment() {
 
     private lateinit var mRootView: View
     private val mCompositeDisposable by lazy {
@@ -125,6 +126,22 @@ class IdRegistrationFragment : Fragment() {
         })
 
         activity?.let { activity ->
+            IdRegistrationViewModel.shouldIdDuplicationCheck.observe(
+                this@IdRegistrationFragment,
+                Observer {
+                    clearIdInputWarning()
+
+                    if (it) {
+                        notDuplicationCheckedIdWarningTextView.visibility = View.VISIBLE
+                        mRootView.idEditText.backgroundTintList =
+                            ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.coral))
+
+                        VibratorUtil.vibrate(activity)
+                    } else {
+                        notDuplicationCheckedIdWarningTextView.visibility = View.GONE
+                        mRootView.idEditText.backgroundTintList = null
+                    }
+                })
             IdRegistrationViewModel.isInputIdWarningTextViewVisible.observe(
                 this,
                 Observer { isVisible ->
@@ -195,6 +212,8 @@ class IdRegistrationFragment : Fragment() {
             IdRegistrationViewModel.isTwoPasswordIdentical.observe(this, Observer { isIdentical ->
                 clearPasswordConfirmInputWarning()
 
+                timber.log.Timber.d("isTwoPasswordIdentical: $isIdentical")
+
                 mRootView.inputPasswordNotIdenticalWarningTextView.visibility =
                     if (isIdentical) View.GONE
                     else View.VISIBLE
@@ -208,25 +227,28 @@ class IdRegistrationFragment : Fragment() {
                 if (!isIdentical) {
                     vibrate()
                 } else {
-                    with(EmailVerificationViewModel) {
+                    with(mEmailVerificationViewModel) {
                         mToken?.let { token ->
-                            if (mToken.isNullOrEmpty().not()) {
-                                mVerifiedEmailObservable.get()?.let { userEmail ->
-                                    MyConstellationActivity.startMyConstellationForSignUp(
-                                        activity,
-                                        mRootView.idEditText.text.toString(),
-                                        userEmail,
-                                        mRootView.passwordEditText.text.toString(),
-                                        token
+                            IdRegistrationViewModel.getFcmToken()?.let { fcmToken ->
+                                if (mToken.isNullOrEmpty().not() && fcmToken.isNotEmpty()) {
+                                    mVerifiedEmailObservable.get()?.let { userEmail ->
+                                        MyConstellationActivity.startMyConstellationForSignUp(
+                                            activity,
+                                            mRootView.idEditText.text.toString(),
+                                            userEmail,
+                                            fcmToken,
+                                            mRootView.passwordEditText.text.toString(),
+                                            token
+                                        )
+                                    }
+
+                                    activity.overridePendingTransition(
+                                        R.anim.enter_from_right,
+                                        R.anim.exit_to_left
                                     )
+                                    activity.finish()
                                 }
                             }
-
-                            activity.overridePendingTransition(
-                                R.anim.enter_from_right,
-                                R.anim.exit_to_left
-                            )
-                            activity.finish()
                         }
                     }
                 }
@@ -313,6 +335,7 @@ class IdRegistrationFragment : Fragment() {
         mRootView.inputIdWarningTextView.visibility = View.GONE
         mRootView.availableIdTextView.visibility = View.GONE
         mRootView.duplicateIdWarningTextView.visibility = View.GONE
+        mRootView.notDuplicationCheckedIdWarningTextView.visibility = View.GONE
     }
 
     private fun clearPasswordConfirmInputWarning() {

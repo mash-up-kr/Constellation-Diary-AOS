@@ -10,17 +10,33 @@ import retrofit2.http.*
 interface DiaryApi {
 
     @GET("diaries")
-    fun getDiaries(@Query("month") month: Int, @Query("year") year: Int): Single<Diaries>
+    fun getDiaries(
+        @Header("Authorization") authorization: String,
+        @Query("month") month: Int, @Query("year") year: Int
+    ): Single<Diaries>
 
     @GET("diaries/{id}")
-    fun getDiary(@Path("id") diaryId: Int): Single<Diary>
+    fun getDiary(
+        @Header("Authorization") authorization: String,
+        @Path("id") diaryId: Int
+    ): Single<Diary>
 
     @POST("diaries")
-    fun postDiaries(@Body diaryDto: DiaryDto): Single<Response<Void>>
+    fun postDiaries(
+        @Header("Authorization") authorization: String,
+        @Body diaryDto: DiaryDto
+    ): Single<Response<Void>>
 
     @PATCH("diaries/{id}")
-    fun putDiary(@Path("id") diaryId: Int, @Body diaryDto: DiaryDto): Single<Any>
+    fun putDiary(
+        @Header("Authorization") authorization: String,
+        @Path("id") diaryId: Int,
+        @Body diaryDto: DiaryDto
+    ): Single<Any>
 
     @DELETE("diaries/{id}")
-    fun deleteDiary(@Path("id") diaryId: Int): Single<Response<Void>>
+    fun deleteDiary(
+        @Header("Authorization") authorization: String,
+        @Path("id") diaryId: Int
+    ): Single<Response<Void>>
 }

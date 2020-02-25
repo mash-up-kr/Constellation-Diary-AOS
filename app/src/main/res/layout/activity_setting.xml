@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="@string/setting_am_push_title"
+            android:text="@string/setting_horoscope_push_title"
             android:textColor="@color/black_two"
             android:textSize="18sp" />
 
@@ -127,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/setting_pm_push_title"
+            android:text="@string/setting_question_push_title"
             android:textColor="@color/black_two"
             android:textSize="18sp" />
 

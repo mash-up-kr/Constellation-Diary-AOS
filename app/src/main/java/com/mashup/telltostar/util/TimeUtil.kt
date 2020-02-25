@@ -27,7 +27,10 @@ object TimeUtil {
         }.format(date)
     }
 
-    fun getDateFromUTC(utcDate: String): String {  // 2020년 1월 22일 (요일)
+    /**
+     *  2020-1-22T15:45:58.222Z -> 2020년 1월 22일 (요일)
+     */
+    fun getDateFromUTC(utcDate: String): String {
 
         val totalDate = StringBuilder()
 
@@ -60,6 +63,138 @@ object TimeUtil {
         return totalDate.toString()
     }
 
+    /**
+     *  14:00:00 -> 2020-1-22T14:00:00.222Z
+     *
+     *  여기서 오는 time 은 한국 시간이므로 -9를 해서 utc로 변환해 줍니다.
+     */
+    fun getUTCFromTime(time: String): String {
+        val utc = TimeZone.getTimeZone("UTC")
+        //val time = TimeZone.getDefault()
+        val date = Date()
+
+        val times = time.split(":")
+
+        val hour = times[0].toInt()
+        val minute = times[1].toInt()
+
+        val utcTime = "${getUTCHour(hour)}:${getUTCMinute(minute)}:00"
+
+        // 2020-1-22T{time}.222Z
+        return SimpleDateFormat("yyyy-MM-dd'T'").apply {
+            timeZone = utc
+        }.format(date).plus("${utcTime}.0Z")
+    }
+
+    private fun getUTCHour(hour: Int): String {
+
+        var mHour = hour
+
+        if (mHour >= 9) {
+            mHour -= 9
+        } else {
+            mHour = 24 - (9 - mHour)
+        }
+
+        return if (mHour < 10) {
+            "0$mHour"
+        } else {
+            mHour.toString()
+        }
+    }
+
+    private fun getUTCMinute(minute: Int): String {
+
+        return if (minute < 10) {
+            "0$minute"
+        } else {
+            minute.toString()
+        }
+    }
+
+    /**
+     * 14:00 -> 23:00
+     */
+    fun getTimePlusNine(time: String): String {
+        val times = time.split(":")
+
+        val hour = times[0].toInt()
+        val minute = times[1].toInt()
+
+        val strHour = if (hour > 15) {
+            (hour + 9 - 24).toString()
+        } else {
+            (hour + 9).toString()
+        }
+
+        return "$strHour:$minute"
+    }
+
+    /**
+     * 23:00 -> 14:00
+     */
+    fun getTimeMinusNine(time: String): String {
+        val times = time.split(":")
+
+        val hour = times[0].toInt()
+        val minute = times[1].toInt()
+
+        val strHour = if (hour > 9) {
+            (hour - 9).toString()
+        } else {
+            (24 - 9 + hour).toString()
+        }
+
+        return "$strHour:$minute"
+    }
+
+    /**
+     *  14:00:00 -> 오후2:00
+     */
+    fun getAlarmFromTime(time: String): String {
+        val totalDate = StringBuilder()
+
+        val times = time.split(":")
+
+        if (times.isNullOrEmpty()) {
+            return ""
+        }
+
+        var prefix = "오전 "
+
+        var hour = times[0].toInt()
+
+        if (hour > 12) {
+            hour -= 12
+            prefix = "오후 "
+        }
+
+        val minute = times[1].toInt()
+
+        val strHour = if (hour < 10) {
+            "0$hour"
+        } else {
+            "$hour"
+        }
+
+        val strMinute = if (minute < 10) {
+            "0$minute"
+        } else {
+            "$minute"
+        }
+
+        totalDate.append(prefix)
+        totalDate.append(strHour)
+        totalDate.append(":")
+        totalDate.append(strMinute)
+
+        return totalDate.toString()
+    }
+
+    /**
+     *
+     */
+
     private fun dateValue(pos: Int) = when (pos) {
         0 -> "년"
         1 -> "월"
@@ -78,8 +213,4 @@ object TimeUtil {
         7 -> "토"
         else -> ""
     }
-
-    fun get(unixTime: Long) =
-        SimpleDateFormat("yyyy년 MM월 dd일 a hh시 mm분 ss초").format(Date(unixTime * 1000))
-
 }
