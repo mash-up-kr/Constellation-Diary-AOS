@@ -15,6 +15,10 @@ interface DiaryEditContract {
 
         fun finishWithResultOk()
 
+        fun showKeyboard()
+
+        fun hideKeyboard()
+
     }
 
     interface Presenter {

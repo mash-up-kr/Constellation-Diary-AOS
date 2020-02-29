@@ -8,6 +8,7 @@ import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.Diary
 import com.mashup.telltostar.ui.dialog.HoroscopeDialog
+import com.mashup.telltostar.util.AppUtil
 import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_diary_edit.*
@@ -77,6 +78,7 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
                     tvDiaryEditDate.text = TimeUtil.getDateFromUTC(
                         TimeUtil.getUTCDate()
                     )
+                    showKeyboard()
                 }
                 DiaryType.EDIT -> {
                     presenter.loadDiary()
@@ -104,6 +106,15 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
     override fun finishWithResultOk() {
         setResult(Activity.RESULT_OK)
         finish()
+    }
+
+    override fun showKeyboard() {
+        etDiaryEditTitle.requestFocus()
+        AppUtil.showKeyboard(etDiaryEditTitle)
+    }
+
+    override fun hideKeyboard() {
+        AppUtil.hideKeyboard(this)
     }
 
     enum class DiaryType {
