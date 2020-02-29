@@ -31,7 +31,11 @@
     <color name="lightish_blue">#4a5eff</color>
     <color name="red">#ff0000</color>
     <color name="kelly_green">#04b014</color>
+    <color name="very_light_pink_three">#bebebe</color>
+    <color name="very_light_pink_four">#e2e2e2</color>
+    <color name="dark">#1d2634</color>
     <color name="brownish_grey_three">#707070</color>
     <color name="dark_sky_blue_three">#4b95e8</color>
     <color name="dark_sky_blue_four">#4b95e9</color>
+    <color name="red_two">#e31100</color>
 </resources>

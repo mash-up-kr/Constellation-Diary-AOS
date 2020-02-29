@@ -1,9 +1,9 @@
 package com.mashup.telltostar.ui.diarylist
 
-data class Temp_diary(
-    val id: Int,
-    val title: String,
-    val date: String,
-    var isVisible: Boolean,
-    var isChecked: Boolean
+import com.mashup.telltostar.data.source.remote.response.SimpleDiary
+
+data class Temp_diary (
+    val diary : SimpleDiary,
+    var isVisible : Boolean,
+    var isChecked : Boolean
 )

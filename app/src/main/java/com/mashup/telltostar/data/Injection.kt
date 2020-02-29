@@ -15,6 +15,11 @@ object Injection {
         )
     }
 
+    fun privideDiariesRepo(): DiaryDataRepository {
+        val remote = ApiProvider.provideDiaryApi()
+        return DiaryRemoteDataSource(remote)
+    }
+
     fun provideHoroscopeRepo(): HoroscopeRepository {
         val remote = ApiProvider.provideHoroscopeApi()
         return HoroscopeRepoImpl(remote)
