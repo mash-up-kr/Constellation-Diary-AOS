@@ -9,7 +9,6 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -29,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_bottomsheet.*
 import kotlinx.android.synthetic.main.fragment_bottomsheet.view.*
 import kotlinx.android.synthetic.main.header.view.*
 import kotlinx.android.synthetic.main.main_contents.*
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.main_top_bar.*
 import org.jetbrains.anko.toast
 import timber.log.Timber
 
@@ -56,7 +55,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             compositeDisposable
         )
 
-        initToolbar()
         initBottomSheet()
         initButton()
         setConstellationTitle()
@@ -81,15 +79,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 presenter.loadHoroscope()
                 removeExtra(TYPE)
             }
-        }
-    }
-
-    private fun initToolbar() {
-        setSupportActionBar(toolbarMain as Toolbar)
-        supportActionBar?.let {
-            it.setDisplayShowCustomEnabled(true)
-            it.setDisplayShowTitleEnabled(false)
-            it.setDisplayHomeAsUpEnabled(true)
         }
     }
 
@@ -121,6 +110,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             closeBottomSheet()
         }
 
+        mainTopBarMenu.setOnClickListener {
+            showNavigationView()
+        }
+
+        mainTopBarDiaryList.setOnClickListener {
+            showDiaryList()
+        }
+
         with(navigationView.getHeaderView(0)) {
             constellationMenuTextView.setOnClickListener {
                 closeNavigationView()
@@ -137,6 +134,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
     }
 
+    private fun showNavigationView() {
+        drawerContainer.openDrawer(GravityCompat.START)
+    }
+
     private fun closeNavigationView() {
         drawerContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
@@ -150,7 +151,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private fun setConstellationTitle() {
         val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
 
-        toolbarImageView.setImageResource(
+        mainTopBarConstellation.setImageResource(
             ConstellationUtil.getIcon(resources, constellation)
         )
 

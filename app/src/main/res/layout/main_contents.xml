@@ -24,8 +24,8 @@
         tools:background="@drawable/bg_main">
 
         <include
-            android:id="@+id/toolbarMain"
-            layout="@layout/toolbar" />
+            android:id="@+id/mainTopBar"
+            layout="@layout/main_top_bar" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glMainContentsLeft"
@@ -53,7 +53,7 @@
             app:layout_constraintEnd_toStartOf="@+id/glMainContentsRight"
             app:layout_constraintStart_toEndOf="@+id/glMainContentsLeft"
             app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarMain"
+            app:layout_constraintTop_toBottomOf="@+id/mainTopBar"
             tools:text="오늘 하루\n어떠셨나요?" />
 
         <TextView
