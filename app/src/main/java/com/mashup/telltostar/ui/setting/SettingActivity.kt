@@ -79,9 +79,9 @@ class SettingActivity : AppCompatActivity() {
         }
         rlSettingDeveloper.setOnClickListener {
             alert(
-                message = "안드로이드 : 최민정, 이진성, 이해창\n" +
-                        "디자인 : 고은이, 이정은, 님궁욱\n" +
-                        "서버 : 이동근"
+                message = "<안드로이드 담당><\n최민정, 이진성, 이해창\n\n" +
+                        "<디자인 담당>\n고은이, 이정은, 남궁욱\n\n" +
+                        "<서버 담당>\n이동근"
             ) {
                 positiveButton("확인") {
 
