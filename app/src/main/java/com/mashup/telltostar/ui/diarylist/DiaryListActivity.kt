@@ -3,15 +3,19 @@ package com.mashup.telltostar.ui.diarylist
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Layout
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.DatePicker
-import android.widget.TextView
-import android.widget.Toast
+import android.view.ViewParent
+import android.view.WindowManager
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,8 +25,11 @@ import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.SimpleDiary
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import com.mashup.telltostar.ui.main.MainActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_diary_list.*
+import kotlinx.android.synthetic.main.dialog_delete_diary.view.*
 import kotlinx.android.synthetic.main.fragment_diary_list.*
+import org.w3c.dom.Text
 import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -69,7 +76,6 @@ class DiaryListActivity : AppCompatActivity() {
 
         diaryRepository.gets(currentMonth, currentYear)
             .subscribe({
-//                data = it.diaries
                 diaryListAdapter.setData(it.diaries)
                 setCalendarData(it.diaries)
             }){
@@ -78,10 +84,9 @@ class DiaryListActivity : AppCompatActivity() {
             }
 
         Timber.d(data.toString(),"")
+        diaryListInclude.visibility = View.INVISIBLE
 
         setDate()
-
-        diaryListAdapter.notifyItemRangeChanged(0,diaryListAdapter.itemCount,"set")
     }
 
     fun diaryDetail(id : Int){
@@ -91,6 +96,7 @@ class DiaryListActivity : AppCompatActivity() {
             id
         )
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Timber.d("requestCode ; $requestCode , resultCode : $resultCode , data : $data")
@@ -98,6 +104,39 @@ class DiaryListActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 dataLoad()
             }
+        }
+    }
+
+    fun diaryDelete(id : Int){
+        val dialogDelete = AlertDialog
+            .Builder(this@DiaryListActivity)
+            .create()
+        val dialogDeleteView = LayoutInflater
+            .from(this@DiaryListActivity)
+            .inflate(R.layout.dialog_delete_diary,null).apply{
+                this.diaryDeleteTV.setOnClickListener {
+                    diaryRepository.delete(id)
+                        .subscribe({
+                            dataLoad()
+                            dialogDelete.dismiss()
+                        }){
+                            var errorMsg = Toast.makeText(this@DiaryListActivity,"error",Toast.LENGTH_SHORT)
+                            errorMsg.show()
+                        }
+                }
+                this.setOnClickListener {
+                    dialogDelete.dismiss()
+                }
+            }
+
+        val windowParam = dialogDelete.window.attributes
+        windowParam.width = WindowManager.LayoutParams.WRAP_CONTENT
+        windowParam.height = WindowManager.LayoutParams.WRAP_CONTENT
+        dialogDelete.window.attributes = windowParam
+
+        dialogDelete.also {
+            it.setView(dialogDeleteView)
+            it.show()
         }
     }
 
@@ -134,6 +173,7 @@ class DiaryListActivity : AppCompatActivity() {
 
         //list기능
         diaryListDetail()
+        diaryListDelete()
     }
 
     fun diaryListDetail(){
@@ -145,6 +185,14 @@ class DiaryListActivity : AppCompatActivity() {
         })
     }
 
+    fun diaryListDelete(){
+        diaryListAdapter.setOnItemLongClickListener(object : DiaryListAdapter.OnItemLongClickListener{
+            override fun onItemLongClick(id: Int) {
+                diaryDelete(id)
+            }
+        })
+    }
+
     //캘린더
     fun initCalendar(){
         listDiaryCalendarRV.adapter = this.diaryListCalendarAdapter
@@ -153,7 +201,9 @@ class DiaryListActivity : AppCompatActivity() {
         // 기능
         diaryCalendarDetail()
         diaryCalendarItemVisible()
+        diaryCalendarDelete()
     }
+
     fun setCalendarData(diaryList : List<SimpleDiary>){
         calendarData = arrayListOf()
         val nullData = SimpleDiary(-1,"","")
@@ -173,6 +223,7 @@ class DiaryListActivity : AppCompatActivity() {
         }
         diaryListCalendarAdapter.setDay(calendarData,startPosition,lastDay)
     }
+
     fun utcToDay(utc : String) : Int{
         val utcFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.KOREA)
         utcFormatter.timeZone = TimeZone.getTimeZone("UTC")
@@ -188,6 +239,7 @@ class DiaryListActivity : AppCompatActivity() {
 
         return Integer.parseInt(localDateFormatter.format(gpsUTCDate?.time))-1
     }
+
     fun setDiary(diary : SimpleDiary){
         val utcFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.ss", Locale.KOREA)
         utcFormatter.timeZone = TimeZone.getTimeZone("UTC")
@@ -220,6 +272,7 @@ class DiaryListActivity : AppCompatActivity() {
         }
         diaryListInclude.findViewById<TextView>(R.id.diaryListTitleTV).text = diary.title
     }
+
     fun diaryCalendarItemVisible(){
         diaryListCalendarAdapter.setOnItemClickListener(object :DiaryListCalendarAdapter.OnItemClickListener {
             override fun onDiarySet(view: View, diary: SimpleDiary) {
@@ -232,42 +285,24 @@ class DiaryListActivity : AppCompatActivity() {
             }
         })
     }
+
     fun diaryCalendarDetail(){
         diaryListInclude.setOnClickListener{
-            val diaryDate = Integer.parseInt(diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).text.toString())
-            diaryDetail(calendarData[diaryDate].diary.id-1)
+            val diaryDate = Integer.parseInt(diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).text.toString())-1
+            diaryDetail(calendarData[diaryDate].diary.id)
         }
     }
 
+    fun diaryCalendarDelete(){
+        diaryListInclude.setOnLongClickListener {
+            val diaryDate = Integer.parseInt(diaryListInclude.findViewById<TextView>(R.id.diaryListDateTV).text.toString())-1
+            diaryDelete(calendarData[diaryDate].diary.id)
 
-    fun deleteDiary(){
-//       diaryListInclude.setOnLongClickListener {
-//       }
+            return@setOnLongClickListener true
+        }
     }
 
-
-    //메뉴 화면 변화
-//    fun changeClickData(){
-//        listDiarySelectTV.let{btn ->
-//            btn.setOnClickListener {
-//                diaryListAdapter.let { adapter ->
-//                    if (btn.text.equals(getString(R.string.select))) {
-//                        adapter.notifyItemRangeChanged(0, adapter.itemCount, true)
-//                        btn.setText(getString(R.string.delete))
-//                        val red = ContextCompat.getColor(this, R.color.grapefruit)
-//                        btn.setTextColor(red)
-//                    } else {
-//                        adapter.notifyItemRangeChanged(0, adapter.itemCount, false)
-//                        btn.setText(getString(R.string.select))
-//                        val blackTwo = ContextCompat.getColor(this, R.color.black_two)
-//                        btn.setTextColor(blackTwo)
-//                        checkedNum = 0
-//                    }
-//                }
-//            }
-//        }
-//        diaryListAdapter.notifyDataSetChanged()
-//    }
+    //choice date
     fun changeFormat(){
         listDiaryformatBtn.setOnClickListener {
             if(listDiaryformatBtn.tag.equals("list")) {//리스트 보여주고 있음
@@ -285,12 +320,15 @@ class DiaryListActivity : AppCompatActivity() {
 
         }
     }
+
     fun setDate(){
         val formatDate = SimpleDateFormat("yyyy'년 'MM'월'",Locale.getDefault())
         val date = formatDate.format(current.time)
         listDiaryDateTV.text = date
     }
 
+
+    //finish
     fun closeClick(){
         listDiaryCloseBtn.setOnClickListener{
 

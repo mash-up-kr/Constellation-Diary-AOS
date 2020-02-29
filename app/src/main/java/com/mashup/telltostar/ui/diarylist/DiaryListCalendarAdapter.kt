@@ -34,6 +34,7 @@ class DiaryListCalendarAdapter : RecyclerView.Adapter<DiaryListCalendarAdapter.D
     override fun onBindViewHolder(holder: DiaryListCalendarViewHolder, position: Int) {
         if(position > startPosition-1){
             holder.calendarDay.text = (position-startPosition+1).toString()
+            holder.calendarSelect.visibility = View.INVISIBLE
             if(stampList[position-startPosition].stamp){
                 holder.calendarStamp.visibility = View.VISIBLE
             }else{
@@ -44,6 +45,10 @@ class DiaryListCalendarAdapter : RecyclerView.Adapter<DiaryListCalendarAdapter.D
             }else{
                 holder.calendarSelect.visibility = View.INVISIBLE
             }
+        }else{
+            holder.calendarDay.text = ""
+            holder.calendarStamp.visibility = View.INVISIBLE
+            holder.calendarSelect.visibility = View.INVISIBLE
         }
         holder.calendarBox.setOnClickListener {
             if(position != RecyclerView.NO_POSITION){

@@ -10,6 +10,8 @@ import timber.log.Timber
 class DiaryListAdapter: RecyclerView.Adapter<DiaryListContentsViewHolder>(){
     var dataList : List<SimpleDiary> = listOf()
     private lateinit var clickListener : OnItemClickListener
+    private lateinit var longClickListener : OnItemLongClickListener
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiaryListContentsViewHolder {
@@ -27,9 +29,17 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListContentsViewHolder>(){
             holder.diaryBox.setOnClickListener {
                 if(position != RecyclerView.NO_POSITION){
                     if (clickListener != null) {
-                        clickListener.onItemClick(data.id) ;
+                        clickListener.onItemClick(data.id)
                     }
                 }
+            }
+            holder.diaryBox.setOnLongClickListener {
+                if(position != RecyclerView.NO_POSITION){
+                    if (longClickListener != null) {
+                        longClickListener.onItemLongClick(data.id)
+                    }
+                }
+                return@setOnLongClickListener true
             }
         }
     }
@@ -43,8 +53,14 @@ class DiaryListAdapter: RecyclerView.Adapter<DiaryListContentsViewHolder>(){
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.clickListener = listener
     }
+    fun setOnItemLongClickListener(listener: OnItemLongClickListener) {
+        this.longClickListener = listener
+    }
 
     interface OnItemClickListener {
         fun onItemClick(id : Int)
+    }
+    interface OnItemLongClickListener {
+        fun onItemLongClick(id : Int)
     }
 }
