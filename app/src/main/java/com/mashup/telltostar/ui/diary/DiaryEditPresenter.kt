@@ -72,7 +72,7 @@ class DiaryEditPresenter(
                 title = title,
                 content = contents
             ).subscribe({
-                view.finishWithResultOk()
+                view.finishWithResultOk(title)
             }) {
                 if (it is Exception.AuthenticationException) {
                     userRepository.refreshToken()
@@ -98,7 +98,7 @@ class DiaryEditPresenter(
                 title = title,
                 content = contents
             ).subscribe({
-                view.finishWithResultOk()
+                view.finishWithResultOk(title)
             }) {
                 if (it is Exception.AuthenticationException) {
                     userRepository.refreshToken()

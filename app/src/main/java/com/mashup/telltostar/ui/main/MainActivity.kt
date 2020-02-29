@@ -15,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.Horoscope
+import com.mashup.telltostar.eventbus.RxEventBusHelper
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import com.mashup.telltostar.ui.diarylist.DiaryListActivity
 import com.mashup.telltostar.ui.myconstellation.MyConstellationActivity
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         initBottomSheet()
         initButton()
+        initBus()
         setConstellationTitle()
 
         presenter.loadDailyQuestion()
@@ -131,6 +133,16 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 closeNavigationView()
                 showSetting()
             }
+        }
+    }
+
+    private fun initBus() {
+        RxEventBusHelper.diaryTitleBus.subscribe({
+            tvMainContentsTitle.text = it
+        }) {
+
+        }.also {
+            compositeDisposable.add(it)
         }
     }
 
@@ -229,10 +241,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Timber.d("requestCode ; $requestCode , resultCode : $resultCode , data : $data")
         if (requestCode == REQUEST_DIARY_EDIT) {
             if (resultCode == Activity.RESULT_OK) {
-                presenter.loadDailyQuestion()
+                //presenter.loadDailyQuestion()
             }
         }
     }

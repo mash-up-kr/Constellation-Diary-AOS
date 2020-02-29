@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.Diary
+import com.mashup.telltostar.eventbus.RxEventBusHelper
 import com.mashup.telltostar.ui.dialog.HoroscopeDialog
 import com.mashup.telltostar.util.AppUtil
 import com.mashup.telltostar.util.TimeUtil
@@ -124,7 +125,8 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         }
     }
 
-    override fun finishWithResultOk() {
+    override fun finishWithResultOk(title: String) {
+        RxEventBusHelper.sendDiaryTitle(title)
         setResult(Activity.RESULT_OK)
         finish()
     }
