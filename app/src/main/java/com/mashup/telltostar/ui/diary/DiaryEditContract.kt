@@ -13,7 +13,11 @@ interface DiaryEditContract {
 
         fun showToast(message: String?)
 
-        fun finishWithResultOk()
+        fun finishWithResultOk(title: String)
+
+        fun showKeyboard()
+
+        fun hideKeyboard()
 
     }
 
