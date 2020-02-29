@@ -3,12 +3,10 @@ package com.mashup.telltostar.data.repository
 import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.UserChangeRepository
 import com.mashup.telltostar.data.source.remote.api.UserChangeApi
-import com.mashup.telltostar.data.source.remote.request.ReqModifyHoroscopeAlarmDto
-import com.mashup.telltostar.data.source.remote.request.ReqModifyHoroscopeTimeDto
-import com.mashup.telltostar.data.source.remote.request.ReqModifyQuestionAlarmDto
-import com.mashup.telltostar.data.source.remote.request.ReqModifyQuestionTimeDto
+import com.mashup.telltostar.data.source.remote.request.*
 import com.mashup.telltostar.util.PrefUtil
 import com.mashup.telltostar.util.TimeUtil
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -49,6 +47,13 @@ class UserChangeRepoImpl(
         Timber.d("time : $time , date : $date")
 
         return userChangeApi.questionTime(authorization, ReqModifyQuestionTimeDto(date))
+            .composeError()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun setHoroscope(horoscope: String): Completable {
+        return userChangeApi.constellation(authorization, ReqModifyConstellationDto(horoscope))
             .composeError()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
