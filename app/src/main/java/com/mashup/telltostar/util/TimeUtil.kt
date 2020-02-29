@@ -75,6 +75,10 @@ object TimeUtil {
 
         val times = time.split(":")
 
+        if (times.isNullOrEmpty()) {
+            return ""
+        }
+
         val hour = times[0].toInt()
         val minute = times[1].toInt()
 
@@ -118,6 +122,10 @@ object TimeUtil {
     fun getTimePlusNine(time: String): String {
         val times = time.split(":")
 
+        if (times.isNullOrEmpty()) {
+            return ""
+        }
+
         val hour = times[0].toInt()
         val minute = times[1].toInt()
 
@@ -135,6 +143,10 @@ object TimeUtil {
      */
     fun getTimeMinusNine(time: String): String {
         val times = time.split(":")
+
+        if (times.isNullOrEmpty()) {
+            return ""
+        }
 
         val hour = times[0].toInt()
         val minute = times[1].toInt()
