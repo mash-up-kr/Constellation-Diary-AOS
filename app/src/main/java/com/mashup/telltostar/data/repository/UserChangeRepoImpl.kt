@@ -26,7 +26,7 @@ class UserChangeRepoImpl(
     }
 
     override fun setHoroscopeTime(time: String): Single<Any> {
-        val date = TimeUtil.getUTCFromTime(time)
+        val date = TimeUtil.getUTCTimeFromKSTTime(time)
         Timber.d("time : $time , date : $date")
 
         return userChangeApi.horoscopeTime(authorization, ReqModifyHoroscopeTimeDto(date))
@@ -43,7 +43,7 @@ class UserChangeRepoImpl(
     }
 
     override fun setQuestionTime(time: String): Single<Any> {
-        val date = TimeUtil.getUTCFromTime(time)
+        val date = TimeUtil.getUTCTimeFromKSTTime(time)
         Timber.d("time : $time , date : $date")
 
         return userChangeApi.questionTime(authorization, ReqModifyQuestionTimeDto(date))

@@ -18,7 +18,6 @@ object TimeUtil {
 
     fun getUTCDate(): String {
         val utc = TimeZone.getTimeZone("UTC")
-        //val time = TimeZone.getDefault()
         val date = Date()
 
         // 2020-1-22T15:45:58.222Z
@@ -27,14 +26,33 @@ object TimeUtil {
         }.format(date)
     }
 
+    fun getKSTDate(): String {
+        val kst = TimeZone.getTimeZone("KST")
+        val date = Date()
+
+        // 2020-1-22T15:45:58.222Z
+        return SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.0Z'").apply {
+            timeZone = kst
+        }.format(date)
+    }
+
     /**
-     *  2020-1-22T15:45:58.222Z -> 2020년 1월 22일 (요일)
+     *  2020-1-22T15:45:58.222Z + 9시간 -> 2020년 1월 22일 (요일)
      */
-    fun getDateFromUTC(utcDate: String): String {
+    fun getKSTDateFromUTCDate(utcDate: String): String {
+
+        val utcFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.KOREA)
+        utcFormatter.timeZone = TimeZone.getTimeZone("UTC")
+
+        val kstDate = utcFormatter.parse(utcDate)
+
+        val kstFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.KOREA)
+
+        val kstFormatterDate = kstFormatter.format(kstDate)
 
         val totalDate = StringBuilder()
 
-        val dates = utcDate.split("T").first().split("-")
+        val dates = kstFormatterDate.split("T").first().split("-")
 
         var year = ""
         var month = ""
@@ -53,7 +71,7 @@ object TimeUtil {
 
         val calendar = Calendar.getInstance().apply {
             set(Calendar.YEAR, year.toInt())
-            set(Calendar.MONTH, month.toInt())
+            set(Calendar.MONTH, month.toInt() - 1)
             set(Calendar.DATE, day.toInt())
         }
 
@@ -68,9 +86,9 @@ object TimeUtil {
      *
      *  여기서 오는 time 은 한국 시간이므로 -9를 해서 utc로 변환해 줍니다.
      */
-    fun getUTCFromTime(time: String): String {
+    fun getUTCTimeFromKSTTime(time: String): String {
         val utc = TimeZone.getTimeZone("UTC")
-        //val time = TimeZone.getDefault()
+
         val date = Date()
 
         val times = time.split(":")
@@ -117,7 +135,7 @@ object TimeUtil {
     }
 
     /**
-     * 14:00 -> 23:00
+     * 14:00 -> 23:00 : + 9시간
      */
     fun getTimePlusNine(time: String): String {
         val times = time.split(":")
@@ -139,7 +157,7 @@ object TimeUtil {
     }
 
     /**
-     * 23:00 -> 14:00
+     * 23:00 -> 14:00 : - 9시간
      */
     fun getTimeMinusNine(time: String): String {
         val times = time.split(":")
@@ -202,10 +220,6 @@ object TimeUtil {
 
         return totalDate.toString()
     }
-
-    /**
-     *
-     */
 
     private fun dateValue(pos: Int) = when (pos) {
         0 -> "년"
