@@ -58,8 +58,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         initToolbar()
         initBottomSheet()
-        initNavigationView()
         initButton()
+        setConstellationTitle()
 
         presenter.loadDailyQuestion()
         presenter.loadHoroscope()
@@ -76,8 +76,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             val type = getStringExtra(TYPE)
             Timber.d("type : $type")
             if (type == TYPE_RESTART) {
-                setTitle()
-                initNavigationView()
+                setConstellationTitle()
                 presenter.loadDailyQuestion()
                 presenter.loadHoroscope()
                 removeExtra(TYPE)
@@ -92,13 +91,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             it.setDisplayShowTitleEnabled(false)
             it.setDisplayHomeAsUpEnabled(true)
         }
-        setTitle()
-    }
-
-    private fun setTitle() {
-        toolbarImageView.setImageResource(
-            ConstellationUtil.getIcon(resources, PrefUtil.get(PrefUtil.CONSTELLATION, ""))
-        )
     }
 
     private fun initBottomSheet() {
@@ -118,24 +110,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 }
             }
         })
-
-
-        val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
-
-        with(llBottomSheetView) {
-            tvBottomSheetHoroscopeTitle.text = "$constellation 운세"
-            tvBottomSheetDate.text = TimeUtil.getDateFromUTC(TimeUtil.getUTCDate())
-        }
-
-    }
-
-    private fun initNavigationView() {
-        val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
-        with(navigationView.getHeaderView(0)) {
-            ivLogo.setImageResource(ConstellationUtil.getIconBlack(resources, constellation))
-            tvMyConstellation.text = constellation
-            tvConstellationDuration.text = ConstellationUtil.getDate(resources, constellation)
-        }
     }
 
     private fun initButton() {
@@ -170,6 +144,25 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private fun closeBottomSheet() {
         if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+    }
+
+    private fun setConstellationTitle() {
+        val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
+
+        toolbarImageView.setImageResource(
+            ConstellationUtil.getIcon(resources, constellation)
+        )
+
+        with(navigationView.getHeaderView(0)) {
+            ivLogo.setImageResource(ConstellationUtil.getIconBlack(resources, constellation))
+            tvMyConstellation.text = constellation
+            tvConstellationDuration.text = ConstellationUtil.getDate(resources, constellation)
+        }
+
+        with(llBottomSheetView) {
+            tvBottomSheetHoroscopeTitle.text = "$constellation 운세"
+            tvBottomSheetDate.text = TimeUtil.getKSTDateFromUTCDate(TimeUtil.getUTCDate())
         }
     }
 

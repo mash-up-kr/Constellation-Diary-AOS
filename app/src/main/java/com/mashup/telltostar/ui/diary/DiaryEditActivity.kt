@@ -3,6 +3,7 @@ package com.mashup.telltostar.ui.diary
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
@@ -35,6 +36,7 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
 
         initButton()
         initIntent()
+        initLimitLineTitle()
     }
 
     override fun onDestroy() {
@@ -75,7 +77,7 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         intent?.run {
             when (getSerializableExtra(EXTRA_DIARY_TYPE) as DiaryType) {
                 DiaryType.WRITE -> {
-                    tvDiaryEditDate.text = TimeUtil.getDateFromUTC(
+                    tvDiaryEditDate.text = TimeUtil.getKSTDateFromUTCDate(
                         TimeUtil.getUTCDate()
                     )
                     showKeyboard()
@@ -87,10 +89,29 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         }
     }
 
+    private fun initLimitLineTitle() {
+        etDiaryEditTitle.setOnEditorActionListener { v, _, _ ->
+            return@setOnEditorActionListener if (v.lineCount > 1) {
+                showToastWithoutOverlap("2줄까지만 작성해 주세요")
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private var toast: Toast? = null
+
+    private fun showToastWithoutOverlap(msg: String) {
+        toast?.cancel()
+        toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
+        toast?.show()
+    }
+
     override fun showDiary(diary: Diary) {
         etDiaryEditTitle.setText(diary.title)
         etDiaryEditContents.setText(diary.content)
-        tvDiaryEditDate.text = TimeUtil.getDateFromUTC(diary.date)
+        tvDiaryEditDate.text = TimeUtil.getKSTDateFromUTCDate(diary.date)
     }
 
     override fun showHoroscopeDialog(horoscopeId: Int) {
