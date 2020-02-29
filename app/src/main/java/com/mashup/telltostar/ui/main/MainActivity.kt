@@ -76,6 +76,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             val type = getStringExtra(TYPE)
             Timber.d("type : $type")
             if (type == TYPE_RESTART) {
+                setTitle()
+                initNavigationView()
                 presenter.loadDailyQuestion()
                 presenter.loadHoroscope()
                 removeExtra(TYPE)
@@ -90,6 +92,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             it.setDisplayShowTitleEnabled(false)
             it.setDisplayHomeAsUpEnabled(true)
         }
+        setTitle()
+    }
+
+    private fun setTitle() {
         toolbarImageView.setImageResource(
             ConstellationUtil.getIcon(resources, PrefUtil.get(PrefUtil.CONSTELLATION, ""))
         )
