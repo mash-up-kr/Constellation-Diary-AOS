@@ -1,26 +1,24 @@
 package com.mashup.telltostar.ui.starlist
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
-import com.mashup.telltostar.data.StarList
-import com.mashup.telltostar.data.source.HoroscopeRepository
-import com.mashup.telltostar.data.source.remote.ApiProvider
 import com.mashup.telltostar.data.source.remote.request.ReqModifyConstellationDto
 import com.mashup.telltostar.data.source.remote.response.Horoscope
+import com.mashup.telltostar.ui.main.MainActivity
+import com.mashup.telltostar.util.PrefUtil
 import kotlinx.android.synthetic.main.activity_star_list_detail.*
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.logging.SimpleFormatter
 
 class StarListDetailActivity : AppCompatActivity() {
     private lateinit var reqModifyConstellationDto : ReqModifyConstellationDto
     private lateinit var name : String
-    private var horoscopeRepository = Injection.provideHoroscopeRepo()
+    private val horoscopeRepository = Injection.provideHoroscopeRepo()
+    private val userChangeRepository = Injection.provideUserChangeRepo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +30,7 @@ class StarListDetailActivity : AppCompatActivity() {
 
         getHoroscope()
         btnBackClick()
-//        changeConstellation()
+        changeHoroscope()
     }
 
     fun bindActivity(horoscope: Horoscope){
@@ -68,20 +66,18 @@ class StarListDetailActivity : AppCompatActivity() {
             }
     }
 
-//    @SuppressLint("TimberArgCount")
-//    fun changeConstellation(){
-//        detailStarChangeStarBtn.setOnClickListener{
-//            ApiProvider
-//                .provideUserChangeApi()
-//                .constellation(
-//                    reqModifyConstellationDto
-//                )
-//                .subscribe({
-//                    Timber.d("succeed",name)
-//                   //TODO(이진성) CLICK THE BUTTON THAT MODIFY CONSTELLATION
-//                },{
-//                    Timber.d("$it.message",it.message)
-//                })
-//        }
-//    }
+    fun changeHoroscope(){
+
+        detailStarChangeStarBtn.setOnClickListener {
+            userChangeRepository.setHoroscope(name)
+                .subscribe({
+                    PrefUtil.put(PrefUtil.CONSTELLATION, name)
+                    MainActivity.startMainActivityRestart(this@StarListDetailActivity)
+                }){
+                    val errorMsg = Toast.makeText(this,it.toString(),Toast.LENGTH_SHORT)
+                    errorMsg.show()
+                }
+        }
+    }
+
 }
