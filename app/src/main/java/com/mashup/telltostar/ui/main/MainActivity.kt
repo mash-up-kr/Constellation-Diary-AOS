@@ -9,13 +9,13 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.Horoscope
+import com.mashup.telltostar.eventbus.RxEventBusHelper
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import com.mashup.telltostar.ui.diarylist.DiaryListActivity
 import com.mashup.telltostar.ui.myconstellation.MyConstellationActivity
@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_bottomsheet.*
 import kotlinx.android.synthetic.main.fragment_bottomsheet.view.*
 import kotlinx.android.synthetic.main.header.view.*
 import kotlinx.android.synthetic.main.main_contents.*
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.main_top_bar.*
 import org.jetbrains.anko.toast
 import timber.log.Timber
 
@@ -56,10 +56,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             compositeDisposable
         )
 
-        initToolbar()
         initBottomSheet()
-        initNavigationView()
         initButton()
+        initBus()
+        setConstellationTitle()
 
         presenter.loadDailyQuestion()
         presenter.loadHoroscope()
@@ -76,23 +76,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             val type = getStringExtra(TYPE)
             Timber.d("type : $type")
             if (type == TYPE_RESTART) {
+                setConstellationTitle()
                 presenter.loadDailyQuestion()
                 presenter.loadHoroscope()
                 removeExtra(TYPE)
             }
         }
-    }
-
-    private fun initToolbar() {
-        setSupportActionBar(toolbarMain as Toolbar)
-        supportActionBar?.let {
-            it.setDisplayShowCustomEnabled(true)
-            it.setDisplayShowTitleEnabled(false)
-            it.setDisplayHomeAsUpEnabled(true)
-        }
-        toolbarImageView.setImageResource(
-            ConstellationUtil.getIcon(resources, PrefUtil.get(PrefUtil.CONSTELLATION, ""))
-        )
     }
 
     private fun initBottomSheet() {
@@ -112,24 +101,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 }
             }
         })
-
-
-        val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
-
-        with(llBottomSheetView) {
-            tvBottomSheetHoroscopeTitle.text = "$constellation 운세"
-            tvBottomSheetDate.text = TimeUtil.getDateFromUTC(TimeUtil.getUTCDate())
-        }
-
-    }
-
-    private fun initNavigationView() {
-        val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
-        with(navigationView.getHeaderView(0)) {
-            ivLogo.setImageResource(ConstellationUtil.getIconBlack(resources, constellation))
-            tvMyConstellation.text = constellation
-            tvConstellationDuration.text = ConstellationUtil.getDate(resources, constellation)
-        }
     }
 
     private fun initButton() {
@@ -139,6 +110,14 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         btnBottomsheetEditDiary.setOnClickListener {
             presenter.editDiary()
             closeBottomSheet()
+        }
+
+        mainTopBarMenu.setOnClickListener {
+            showNavigationView()
+        }
+
+        mainTopBarDiaryList.setOnClickListener {
+            showDiaryList()
         }
 
         with(navigationView.getHeaderView(0)) {
@@ -157,6 +136,20 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
     }
 
+    private fun initBus() {
+        RxEventBusHelper.diaryTitleBus.subscribe({
+            tvMainContentsTitle.text = it
+        }) {
+
+        }.also {
+            compositeDisposable.add(it)
+        }
+    }
+
+    private fun showNavigationView() {
+        drawerContainer.openDrawer(GravityCompat.START)
+    }
+
     private fun closeNavigationView() {
         drawerContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
@@ -164,6 +157,25 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private fun closeBottomSheet() {
         if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+    }
+
+    private fun setConstellationTitle() {
+        val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
+
+        mainTopBarConstellation.setImageResource(
+            ConstellationUtil.getIcon(resources, constellation)
+        )
+
+        with(navigationView.getHeaderView(0)) {
+            ivLogo.setImageResource(ConstellationUtil.getIconBlack(resources, constellation))
+            tvMyConstellation.text = constellation
+            tvConstellationDuration.text = ConstellationUtil.getDate(resources, constellation)
+        }
+
+        with(llBottomSheetView) {
+            tvBottomSheetHoroscopeTitle.text = "$constellation 운세"
+            tvBottomSheetDate.text = TimeUtil.getKSTDateFromUTCDate(TimeUtil.getUTCDate())
         }
     }
 
@@ -229,10 +241,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Timber.d("requestCode ; $requestCode , resultCode : $resultCode , data : $data")
         if (requestCode == REQUEST_DIARY_EDIT) {
             if (resultCode == Activity.RESULT_OK) {
-                presenter.loadDailyQuestion()
+                //presenter.loadDailyQuestion()
             }
         }
     }

@@ -20,11 +20,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:background="@drawable/bg_main">
 
         <include
-            android:id="@+id/toolbarMain"
-            layout="@layout/toolbar" />
+            android:id="@+id/mainTopBar"
+            layout="@layout/main_top_bar" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glMainContentsLeft"
@@ -33,17 +34,26 @@
             android:orientation="vertical"
             app:layout_constraintGuide_begin="16dp" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glMainContentsRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
+
         <TextView
             android:id="@+id/tvMainContentsTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="34dp"
             android:letterSpacing="-0.02"
             android:lineSpacingExtra="9sp"
             android:textColor="#eaeaea"
             android:textSize="26sp"
+            app:layout_constraintEnd_toStartOf="@+id/glMainContentsRight"
             app:layout_constraintStart_toEndOf="@+id/glMainContentsLeft"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarMain"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toBottomOf="@+id/mainTopBar"
             tools:text="오늘 하루\n어떠셨나요?" />
 
         <TextView

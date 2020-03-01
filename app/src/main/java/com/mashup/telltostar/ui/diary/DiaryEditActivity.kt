@@ -3,11 +3,14 @@ package com.mashup.telltostar.ui.diary
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.Diary
+import com.mashup.telltostar.eventbus.RxEventBusHelper
 import com.mashup.telltostar.ui.dialog.HoroscopeDialog
+import com.mashup.telltostar.util.AppUtil
 import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_diary_edit.*
@@ -34,6 +37,7 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
 
         initButton()
         initIntent()
+        initLimitLineTitle()
     }
 
     override fun onDestroy() {
@@ -74,9 +78,10 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         intent?.run {
             when (getSerializableExtra(EXTRA_DIARY_TYPE) as DiaryType) {
                 DiaryType.WRITE -> {
-                    tvDiaryEditDate.text = TimeUtil.getDateFromUTC(
+                    tvDiaryEditDate.text = TimeUtil.getKSTDateFromUTCDate(
                         TimeUtil.getUTCDate()
                     )
+                    showKeyboard()
                 }
                 DiaryType.EDIT -> {
                     presenter.loadDiary()
@@ -85,10 +90,29 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         }
     }
 
+    private fun initLimitLineTitle() {
+        etDiaryEditTitle.setOnEditorActionListener { v, _, _ ->
+            return@setOnEditorActionListener if (v.lineCount > 1) {
+                showToastWithoutOverlap("2줄까지만 작성해 주세요")
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private var toast: Toast? = null
+
+    private fun showToastWithoutOverlap(msg: String) {
+        toast?.cancel()
+        toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
+        toast?.show()
+    }
+
     override fun showDiary(diary: Diary) {
         etDiaryEditTitle.setText(diary.title)
         etDiaryEditContents.setText(diary.content)
-        tvDiaryEditDate.text = TimeUtil.getDateFromUTC(diary.date)
+        tvDiaryEditDate.text = TimeUtil.getKSTDateFromUTCDate(diary.date)
     }
 
     override fun showHoroscopeDialog(horoscopeId: Int) {
@@ -101,9 +125,19 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         }
     }
 
-    override fun finishWithResultOk() {
+    override fun finishWithResultOk(title: String) {
+        RxEventBusHelper.sendDiaryTitle(title)
         setResult(Activity.RESULT_OK)
         finish()
+    }
+
+    override fun showKeyboard() {
+        etDiaryEditTitle.requestFocus()
+        AppUtil.showKeyboard(etDiaryEditTitle)
+    }
+
+    override fun hideKeyboard() {
+        AppUtil.hideKeyboard(this)
     }
 
     enum class DiaryType {
