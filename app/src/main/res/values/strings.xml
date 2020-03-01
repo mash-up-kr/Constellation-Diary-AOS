@@ -167,7 +167,19 @@
     <string name="sun">일</string>
     <string name="delete_diary">일기를 삭제하시겠습니다?</string>
 
-
+    <!--    SelectMonth-->
+    <string name="jan">1월</string>
+    <string name="feb">2월</string>
+    <string name="mar">3월</string>
+    <string name="Apr">4월</string>
+    <string name="may">5월</string>
+    <string name="jun">6월</string>
+    <string name="jul">7월</string>
+    <string name="aug">8월</string>
+    <string name="sep">9월</string>
+    <string name="oct">10월</string>
+    <string name="nov">11월</string>
+    <string name="dec">12월</string>
 
     <!-- Setting -->
     <string name="setting_horoscope_push_title">운세 알림</string>

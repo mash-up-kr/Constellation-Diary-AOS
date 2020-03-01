@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/diaryListYearTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:gravity="center"
+        android:textSize="22.5sp"
+        android:textColor="@color/navy_two"/>
+
+    <GridLayout
+        android:id="@+id/diaryListSelectMonthGL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:columnCount="3"
+        android:rowCount="4"
+        android:gravity="fill_horizontal">
+
+        <include
+            android:id="@+id/diaryListJan"
+            layout="@layout/fragment_diary_list_month"/>
+        <include
+            android:id="@+id/diaryListFeb"
+            layout="@layout/fragment_diary_list_month"/>
+        <include
+            android:id="@+id/diaryListMar"
+            layout="@layout/fragment_diary_list_month"/>
+
+        <include
+            android:id="@+id/diaryListApr"
+            layout="@layout/fragment_diary_list_month"/>
+        <include
+            android:id="@+id/diaryListMay"
+            layout="@layout/fragment_diary_list_month"/>
+        <include
+            android:id="@+id/diaryListJun"
+            layout="@layout/fragment_diary_list_month"/>
+
+        <include
+            android:id="@+id/diaryListJul"
+            layout="@layout/fragment_diary_list_month"/>
+        <include
+            android:id="@+id/diaryListAug"
+            layout="@layout/fragment_diary_list_month"/>
+        <include
+            android:id="@+id/diaryListSep"
+            layout="@layout/fragment_diary_list_month"/>
+
+        <include
+            android:id="@+id/diaryListOct"
+            layout="@layout/fragment_diary_list_month"/>
+        <include
+            android:id="@+id/diaryListNov"
+            layout="@layout/fragment_diary_list_month"/>
+        <include
+            android:id="@+id/diaryListDec"
+            layout="@layout/fragment_diary_list_month"/>
+
+        <include
+            android:id="@+id/diaryListJan"
+            layout="@layout/fragment_diary_list_month"/>
+        <include
+            android:id="@+id/diaryListJan"
+            layout="@layout/fragment_diary_list_month"/>
+        <include
+            android:id="@+id/diaryListJan"
+            layout="@layout/fragment_diary_list_month"/>
+
+    </GridLayout>
+
+</LinearLayout>

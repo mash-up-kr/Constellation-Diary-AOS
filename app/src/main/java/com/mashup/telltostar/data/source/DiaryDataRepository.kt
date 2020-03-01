@@ -2,6 +2,8 @@ package com.mashup.telltostar.data.source
 
 import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
+import com.mashup.telltostar.data.source.remote.response.DiaryCount
+import com.mashup.telltostar.data.source.remote.response.ResCountYearDiaryDto
 import io.reactivex.Single
 import retrofit2.Response
 
@@ -16,5 +18,7 @@ interface DiaryDataRepository {
     fun update(id: Int, horoscopeId: Int, title: String, content: String): Single<Any>
 
     fun delete(id: Int): Single<Response<Void>>
+
+    fun count(year: Int) : Single<DiaryCount>
 
 }

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="73.5dp"
+    android:layout_width="match_parent"
     android:layout_height="30dp"
     android:layout_marginTop="8.75dp"
     android:gravity="center">
 
     <TextView
+        android:id="@+id/diaryListMonthTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="21dp"
         android:textColor="@color/black"
         android:textSize="15sp"/>
     <TextView
+        android:id="@+id/diaryListCountTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/brownish_grey_two"

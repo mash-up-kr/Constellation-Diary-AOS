@@ -4,42 +4,38 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.DatePickerDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewParent
-import android.view.WindowManager
-import android.widget.*
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
+import com.mashup.telltostar.data.source.remote.response.DiaryCount
 import com.mashup.telltostar.data.source.remote.response.SimpleDiary
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
-import com.mashup.telltostar.ui.main.MainActivity
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_diary_list.*
+import kotlinx.android.synthetic.main.dialog_date_picker.view.*
 import kotlinx.android.synthetic.main.dialog_delete_diary.view.*
 import kotlinx.android.synthetic.main.fragment_diary_list.*
-import org.w3c.dom.Text
 import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class DiaryListActivity : AppCompatActivity() {
     private val diaryListCalendarAdapter = DiaryListCalendarAdapter()
     private val diaryListAdapter = DiaryListAdapter()
+    private val diaryListSelectMonthAdapter = DiaryListSelectMonthAdapter()
     private var data : List<SimpleDiary> = listOf()
+    private var countData : ArrayList<DiaryCount> = arrayListOf()
     private var calendarData : ArrayList<DataCalendar> = arrayListOf()
     private val current = Calendar.getInstance()
 
@@ -58,10 +54,12 @@ class DiaryListActivity : AppCompatActivity() {
         initCalendar()
         dataLoad()
         changeFormat()
-        //날짜 선택
-        setDatePicker()
         //종료
         closeClick()
+
+        listDiaryDateTV.setOnClickListener {
+            setDatePicker()
+        }
     }
 
     //전체 데이터 로드 (리스트 & 캘린더 공동사용 )
@@ -128,11 +126,11 @@ class DiaryListActivity : AppCompatActivity() {
                     dialogDelete.dismiss()
                 }
             }
-
-        val windowParam = dialogDelete.window.attributes
-        windowParam.width = WindowManager.LayoutParams.WRAP_CONTENT
-        windowParam.height = WindowManager.LayoutParams.WRAP_CONTENT
-        dialogDelete.window.attributes = windowParam
+//
+//        val windowParam = dialogDelete.window.attributes
+//        windowParam.width = WindowManager.LayoutParams.WRAP_CONTENT
+//        windowParam.height = WindowManager.LayoutParams.WRAP_CONTENT
+//        dialogDelete.window.attributes = windowParam
 
         dialogDelete.also {
             it.setView(dialogDeleteView)
@@ -140,24 +138,89 @@ class DiaryListActivity : AppCompatActivity() {
         }
     }
 
-    //달 선택
+    @SuppressLint("TimberArgCount")
     fun setDatePicker(){
-        val dateSetListener = object : DatePickerDialog.OnDateSetListener {
-            override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-                current.set(Calendar.YEAR,year)
-                current.set(Calendar.MONTH,month)
-                setDate()
-                dataLoad()
+        val now = current.get(Calendar.YEAR)
+        val dialogSelect = AlertDialog
+            .Builder(this@DiaryListActivity)
+            .create()
+        val dialogSelectView = LayoutInflater
+            .from(this@DiaryListActivity)
+            .inflate(R.layout.dialog_date_picker,null).apply {
+                this.numberPickerYear.minValue = now - 2
+                this.numberPickerYear.maxValue = now + 2
+                this.numberPickeMonth.minValue = 1
+                this.numberPickeMonth.maxValue = 12
+
+                this.selectBtn.setOnClickListener {
+                    Timber.d("${this.numberPickeMonth.value}", "")
+                    current.set(Calendar.YEAR, this.numberPickerYear.value)
+                    current.set(Calendar.MONTH, this.numberPickeMonth.value - 1)
+                    dataLoad()
+                    dialogSelect.dismiss()
+                }
+                this.cancelBtn.setOnClickListener {
+                    dialogSelect.dismiss()
+                }
             }
-        }
-        listDiaryDateTV.setOnClickListener {
-            DatePickerDialog(this@DiaryListActivity,dateSetListener,
-                current.get(Calendar.YEAR),
-                current.get(Calendar.MONTH),
-                current.get(Calendar.DAY_OF_MONTH)).show()
+
+        dialogSelect.also {
+            it.setView(dialogSelectView)
+            it.show()
         }
 
     }
+
+    //달 선택
+//    fun setDatePicker(){
+//        val dialogSelect = AlertDialog
+//            .Builder(this@DiaryListActivity)
+//            .create()
+//
+//        this@DiaryListActivity.countData.isEmpty()
+//
+//        val dialogSelectView = LayoutInflater
+//            .from(this@DiaryListActivity)
+//            .inflate(R.layout.dialog_select_month,null).apply{
+//                this.diaryListSelectRV.let{
+//                    it.adapter = this@DiaryListActivity.diaryListSelectMonthAdapter
+//                    it.layoutManager = LinearLayoutManager(this@DiaryListActivity, LinearLayoutManager.VERTICAL, false)
+////                    this@DiaryListActivity.countLoad(current.get(Calendar.YEAR))
+//                    for(i in current.get(Calendar.YEAR) .. current.get(Calendar.YEAR)+2){
+//                        diaryRepository.count(i)
+//                            .subscribe({
+//                                countData.add(it)
+//                                Timber.d(it.toString(),"")
+//                            }){
+//                                var errorMsg = Toast.makeText(this@DiaryListActivity,"CountError",Toast.LENGTH_SHORT)
+//                                errorMsg.show()
+//                            }
+//                    }
+//                    diaryListSelectMonthAdapter.setData(countData)
+//                }
+//            }
+//
+//        dialogSelect.also {
+//            it.setView(dialogSelectView)
+//            it.show()
+//        }
+//    }
+
+//    @SuppressLint("CheckResult")
+//    fun countLoad(year : Int){
+//        for(i in year+2 until year-2){
+//            diaryRepository.count(i)
+//                .subscribe({
+//                    countData.add(it)
+//                    Timber.d(it.toString(),"")
+//                }){
+//                    var errorMsg = Toast.makeText(this@DiaryListActivity,"CountError",Toast.LENGTH_SHORT)
+//                    errorMsg.show()
+//                }
+//        }
+//
+//        diaryListSelectMonthAdapter.setData(countData)
+//    }
 
 
 
@@ -165,11 +228,6 @@ class DiaryListActivity : AppCompatActivity() {
     fun initList(){//listAdapter
         listDiaryList.adapter = this.diaryListAdapter
         listDiaryList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-
-        var diveder = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
-        diveder.setDrawable(this.getDrawable(R.drawable.divider_diary_list))
-        listDiaryList.addItemDecoration(diveder)
 
         //list기능
         diaryListDetail()
