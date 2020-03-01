@@ -5,6 +5,8 @@ import com.mashup.telltostar.data.source.remote.api.DiaryApi
 import com.mashup.telltostar.data.source.remote.request.DiaryDto
 import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
+import com.mashup.telltostar.data.source.remote.response.DiaryCount
+import com.mashup.telltostar.data.source.remote.response.ResCountYearDiaryDto
 import com.mashup.telltostar.util.PrefUtil
 import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.Single
@@ -63,5 +65,9 @@ class DiaryRemoteDataSource(
 
     override fun delete(id: Int): Single<Response<Void>> {
         return diaryApi.deleteDiary(authorization, id)
+    }
+
+    override fun count(year: Int): Single<DiaryCount> {
+        return diaryApi.getCount(authorization,"KST",year)
     }
 }

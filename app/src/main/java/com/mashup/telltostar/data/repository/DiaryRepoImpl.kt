@@ -4,6 +4,8 @@ import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.DiaryDataRepository
 import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
+import com.mashup.telltostar.data.source.remote.response.DiaryCount
+import com.mashup.telltostar.data.source.remote.response.ResCountYearDiaryDto
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -51,6 +53,13 @@ class DiaryRepoImpl(
 
     override fun delete(id: Int): Single<Response<Void>> {
         return dataSource.delete(id)
+            .composeError()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun count(year: Int): Single<DiaryCount> {
+        return dataSource.count(year)
             .composeError()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

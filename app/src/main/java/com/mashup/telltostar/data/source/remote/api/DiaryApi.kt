@@ -3,6 +3,8 @@ package com.mashup.telltostar.data.source.remote.api
 import com.mashup.telltostar.data.source.remote.request.DiaryDto
 import com.mashup.telltostar.data.source.remote.response.Diaries
 import com.mashup.telltostar.data.source.remote.response.Diary
+import com.mashup.telltostar.data.source.remote.response.DiaryCount
+import com.mashup.telltostar.data.source.remote.response.ResCountYearDiaryDto
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.*
@@ -39,4 +41,11 @@ interface DiaryApi {
         @Header("Authorization") authorization: String,
         @Path("id") diaryId: Int
     ): Single<Response<Void>>
+
+    @GET("diaries/count")
+    fun getCount(
+        @Header("Authorization") authorization: String,
+        @Header("Time-Zone") timeZone: String,
+        @Query("year") year: Int
+    ): Single<DiaryCount>
 }
