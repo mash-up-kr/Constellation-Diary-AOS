@@ -79,7 +79,7 @@ class SettingActivity : AppCompatActivity() {
         }
         rlSettingDeveloper.setOnClickListener {
             alert(
-                message = "<안드로이드 담당><\n최민정, 이진성, 이해창\n\n" +
+                message = "<안드로이드 담당>\n최민정, 이진성, 이해창\n\n" +
                         "<디자인 담당>\n고은이, 이정은, 남궁욱\n\n" +
                         "<서버 담당>\n이동근"
             ) {

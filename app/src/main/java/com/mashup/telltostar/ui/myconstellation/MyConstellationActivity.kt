@@ -81,6 +81,10 @@ class MyConstellationActivity : AppCompatActivity(),
                 }
             }
         }
+
+        ivMyConstellationClose.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun initCustomView() {
