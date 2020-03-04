@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.mashup.telltostar.R
+import com.mashup.telltostar.di.DaggerSplashComponent
 import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.ui.main.MainActivity
 import io.reactivex.Observable
@@ -12,16 +13,20 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class SplashActivity : AppCompatActivity() {
     companion object {
         private const val TIME_LIMIT = 2L
     }
 
+    @Inject
+    lateinit var mTokenCheckViewModel: TokenCheckViewModel
     private val mCompositeDisposable = CompositeDisposable()
     private var isTimeCountFinish = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        DaggerSplashComponent.builder().build().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         setViewModelObserver()
@@ -31,11 +36,11 @@ class SplashActivity : AppCompatActivity() {
         super.onResume()
 
         startCount()
-        TokenCheckViewModel.requestAuthenticationTokenAvailability()
+        mTokenCheckViewModel.requestAuthenticationTokenAvailability()
     }
 
     private fun setViewModelObserver() {
-        with(TokenCheckViewModel) {
+        with(mTokenCheckViewModel) {
             shouldStartLogin.observe(this@SplashActivity, Observer {
                 if (shouldStartLoginActivity()) {
                     startLoginActivity()
@@ -72,12 +77,12 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun shouldStartLoginActivity() =
-        TokenCheckViewModel.shouldStartLogin.value?.let {
+        mTokenCheckViewModel.shouldStartLogin.value?.let {
             it && isTimeCountFinish
         } ?: false
 
     private fun shouldStartMainActivity() =
-        TokenCheckViewModel.shouldStartMain.value?.let {
+        mTokenCheckViewModel.shouldStartMain.value?.let {
             it && isTimeCountFinish
         } ?: false
 
@@ -97,7 +102,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         mCompositeDisposable.clear()
-        TokenCheckViewModel.clearDisposable()
+        mTokenCheckViewModel.clearDisposable()
 
         super.onDestroy()
     }

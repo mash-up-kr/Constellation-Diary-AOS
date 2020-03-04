@@ -1,7 +1,6 @@
 package com.mashup.telltostar.ui.splash
 
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.mashup.telltostar.data.exception.Exception
 import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.remote.ApiProvider
@@ -10,13 +9,15 @@ import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import retrofit2.HttpException
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by hclee on 2020-02-15.
  */
 
-object TokenCheckViewModel {
+@Singleton
+class TokenCheckViewModel @Inject constructor() {
     val shouldStartMain = MutableLiveData<Boolean>()
     val shouldStartLogin = MutableLiveData<Boolean>()
     private val mCompositeDisposable = CompositeDisposable()
