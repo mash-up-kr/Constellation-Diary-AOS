@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.mashup.telltostar.R
-import com.mashup.telltostar.di.DaggerSplashComponent
+import com.mashup.telltostar.di.DaggerTokenCheckComponent
 import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.ui.main.MainActivity
 import io.reactivex.Observable
@@ -26,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
     private var isTimeCountFinish = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        DaggerSplashComponent.builder().build().inject(this)
+        DaggerTokenCheckComponent.builder().build().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         setViewModelObserver()

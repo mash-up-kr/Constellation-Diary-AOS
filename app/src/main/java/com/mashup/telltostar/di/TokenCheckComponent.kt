@@ -10,12 +10,12 @@ import javax.inject.Singleton
 
 @Singleton
 @Component
-interface SplashComponent {
+interface TokenCheckComponent {
 
     @Component.Builder
     interface Builder {
 
-        fun build(): SplashComponent
+        fun build(): TokenCheckComponent
     }
 
     fun inject(activity: SplashActivity)
