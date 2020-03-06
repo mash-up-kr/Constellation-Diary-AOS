@@ -95,6 +95,7 @@ class MyConstellationActivity : AppCompatActivity(),
 
             setOffscreenItems(3)
             setOverScrollEnabled(false)
+            setSlideOnFlingThreshold(200) //default 2100
 
             setItemTransformer(
                 ScaleTransformer.Builder()
