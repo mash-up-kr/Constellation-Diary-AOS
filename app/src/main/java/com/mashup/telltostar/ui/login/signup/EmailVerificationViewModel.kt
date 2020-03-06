@@ -14,6 +14,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by hclee on 2019-12-29.
@@ -25,7 +27,9 @@ import java.util.concurrent.TimeUnit
  * 사용자가 뒤로가기를 선택하거나 BottomSheet을 닫아 버리는 경우에 회원가입 프로세스가 처음부터 진행되어야 하는데,
  * 이 ViewModel이 갖고있는 상태 멤버 field들이 초기화 되어야 하기 때문이다.
  */
-class EmailVerificationViewModel {
+
+@Singleton
+class EmailVerificationViewModel @Inject constructor() {
     companion object {
         private const val TIMEOUT = 180L
     }

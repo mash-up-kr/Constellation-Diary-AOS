@@ -12,6 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
+import com.mashup.telltostar.di.DaggerSignUpComponent
+import com.mashup.telltostar.di.SignUpComponent
 import com.mashup.telltostar.ui.myconstellation.MyConstellationActivity
 import com.mashup.telltostar.util.VibratorUtil
 import io.reactivex.Single
@@ -23,9 +25,12 @@ import kotlinx.android.synthetic.main.fragment_id_registration.view.*
 import java.util.concurrent.TimeUnit
 
 class IdRegistrationFragment(
-    private val mEmailVerificationViewModel: EmailVerificationViewModel
+    private val mSignUpComponent: SignUpComponent
 ) : Fragment() {
 
+    private val mEmailVerificationViewModel by lazy {
+        mSignUpComponent.emailVerificationViewModel()
+    }
     private lateinit var mRootView: View
     private val mCompositeDisposable by lazy {
         CompositeDisposable()
