@@ -12,12 +12,15 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by hclee on 2020-01-12.
  */
 
-class LoginViewModel {
+@Singleton
+class LoginViewModel @Inject constructor() {
     val isInputIdWarningTextViewVisible = MutableLiveData<Boolean>()
     val isInputPasswordWarningTextViewVisible = MutableLiveData<Boolean>()
     val isLoginErrorButtonVisible = MutableLiveData<Boolean>(false)
