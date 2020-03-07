@@ -1,6 +1,7 @@
 package com.mashup.telltostar.ui.diarylist
 
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -42,8 +43,10 @@ class DiaryListCalendarAdapter : RecyclerView.Adapter<DiaryListCalendarAdapter.D
             }
             if(stampList[position-startPosition].select){
                 holder.calendarSelect.visibility = View.VISIBLE
+                holder.calendarDay.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD))
             }else{
                 holder.calendarSelect.visibility = View.INVISIBLE
+                holder.calendarDay.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
             }
         }else{
             holder.calendarDay.text = ""
