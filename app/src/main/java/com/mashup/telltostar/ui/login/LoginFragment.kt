@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.firebase.iid.FirebaseInstanceId
 import com.mashup.telltostar.R
+import com.mashup.telltostar.di.DaggerLoginComponent
 import com.mashup.telltostar.ui.login.forgotid.ForgotIdFragment
 import com.mashup.telltostar.ui.login.signup.CustomPasswordTransformationMethod
 import com.mashup.telltostar.ui.login.signup.IdRegistrationViewModel
@@ -30,15 +31,21 @@ import kotlinx.android.synthetic.main.dialog_forgot_id_password.view.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class LoginFragment : Fragment() {
     private lateinit var mRootView: View
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
-    private val mLoginViewModel by lazy {
-        LoginViewModel()
-    }
+
+    @Inject
+    lateinit var mLoginViewModel: LoginViewModel
     private var mFcmToken: String? = null
     private val mCompositeDisposable = CompositeDisposable()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        DaggerLoginComponent.builder().build().inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

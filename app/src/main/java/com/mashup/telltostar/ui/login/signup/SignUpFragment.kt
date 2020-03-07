@@ -1,5 +1,6 @@
 package com.mashup.telltostar.ui.login.signup
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,17 +10,30 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
+import com.mashup.telltostar.di.DaggerSignUpComponent
+import com.mashup.telltostar.di.SignUpComponent
 import com.mashup.telltostar.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_email_verification.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
+import org.koin.android.ext.android.inject
+import javax.inject.Inject
 
 class SignUpFragment : Fragment() {
+    @Inject
+    lateinit var mEmailVerificationViewModel: EmailVerificationViewModel
     private lateinit var mRootView: View
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
-    private lateinit var mEmailVerificationViewModel: EmailVerificationViewModel
     private lateinit var mEmailVerificationFragment: EmailVerificationFragment
     private val mIdRegistrationFragment by lazy {
-        IdRegistrationFragment(mEmailVerificationViewModel)
+        IdRegistrationFragment(mSignUpComponent)
+    }
+    private val mSignUpComponent by lazy {
+        DaggerSignUpComponent.builder().build()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mSignUpComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -29,11 +43,7 @@ class SignUpFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_signup, container, false)
 
         mRootView = rootView
-        mEmailVerificationViewModel = EmailVerificationViewModel()
-        mEmailVerificationFragment = EmailVerificationFragment(
-            mEmailVerificationViewModel,
-            mFragmentListener
-        )
+        mEmailVerificationFragment = EmailVerificationFragment(mSignUpComponent, mFragmentListener)
 
         setListeners()
         setViewModelObserver(mRootView)

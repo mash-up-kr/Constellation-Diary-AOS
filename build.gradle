@@ -41,6 +41,8 @@ buildscript {
         rxandoirdVersion = '2.1.1'
         rxjavaVersion = '2.2.8'
 
+        // Dagger
+        daggerVersion = '2.25.2'
     }
 
     repositories {

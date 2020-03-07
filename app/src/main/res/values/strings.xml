@@ -190,5 +190,11 @@
     <string name="setting_time">시간 설정</string>
     <string name="cancel">취소</string>
     <string name="ok">완료</string>
+    <string name="android">Android</string>
+    <string name="design">Design</string>
+    <string name="server">Server</string>
+    <string name="names_android">- 최민정, 이진성, 이해창</string>
+    <string name="names_design">- 고은이, 이정은, 남궁욱</string>
+    <string name="names_server">- 이동준</string>
 
 </resources>

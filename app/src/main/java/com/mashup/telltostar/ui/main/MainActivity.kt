@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     private fun initBus() {
         RxEventBusHelper.diaryTitleBus.subscribe({
-            tvMainContentsTitle.text = it
+            presenter.loadDailyQuestion()
         }) {
 
         }.also {

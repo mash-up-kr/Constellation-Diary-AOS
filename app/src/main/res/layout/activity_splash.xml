@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="100dp"
+        android:fontFamily="@font/a_youngmyungjo_m"
         android:text="@string/title_app"
         android:textColor="@android:color/white"
         android:textSize="27sp"
@@ -46,7 +47,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:text="@string/subtitle_star_star_diary"
-        android:textColor="@color/greyish_two"
+        android:textColor="@color/white_three"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/appTitleTextView"
         app:layout_constraintTop_toBottomOf="@+id/appTitleTextView" />
