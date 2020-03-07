@@ -17,12 +17,15 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by hclee on 2020-01-17.
  */
 
-class ForgotPasswordViewModel {
+@Singleton
+class ForgotPasswordViewModel @Inject constructor() {
     companion object {
         private const val TIMEOUT = 180L
     }

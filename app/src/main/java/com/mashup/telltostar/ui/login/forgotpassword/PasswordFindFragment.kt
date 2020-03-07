@@ -17,11 +17,12 @@ import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentPasswordFindBinding
+import com.mashup.telltostar.di.ForgotPasswordComponent
 import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.util.VibratorUtil
 
 class PasswordFindFragment(
-    private val mForgotPasswordViewModel: ForgotPasswordViewModel,
+    private val mForgotPasswordComponent: ForgotPasswordComponent,
     private val mFragmentListener: LoginActivity.FragmentListener
 ) : Fragment() {
     private lateinit var mBinding: FragmentPasswordFindBinding
@@ -49,7 +50,7 @@ class PasswordFindFragment(
             container,
             false
         ).apply {
-            viewModel = mForgotPasswordViewModel
+            viewModel = mForgotPasswordComponent.forgotPasswordViewModel()
             fragment = this@PasswordFindFragment
             requestVerificationNumberButton.isEnabled = false
         }
