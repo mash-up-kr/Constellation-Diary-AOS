@@ -25,6 +25,7 @@ import com.mashup.telltostar.data.source.remote.response.ResCountYearDiaryDto
 import com.mashup.telltostar.data.source.remote.response.SimpleDiary
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import com.mashup.telltostar.ui.diary.DiaryListSelectMonthAdapter
+import com.mashup.telltostar.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_diary_list.*
 import kotlinx.android.synthetic.main.dialog_delete_diary.view.*
 import kotlinx.android.synthetic.main.dialog_select_month.view.*
@@ -146,7 +147,7 @@ class DiaryListActivity : AppCompatActivity() {
         }
     }
 
-//    달 선택
+    //달 선택
     fun setDatePicker(){
         val dialogSelect = AlertDialog
             .Builder(this@DiaryListActivity)
@@ -178,7 +179,7 @@ class DiaryListActivity : AppCompatActivity() {
                                     current.set(year,month-1,1)
                                     dataLoad()
                                 }
-                            },1000)
+                            },300)
                         }
                     })
                 }
@@ -189,8 +190,6 @@ class DiaryListActivity : AppCompatActivity() {
             it.show()
         }
     }
-
-
 
     //리스트
     fun initList(){//listAdapter
@@ -305,7 +304,7 @@ class DiaryListActivity : AppCompatActivity() {
         listDiaryList.visibility = View.INVISIBLE
 
         listDiaryEmpty.findViewById<Button>(R.id.listDiaryConstellationBtn).setOnClickListener {
-
+            
         }
         listDiaryEmpty.findViewById<Button>(R.id.listDiaryDiaryBtn).setOnClickListener {
 
