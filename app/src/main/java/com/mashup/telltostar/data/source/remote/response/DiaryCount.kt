@@ -1,6 +1,6 @@
 package com.mashup.telltostar.data.source.remote.response
 
 data class DiaryCount (
-    val diaries : ResCountYearDiaryDto,
+    val diaries : ArrayList<ResCountYearDiaryDto>,
     val timeZone : String
 )
