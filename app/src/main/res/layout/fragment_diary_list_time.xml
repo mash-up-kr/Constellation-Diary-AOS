@@ -23,8 +23,8 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="8.75dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/diaryListJan"
             layout="@layout/fragment_diary_list_month" />
         <include
@@ -32,8 +32,8 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="8.75dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/diaryListFeb"
             layout="@layout/fragment_diary_list_month"/>
         <include
@@ -41,8 +41,8 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="8.75dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/diaryListMar"
             layout="@layout/fragment_diary_list_month"/>
     </LinearLayout>
@@ -56,8 +56,8 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="8.75dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/diaryListApr"
             layout="@layout/fragment_diary_list_month"/>
         <include
@@ -65,8 +65,8 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="8.75dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/diaryListMay"
             layout="@layout/fragment_diary_list_month"/>
         <include
@@ -74,8 +74,8 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="8.75dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/diaryListJun"
             layout="@layout/fragment_diary_list_month"/>
     </LinearLayout>
@@ -89,8 +89,8 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="8.75dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/diaryListJul"
             layout="@layout/fragment_diary_list_month"/>
         <include
@@ -98,8 +98,8 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="8.75dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/diaryListAug"
             layout="@layout/fragment_diary_list_month"/>
         <include
@@ -107,8 +107,8 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="8.75dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/diaryListSep"
             layout="@layout/fragment_diary_list_month"/>
     </LinearLayout>
@@ -122,8 +122,8 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="8.75dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/diaryListOct"
             layout="@layout/fragment_diary_list_month"/>
         <include
@@ -131,8 +131,8 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="8.75dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/diaryListNov"
             layout="@layout/fragment_diary_list_month"/>
         <include
@@ -140,8 +140,8 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_marginTop="8.75dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="3dp"
             android:id="@+id/diaryListDec"
             layout="@layout/fragment_diary_list_month"/>
 

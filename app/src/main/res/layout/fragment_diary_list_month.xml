@@ -10,16 +10,20 @@
 
     <TextView
         android:id="@+id/diaryListMonthTV"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_marginEnd="6dp"
         android:textColor="@color/black"
-        android:textSize="14sp"/>
+        android:gravity="right"
+        android:textSize="13sp"/>
     <TextView
         android:id="@+id/diaryListCountTV"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:textColor="@color/brownish_grey_two"
-        android:textSize="12sp"/>
+        android:gravity="left"
+        android:textSize="11sp"/>
 
 </LinearLayout>
