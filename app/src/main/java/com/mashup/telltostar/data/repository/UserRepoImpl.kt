@@ -4,6 +4,7 @@ import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.UserRepository
 import com.mashup.telltostar.data.source.remote.api.UserApi
 import com.mashup.telltostar.data.source.remote.response.Authentication
+import com.mashup.telltostar.data.source.remote.response.ResUserIdDto
 import com.mashup.telltostar.util.PrefUtil
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -34,5 +35,11 @@ class UserRepoImpl(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
+    }
+
+    override fun findId(email: String): Single<ResUserIdDto> {
+        return userApi.findId(email)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 }
