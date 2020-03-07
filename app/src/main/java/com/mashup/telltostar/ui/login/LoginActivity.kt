@@ -6,6 +6,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mashup.telltostar.R
+import com.mashup.telltostar.di.DaggerIdRegistrationComponent
+import com.mashup.telltostar.di.IdRegistrationComponent
 import com.mashup.telltostar.ui.login.forgotpassword.ForgotPasswordFragment
 import com.mashup.telltostar.ui.login.signup.SignUpFragment
 import kotlinx.android.synthetic.main.activity_login.*
@@ -37,6 +39,9 @@ class LoginActivity : AppCompatActivity() {
     lateinit var mLoginFragment: LoginFragment
     lateinit var mSignUpFragment: SignUpFragment
     lateinit var mForgotPasswordFragment: ForgotPasswordFragment
+    val mIdRegistrationComponent by lazy {
+        DaggerIdRegistrationComponent.builder().build()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

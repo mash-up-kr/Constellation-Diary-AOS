@@ -7,12 +7,15 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by hclee on 2020-01-10.
  */
 
-object IdRegistrationViewModel {
+@Singleton
+class IdRegistrationViewModel @Inject constructor() {
     val isPasswordVisible = MutableLiveData<Boolean>(false)
     val isConfirmPasswordVisible = MutableLiveData<Boolean>(false)
     val isTwoPasswordIdentical = MutableLiveData<Boolean>()

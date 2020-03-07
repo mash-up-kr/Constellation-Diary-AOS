@@ -12,8 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
-import com.mashup.telltostar.di.DaggerSignUpComponent
 import com.mashup.telltostar.di.SignUpComponent
+import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.ui.myconstellation.MyConstellationActivity
 import com.mashup.telltostar.util.VibratorUtil
 import io.reactivex.Single
@@ -31,6 +31,9 @@ class IdRegistrationFragment(
     private val mEmailVerificationViewModel by lazy {
         mSignUpComponent.emailVerificationViewModel()
     }
+    private val mIdRegistrationViewModel by lazy {
+        (activity as LoginActivity).mIdRegistrationComponent.idRegistrationViewModel()
+    }
     private lateinit var mRootView: View
     private val mCompositeDisposable by lazy {
         CompositeDisposable()
@@ -46,6 +49,8 @@ class IdRegistrationFragment(
         val rootView = inflater.inflate(R.layout.fragment_id_registration, container, false)
 
         mRootView = rootView
+
+        timber.log.Timber.d(mIdRegistrationViewModel.hashCode().toString())
 
         setListeners()
         setViewModelObserver()
@@ -73,32 +78,32 @@ class IdRegistrationFragment(
 
     private fun performCheckIdDuplicationButtonClick() {
         clearIdInputWarning()
-        IdRegistrationViewModel.requestCheckIdDuplication(mRootView.idEditText.text.toString())
+        mIdRegistrationViewModel.requestCheckIdDuplication(mRootView.idEditText.text.toString())
     }
 
     private fun performVisibilityImageViewClick() {
-        IdRegistrationViewModel.requestPasswordInvisible()
+        mIdRegistrationViewModel.requestPasswordInvisible()
         mRootView.passwordVisibilityImageView.visibility = View.GONE
         mRootView.passwordInvisibilityImageView.visibility = View.VISIBLE
         moveEditTextCursorEnd(mRootView.passwordEditText)
     }
 
     private fun performInVisibilityImageViewClick() {
-        IdRegistrationViewModel.requestPasswordVisible()
+        mIdRegistrationViewModel.requestPasswordVisible()
         mRootView.passwordVisibilityImageView.visibility = View.VISIBLE
         mRootView.passwordInvisibilityImageView.visibility = View.GONE
         moveEditTextCursorEnd(mRootView.passwordEditText)
     }
 
     private fun performConfirmVisibilityImageViewClick() {
-        IdRegistrationViewModel.requestConfirmPasswordInvisible()
+        mIdRegistrationViewModel.requestConfirmPasswordInvisible()
         mRootView.passwordConfirmVisibilityImageView.visibility = View.GONE
         mRootView.passwordConfirmInvisibilityImageView.visibility = View.VISIBLE
         moveEditTextCursorEnd(mRootView.passwordConfirmEditText)
     }
 
     private fun performConfirmInvisibilityImageViewClick() {
-        IdRegistrationViewModel.requestConfirmPasswordVisible()
+        mIdRegistrationViewModel.requestConfirmPasswordVisible()
         mRootView.passwordConfirmVisibilityImageView.visibility = View.VISIBLE
         mRootView.passwordConfirmInvisibilityImageView.visibility = View.GONE
         moveEditTextCursorEnd(mRootView.passwordConfirmEditText)
@@ -119,19 +124,19 @@ class IdRegistrationFragment(
     }
 
     private fun setViewModelObserver() {
-        IdRegistrationViewModel.isPasswordVisible.observe(this, Observer {
+        mIdRegistrationViewModel.isPasswordVisible.observe(this, Observer {
             mRootView.passwordEditText.transformationMethod =
                 if (it) HideReturnsTransformationMethod.getInstance()
                 else mPasswordTransformationMethod
         })
-        IdRegistrationViewModel.isConfirmPasswordVisible.observe(this, Observer {
+        mIdRegistrationViewModel.isConfirmPasswordVisible.observe(this, Observer {
             mRootView.passwordConfirmEditText.transformationMethod =
                 if (it) HideReturnsTransformationMethod.getInstance()
                 else mPasswordTransformationMethod
         })
 
         activity?.let { activity ->
-            IdRegistrationViewModel.shouldIdDuplicationCheck.observe(
+            mIdRegistrationViewModel.shouldIdDuplicationCheck.observe(
                 this@IdRegistrationFragment,
                 Observer {
                     clearIdInputWarning()
@@ -147,7 +152,7 @@ class IdRegistrationFragment(
                         mRootView.idEditText.backgroundTintList = null
                     }
                 })
-            IdRegistrationViewModel.isInputIdWarningTextViewVisible.observe(
+            mIdRegistrationViewModel.isInputIdWarningTextViewVisible.observe(
                 this,
                 Observer { isVisible ->
                     clearIdInputWarning()
@@ -155,7 +160,7 @@ class IdRegistrationFragment(
                     if (isVisible) mRootView.inputIdWarningTextView.visibility = View.VISIBLE
                     else mRootView.inputIdWarningTextView.visibility = View.GONE
 
-                    IdRegistrationViewModel.isAvailableId.value?.let { isAvailableId ->
+                    mIdRegistrationViewModel.isAvailableId.value?.let { isAvailableId ->
                         mRootView.idEditText.backgroundTintList =
                             if (isVisible || !isAvailableId)
                                 ColorStateList.valueOf(
@@ -179,7 +184,7 @@ class IdRegistrationFragment(
                         vibrate()
                     }
                 })
-            IdRegistrationViewModel.isInputPasswordWarningTextViewVisible.observe(this, Observer {
+            mIdRegistrationViewModel.isInputPasswordWarningTextViewVisible.observe(this, Observer {
                 if (it) mRootView.inputPasswordWarningTextView.visibility = View.VISIBLE
                 else mRootView.inputPasswordWarningTextView.visibility = View.GONE
 
@@ -193,7 +198,7 @@ class IdRegistrationFragment(
                     vibrate()
                 }
             })
-            IdRegistrationViewModel.isInputConfirmPasswordWarningTextViewVisible.observe(
+            mIdRegistrationViewModel.isInputConfirmPasswordWarningTextViewVisible.observe(
                 this,
                 Observer {
                     clearPasswordConfirmInputWarning()
@@ -214,7 +219,7 @@ class IdRegistrationFragment(
                         vibrate()
                     }
                 })
-            IdRegistrationViewModel.isTwoPasswordIdentical.observe(this, Observer { isIdentical ->
+            mIdRegistrationViewModel.isTwoPasswordIdentical.observe(this, Observer { isIdentical ->
                 clearPasswordConfirmInputWarning()
 
                 timber.log.Timber.d("isTwoPasswordIdentical: $isIdentical")
@@ -234,7 +239,7 @@ class IdRegistrationFragment(
                 } else {
                     with(mEmailVerificationViewModel) {
                         mToken?.let { token ->
-                            IdRegistrationViewModel.getFcmToken()?.let { fcmToken ->
+                            mIdRegistrationViewModel.getFcmToken()?.let { fcmToken ->
                                 if (mToken.isNullOrEmpty().not() && fcmToken.isNotEmpty()) {
                                     mVerifiedEmailObservable.get()?.let { userEmail ->
                                         MyConstellationActivity.startMyConstellationForSignUp(
@@ -258,7 +263,7 @@ class IdRegistrationFragment(
                     }
                 }
             })
-            IdRegistrationViewModel.isAvailableId.observe(this, Observer {
+            mIdRegistrationViewModel.isAvailableId.observe(this, Observer {
                 clearIdInputWarning()
 
                 if (it) {
@@ -283,7 +288,7 @@ class IdRegistrationFragment(
                     vibrate()
                 }
             })
-            IdRegistrationViewModel.isNotIdPatternWarningTextViewVisible.observe(this, Observer {
+            mIdRegistrationViewModel.isNotIdPatternWarningTextViewVisible.observe(this, Observer {
                 timber.log.Timber.d("onChanged() - $it")
 
                 mRootView.notIdPatternWarningTextView.visibility =
@@ -304,7 +309,7 @@ class IdRegistrationFragment(
                     vibrate()
                 }
             })
-            IdRegistrationViewModel.isNotPasswordPatternWarningTextViewVisible.observe(
+            mIdRegistrationViewModel.isNotPasswordPatternWarningTextViewVisible.observe(
                 this,
                 Observer {
                     notPasswordPatternWarningTextView.visibility =
@@ -328,7 +333,7 @@ class IdRegistrationFragment(
     }
 
     fun performStartStarStarDiaryButtonClick() {
-        IdRegistrationViewModel.requestCheckTwoPasswordIdentical(
+        mIdRegistrationViewModel.requestCheckTwoPasswordIdentical(
             mRootView.idEditText.text.toString(),
             mRootView.passwordEditText.text.toString(),
             mRootView.passwordConfirmEditText.text.toString()

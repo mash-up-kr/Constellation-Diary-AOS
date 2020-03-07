@@ -33,12 +33,15 @@ import kotlinx.android.synthetic.main.fragment_login.view.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class LoginFragment : Fragment() {
+class LoginFragment: Fragment() {
     private lateinit var mRootView: View
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
 
     @Inject
     lateinit var mLoginViewModel: LoginViewModel
+    private val mIdRegistrationViewModel by lazy {
+        (activity as LoginActivity).mIdRegistrationComponent.idRegistrationViewModel()
+    }
     private var mFcmToken: String? = null
     private val mCompositeDisposable = CompositeDisposable()
 
@@ -66,12 +69,12 @@ class LoginFragment : Fragment() {
             if (it.isSuccessful) {
                 it.result?.token?.let { token ->
                     mLoginViewModel.setFcmToken(token)
-                    IdRegistrationViewModel.setFcmToken(token)
+                    mIdRegistrationViewModel.setFcmToken(token)
                 }
             } else if (it.isCanceled) {
                 timber.log.Timber.d("firebase token getting canceled")
                 mLoginViewModel.setFcmToken(null)
-                IdRegistrationViewModel.setFcmToken(null)
+                mIdRegistrationViewModel.setFcmToken(null)
             }
         }
     }
