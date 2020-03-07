@@ -150,7 +150,7 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         const val EXTRA_DIARY_TYPE = "diary_type"
         const val EXTRA_DIARY_ID = "diary_id"
 
-        fun startDiaryWriteActivity(activity: Activity, requestCode: Int, horoscopeId: Int) {
+        fun startDiaryWriteActivity(activity: Activity, requestCode: Int) {
             activity.startActivityForResult(
                 Intent(activity, DiaryEditActivity::class.java).apply {
                     putExtra(EXTRA_DIARY_TYPE, DiaryType.WRITE)
