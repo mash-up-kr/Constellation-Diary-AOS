@@ -72,6 +72,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"/>
+        <include
+            android:id="@+id/listDiaryEmpty"
+            layout="@layout/fragment_diary_list_empty"
+            android:visibility="invisible"/>
         <LinearLayout
             android:id="@+id/listDiaryCalendar"
             android:layout_width="match_parent"
@@ -149,7 +153,8 @@
                 android:layout_height="wrap_content"/>
             <include
                 android:id="@+id/diaryListInclude"
-                layout="@layout/fragment_diary_list"/>
+                layout="@layout/fragment_diary_list"
+                android:background="?attr/selectableItemBackground"/>
         </LinearLayout>
 
     </FrameLayout>

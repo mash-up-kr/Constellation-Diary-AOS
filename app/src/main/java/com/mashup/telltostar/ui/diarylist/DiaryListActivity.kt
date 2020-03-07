@@ -12,6 +12,7 @@ import android.os.Handler
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -79,7 +80,13 @@ class DiaryListActivity : AppCompatActivity() {
 
         diaryRepository.gets(currentMonth, currentYear)
             .subscribe({
-                diaryListAdapter.setData(it.diaries)
+                if(it.diaries.isEmpty()){
+                    setEmpty()
+                }else{
+                    listDiaryEmpty.visibility = View.INVISIBLE
+                    listDiaryList.visibility = View.VISIBLE
+                    diaryListAdapter.setData(it.diaries)
+                }
                 setCalendarData(it.diaries)
             }){
                 var errorMsg = Toast.makeText(this,"error",Toast.LENGTH_SHORT)
@@ -192,6 +199,7 @@ class DiaryListActivity : AppCompatActivity() {
         //list기능
         diaryListDetail()
         diaryListDelete()
+        //글씨 비었을 때
     }
 
     fun diaryListDetail(){
@@ -291,6 +299,18 @@ class DiaryListActivity : AppCompatActivity() {
         diaryListInclude.findViewById<TextView>(R.id.diaryListTitleTV).text = diary.title
     }
 
+    fun setEmpty(){
+        listDiaryEmpty.visibility = View.VISIBLE
+        listDiaryList.visibility = View.INVISIBLE
+
+        listDiaryEmpty.findViewById<Button>(R.id.listDiaryConstellationBtn).setOnClickListener {
+
+        }
+        listDiaryEmpty.findViewById<Button>(R.id.listDiaryDiaryBtn).setOnClickListener {
+
+        }
+    }
+
     fun diaryCalendarItemVisible(){
         diaryListCalendarAdapter.setOnItemClickListener(object :DiaryListCalendarAdapter.OnItemClickListener {
             override fun onDiarySet(view: View, diary: SimpleDiary) {
@@ -322,16 +342,20 @@ class DiaryListActivity : AppCompatActivity() {
 
     //choice date
     fun changeFormat(){
+        var list : View = listDiaryList
+        if(data.size == 0){
+            list = listDiaryEmpty
+        }
         listDiaryformatBtn.setOnClickListener {
             if(listDiaryformatBtn.tag.equals("list")) {//리스트 보여주고 있음
                 listDiaryformatBtn.setImageResource(R.drawable.icon_list_24_px)
                 listDiaryformatBtn.tag = "calendar"
-                listDiaryList.visibility = View.INVISIBLE
+                list.visibility = View.INVISIBLE
                 listDiaryCalendar.visibility = View.VISIBLE
             }else{
                 listDiaryformatBtn.setImageResource(R.drawable.icon_today_24_px)
                 listDiaryformatBtn.tag = "list"
-                listDiaryList.visibility = View.VISIBLE
+                list.visibility = View.VISIBLE
                 listDiaryCalendar.visibility = View.INVISIBLE
             }
 

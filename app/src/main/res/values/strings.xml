@@ -166,6 +166,8 @@
     <string name="sat">토</string>
     <string name="sun">일</string>
     <string name="delete_diary">일기를 삭제하시겠습니다?</string>
+    <string name="empty_mention">작성된 일기가 없어.\n오늘의 운세를 확인하고 일기장을 채워주세요.</string>
+    <string name="add_diary">일기 작성하기</string>
 
     <!--    SelectMonth-->
     <string name="jan">1월</string>
