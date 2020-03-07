@@ -5,6 +5,7 @@ import com.mashup.telltostar.data.source.SignRepository
 import com.mashup.telltostar.data.source.remote.api.UserApi
 import com.mashup.telltostar.data.source.remote.request.ReqSignUpDto
 import com.mashup.telltostar.data.source.remote.response.Authentication
+import com.mashup.telltostar.data.source.remote.response.ResCheckUserDto
 import com.mashup.telltostar.util.PrefUtil
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -44,4 +45,9 @@ class SignRepoImpl(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    override fun check(userId: String): Single<ResCheckUserDto> {
+        return api.check(userId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 }

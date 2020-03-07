@@ -1,12 +1,10 @@
 package com.mashup.telltostar.ui.login.signup
 
 import androidx.lifecycle.MutableLiveData
-import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.util.RegexUtil
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -54,14 +52,12 @@ class IdRegistrationViewModel @Inject constructor() {
 
         if (RegexUtil.isIdPattern(id)) {
             mCompositeDisposable.add(
-                ApiProvider
-                    .provideUserApi()
+                Injection
+                    .provideSignRepo()
                     .check(id)
-                    .subscribeOn(Schedulers.io())
                     .flatMap {
                         Single.just(it.available)
                     }
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         isAvailableId.value = it
                         mLastDuplicationCheckedId = id
