@@ -4,6 +4,7 @@ import android.util.Patterns
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.exception.Exception
 import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.remote.ApiProvider
@@ -68,16 +69,13 @@ class EmailVerificationViewModel @Inject constructor() {
             clearDisposable()
 
             mCompositeDisposable.add(
-                ApiProvider
-                    .provideAuthenticationNumberApi()
+                Injection
+                    .provideAuthenticationNumberRepo()
                     .authenticationNumbersSignUp(
                         ReqSignUpNumberDto(
                             inputEmail
                         )
                     )
-                    .subscribeOn(Schedulers.io())
-                    .composeError()
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         isEmailSend.postValue(true)
                         isEmailSendObservable.set(true)
@@ -126,16 +124,14 @@ class EmailVerificationViewModel @Inject constructor() {
             isVerificationTimeoutLiveData.value = true
         } else {
             mCompositeDisposable.add(
-                ApiProvider
-                    .provideAuthenticationNumberApi()
+                Injection
+                    .provideAuthenticationNumberRepo()
                     .authenticationSignUp(
                         ReqValidationSignUpNumberDto(
                             inputEmail,
                             verificationNumber
                         )
                     )
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         isEmailVerified.postValue(true)
                         isEmailVerifiedObservable.set(true)

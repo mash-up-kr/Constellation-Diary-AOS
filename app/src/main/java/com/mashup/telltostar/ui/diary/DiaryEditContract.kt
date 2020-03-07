@@ -25,6 +25,8 @@ interface DiaryEditContract {
 
         fun loadDiary()
 
+        fun loadHoroscope()
+
         fun loadHoroscopeDialog(type: DiaryEditActivity.DiaryType)
 
         fun done(type: DiaryEditActivity.DiaryType, title: String, contents: String)

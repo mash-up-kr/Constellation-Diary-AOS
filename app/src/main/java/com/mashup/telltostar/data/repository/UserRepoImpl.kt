@@ -3,7 +3,10 @@ package com.mashup.telltostar.data.repository
 import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.UserRepository
 import com.mashup.telltostar.data.source.remote.api.UserApi
+import com.mashup.telltostar.data.source.remote.request.ReqSignInDto
 import com.mashup.telltostar.data.source.remote.response.Authentication
+import com.mashup.telltostar.data.source.remote.response.ResUserIdDto
+import com.mashup.telltostar.data.source.remote.response.ResUserInfoDto
 import com.mashup.telltostar.util.PrefUtil
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -34,5 +37,17 @@ class UserRepoImpl(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
+    }
+
+    override fun findId(email: String): Single<ResUserIdDto> {
+        return userApi.findId(email)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun signIn(timeZone: String, body: ReqSignInDto): Single<ResUserInfoDto> {
+        return userApi.signIn(timeZone, body)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 }

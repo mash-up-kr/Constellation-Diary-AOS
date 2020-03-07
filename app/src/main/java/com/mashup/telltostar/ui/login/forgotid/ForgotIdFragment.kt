@@ -1,5 +1,6 @@
 package com.mashup.telltostar.ui.login.forgotid
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import androidx.lifecycle.Observer
 
 import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentForgotIdBinding
+import com.mashup.telltostar.di.DaggerForgotIdComponent
 import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.util.VibratorUtil
 import kotlinx.android.synthetic.main.fragment_forgot_id.view.*
@@ -34,6 +36,14 @@ class ForgotIdFragment : Fragment() {
             }
         }
     }
+    private val mForgotIdComponent by lazy {
+        DaggerForgotIdComponent.builder().build()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mForgotIdComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +55,7 @@ class ForgotIdFragment : Fragment() {
             container,
             false
         ).apply {
-            this.viewModel = ForgotIdViewModel()
+            this.viewModel = mForgotIdComponent.forgotIdViewModel()
             this.fragment = this@ForgotIdFragment
         }
 

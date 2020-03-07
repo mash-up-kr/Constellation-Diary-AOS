@@ -29,10 +29,10 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         presenter = DiaryEditPresenter(
             view = this,
             diaryRepository = Injection.provideDiaryRepo(this),
+            horoscopeRepository = Injection.provideHoroscopeRepo(),
             userRepository = Injection.provideUserRepo(),
             compositeDisposable = compositeDisposable,
-            diaryId = intent.getIntExtra(EXTRA_DIARY_ID, -1),
-            horoscopeId = intent.getIntExtra(EXTRA_HOROSCOPE_ID, -1)
+            diaryId = intent.getIntExtra(EXTRA_DIARY_ID, -1)
         )
 
         initButton()
@@ -78,6 +78,7 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         intent?.run {
             when (getSerializableExtra(EXTRA_DIARY_TYPE) as DiaryType) {
                 DiaryType.WRITE -> {
+                    presenter.loadHoroscope()
                     tvDiaryEditDate.text = TimeUtil.getKSTDateFromUTCDate(
                         TimeUtil.getUTCDate()
                     )
@@ -148,13 +149,11 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
 
         const val EXTRA_DIARY_TYPE = "diary_type"
         const val EXTRA_DIARY_ID = "diary_id"
-        const val EXTRA_HOROSCOPE_ID = "horoscope_id"
 
-        fun startDiaryWriteActivity(activity: Activity, requestCode: Int, horoscopeId: Int) {
+        fun startDiaryWriteActivity(activity: Activity, requestCode: Int) {
             activity.startActivityForResult(
                 Intent(activity, DiaryEditActivity::class.java).apply {
                     putExtra(EXTRA_DIARY_TYPE, DiaryType.WRITE)
-                    putExtra(EXTRA_HOROSCOPE_ID, horoscopeId)
                 }
                 , requestCode
             )

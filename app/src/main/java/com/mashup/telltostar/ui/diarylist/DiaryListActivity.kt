@@ -25,6 +25,7 @@ import com.mashup.telltostar.data.source.remote.response.ResCountYearDiaryDto
 import com.mashup.telltostar.data.source.remote.response.SimpleDiary
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import com.mashup.telltostar.ui.diary.DiaryListSelectMonthAdapter
+import com.mashup.telltostar.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_diary_list.*
 import kotlinx.android.synthetic.main.dialog_delete_diary.view.*
 import kotlinx.android.synthetic.main.dialog_select_month.view.*
@@ -110,7 +111,6 @@ class DiaryListActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Timber.d("requestCode ; $requestCode , resultCode : $resultCode , data : $data")
         if (requestCode == REQUEST_DIARY_EDIT) {
             if (resultCode == Activity.RESULT_OK) {
                 dataLoad()
@@ -146,7 +146,7 @@ class DiaryListActivity : AppCompatActivity() {
         }
     }
 
-//    달 선택
+    //달 선택
     fun setDatePicker(){
         val dialogSelect = AlertDialog
             .Builder(this@DiaryListActivity)
@@ -178,7 +178,7 @@ class DiaryListActivity : AppCompatActivity() {
                                     current.set(year,month-1,1)
                                     dataLoad()
                                 }
-                            },1000)
+                            },300)
                         }
                     })
                 }
@@ -189,8 +189,6 @@ class DiaryListActivity : AppCompatActivity() {
             it.show()
         }
     }
-
-
 
     //리스트
     fun initList(){//listAdapter
@@ -208,7 +206,6 @@ class DiaryListActivity : AppCompatActivity() {
             override fun onItemClick(id: Int) {
                 diaryDetail(id)
             }
-
         })
     }
 
@@ -304,12 +301,25 @@ class DiaryListActivity : AppCompatActivity() {
         listDiaryEmpty.visibility = View.VISIBLE
         listDiaryList.visibility = View.INVISIBLE
 
-        listDiaryEmpty.findViewById<Button>(R.id.listDiaryConstellationBtn).setOnClickListener {
+        if(current.get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR)
+            && current.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH) ){
+            listDiaryEmpty.findViewById<TextView>(R.id.listDIaryEmptyMentTV).text = getText(R.string.empty_mention)
+            listDiaryEmpty.findViewById<Button>(R.id.listDiaryConstellationBtn).visibility = View.VISIBLE
+            listDiaryEmpty.findViewById<Button>(R.id.listDiaryDiaryBtn).visibility = View.VISIBLE
 
+            listDiaryEmpty.findViewById<Button>(R.id.listDiaryConstellationBtn).setOnClickListener {
+                MainActivity.startMainActivityWithHoroscope(this@DiaryListActivity)
+            }
+            listDiaryEmpty.findViewById<Button>(R.id.listDiaryDiaryBtn).setOnClickListener {
+                DiaryEditActivity.startDiaryWriteActivity(this, REQUEST_DIARY_EDIT)
+            }
+        }else{
+            listDiaryEmpty.findViewById<TextView>(R.id.listDIaryEmptyMentTV).text = getText(R.string.empty_mention_simple)
+            listDiaryEmpty.findViewById<Button>(R.id.listDiaryConstellationBtn).visibility = View.GONE
+            listDiaryEmpty.findViewById<Button>(R.id.listDiaryDiaryBtn).visibility = View.GONE
         }
-        listDiaryEmpty.findViewById<Button>(R.id.listDiaryDiaryBtn).setOnClickListener {
 
-        }
+
     }
 
     fun diaryCalendarItemVisible(){

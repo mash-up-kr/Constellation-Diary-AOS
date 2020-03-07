@@ -4,18 +4,19 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.ResUserIdErrorDto
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by hclee on 2020-01-04.
  */
 
-class ForgotIdViewModel {
+@Singleton
+class ForgotIdViewModel @Inject constructor() {
     private val mCompositeDisposable = CompositeDisposable()
     val isEmailEmptyWarningVisibleObservable = ObservableBoolean(false)
     val isNonExistentEmailWarningVisibleObservable = ObservableBoolean(false)
@@ -28,14 +29,12 @@ class ForgotIdViewModel {
 
         if (email.isNotEmpty()) {
             mCompositeDisposable.add(
-                ApiProvider
-                    .provideUserApi()
+                Injection
+                    .provideUserRepo()
                     .findId(email)
                     .onErrorReturn {
                         getConvertedErrorData(it)
                     }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         isEmailEmptyWarningVisibleObservable.set(false)
 
