@@ -2,14 +2,13 @@ package com.mashup.telltostar.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.mashup.telltostar.data.source.remote.ApiProvider
+import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.request.ReqSignInDto
 import com.mashup.telltostar.data.source.remote.response.ResUserInfoDto
 import com.mashup.telltostar.data.source.remote.response.ResUserInfoErrorDto
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -46,8 +45,8 @@ class LoginViewModel @Inject constructor() {
         if (id.isNotEmpty() && password.isNotEmpty()) {
             mFcmToken?.let { fcmToken ->
                 mCompositeData.add(
-                    ApiProvider
-                        .provideUserApi()
+                    Injection
+                        .provideUserRepo()
                         .signIn(
                             timeZone,
                             ReqSignInDto(
@@ -59,8 +58,6 @@ class LoginViewModel @Inject constructor() {
                         .onErrorReturn {
                             getConvertedErrorData(it)
                         }
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             if (it is ResUserInfoErrorDto) {
                                 when (it.error.code) {
