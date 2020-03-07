@@ -34,88 +34,84 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="62.5dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:gravity="center"
         android:orientation="horizontal">
         <LinearLayout
-            android:layout_width="40dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:paddingBottom="4.8dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="22.1dp"
-                android:layout_height="23.5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/icon_clothes"/>
             <TextView
                 android:id="@+id/detailStarLuckTV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="bottom|center_horizontal"
                 android:textColor="@color/brownish_grey_two"
-                android:lineHeight="16.5sp"
                 android:textSize="11sp"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="40dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:paddingBottom="4.8dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="22.1dp"
-                android:layout_height="23.5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/icon_number"/>
             <TextView
                 android:id="@+id/detailStarLoveTV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="bottom|center_horizontal"
                 android:textColor="@color/brownish_grey_two"
-                android:lineHeight="16.5sp"
                 android:textSize="11sp"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="40dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:paddingBottom="4.8dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="22.1dp"
-                android:layout_height="23.5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/icon_workout"/>
             <TextView
                 android:id="@+id/detailStarHealthTV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="bottom|center_horizontal"
                 android:textColor="@color/brownish_grey_two"
-                android:lineHeight="16.5sp"
                 android:textSize="11sp"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="40dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:paddingBottom="4.8dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="22.1dp"
-                android:layout_height="23.5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/icon_words"/>
             <TextView
                 android:id="@+id/detailStarTimeTV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="bottom|center_horizontal"
                 android:textColor="@color/brownish_grey_two"
-                android:lineHeight="16.5sp"
                 android:textSize="11sp"/>
         </LinearLayout>
     </LinearLayout>

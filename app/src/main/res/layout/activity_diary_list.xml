@@ -40,13 +40,24 @@
         android:layout_height="1dp"
         android:background="@color/white_three" />
 
-    <TextView
-        android:id="@+id/listDiaryDateTV"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:paddingTop="8dp"
-        android:layout_marginStart="16dp"
-        android:textColor="@color/greyish_brown"/>
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/listDiaryDateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:paddingTop="8dp"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/greyish_brown"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/arrow_drop_menu"/>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
