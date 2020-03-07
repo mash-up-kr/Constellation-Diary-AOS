@@ -88,6 +88,7 @@ class DiaryListActivity : AppCompatActivity() {
                     diaryListAdapter.setData(it.diaries)
                 }
                 setCalendarData(it.diaries)
+                data = it.diaries
             }){
                 var errorMsg = Toast.makeText(this,"error",Toast.LENGTH_SHORT)
                 errorMsg.show()
@@ -342,20 +343,24 @@ class DiaryListActivity : AppCompatActivity() {
 
     //choice date
     fun changeFormat(){
-        var list : View = listDiaryList
-        if(data.size == 0){
-            list = listDiaryEmpty
-        }
         listDiaryformatBtn.setOnClickListener {
             if(listDiaryformatBtn.tag.equals("list")) {//리스트 보여주고 있음
                 listDiaryformatBtn.setImageResource(R.drawable.icon_list_24_px)
                 listDiaryformatBtn.tag = "calendar"
-                list.visibility = View.INVISIBLE
+                if(data.isEmpty()){
+                    listDiaryEmpty.visibility = View.INVISIBLE
+                }else{
+                    listDiaryList.visibility = View.INVISIBLE
+                }
                 listDiaryCalendar.visibility = View.VISIBLE
             }else{
                 listDiaryformatBtn.setImageResource(R.drawable.icon_today_24_px)
                 listDiaryformatBtn.tag = "list"
-                list.visibility = View.VISIBLE
+                if(data.isEmpty()){
+                    listDiaryEmpty.visibility = View.VISIBLE
+                }else{
+                    listDiaryList.visibility = View.VISIBLE
+                }
                 listDiaryCalendar.visibility = View.INVISIBLE
             }
 
@@ -367,6 +372,14 @@ class DiaryListActivity : AppCompatActivity() {
         val formatDate = SimpleDateFormat("yyyy'년 'MM'월'",Locale.getDefault())
         val date = formatDate.format(current.time)
         listDiaryDateTV.text = date
+        listDiaryformatBtn.setImageResource(R.drawable.icon_today_24_px)
+        listDiaryformatBtn.tag = "list"
+        if(data.isEmpty()){
+            listDiaryEmpty.visibility = View.VISIBLE
+        }else{
+            listDiaryList.visibility = View.VISIBLE
+        }
+        listDiaryCalendar.visibility = View.INVISIBLE
     }
 
 

@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:textColor="@color/black_two"
+        android:textStyle="bold"
         android:textSize="22sp" />
     <TextView
         android:id="@+id/diaryListDayTV"
@@ -22,12 +23,25 @@
         android:textColor="@color/greyish_brown"
         android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/diaryListTitleTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_marginStart="16dp"
         android:layout_weight="1"
-        android:textColor="@color/black_two"
-        android:textSize="16sp" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/diaryListTitleTV"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:textColor="@color/black_two"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white_three"/>
+    </LinearLayout>
+
 </LinearLayout>
