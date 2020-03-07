@@ -17,7 +17,6 @@ class MainPresenter(
 ) : MainContract.Presenter {
 
     private var diaryId = -1
-    private var horoscopeId = -1
 
     override fun loadDailyQuestion() {
         dailyRepository.get().subscribe({
@@ -45,13 +44,11 @@ class MainPresenter(
 
     override fun loadHoroscope() {
         val constellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
-        Timber.d(constellation)
 
         horoscopeRepository.get(constellation)
             .subscribe({
                 Timber.d("$it")
                 view.showHoroscope(it)
-                horoscopeId = it.id
             }) {
                 Timber.e(it)
                 view.showToast(it.message)
@@ -64,7 +61,7 @@ class MainPresenter(
         if (diaryId > 0) {
             view.showEditDiary(diaryId)
         } else {
-            view.showWriteDiary(horoscopeId)
+            view.showWriteDiary()
         }
     }
 }
