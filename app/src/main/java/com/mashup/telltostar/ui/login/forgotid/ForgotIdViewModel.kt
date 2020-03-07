@@ -10,12 +10,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by hclee on 2020-01-04.
  */
 
-class ForgotIdViewModel {
+@Singleton
+class ForgotIdViewModel @Inject constructor() {
     private val mCompositeDisposable = CompositeDisposable()
     val isEmailEmptyWarningVisibleObservable = ObservableBoolean(false)
     val isNonExistentEmailWarningVisibleObservable = ObservableBoolean(false)
