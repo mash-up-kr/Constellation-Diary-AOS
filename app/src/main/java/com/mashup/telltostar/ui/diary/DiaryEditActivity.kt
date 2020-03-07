@@ -150,6 +150,7 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
         const val EXTRA_DIARY_ID = "diary_id"
         const val EXTRA_HOROSCOPE_ID = "horoscope_id"
 
+        //TODO 빈 일기 리스트에서 작성되어지는 경우가 추가 (horoscopeId가 없음)
         fun startDiaryWriteActivity(activity: Activity, requestCode: Int, horoscopeId: Int) {
             activity.startActivityForResult(
                 Intent(activity, DiaryEditActivity::class.java).apply {
@@ -160,6 +161,7 @@ class DiaryEditActivity : AppCompatActivity(), DiaryEditContract.View {
             )
         }
 
+        //TODO 일기 리스트에서 수되어지는 경우가 추가정 (horoscopeId가 없음)
         fun startDiaryEditActivity(
             activity: Activity,
             requestCode: Int,
