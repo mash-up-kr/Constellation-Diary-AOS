@@ -64,7 +64,7 @@ class DiaryListActivity : AppCompatActivity() {
         //종료
         closeClick()
 
-        listDiaryDateTV.setOnClickListener {
+        listDiarySelectMonthLL.setOnClickListener {
             setDatePicker()
         }
     }
