@@ -1,7 +1,6 @@
 package com.mashup.telltostar.ui.main
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -80,6 +79,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 presenter.loadDailyQuestion()
                 presenter.loadHoroscope()
                 removeExtra(TYPE)
+            } else if (type == TYPE_SHOW_HOROSCOPE) {
+                showBottomSheet()
             }
         }
     }
@@ -154,6 +155,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         drawerContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
 
+    private fun showBottomSheet() {
+        if (sheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+            sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+    }
+
     private fun closeBottomSheet() {
         if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -209,11 +216,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         )
     }
 
-    override fun showWriteDiary(horoscopeId: Int) {
+    override fun showWriteDiary() {
         DiaryEditActivity.startDiaryWriteActivity(
             this,
-            REQUEST_DIARY_EDIT,
-            horoscopeId
+            REQUEST_DIARY_EDIT
         )
     }
 
@@ -237,15 +243,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         startActivity(
             Intent(this@MainActivity, SettingActivity::class.java)
         )
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_DIARY_EDIT) {
-            if (resultCode == Activity.RESULT_OK) {
-                //presenter.loadDailyQuestion()
-            }
-        }
     }
 
     @SuppressLint("WrongConstant")
@@ -274,7 +271,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         private const val REQUEST_DIARY_EDIT = 0x001
 
         const val TYPE = "type"
+
         const val TYPE_RESTART = "restart"
+        const val TYPE_SHOW_HOROSCOPE = "show_horoscope"
 
         fun startMainActivity(context: Context) {
             context.startActivity(Intent(context, MainActivity::class.java))
@@ -283,6 +282,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         fun startMainActivityRestart(context: Context) {
             context.startActivity(Intent(context, MainActivity::class.java).apply {
                 putExtra(TYPE, TYPE_RESTART)
+            })
+        }
+
+        fun startMainActivityWithHoroscope(context: Context) {
+            context.startActivity(Intent(context, MainActivity::class.java).apply {
+                putExtra(TYPE, TYPE_SHOW_HOROSCOPE)
             })
         }
     }

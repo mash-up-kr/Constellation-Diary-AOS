@@ -17,7 +17,7 @@ interface MainContract {
 
         fun showEditDiary(diaryId: Int)
 
-        fun showWriteDiary(horoscopeId: Int)
+        fun showWriteDiary()
 
         fun showStarList()
 
