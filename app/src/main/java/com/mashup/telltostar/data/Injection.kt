@@ -44,4 +44,8 @@ object Injection {
         val remote = ApiProvider.provideUserApi()
         return SignRepoImpl(remote)
     }
+
+    fun provideAuthenticationNumberRepo(): AuthenticationNumberRepository {
+        return AuthenticationNumberRepository(ApiProvider.provideAuthenticationNumberApi())
+    }
 }
