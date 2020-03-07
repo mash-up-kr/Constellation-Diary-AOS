@@ -12,7 +12,14 @@ import com.mashup.telltostar.R
 import com.mashup.telltostar.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_forgot_password.view.*
 
-class ForgotPasswordFragment : Fragment() {
+class ForgotPasswordFragment private constructor() : Fragment() {
+    companion object {
+        fun createForgotPasswordFragmentWithListener(fragmentListener: LoginActivity.FragmentListener) =
+            ForgotPasswordFragment().apply {
+                setFragmentListener(fragmentListener)
+            }
+    }
+
     private lateinit var mRootView: View
     private lateinit var mFragmentListener: LoginActivity.FragmentListener
     private lateinit var mForgotPasswordViewModel: ForgotPasswordViewModel

@@ -17,6 +17,7 @@ import com.mashup.telltostar.R
 import com.mashup.telltostar.databinding.FragmentForgotIdBinding
 import com.mashup.telltostar.di.DaggerForgotIdComponent
 import com.mashup.telltostar.ui.login.LoginActivity
+import com.mashup.telltostar.ui.login.forgotpassword.ForgotPasswordFragment
 import com.mashup.telltostar.util.VibratorUtil
 import kotlinx.android.synthetic.main.fragment_forgot_id.view.*
 
@@ -84,7 +85,9 @@ class ForgotIdFragment : Fragment() {
             }
             mBinding.forgotPasswordTextView.setOnClickListener {
                 mFragmentListener.replaceFragment(
-                    mForgotPasswordFragment,
+                    ForgotPasswordFragment.createForgotPasswordFragmentWithListener(
+                        mFragmentListener
+                    ),
                     R.anim.enter_from_right,
                     R.anim.exit_to_left
                 )

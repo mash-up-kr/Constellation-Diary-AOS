@@ -18,8 +18,8 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.mashup.telltostar.R
 import com.mashup.telltostar.di.DaggerLoginComponent
 import com.mashup.telltostar.ui.login.forgotid.ForgotIdFragment
+import com.mashup.telltostar.ui.login.forgotpassword.ForgotPasswordFragment
 import com.mashup.telltostar.ui.login.signup.CustomPasswordTransformationMethod
-import com.mashup.telltostar.ui.login.signup.IdRegistrationViewModel
 import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.util.PrefUtil
 import com.mashup.telltostar.util.VibratorUtil
@@ -236,7 +236,9 @@ class LoginFragment: Fragment() {
                     }
                     this.forgotIdPasswordDialogPasswordTextView.setOnClickListener {
                         mFragmentListener.replaceFragment(
-                            (activity as LoginActivity).mForgotPasswordFragment,
+                            ForgotPasswordFragment.createForgotPasswordFragmentWithListener(
+                                mFragmentListener
+                            ),
                             R.anim.enter_from_right,
                             R.anim.exit_to_left
                         )

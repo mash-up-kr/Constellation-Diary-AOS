@@ -38,7 +38,6 @@ class LoginActivity : AppCompatActivity() {
     private var mBottomSheetBehavior: BottomSheetBehavior<View>? = null
     lateinit var mLoginFragment: LoginFragment
     lateinit var mSignUpFragment: SignUpFragment
-    lateinit var mForgotPasswordFragment: ForgotPasswordFragment
     val mIdRegistrationComponent by lazy {
         DaggerIdRegistrationComponent.builder().build()
     }
@@ -53,10 +52,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initSignUpFragment() = SignUpFragment().apply {
-        setFragmentListener(mFragmentListener)
-    }
-
-    private fun initForgotPasswordFragment() = ForgotPasswordFragment().apply {
         setFragmentListener(mFragmentListener)
     }
 
@@ -80,7 +75,6 @@ class LoginActivity : AppCompatActivity() {
     private fun initBottomSheetView() {
         mLoginFragment = initLoginFragment()
         mSignUpFragment = initSignUpFragment()
-        mForgotPasswordFragment = initForgotPasswordFragment()
         mBottomSheetBehavior = BottomSheetBehavior.from(login_sign_up_bottom_sheet).apply {
             addBottomSheetCallback(object :
                 BottomSheetBehavior.BottomSheetCallback() {
