@@ -209,11 +209,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         )
     }
 
-    override fun showWriteDiary(horoscopeId: Int) {
+    override fun showWriteDiary() {
         DiaryEditActivity.startDiaryWriteActivity(
             this,
-            REQUEST_DIARY_EDIT,
-            horoscopeId
+            REQUEST_DIARY_EDIT
         )
     }
 
