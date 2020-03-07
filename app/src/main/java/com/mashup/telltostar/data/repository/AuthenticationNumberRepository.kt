@@ -2,7 +2,9 @@ package com.mashup.telltostar.data.repository
 
 import com.mashup.telltostar.data.exception.composeError
 import com.mashup.telltostar.data.source.remote.api.AuthenticationNumberApi
+import com.mashup.telltostar.data.source.remote.request.ReqFindPasswordNumberDto
 import com.mashup.telltostar.data.source.remote.request.ReqSignUpNumberDto
+import com.mashup.telltostar.data.source.remote.request.ReqValidationFindPasswordNumberDto
 import com.mashup.telltostar.data.source.remote.request.ReqValidationSignUpNumberDto
 import com.mashup.telltostar.data.source.remote.response.ResAuthenticationTokenDto
 import io.reactivex.Completable
@@ -29,6 +31,20 @@ class AuthenticationNumberRepository(
     fun authenticationSignUp(body: ReqValidationSignUpNumberDto): Single<ResAuthenticationTokenDto> {
         return mAuthenticationNumberApi
             .authenticationSignUp(body)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun verificationNumberFindPassword(body: ReqFindPasswordNumberDto): Completable {
+        return mAuthenticationNumberApi
+            .verificationNumberFindPassword(body)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun verificationFindPassword(body: ReqValidationFindPasswordNumberDto): Single<ResAuthenticationTokenDto> {
+        return mAuthenticationNumberApi
+            .verificationFindPassword(body)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

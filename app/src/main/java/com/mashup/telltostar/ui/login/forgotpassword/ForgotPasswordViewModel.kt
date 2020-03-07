@@ -5,6 +5,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
+import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.ApiProvider
 import com.mashup.telltostar.data.source.remote.request.ReqModifyPasswordDto
 import com.mashup.telltostar.data.source.remote.request.ReqValidationFindPasswordNumberDto
@@ -60,16 +61,14 @@ class ForgotPasswordViewModel @Inject constructor() {
                 mCompositeDisposable.clear()
                 isLoadingVisibleObservable.set(true)
                 mCompositeDisposable.add(
-                    ApiProvider
-                        .provideAuthenticationNumberApi()
+                    Injection
+                        .provideAuthenticationNumberRepo()
                         .verificationNumberFindPassword(
                             ReqFindPasswordNumberDto(
                                 email,
                                 id
                             )
                         )
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             isVerificationNumberRequestedObservable.set(true)
                             isLoadingVisibleObservable.set(false)
@@ -120,8 +119,8 @@ class ForgotPasswordViewModel @Inject constructor() {
         }
 
         mCompositeDisposable.add(
-            ApiProvider
-                .provideAuthenticationNumberApi()
+            Injection
+                .provideAuthenticationNumberRepo()
                 .verificationFindPassword(
                     ReqValidationFindPasswordNumberDto(
                         email,
@@ -129,11 +128,9 @@ class ForgotPasswordViewModel @Inject constructor() {
                         id
                     )
                 )
-                .subscribeOn(Schedulers.io())
                 .onErrorReturn {
                     getConvertedErrorData(it, ResAuthenticationTokenErrorDto::class.java)
                 }
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (it is ResAuthenticationTokenErrorDto) {
                         when (it.error.code) {
