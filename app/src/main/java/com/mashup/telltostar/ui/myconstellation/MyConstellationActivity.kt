@@ -93,10 +93,7 @@ class MyConstellationActivity : AppCompatActivity(),
             //infinite scroll
             adapter = constellationAdapter
 
-            setOffscreenItems(3)
-            setOverScrollEnabled(false)
-            setSlideOnFlingThreshold(200) //default 2100
-
+            setSlideOnFling(true)
             setItemTransformer(
                 ScaleTransformer.Builder()
                     .setMaxScale(1.0f)
@@ -105,6 +102,7 @@ class MyConstellationActivity : AppCompatActivity(),
                     .setPivotY(Pivot.Y.CENTER)
                     .build()
             )
+
 
             addScrollStateChangeListener(this@MyConstellationActivity)
             addOnItemChangedListener(this@MyConstellationActivity)
