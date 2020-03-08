@@ -133,12 +133,16 @@ class MyConstellationActivity : AppCompatActivity(),
             }.doOnError {
                 hideLoading()
             }.subscribe({
-                val authenticationToken = it.tokens.authenticationToken
-                val refreshToken = it.tokens.refreshToken
+                PrefUtil.put(PrefUtil.AUTHENTICATION_TOKEN, it.tokens.authenticationToken)
+                PrefUtil.put(PrefUtil.REFRESH_TOKEN, it.tokens.refreshToken)
 
                 PrefUtil.put(PrefUtil.CONSTELLATION, constellation)
-                PrefUtil.put(PrefUtil.AUTHENTICATION_TOKEN, authenticationToken)
-                PrefUtil.put(PrefUtil.REFRESH_TOKEN, refreshToken)
+
+                PrefUtil.put(PrefUtil.HOROSCOPE_ALARM_FLAG, it.user.horoscopeAlarmFlag)
+                PrefUtil.put(PrefUtil.HOROSCOPE_TIME, it.user.horoscopeTime)
+
+                PrefUtil.put(PrefUtil.QUESTION_ALARM_FLAG, it.user.questionAlarmFlag)
+                PrefUtil.put(PrefUtil.QUESTION_TIME, it.user.questionTime)
 
                 MainActivity.startMainActivity(this@MyConstellationActivity)
                 finish()
