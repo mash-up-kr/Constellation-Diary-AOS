@@ -93,7 +93,7 @@ object TimeUtil {
 
         val times = time.split(":")
 
-        if (times.isNullOrEmpty()) {
+        if (times.size < 2) {
             return ""
         }
 
@@ -140,7 +140,7 @@ object TimeUtil {
     fun getTimePlusNine(time: String): String {
         val times = time.split(":")
 
-        if (times.isNullOrEmpty()) {
+        if (times.size < 2) {
             return ""
         }
 
@@ -162,7 +162,7 @@ object TimeUtil {
     fun getTimeMinusNine(time: String): String {
         val times = time.split(":")
 
-        if (times.isNullOrEmpty()) {
+        if (times.size < 2) {
             return ""
         }
 
@@ -186,7 +186,7 @@ object TimeUtil {
 
         val times = time.split(":")
 
-        if (times.isNullOrEmpty()) {
+        if (times.size < 2) {
             return ""
         }
 
