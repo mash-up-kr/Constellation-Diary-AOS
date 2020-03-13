@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.setting.SettingActivity">
+
+    <!-- top bar -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivSettingClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:src="@drawable/ic_expand_close" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/setting"
+            android:textColor="@color/black_two"
+            android:textSize="17sp" />
+
+    </RelativeLayout>
+
+    <!-- divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_three" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/setting_item_start_margin"
+        android:layout_marginTop="18dp"
+        android:text="@string/setting_push"
+        android:textColor="@color/greyish_brown"
+        android:textSize="14sp" />
+
+    <!-- am push -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="@dimen/setting_item_start_margin"
+        android:layout_marginEnd="@dimen/setting_item_end_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/setting_horoscope_push_title"
+            android:textColor="@color/black_two"
+            android:textSize="18sp" />
+
+        <Switch
+            android:id="@+id/swSettingHoroscope"
+            style="@style/SwitchBlackWhiteTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
+    <!-- divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_three" />
+
+    <LinearLayout
+        android:id="@+id/btnSettingHoroscope"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="@dimen/setting_item_start_margin"
+        android:layout_marginEnd="@dimen/setting_item_end_margin"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvSettingHoroscopeTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_time"
+            android:textColor="@color/black_two"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvSettingHoroscopePush"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:textColor="@color/dark_sky_blue_three"
+            android:textSize="18sp"
+            tools:text="오전 08:00" />
+
+        <ImageView
+            android:id="@+id/ivSettingHoroscopePush"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/ic_arrow_down"
+            android:tint="@color/dark_sky_blue_three" />
+
+    </LinearLayout>
+
+    <!-- pm push -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="@dimen/setting_item_start_margin"
+        android:layout_marginEnd="@dimen/setting_item_end_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/setting_question_push_title"
+            android:textColor="@color/black_two"
+            android:textSize="18sp" />
+
+        <Switch
+            android:id="@+id/swSettingQuestion"
+            style="@style/SwitchBlackWhiteTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
+    <!-- divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_three" />
+
+    <LinearLayout
+        android:id="@+id/btnSettingQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="@dimen/setting_item_start_margin"
+        android:layout_marginEnd="@dimen/setting_item_end_margin"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvSettingQuestionTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_time"
+            android:textColor="@color/black_two"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvSettingQuestionPush"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:textColor="@color/dark_sky_blue_three"
+            android:textSize="18sp"
+            tools:text="오전 08:00" />
+
+        <ImageView
+            android:id="@+id/ivSettingQuestionPush"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/ic_arrow_down"
+            android:tint="@color/dark_sky_blue_three" />
+
+    </LinearLayout>
+
+    <!-- divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:background="@color/white_three" />
+
+    <!-- logout -->
+    <RelativeLayout
+        android:id="@+id/rlSettingLogout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingStart="@dimen/setting_item_start_margin"
+        android:paddingEnd="@dimen/setting_item_end_margin"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/logout"
+            android:textColor="@color/black_two"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <!-- divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_three" />
+
+    <!-- feedback -->
+    <RelativeLayout
+        android:id="@+id/rlSettingFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingStart="@dimen/setting_item_start_margin"
+        android:paddingEnd="@dimen/setting_item_end_margin"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/write_feedback"
+            android:textColor="@color/black_two"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_arrow_right" />
+
+    </RelativeLayout>
+
+    <!-- divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_three" />
+
+    <!-- developer -->
+    <RelativeLayout
+        android:id="@+id/rlSettingDeveloper"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingStart="@dimen/setting_item_start_margin"
+        android:paddingEnd="@dimen/setting_item_end_margin"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/developer_info"
+            android:textColor="@color/black_two"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_arrow_right" />
+
+    </RelativeLayout>
+
+    <!-- divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_three" />
+
+    <!-- version -->
+    <RelativeLayout
+        android:id="@+id/rlSettingAppVersion"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingStart="@dimen/setting_item_start_margin"
+        android:paddingEnd="@dimen/setting_item_end_margin"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_version"
+            android:textColor="@color/black_two"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvSettingVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="sans-serif"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/setting_item_start_margin"
+            android:paddingEnd="0dp"
+            android:text="ver. 1.0.0"
+            android:textColor="@color/brownish_grey_two"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+    </RelativeLayout>
+</LinearLayout>

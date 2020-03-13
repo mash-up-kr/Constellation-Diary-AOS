@@ -1,5 +1,6 @@
 package com.mashup.telltostar.data.source.remote
 
+import com.mashup.telltostar.data.source.remote.api.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,19 +9,42 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiProvider {
 
-    private const val baseUrl = "https://api.github.com/"
+    private const val BASE_URL = "https://byeol-byeol.kro.kr/"
 
-    private val retrofitRx = Retrofit.Builder()
-        .baseUrl(baseUrl)
+    fun provideAuthenticationNumberApi(): AuthenticationNumberApi =
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(provideOkHttpClient(provideLoggingInterceptor()))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(AuthenticationNumberApi::class.java)
+
+    fun provideUserApi() = Retrofit.Builder()
+        .baseUrl(BASE_URL)
         .client(provideOkHttpClient(provideLoggingInterceptor()))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
         .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(UserApi::class.java)
+
+    fun provideDiaryApi(): DiaryApi = retrofit.build()
+        .create(DiaryApi::class.java)
+
+    fun provideHoroscopeApi(): HoroscopeApi = retrofit.build()
+        .create(HoroscopeApi::class.java)
+
+    fun provideDailyApi(): DailyApi = retrofit.build()
+        .create(DailyApi::class.java)
+
+    fun provideUserChangeApi(): UserChangeApi = retrofit.build()
+        .create(UserChangeApi::class.java)
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
+        .baseUrl(BASE_URL)
         .client(provideOkHttpClient(provideLoggingInterceptor()))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
         .addConverterFactory(GsonConverterFactory.create())
-        .build()
 
     // 네트뭐크 통신에 사용할 클라이언트 객체를 생성합니다.
     private fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
@@ -28,7 +52,7 @@ object ApiProvider {
         // 이 클라이언트를 통해 오고 가는 네트워크 요청/응답을 로그로 표시하도록 합니다.
         b.addInterceptor(interceptor)
         // header 에 정보를 추가해 준다.
-        // b.addInterceptor(AddHeaderInterceptor())
+        b.addInterceptor(AddHeaderInterceptor())
         return b.build()
     }
 

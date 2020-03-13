@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "11959821783",
+    "firebase_url": "https://kancho-byeolbyeol.firebaseio.com",
+    "project_id": "kancho-byeolbyeol",
+    "storage_bucket": "kancho-byeolbyeol.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11959821783:android:ede100cbe27add07155792",
+        "android_client_info": {
+          "package_name": "com.mashup.telltostar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11959821783-sofalh0nmjvdlf6ke46n804ke0a11cla.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD49B3xRZFdQgqsRU28CVFHsq1QDjWnF9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11959821783-sofalh0nmjvdlf6ke46n804ke0a11cla.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

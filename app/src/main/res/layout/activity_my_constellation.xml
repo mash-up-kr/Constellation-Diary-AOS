@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main"
+    android:backgroundTint="#B3000000"
+    android:backgroundTintMode="src_atop"
+    tools:context=".ui.myconstellation.MyConstellationActivity">
+
+    <com.yarolegovich.discretescrollview.DiscreteScrollView
+        android:id="@+id/customScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
+        app:dsv_orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/btnMyConstellationStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.37"
+        tools:background="@color/white" />
+
+    <TextView
+        android:id="@+id/tvMyConstellationInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center_horizontal"
+        android:letterSpacing="-0.07"
+        android:lineSpacingExtra="8sp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customScrollView"
+        tools:text="@string/info_chunching" />
+
+    <Button
+        android:id="@+id/btnMyConstellationStart"
+        style="@style/ButtonWhite"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/start_star_star"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pbMyConstellationStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMyConstellationStart"
+        app:layout_constraintEnd_toEndOf="@+id/btnMyConstellationStart"
+        app:layout_constraintStart_toStartOf="@+id/btnMyConstellationStart"
+        app:layout_constraintTop_toTopOf="@+id/btnMyConstellationStart" />
+
+    <ImageView
+        android:id="@+id/ivMyConstellationClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="15dp"
+        android:src="@drawable/ic_expand_close"
+        android:tint="@color/white" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

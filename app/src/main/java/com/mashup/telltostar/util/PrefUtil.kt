@@ -7,6 +7,17 @@ object PrefUtil {
 
     const val PREF_NAME = "Pref"
 
+    const val CONSTELLATION = "constellation"
+
+    const val HOROSCOPE_ALARM_FLAG = "horoscope_alarm_flag"
+    const val HOROSCOPE_TIME = "horoscope_time"
+
+    const val QUESTION_ALARM_FLAG = "question_alarm_flag"
+    const val QUESTION_TIME = "question_time"
+
+    const val AUTHENTICATION_TOKEN = "authenticationToken"
+    const val REFRESH_TOKEN = "refreshToken"
+
     private lateinit var pref: SharedPreferences
 
     fun init(context: Context) {

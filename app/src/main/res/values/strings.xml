@@ -1,3 +1,203 @@
 <resources>
-    <string name="app_name">TellToStar</string>
+    <string name="app_name">별별일기</string>
+    <string name="일기작성">일기작성</string>
+    <string name="별자리_운세">별자리 운세</string>
+    <string name="행운의_키워드">행운의 키워드를 보세요.</string>
+    <string name="daily_question">오늘 하루는 어땠나요?</string>
+    <string name="constellation">별자리</string>
+    <string name="diary">일기장</string>
+    <string name="setting">설정</string>
+    <string name="write_diary">일기작성</string>
+    <string name="edit_diary">일기수정</string>
+    <string name="write_feedback">피드백 주기</string>
+    <string name="logout">로그아웃</string>
+    <string name="setting_push">푸시 알림 설정</string>
+
+    <string name="goat">염소자리</string>
+    <string name="waterbottle">물병자리</string>
+    <string name="fish">물고기자리</string>
+    <string name="yang">양자리</string>
+    <string name="hwangso">황소자리</string>
+    <string name="twin">쌍둥이자리</string>
+    <string name="crab">게자리</string>
+    <string name="lion">사자자리</string>
+    <string name="girl">처녀자리</string>
+    <string name="chunching">천칭자리</string>
+    <string name="jungal">전갈자리</string>
+    <string name="gungso">궁수자리</string>
+
+    <string name="date_yang">3월 21일~4월 21일</string>
+    <string name="date_chunching">9월 23~10월 22</string>
+    <string name="date_hwangso">4월 21일~5월 20일</string>
+    <string name="date_jungal">10 23일~11월 21일</string>
+    <string name="date_twin">5월 21일~6월 21일</string>
+    <string name="date_gungso">11월 22일~12월 20일</string>
+    <string name="date_crab">6월 22일~7월 22일</string>
+    <string name="date_goat">12월 21일~1월 19일</string>
+    <string name="date_lion">7월 23일~8월 22일</string>
+    <string name="date_waterbottle">1월 20일~2월 18일</string>
+    <string name="date_girl">8월 23일~9월 22일</string>
+    <string name="date_fish">2월 19일~3월 20일</string>
+
+    <string name="info_goat">염소자리는  자기관리를 잘하며, 신중하게 자신을 표현합니다.\n
+권위와 싸워 이겨내거나, 힘들게 일해서 성취한 것을 가치있게\n
+여깁니다. 책임감이 투철하며, 자신의 의무를 잘 수행합니다.</string>
+    <string name="info_waterbottle">물병자리는 자유롭고 독창적인 사람이 되고자 합니다.\n
+지성이 지배하는 인간적 세계를 꿈꾸며,\n
+절대적으로 옳고 바른 것을 찾으려는 경향이 있습니다.</string>
+    <string name="info_fish">물고기자리는 정서적으로 민감하며,\n
+아낌없이 베풀 줄 아는 사람으로 인정받고 싶어합니다.\n
+타인의 상황이나 감정에 공감하는 능력이 뛰어납니다.</string>
+    <string name="info_yang">양자리는 정의감이 있기 때문에 주변의 신뢰를 받으며\n
+거짓말을 잘 하지 못합니다.\n
+차갑고 냉정한 면이 있지만 속으로는 순수한 구석이 있습니다.</string>
+    <string name="info_hwangso">황소자리는 정이 많고 평화로운 성격을 가지고 있습니다.\n
+감정이나 기분 변화의 폭이 적고 안정적이기 때문에\n
+주변 사람들을 편안하게 해주는 장기가 있습니다. </string>
+    <string name="info_twin">쌍둥이자리는 연결고리를 찾는데 열중합니다.\n
+자신의 생각을 말로 표현하고자 하며,\n
+다양한 사람들과 관계를 형성하길 원합니다.</string>
+    <string name="info_crab">게자리의 감정 기복은 매우 심한 편입니다.\n
+애정이 깊고 감수성이 예민하기 때문에\n
+주변의 변화를 빠르게 눈치채는 편입니다.</string>
+    <string name="info_lion">사자자리는 리더십이 있고 집중받는 것을 좋아합니다.\n
+다른 사람들을 끌어들이는  매력을 가지고 있습니다.\n
+사고방식이 복잡하지 않고 때로는 아이처럼 단순하기도 합니다.</string>
+    <string name="info_girl">처녀자리는 뛰어난 커뮤니케이터이자 멀티플레이어입니다.\n
+한 번에 여러 가지 일을 능숙하게 해치우는 동시에\n
+여러 인간관계에서 중간 다리 역할을 하기도 합니다. </string>
+    <string name="info_chunching">천칭자리는 정이 많고 평화로운 성격을 가지고 있습니다.\n
+감정이나 기분 변화의 폭이 적고 안정적이기 때문에\n
+주변 사람들을 편안하게 해주는 장기가 있습니다. </string>
+    <string name="info_jungal">전갈자리는 비장한 구석이 있습니다.\n
+옳고 그름에 대한 신념이 있으며,\n
+정의감이 있기 때문에 주변의 신뢰를 받습니다.</string>
+    <string name="info_gungso">사수자리는 현실보다는 자신의 이상을 추구하고,\n
+자유를 동경합니다. 폭넓고 낙관적인 의견을 가치있게 여기며,\n
+미지의 세계를 탐험하는 것을 좋아합니다.</string>
+
+    <!-- MainActivity -->
+    <string name="main_question_title">오늘 하루\n어떠셨나요?</string>
+
+    <!-- DiaryEditActivity -->
+    <string name="diary_title_hint">제목(24자)</string>
+    <string name="done">Done</string>
+
+    <!-- LoginActivity -->
+    <string name="title_intro">로그인</string>
+    <string name="title_my_constellation">나의 별자리</string>
+    <string name="title_app">별별일기</string>
+    <string name="subtitle_star_star_diary">별처럼 빛나는 당신의 하루,\n별자리 운세 일기를 기록해보세요</string>
+    <string name="login_sign_up">로그인/회원가입</string>
+    <string name="login">로그인</string>
+    <string name="start_star_star">별별일기 시작하기</string>
+    <string name="id">아이디</string>
+    <string name="input_id">아이디를 입력해주세요.</string>
+    <string name="duplicate_id">중복된 아이디 입니다.</string>
+    <string name="available_id">사용가능한 아이디 입니다.</string>
+    <string name="password">비밀번호</string>
+    <string name="input_password">비밀번호를 입력해주세요.</string>
+    <string name="confirm_password">비밀번호 확인</string>
+    <string name="input_confirm_password">비밀번호를 다시 입력해주세요.</string>
+    <string name="not_identical_password_reinput">비밀번호가 일치하지 않습니다. 다시 입력해 주세요.</string>
+    <string name="sign_up">회원가입</string>
+    <string name="sign_up_step_1">1/2</string>
+    <string name="sign_up_step_2">2/2</string>
+    <string name="next">다음</string>
+    <string name="forgot_id_password">아이디 / 비밀번호 찾기</string>
+    <string name="forgot_id">아이디 찾기</string>
+    <string name="email">이메일</string>
+    <string name="input_email">이메일 주소를 입력해주세요.</string>
+    <string name="phone_number">핸드폰 번호</string>
+    <string name="verification_number">인증번호</string>
+    <string name="request_verification_mail">인증 메일 받기</string>
+    <string name="mail_verification_complete">메일 인증 완료</string>
+    <string name="request_again_verification_mail">인증 다시 받기</string>
+    <string name="forgot_pasword">비밀번호 찾기</string>
+    <string name="check_id">아이디를 확인해주세요.</string>
+    <string name="example_email">example@email.com</string>
+    <string name="check_email">이메일을 확인해주세요.</string>
+    <string name="input_phone_number">가입 시 입력했던 핸드폰 번호를 입력해주세요.</string>
+    <string name="request_verification">인증하기</string>
+    <string name="input_verification_number_forgot_id">메일로 전송된 인증번호를 입력해주세요.</string>
+    <string name="input_verification_number_sign_up">인증번호를 입력해주세요.</string>
+    <string name="input_verification_number_again_sign_up">인증번호를 다시 입력해주세요.</string>
+    <string name="complete_forgot_id">아이디 찾기 완료하기</string>
+    <string name="input_verification_number">인증번호를 입력해주세요.</string>
+    <string name="forgot_id_password_dialog_title">Info</string>
+    <string name="forgot_id_password_dialog_id">아이디를 찾고싶어요.</string>
+    <string name="forgot_id_password_dialog_password">비밀번호를 찾고싶어요.</string>
+    <string name="request_verification_number">인증번호 받기</string>
+    <string name="request_verification_number_again">다시받기</string>
+    <string name="id_duplication_check">중복확인</string>
+    <string name="find_id_result">아이디 찾기 결과</string>
+    <string name="reset_password">비밀번호 재설정</string>
+    <string name="new_password">새로운 비밀번호</string>
+    <string name="reinput_password">비밀번호 재입력</string>
+    <string name="not_identical_password">비밀번호가 일치하지 않습니다.</string>
+    <string name="error_login">가입되지 않은 아이디이거나, 잘못된 비밀번호입니다.</string>
+    <string name="error_not_email_pattern">잘못된 이메일 형식입니다.</string>
+    <string name="error_verification_timeout">인증번호 입력 시간이 지났습니다.</string>
+    <string name="error_nonexistent_email">가입되지 않은 이메일 주소입니다.</string>
+    <string name="error_verification_number_wrong">인증번호가 잘못되었습니다.</string>
+    <string name="error_not_id_pattern">올바른 아이디 형식이 아닙니다.</string>
+    <string name="error_not_password_pattern">올바른 비밀번호 형식이 아닙니다.</string>
+    <string name="error_not_duplication_checked_id">중복확인이 필요한 아이디입니다.</string>
+    <string name="error_exist_email">이미 가입된 이메일 주소입니다.</string>
+
+    <!-- my constellation -->
+    <string name="watch_constellation">별자리 운세 보기</string>
+
+    <!--    StarListActivity-->
+    <string name="Constellation_luck">별자리별 운세</string>
+
+    <!--    StarListDetailActivity-->
+    <string name="ChangeStar">내별자리 변경</string>
+
+    <!--    DiaryListActivity-->
+    <string name="diary_list">일기장</string>
+    <string name="select">선택</string>
+    <string name="delete">삭제</string>
+    <string name="mon">월</string>
+    <string name="tue">화</string>
+    <string name="wed">수</string>
+    <string name="thu">목</string>
+    <string name="fri">금</string>
+    <string name="sat">토</string>
+    <string name="sun">일</string>
+    <string name="delete_diary">일기를 삭제하시겠습니다?</string>
+    <string name="empty_mention">작성된 일기가 없어요.\n오늘의 운세를 확인하고 일기장을 채워주세요.</string>
+    <string name="empty_mention_simple">작성된 일기가 없어요.</string>
+    <string name="add_diary">일기 작성하기</string>
+
+    <!--    SelectMonth-->
+    <string name="jan">1월</string>
+    <string name="feb">2월</string>
+    <string name="mar">3월</string>
+    <string name="Apr">4월</string>
+    <string name="may">5월</string>
+    <string name="jun">6월</string>
+    <string name="jul">7월</string>
+    <string name="aug">8월</string>
+    <string name="sep">9월</string>
+    <string name="oct">10월</string>
+    <string name="nov">11월</string>
+    <string name="dec">12월</string>
+
+    <!-- Setting -->
+    <string name="setting_horoscope_push_title">운세 알림</string>
+    <string name="setting_question_push_title">질문 알림</string>
+    <string name="please_write_contents">내용을 입력해 주세요</string>
+    <string name="developer_info">개발자 정보</string>
+    <string name="app_version">앱버전</string>
+    <string name="setting_time">시간 설정</string>
+    <string name="cancel">취소</string>
+    <string name="ok">완료</string>
+    <string name="android">Android</string>
+    <string name="design">Design</string>
+    <string name="server">Server</string>
+    <string name="names_android">- 최민정, 이진성, 이해창</string>
+    <string name="names_design">- 고은이, 이정은, 남궁욱</string>
+    <string name="names_server">- 이동준</string>
+
 </resources>

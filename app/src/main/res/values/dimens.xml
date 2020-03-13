@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="pageMargin">12dp</dimen>
+    <dimen name="offset">5dp</dimen>
+
+    <dimen name="setting_item_start_margin">15dp</dimen>
+    <dimen name="setting_item_end_margin">16dp</dimen>
+
+    <dimen name="setting_title_size">20sp</dimen>
+    <dimen name="setting_title_margin_top">15dp</dimen>
+
+    <dimen name="setting_description_size">16sp</dimen>
+    <dimen name="setting_description_margin_top">6dp</dimen>
+
+</resources>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fragment_rounded"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="314dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/rounded_corner_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/arrowBackImageViewContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="2dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="13dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/arrowBackImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:src="@drawable/ic_arrow_back" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/signUpTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/sign_up"
+        android:textColor="@color/black_two"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/arrowBackImageViewContainer" />
+
+    <TextView
+        android:id="@+id/signUpStepTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:letterSpacing="-0.05"
+        android:text="@string/sign_up_step_1"
+        android:textColor="@color/brownish_grey_two"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/signUpTextView"
+        app:layout_constraintStart_toEndOf="@id/signUpTextView"
+        app:layout_constraintTop_toTopOf="@id/signUpTextView" />
+
+    <FrameLayout
+        android:id="@+id/signUpFragmentContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="41.5dp"
+        app:layout_constraintBottom_toTopOf="@+id/startStarStarDiaryButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpTextView">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/nextSignUpButton"
+        android:layout_width="328dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/custom_corner_silver_button"
+        android:enabled="false"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="8sp"
+        android:stateListAnimator="@null"
+        android:text="@string/request_verification"
+        android:textColor="@color/brownish_grey_two"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/startStarStarDiaryButton"
+        android:layout_width="328dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/custom_corner_navy_button"
+        android:letterSpacing="-0.05"
+        android:lineSpacingExtra="8sp"
+        android:stateListAnimator="@null"
+        android:text="@string/start_star_star"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

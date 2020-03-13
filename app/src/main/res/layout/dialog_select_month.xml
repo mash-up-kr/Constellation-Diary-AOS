@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_marginBottom="42dp"
+    android:gravity="center"
+    android:background="@drawable/dialog_delete">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12.5dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/icon_up"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/diaryListSelectRV"
+        android:layout_width="324dp"
+        android:layout_height="560dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12.5dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/down"/>
+
+</LinearLayout>

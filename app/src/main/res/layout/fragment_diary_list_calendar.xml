@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/diaryListCalendarBox"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_columnWeight="1">
+    <com.google.android.material.circularreveal.CircularRevealFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/diaryListCalendarSelectIV"
+            android:layout_width="38.5dp"
+            android:layout_height="38.5dp"
+            android:background="@drawable/calendar_selection"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
+        <TextView
+            android:id="@+id/diaryListCalendardayTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/dark"
+            android:textSize="14sp"/>
+    </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+    <ImageView
+        android:id="@+id/diaryListCalendarStampIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3.9dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/icon_star"
+        android:visibility="invisible"/>
+</LinearLayout>
