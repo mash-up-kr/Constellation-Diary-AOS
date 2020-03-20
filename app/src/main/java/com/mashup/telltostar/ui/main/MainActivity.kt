@@ -20,6 +20,7 @@ import com.mashup.telltostar.ui.diarylist.DiaryListActivity
 import com.mashup.telltostar.ui.myconstellation.MyConstellationActivity
 import com.mashup.telltostar.ui.setting.SettingActivity
 import com.mashup.telltostar.util.ConstellationUtil
+import com.mashup.telltostar.util.NotificationUtil
 import com.mashup.telltostar.util.PrefUtil
 import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.disposables.CompositeDisposable
@@ -58,10 +59,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         initBottomSheet()
         initButton()
         initBus()
-        setConstellationTitle()
-
-        presenter.loadDailyQuestion()
-        presenter.loadHoroscope()
+        initData(intent)
     }
 
     override fun onDestroy() {
@@ -72,14 +70,45 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         intent?.run {
-            val type = getStringExtra(TYPE)
+            val type = getStringExtra(EXTRA_TYPE)
             Timber.d("type : $type")
+
             if (type == TYPE_RESTART) {
-                setConstellationTitle()
-                presenter.loadDailyQuestion()
-                presenter.loadHoroscope()
-                removeExtra(TYPE)
+                initData(this)
             } else if (type == TYPE_SHOW_HOROSCOPE) {
+                showBottomSheet()
+            }
+
+            removeExtra(EXTRA_TYPE)
+        }
+    }
+
+    private fun initData(intent: Intent) {
+        setConstellationTitle()
+        presenter.loadDailyQuestion()
+        presenter.loadHoroscope()
+
+        Timber.d("intent : ${intent.extras}")
+
+        intent.getSerializableExtra(EXTRA_NOTIFICATION_TYPE)?.let { notificationType ->
+            if (notificationType is NotificationUtil.NotificationType) {
+                showNotificationFunc(notificationType)
+                intent.removeExtra(EXTRA_NOTIFICATION_TYPE)
+            }
+        }
+    }
+
+    private fun showNotificationFunc(notificationType: NotificationUtil.NotificationType) {
+        Timber.d("notificationType : $notificationType")
+
+        when (notificationType) {
+            NotificationUtil.NotificationType.NONE -> {
+
+            }
+            NotificationUtil.NotificationType.QUESTION -> {
+
+            }
+            NotificationUtil.NotificationType.HOROSCOPE -> {
                 showBottomSheet()
             }
         }
@@ -270,7 +299,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     companion object {
         private const val REQUEST_DIARY_EDIT = 0x001
 
-        const val TYPE = "type"
+        const val EXTRA_TYPE = "type"
+        const val EXTRA_NOTIFICATION_TYPE = "notification_type"
 
         const val TYPE_RESTART = "restart"
         const val TYPE_SHOW_HOROSCOPE = "show_horoscope"
@@ -281,13 +311,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         fun startMainActivityRestart(context: Context) {
             context.startActivity(Intent(context, MainActivity::class.java).apply {
-                putExtra(TYPE, TYPE_RESTART)
+                putExtra(EXTRA_TYPE, TYPE_RESTART)
             })
         }
 
         fun startMainActivityWithHoroscope(context: Context) {
             context.startActivity(Intent(context, MainActivity::class.java).apply {
-                putExtra(TYPE, TYPE_SHOW_HOROSCOPE)
+                putExtra(EXTRA_TYPE, TYPE_SHOW_HOROSCOPE)
             })
         }
     }

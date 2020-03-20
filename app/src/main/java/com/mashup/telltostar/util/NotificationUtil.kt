@@ -15,7 +15,11 @@ import com.mashup.telltostar.ui.main.MainActivity
 
 object NotificationUtil {
 
-    fun generate(context: Context, title: String, message: String) {
+    enum class NotificationType {
+        NONE, QUESTION, HOROSCOPE
+    }
+
+    fun generate(context: Context, title: String, message: String, type: NotificationType) {
         val channelId = "star"
         val channelName = "Start Notification"
 
@@ -35,7 +39,8 @@ object NotificationUtil {
 
         val notificationIntent =
             Intent(context.applicationContext, MainActivity::class.java).apply {
-                putExtra(MainActivity.TYPE, MainActivity.TYPE_RESTART)
+                putExtra(MainActivity.EXTRA_TYPE, MainActivity.TYPE_RESTART)
+                putExtra(MainActivity.EXTRA_NOTIFICATION_TYPE, type)
             }
         val requestID = System.currentTimeMillis().toInt()
 
