@@ -9,22 +9,29 @@ class StarStarMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-
         Timber.d("onMessageReceived()")
 
         if (message.data.isNotEmpty()) {
-            /*val iterator = message.data.iterator()
-            while (iterator.hasNext()) {
-                with(iterator.next()) {
-                    timber.log.Timber.d("key: $key, value: $value")
-
-                     }
-            }*/
             val title = message.data["title"]
-            val message = message.data["body"]
+            val body = message.data["body"]
+            val type = message.data["type"]
 
-            if (!title.isNullOrEmpty() && !message.isNullOrEmpty()) {
-                NotificationUtil.generate(applicationContext, title, message)
+            if (!title.isNullOrEmpty() && !body.isNullOrEmpty()) {
+
+                val notificationType = when (type) {
+                    NotificationUtil.NotificationType.QUESTION.name -> {
+                        NotificationUtil.NotificationType.QUESTION
+                    }
+                    NotificationUtil.NotificationType.HOROSCOPE.name -> {
+                        NotificationUtil.NotificationType.HOROSCOPE
+                    }
+                    else -> {
+                        NotificationUtil.NotificationType.NONE
+                    }
+                }
+
+                Timber.d("title : $title , body : $body , notificationType : $notificationType")
+                NotificationUtil.generate(applicationContext, title, body, notificationType)
             }
         }
     }
