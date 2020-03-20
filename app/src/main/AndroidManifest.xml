@@ -42,12 +42,11 @@
             android:theme="@style/NoActionBarTheme" />
         <activity
             android:name=".ui.login.LoginActivity"
-            android:theme="@style/NoActionBarTheme"></activity>
+            android:theme="@style/NoActionBarTheme" />
         <activity
             android:name=".ui.main.MainActivity"
             android:launchMode="singleTask"
-            android:theme="@style/NoActionBarTheme" >
-        </activity>
+            android:theme="@style/NoActionBarTheme" />
         <activity android:name=".ui.diary.DiaryEditActivity" />
         <activity android:name=".ui.setting.SettingActivity" />
         <activity android:name=".ui.myconstellation.MyConstellationActivity" />
