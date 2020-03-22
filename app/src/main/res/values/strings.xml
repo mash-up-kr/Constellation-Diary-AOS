@@ -3,6 +3,7 @@
     <string name="일기작성">일기작성</string>
     <string name="별자리_운세">별자리 운세</string>
     <string name="행운의_키워드">행운의 키워드를 보세요.</string>
+    <string name="today_horoscope_keyword">오늘의 행운의 키워드를 확인해보세요.</string>
     <string name="daily_question">오늘 하루는 어땠나요?</string>
     <string name="constellation">별자리</string>
     <string name="diary">일기장</string>
@@ -74,7 +75,9 @@
 정의감이 있기 때문에 주변의 신뢰를 받습니다.</string>
     <string name="info_gungso">사수자리는 현실보다는 자신의 이상을 추구하고,\n
 자유를 동경합니다. 폭넓고 낙관적인 의견을 가치있게 여기며,\n
-미지의 세계를 탐험하는 것을 좋아합니다.</string>
+미지의 세계를 험하는 것을 좋아합니다.</string>
+
+    <string name="constellation_luck">%s 운세</string>
 
     <!-- MainActivity -->
     <string name="main_question_title">오늘 하루\n어떠셨나요?</string>
@@ -148,13 +151,13 @@
     <!-- my constellation -->
     <string name="watch_constellation">별자리 운세 보기</string>
 
-    <!--    StarListActivity-->
+    <!-- StarListActivity-->
     <string name="Constellation_luck">별자리별 운세</string>
 
-    <!--    StarListDetailActivity-->
+    <!-- StarListDetailActivity-->
     <string name="ChangeStar">내별자리 변경</string>
 
-    <!--    DiaryListActivity-->
+    <!-- DiaryListActivity-->
     <string name="diary_list">일기장</string>
     <string name="select">선택</string>
     <string name="delete">삭제</string>
@@ -170,7 +173,7 @@
     <string name="empty_mention_simple">작성된 일기가 없어요.</string>
     <string name="add_diary">일기 작성하기</string>
 
-    <!--    SelectMonth-->
+    <!-- SelectMonth-->
     <string name="jan">1월</string>
     <string name="feb">2월</string>
     <string name="mar">3월</string>

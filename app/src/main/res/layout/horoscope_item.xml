@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.mashup.telltostar.ui.main.HoroscopeItemViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:onClick="@{(view) -> model.onClickStyle(view, model.horoscope.stylist)}"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_clothes" />
+
+            <TextView
+                style="@style/TextHoroscopeItem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{model.horoscope.stylist}"
+                tools:text="very nice clothes" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:onClick="@{() -> model.onClickNumber()}"
+
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_number" />
+
+            <TextView
+                style="@style/TextHoroscopeItem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{model.horoscope.numeral}"
+                tools:text="number" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:onClick="@{() -> model.onClickExercise()}"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_workout" />
+
+            <TextView
+                android:id="@+id/tvWorkout"
+                style="@style/TextHoroscopeItem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{model.horoscope.exercise}"
+                tools:text="workout" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:onClick="@{() -> model.onClickWord()}"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_words" />
+
+            <TextView
+                style="@style/TextHoroscopeItem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{model.horoscope.word}"
+                tools:text="words" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

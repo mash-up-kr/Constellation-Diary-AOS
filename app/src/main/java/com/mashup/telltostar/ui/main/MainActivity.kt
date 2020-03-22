@@ -9,11 +9,13 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.Horoscope
+import com.mashup.telltostar.databinding.ActivityMainBinding
 import com.mashup.telltostar.eventbus.RxEventBusHelper
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import com.mashup.telltostar.ui.diarylist.DiaryListActivity
@@ -38,6 +40,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override lateinit var presenter: MainContract.Presenter
 
+    lateinit var binding: ActivityMainBinding
+
     private val sheetBehavior by lazy {
         BottomSheetBehavior.from(llHoroscopeInfoView)
     }
@@ -46,7 +50,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         presenter = MainPresenter(
             this,
@@ -210,7 +214,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
 
         with(llHoroscopeInfoView) {
-            tvHoroscopeTitle.text = "$constellation 운세"
+            tvHoroscopeTitle.text =
+                String.format(resources.getString(R.string.constellation_luck), constellation)
             tvDate.text = TimeUtil.getKSTDateFromUTCDate(TimeUtil.getUTCDate())
         }
     }
@@ -230,10 +235,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun showHoroscope(horoscope: Horoscope) {
         with(llHoroscopeInfoView) {
             tvHoroscopeContents.text = horoscope.content
-            tvClothes.text = horoscope.stylist
-            tvNumber.text = horoscope.numeral
-            tvWorkout.text = horoscope.exercise
-            tvWord.text = horoscope.word
+            binding.mainContents.horoscopeInfoViewModel = HoroscopeItemViewModel(horoscope)
         }
     }
 
