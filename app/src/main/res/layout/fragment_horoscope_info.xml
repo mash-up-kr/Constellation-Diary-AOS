@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/llBottomSheetView"
+    android:id="@+id/llHoroscopeInfoView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fragment_rounded"
@@ -27,7 +27,7 @@
             android:background="#c4c4c4" />
 
         <TextView
-            android:id="@+id/tvBottomSheetHoroscopeTitle"
+            android:id="@+id/tvHoroscopeTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -64,7 +64,7 @@
                     android:src="@drawable/icon_clothes" />
 
                 <TextView
-                    android:id="@+id/tvBottomSheetClothes"
+                    android:id="@+id/tvClothes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="bottom|center_horizontal"
@@ -85,7 +85,7 @@
                     android:src="@drawable/icon_number" />
 
                 <TextView
-                    android:id="@+id/tvBottomSheetNumber"
+                    android:id="@+id/tvNumber"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="bottom|center_horizontal"
@@ -106,7 +106,7 @@
                     android:src="@drawable/icon_workout" />
 
                 <TextView
-                    android:id="@+id/tvBottomSheetWorkout"
+                    android:id="@+id/tvWorkout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="bottom|center_horizontal"
@@ -127,7 +127,7 @@
                     android:src="@drawable/icon_words" />
 
                 <TextView
-                    android:id="@+id/tvBottomSheetWord"
+                    android:id="@+id/tvWord"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="bottom|center_horizontal"
@@ -156,7 +156,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvBottomSheetDate"
+                android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
@@ -165,7 +165,7 @@
                 tools:text="2019년 12월 20일 (금)" />
 
             <TextView
-                android:id="@+id/tvBottomSheetHoroscopeContents"
+                android:id="@+id/tvHoroscopeContents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -188,7 +188,7 @@
         android:layout_weight="1">
 
         <Button
-            android:id="@+id/btnBottomsheetEditDiary"
+            android:id="@+id/btnEditDiary"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="bottom"

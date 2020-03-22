@@ -25,8 +25,8 @@ import com.mashup.telltostar.util.PrefUtil
 import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_bottomsheet.*
-import kotlinx.android.synthetic.main.fragment_bottomsheet.view.*
+import kotlinx.android.synthetic.main.fragment_horoscope_info.*
+import kotlinx.android.synthetic.main.fragment_horoscope_info.view.*
 import kotlinx.android.synthetic.main.header.view.*
 import kotlinx.android.synthetic.main.main_contents.*
 import kotlinx.android.synthetic.main.main_top_bar.*
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override lateinit var presenter: MainContract.Presenter
 
     private val sheetBehavior by lazy {
-        BottomSheetBehavior.from(llBottomSheetView)
+        BottomSheetBehavior.from(llHoroscopeInfoView)
     }
 
     private val compositeDisposable = CompositeDisposable()
@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         tvMainContentsDescription.setOnClickListener {
             presenter.editDiary()
         }
-        btnBottomsheetEditDiary.setOnClickListener {
+        btnEditDiary.setOnClickListener {
             presenter.editDiary()
             closeBottomSheet()
         }
@@ -209,31 +209,31 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             tvConstellationDuration.text = ConstellationUtil.getDate(resources, constellation)
         }
 
-        with(llBottomSheetView) {
-            tvBottomSheetHoroscopeTitle.text = "$constellation 운세"
-            tvBottomSheetDate.text = TimeUtil.getKSTDateFromUTCDate(TimeUtil.getUTCDate())
+        with(llHoroscopeInfoView) {
+            tvHoroscopeTitle.text = "$constellation 운세"
+            tvDate.text = TimeUtil.getKSTDateFromUTCDate(TimeUtil.getUTCDate())
         }
     }
 
     override fun showDiaryTitle(title: String) {
         tvMainContentsTitle.text = title
         tvMainContentsDescription.text = resources.getString(R.string.edit_diary) + " >"
-        llBottomSheetView.btnBottomsheetEditDiary.text = resources.getString(R.string.edit_diary)
+        llHoroscopeInfoView.btnEditDiary.text = resources.getString(R.string.edit_diary)
     }
 
     override fun showQuestionTitle(title: String) {
         tvMainContentsTitle.text = title
         tvMainContentsDescription.text = resources.getString(R.string.write_diary) + " >"
-        llBottomSheetView.btnBottomsheetEditDiary.text = resources.getString(R.string.write_diary)
+        llHoroscopeInfoView.btnEditDiary.text = resources.getString(R.string.write_diary)
     }
 
     override fun showHoroscope(horoscope: Horoscope) {
-        with(llBottomSheetView) {
-            tvBottomSheetHoroscopeContents.text = horoscope.content
-            tvBottomSheetClothes.text = horoscope.stylist
-            tvBottomSheetNumber.text = horoscope.numeral
-            tvBottomSheetWorkout.text = horoscope.exercise
-            tvBottomSheetWord.text = horoscope.word
+        with(llHoroscopeInfoView) {
+            tvHoroscopeContents.text = horoscope.content
+            tvClothes.text = horoscope.stylist
+            tvNumber.text = horoscope.numeral
+            tvWorkout.text = horoscope.exercise
+            tvWord.text = horoscope.word
         }
     }
 

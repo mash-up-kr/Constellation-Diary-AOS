@@ -77,7 +77,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
-        layout="@layout/fragment_bottomsheet"
-        tools:visibility="gone" />
+        layout="@layout/fragment_horoscope_info"
+        tools:visibility="visible" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
