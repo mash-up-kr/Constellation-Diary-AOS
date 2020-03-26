@@ -9,11 +9,13 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.response.Horoscope
+import com.mashup.telltostar.databinding.ActivityMainBinding
 import com.mashup.telltostar.eventbus.RxEventBusHelper
 import com.mashup.telltostar.ui.diary.DiaryEditActivity
 import com.mashup.telltostar.ui.diarylist.DiaryListActivity
@@ -25,8 +27,8 @@ import com.mashup.telltostar.util.PrefUtil
 import com.mashup.telltostar.util.TimeUtil
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_bottomsheet.*
-import kotlinx.android.synthetic.main.fragment_bottomsheet.view.*
+import kotlinx.android.synthetic.main.fragment_horoscope_info.*
+import kotlinx.android.synthetic.main.fragment_horoscope_info.view.*
 import kotlinx.android.synthetic.main.header.view.*
 import kotlinx.android.synthetic.main.main_contents.*
 import kotlinx.android.synthetic.main.main_top_bar.*
@@ -38,15 +40,17 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override lateinit var presenter: MainContract.Presenter
 
+    lateinit var binding: ActivityMainBinding
+
     private val sheetBehavior by lazy {
-        BottomSheetBehavior.from(llBottomSheetView)
+        BottomSheetBehavior.from(llHoroscopeInfoView)
     }
 
     private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         presenter = MainPresenter(
             this,
@@ -56,6 +60,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             compositeDisposable
         )
 
+        initExplainHoroscope()
         initBottomSheet()
         initButton()
         initBus()
@@ -80,6 +85,21 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             }
 
             removeExtra(EXTRA_TYPE)
+        }
+    }
+
+    private fun initExplainHoroscope() {
+
+        val isExplain = PrefUtil.get(PrefUtil.EXPLAIN_MAIN_HOROSCOPE, false)
+
+        if (isExplain) {
+            binding.mainContents.rvMainExplainHoroscope.visibility = View.GONE
+        } else {
+            binding.mainContents.rvMainExplainHoroscope.visibility = View.VISIBLE
+            binding.mainContents.rvMainExplainHoroscope.setOnClickListener {
+                binding.mainContents.rvMainExplainHoroscope.visibility = View.GONE
+                PrefUtil.put(PrefUtil.EXPLAIN_MAIN_HOROSCOPE, true)
+            }
         }
     }
 
@@ -137,7 +157,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         tvMainContentsDescription.setOnClickListener {
             presenter.editDiary()
         }
-        btnBottomsheetEditDiary.setOnClickListener {
+        btnEditDiary.setOnClickListener {
             presenter.editDiary()
             closeBottomSheet()
         }
@@ -209,31 +229,29 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             tvConstellationDuration.text = ConstellationUtil.getDate(resources, constellation)
         }
 
-        with(llBottomSheetView) {
-            tvBottomSheetHoroscopeTitle.text = "$constellation 운세"
-            tvBottomSheetDate.text = TimeUtil.getKSTDateFromUTCDate(TimeUtil.getUTCDate())
+        with(llHoroscopeInfoView) {
+            tvHoroscopeTitle.text =
+                String.format(resources.getString(R.string.constellation_luck), constellation)
+            tvDate.text = TimeUtil.getKSTDateFromUTCDate(TimeUtil.getUTCDate())
         }
     }
 
     override fun showDiaryTitle(title: String) {
         tvMainContentsTitle.text = title
         tvMainContentsDescription.text = resources.getString(R.string.edit_diary) + " >"
-        llBottomSheetView.btnBottomsheetEditDiary.text = resources.getString(R.string.edit_diary)
+        llHoroscopeInfoView.btnEditDiary.text = resources.getString(R.string.edit_diary)
     }
 
     override fun showQuestionTitle(title: String) {
         tvMainContentsTitle.text = title
         tvMainContentsDescription.text = resources.getString(R.string.write_diary) + " >"
-        llBottomSheetView.btnBottomsheetEditDiary.text = resources.getString(R.string.write_diary)
+        llHoroscopeInfoView.btnEditDiary.text = resources.getString(R.string.write_diary)
     }
 
     override fun showHoroscope(horoscope: Horoscope) {
-        with(llBottomSheetView) {
-            tvBottomSheetHoroscopeContents.text = horoscope.content
-            tvBottomSheetClothes.text = horoscope.stylist
-            tvBottomSheetNumber.text = horoscope.numeral
-            tvBottomSheetWorkout.text = horoscope.exercise
-            tvBottomSheetWord.text = horoscope.word
+        with(llHoroscopeInfoView) {
+            tvHoroscopeContents.text = horoscope.content
+            binding.mainContents.horoscopeInfoViewModel = HoroscopeItemViewModel(horoscope)
         }
     }
 

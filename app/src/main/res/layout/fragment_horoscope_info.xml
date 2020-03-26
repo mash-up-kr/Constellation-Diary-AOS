@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="horoscopeInfoViewModel"
+            type="com.mashup.telltostar.ui.main.HoroscopeItemViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/llHoroscopeInfoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/fragment_rounded"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="154dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="154dp"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="28dp">
+
+                <View
+                    android:layout_width="32dp"
+                    android:layout_height="4dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="8.5dp"
+                    android:background="@color/pinkish_grey" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tvHoroscopeTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="@string/별자리_운세"
+                android:textColor="@color/black_two"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/today_horoscope_keyword"
+                android:textColor="@color/brown_grey"
+                android:textSize="12sp" />
+
+            <include
+                layout="@layout/horoscope_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:model="@{horoscopeInfoViewModel}" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#1a000000" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:textColor="@color/very_light_pink_two"
+                    android:textSize="11sp"
+                    tools:text="2019년 12월 20일 (금)" />
+
+                <TextView
+                    android:id="@+id/tvHoroscopeContents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="8sp"
+                    android:textColor="#676767"
+                    android:textSize="14sp"
+                    tools:text="12일 전 두 분의 작정한 전화 강요 폭격 후 나는 스트레스와 불안감 우울증 등이 폭발해 밤에 잠을 못 자서 밤낮이 엉망진창으로 바뀌어 있었다.
+\n\n
+보통의 사람들이라면 그냥 그려려니 하고 말 수도 있지만 나는 타고난 예민한 인간인 탓인지 그 후 몇 번이나 배란다 난간을 쳐다봤다.
+" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="23.5dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btnEditDiary"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/btn_rounded"
+                android:text="@string/일기작성"
+                android:textColor="#f8f8f8"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

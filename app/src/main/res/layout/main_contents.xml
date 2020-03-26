@@ -1,83 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.airbnb.lottie.LottieAnimationView
+    <data>
+
+        <variable
+            name="horoscopeInfoViewModel"
+            type="com.mashup.telltostar.ui.main.HoroscopeItemViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="background_interaction.json"
-        app:lottie_loop="true" />
+        tools:context=".ui.main.MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:background="@drawable/bg_main">
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="background_interaction.json"
+            app:lottie_loop="true" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:background="@drawable/bg_main">
+
+            <include
+                android:id="@+id/mainTopBar"
+                layout="@layout/main_top_bar" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glMainContentsLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glMainContentsRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="16dp" />
+
+            <TextView
+                android:id="@+id/tvMainContentsTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:fontFamily="@font/a_youngmyungjo_m"
+                android:letterSpacing="-0.02"
+                android:lineSpacingExtra="9sp"
+                android:textColor="#eaeaea"
+                android:textSize="26sp"
+                app:layout_constraintEnd_toStartOf="@+id/glMainContentsRight"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@+id/glMainContentsLeft"
+                app:layout_constraintTop_toBottomOf="@+id/mainTopBar"
+                tools:text="오늘 하루\n어떠셨나요?" />
+
+            <TextView
+                android:id="@+id/tvMainContentsDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:letterSpacing="-0.05"
+                android:lineSpacingExtra="4.5sp"
+                android:paddingStart="0dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="#fff"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/glMainContentsLeft"
+                app:layout_constraintTop_toBottomOf="@+id/tvMainContentsTitle"
+                tools:text="일기작성" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
-            android:id="@+id/mainTopBar"
-            layout="@layout/main_top_bar" />
+            layout="@layout/fragment_horoscope_info"
+            app:horoscopeInfoViewModel="@{horoscopeInfoViewModel}"
+            tools:visibility="visible" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/glMainContentsLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="16dp" />
+        <RelativeLayout
+            android:id="@+id/rvMainExplainHoroscope"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/glMainContentsRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="16dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/viewBottomSheet"
+                android:background="#cc000000" />
 
-        <TextView
-            android:id="@+id/tvMainContentsTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="34dp"
-            android:fontFamily="@font/a_youngmyungjo_m"
-            android:letterSpacing="-0.02"
-            android:lineSpacingExtra="9sp"
-            android:textColor="#eaeaea"
-            android:textSize="26sp"
-            app:layout_constraintEnd_toStartOf="@+id/glMainContentsRight"
-            app:layout_constraintStart_toEndOf="@+id/glMainContentsLeft"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintTop_toBottomOf="@+id/mainTopBar"
-            tools:text="오늘 하루\n어떠셨나요?" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:src="@drawable/ic_expand_close"
+                android:tint="@color/white" />
 
-        <TextView
-            android:id="@+id/tvMainContentsDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:letterSpacing="-0.05"
-            android:lineSpacingExtra="4.5sp"
-            android:paddingStart="0dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="10dp"
-            android:textColor="#fff"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/glMainContentsLeft"
-            app:layout_constraintTop_toBottomOf="@+id/tvMainContentsTitle"
-            tools:text="일기작성" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/viewBottomSheet"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_main_star" />
 
-    <include
-        layout="@layout/fragment_bottomsheet"
-        tools:visibility="gone" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4.5dp"
+                    android:gravity="center"
+                    android:text="@string/main_horoscope_explain"
+                    android:textColor="@color/white"
+                    android:textSize="11dp" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/icon_main_arrow" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/viewBottomSheet"
+                android:layout_width="match_parent"
+                android:layout_height="154dp"
+                android:layout_alignParentBottom="true" />
+
+        </RelativeLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
