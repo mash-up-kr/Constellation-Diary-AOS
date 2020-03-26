@@ -90,5 +90,63 @@
             app:horoscopeInfoViewModel="@{horoscopeInfoViewModel}"
             tools:visibility="visible" />
 
+        <RelativeLayout
+            android:id="@+id/rvMainExplainHoroscope"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/viewBottomSheet"
+                android:background="#cc000000" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:src="@drawable/ic_expand_close"
+                android:tint="@color/white" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/viewBottomSheet"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_main_star" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4.5dp"
+                    android:gravity="center"
+                    android:text="@string/main_horoscope_explain"
+                    android:textColor="@color/white"
+                    android:textSize="11dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/icon_main_arrow" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/viewBottomSheet"
+                android:layout_width="match_parent"
+                android:layout_height="154dp"
+                android:layout_alignParentBottom="true" />
+
+        </RelativeLayout>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

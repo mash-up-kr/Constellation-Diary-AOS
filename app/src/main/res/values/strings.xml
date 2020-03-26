@@ -81,6 +81,7 @@
 
     <!-- MainActivity -->
     <string name="main_question_title">오늘 하루\n어떠셨나요?</string>
+    <string name="main_horoscope_explain">검은색 바를 위로 올리면\n오늘의 별자리 운세를 볼 수 있어요!</string>
 
     <!-- DiaryEditActivity -->
     <string name="diary_title_hint">제목(24자)</string>

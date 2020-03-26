@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             compositeDisposable
         )
 
+        initExplainHoroscope()
         initBottomSheet()
         initButton()
         initBus()
@@ -84,6 +85,21 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             }
 
             removeExtra(EXTRA_TYPE)
+        }
+    }
+
+    private fun initExplainHoroscope() {
+
+        val isExplain = PrefUtil.get(PrefUtil.EXPLAIN_MAIN_HOROSCOPE, false)
+
+        if (isExplain) {
+            binding.mainContents.rvMainExplainHoroscope.visibility = View.GONE
+        } else {
+            binding.mainContents.rvMainExplainHoroscope.visibility = View.VISIBLE
+            binding.mainContents.rvMainExplainHoroscope.setOnClickListener {
+                binding.mainContents.rvMainExplainHoroscope.visibility = View.GONE
+                PrefUtil.put(PrefUtil.EXPLAIN_MAIN_HOROSCOPE, true)
+            }
         }
     }
 
