@@ -9,27 +9,28 @@ class HoroscopeItemViewModel(
     val horoscope: Horoscope
 ) {
 
-    fun onClickStyle(view: View, item: String) {
-        showItemDialog(view.context, "소품", item)
+    fun onClickStyle(view: View) {
+        showItemDialog(view.context)
     }
 
-    fun onClickNumber() {
-
+    fun onClickNumber(view: View) {
+        showItemDialog(view.context)
     }
 
-    fun onClickExercise() {
-
+    fun onClickExercise(view: View) {
+        showItemDialog(view.context)
     }
 
-    fun onClickWord() {
-
+    fun onClickWord(view: View) {
+        showItemDialog(view.context)
     }
 
-    private fun showItemDialog(context: Context, keyword: String, item: String) {
+    private fun showItemDialog(context: Context) {
+
         val alertDialogBuilder = AlertDialog.Builder(context)
 
         //alertDialogBuilder.setTitle("확인해주세요")
-        alertDialogBuilder.setMessage("당신의 행운의 ${keyword}은 ${item}입니다.")
+        alertDialogBuilder.setMessage("행운의 키워드는 각각 소품, 숫자, 운동, 단어를 의미합니다")
             .setCancelable(true)
         //.setPositiveButton("확인") { _, _ -> }
 
