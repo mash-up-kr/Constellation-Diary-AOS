@@ -65,6 +65,11 @@ class IdRegistrationFragment(
         mRootView.passwordVisibilityImageView.setOnClickListener {
             performVisibilityImageViewClick()
         }
+        mRootView.passwordConfirmEditText.setOnEditorActionListener { _, _, _ ->
+            performStartStarStarDiaryButtonClick()
+
+            false
+        }
         mRootView.passwordInvisibilityImageView.setOnClickListener {
             performInVisibilityImageViewClick()
         }

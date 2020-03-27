@@ -304,7 +304,7 @@
             android:gravity="center_vertical"
             android:paddingStart="@dimen/setting_item_start_margin"
             android:paddingEnd="0dp"
-            android:text="ver. 1.0.0"
+            android:text="ver. 1.0.1"
             android:textColor="@color/brownish_grey_two"
             android:textSize="14sp"
             android:textStyle="normal" />

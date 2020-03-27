@@ -28,7 +28,7 @@ import javax.inject.Singleton
 @Singleton
 class ForgotPasswordViewModel @Inject constructor() {
     companion object {
-        private const val TIMEOUT = 180L
+        private const val TIMEOUT = 10 * 60L
     }
 
     private val mCompositeDisposable by lazy {

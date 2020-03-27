@@ -18,6 +18,8 @@ object PrefUtil {
     const val AUTHENTICATION_TOKEN = "authenticationToken"
     const val REFRESH_TOKEN = "refreshToken"
 
+    const val EXPLAIN_MAIN_HOROSCOPE = "explain_main_horoscope"
+
     private lateinit var pref: SharedPreferences
 
     fun init(context: Context) {

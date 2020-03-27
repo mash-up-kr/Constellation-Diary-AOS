@@ -1,13 +1,16 @@
 package com.mashup.telltostar.ui.starlist
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.source.remote.request.ReqModifyConstellationDto
 import com.mashup.telltostar.data.source.remote.response.Horoscope
+import com.mashup.telltostar.databinding.ActivityStarListDetailBinding
+import com.mashup.telltostar.ui.main.HoroscopeItemViewModel
 import com.mashup.telltostar.ui.main.MainActivity
 import com.mashup.telltostar.util.PrefUtil
 import kotlinx.android.synthetic.main.activity_star_list_detail.*
@@ -20,9 +23,11 @@ class StarListDetailActivity : AppCompatActivity() {
     private val horoscopeRepository = Injection.provideHoroscopeRepo()
     private val userChangeRepository = Injection.provideUserChangeRepo()
 
+    lateinit var binding: ActivityStarListDetailBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_star_list_detail)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_star_list_detail)
 
         val intent : Intent = getIntent()
         name = intent.extras.getString("name")
@@ -34,14 +39,14 @@ class StarListDetailActivity : AppCompatActivity() {
     }
 
     fun bindActivity(horoscope: Horoscope){
-        detailStarNameTV.text = horoscope.constellation
-        detailStarLuckTV.text = horoscope.stylist
-        detailStarLoveTV.text = horoscope.numeral
-        detailStarHealthTV.text = horoscope.exercise
-        detailStarTimeTV.text = horoscope.word
+        with(binding) {
+            detailStarNameTV.text = horoscope.constellation
+            detailStarDateTV.text = changeFormat(horoscope.date)
+            detailStarDiaryTV.text = horoscope.content
 
-        detailStarDateTV.text = changeFormat(horoscope.date)
-        detailStarDiaryTV.text = horoscope.content
+            binding.horoscopeInfoViewModel = HoroscopeItemViewModel(horoscope)
+        }
+
     }
 
     fun changeFormat(date :String):String{
