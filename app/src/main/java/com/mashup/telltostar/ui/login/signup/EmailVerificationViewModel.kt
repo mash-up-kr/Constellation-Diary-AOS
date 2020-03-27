@@ -32,7 +32,7 @@ import javax.inject.Singleton
 @Singleton
 class EmailVerificationViewModel @Inject constructor() {
     companion object {
-        private const val TIMEOUT = 180L
+        private const val TIMEOUT = 10 * 60L
     }
 
     val isEmailPattern = MutableLiveData<Boolean>()
