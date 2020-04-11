@@ -28,14 +28,34 @@ class MyConstellationActivity : AppCompatActivity(),
         Injection.provideSignRepo()
     }
 
-    private val adapter by lazy {
-        ConstellationAdapter(
-            ConstellationUtil.getConstellations(this.resources)
-        )
+    private val constellationAdapter: ConstellationAdapter by lazy {
+
+        val myConstellation = PrefUtil.get(PrefUtil.CONSTELLATION, "")
+        val constellations = ConstellationUtil.getConstellations(this.resources)
+        val tempConstellations = mutableListOf<String>()
+
+        var flag = false
+        var index = 0
+
+        for (constellation in constellations) {
+
+            if (constellation == myConstellation) {
+                flag = true
+            }
+
+            if (flag) {
+                tempConstellations.add(index, constellation)
+                index++
+            } else {
+                tempConstellations.add(constellation)
+            }
+        }
+
+        ConstellationAdapter(tempConstellations)
     }
 
-    private val constellationAdapter
-            by lazy { InfiniteScrollAdapter.wrap(adapter) }
+    private val infiniteConstellationAdapter
+            by lazy { InfiniteScrollAdapter.wrap(constellationAdapter) }
 
     private lateinit var type: Type
 
@@ -67,8 +87,9 @@ class MyConstellationActivity : AppCompatActivity(),
 
     private fun initButton() {
         btnMyConstellationStart.setOnClickListener {
-            val realPosition = constellationAdapter.getRealPosition(customScrollView.currentItem)
-            val constellation = adapter.getConstellation(realPosition)
+            val realPosition =
+                infiniteConstellationAdapter.getRealPosition(customScrollView.currentItem)
+            val constellation = constellationAdapter.getConstellation(realPosition)
 
             when (type) {
                 Type.SIGNUP -> {
@@ -91,7 +112,7 @@ class MyConstellationActivity : AppCompatActivity(),
 
         with(customScrollView) {
             //infinite scroll
-            adapter = constellationAdapter
+            adapter = infiniteConstellationAdapter
 
             setSlideOnFling(true)
             setItemTransformer(
