@@ -10,7 +10,7 @@ import com.mashup.telltostar.BuildConfig
 import com.mashup.telltostar.R
 import com.mashup.telltostar.data.Injection
 import com.mashup.telltostar.data.exception.Exception
-import com.mashup.telltostar.ui.dialog.DeveloperDialog
+import com.mashup.telltostar.ui.developer.DeveloperActivity
 import com.mashup.telltostar.ui.dialog.TimePickerBottomSheet
 import com.mashup.telltostar.ui.login.LoginActivity
 import com.mashup.telltostar.util.PrefUtil
@@ -79,7 +79,7 @@ class SettingActivity : AppCompatActivity() {
             feedback()
         }
         rlSettingDeveloper.setOnClickListener {
-            DeveloperDialog.newInstance().show(supportFragmentManager, "developer")
+            startActivity(Intent(this, DeveloperActivity::class.java))
         }
         rlSettingAppVersion.setOnClickListener {
             //toast("버전 확인")
