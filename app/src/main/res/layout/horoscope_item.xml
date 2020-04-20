@@ -17,19 +17,16 @@
         android:orientation="horizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/main_ic_icon_width"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/main_ic_icon_right_margin"
             android:onClick="@{(view) -> model.onClickStyle(view)}">
 
             <ImageView
                 android:id="@+id/ivItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingTop="12dp"
-                android:paddingEnd="12dp"
-                android:src="@drawable/icon_item"
+                android:src="@drawable/ic_icon_item"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -47,19 +44,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/main_ic_icon_width"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/main_ic_icon_right_margin"
             android:onClick="@{(view) -> model.onClickNumber(view)}">
 
             <ImageView
                 android:id="@+id/ivNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingTop="12dp"
-                android:paddingEnd="12dp"
-                android:src="@drawable/icon_number"
+                android:src="@drawable/ic_icon_number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -77,19 +71,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/main_ic_icon_width"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/main_ic_icon_right_margin"
             android:onClick="@{(view) -> model.onClickExercise(view)}">
 
             <ImageView
                 android:id="@+id/ivSports"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingTop="12dp"
-                android:paddingEnd="12dp"
-                android:src="@drawable/icon_sports"
+                android:src="@drawable/ic_icon_sports"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -108,19 +99,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/main_ic_icon_width"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:onClick="@{(view) -> model.onClickWord(view)}">
 
             <ImageView
                 android:id="@+id/ivWords"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingTop="12dp"
-                android:paddingEnd="12dp"
-                android:src="@drawable/icon_words"
+                android:src="@drawable/ic_icon_words"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

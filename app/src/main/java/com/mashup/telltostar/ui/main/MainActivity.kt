@@ -60,11 +60,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             compositeDisposable
         )
 
-        initExplainHoroscope()
         initBottomSheet()
         initButton()
         initBus()
         initData(intent)
+        initExplainHoroscope()
     }
 
     override fun onDestroy() {
@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
             if (type == TYPE_RESTART) {
                 initData(this)
+                initExplainHoroscope()
             } else if (type == TYPE_SHOW_HOROSCOPE) {
                 showBottomSheet()
             }

@@ -3,6 +3,9 @@
     <dimen name="pageMargin">12dp</dimen>
     <dimen name="offset">5dp</dimen>
 
+    <dimen name="main_ic_icon_width">40dp</dimen>
+    <dimen name="main_ic_icon_right_margin">8dp</dimen>
+
     <dimen name="setting_item_start_margin">15dp</dimen>
     <dimen name="setting_item_end_margin">16dp</dimen>
 
